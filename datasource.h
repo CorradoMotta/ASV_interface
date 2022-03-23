@@ -10,6 +10,8 @@ class DataSource : public QObject
 public:
     explicit DataSource(QObject *parent = nullptr);
 
+    SwampStatus* SwampData();
+
 signals:
 
 private:

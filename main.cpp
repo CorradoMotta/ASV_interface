@@ -13,7 +13,7 @@
 #include "gps_ahrs_status.h"
 #include "QString"
 #include "swampstatus.h"
-
+#include "datasource.h"
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
     QmlMqttClient client;
     //GPS_AHRS_status gps_status;
     QQmlApplicationEngine engine;
+    DataSource dataSource;
     //SwampStatus swamp_status;
 
     qmlRegisterUncreatableType<Variable>("com.cnr.property",1,0,"Variable", "Virtual class cannot be instantiated!");
@@ -36,6 +37,7 @@ int main(int argc, char *argv[])
 
     //engine.rootContext()->setContextProperty("swamp_status", &swamp_status);
     const QUrl url(QStringLiteral("qrc:/main.qml"));
+    engine.rootContext()->setContextProperty(QStringLiteral("dataSource"), &dataSource);
     engine.rootContext()->setContextProperty(QStringLiteral("_marker_model"), &model);
     engine.rootContext()->setContextProperty(QStringLiteral("mqtt_client"), &client);
 
