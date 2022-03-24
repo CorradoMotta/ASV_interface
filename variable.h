@@ -1,3 +1,9 @@
+/*************************************************************************
+ *
+ * This class defines the base class for our custom variable data types.
+ *
+ *************************************************************************/
+
 #ifndef VARIABLE_H
 #define VARIABLE_H
 
@@ -26,6 +32,10 @@ public:
     void setUpdated(int newUpdated);
     int valid() const;
     void setValid(int newValid);
+
+    void setTimeStamp(uint64 newTimeStamp);
+
+    uint64 timeStamp() const;
 
 signals:
 

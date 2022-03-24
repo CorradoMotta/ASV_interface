@@ -18,7 +18,7 @@ MenuBar {
         Repeater {
             model: navigation_map.supportedMapTypes
             MenuItem {
-                text: model.description
+                text: model.name
                 onTriggered: navigation_map.setActiveMap(model.index)
             }
         }
