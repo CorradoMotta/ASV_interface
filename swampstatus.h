@@ -1,3 +1,9 @@
+/*************************************************************************
+ *
+ * This class contains all different Swamp modules.
+ *
+ *************************************************************************/
+
 #ifndef SWAMPSTATUS_H
 #define SWAMPSTATUS_H
 

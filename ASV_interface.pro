@@ -14,6 +14,7 @@ SOURCES += \
         qmlmqttclient.cpp \
         singlemarkermodel.cpp \
         stringvariable.cpp \
+        swampmodel.cpp \
         swampstatus.cpp \
         variable.cpp
 
@@ -41,5 +42,6 @@ HEADERS += \
     qmlmqttclient.h \
     singlemarkermodel.h \
     stringvariable.h \
+    swampmodel.h \
     swampstatus.h \
     variable.h

@@ -88,8 +88,8 @@ ApplicationWindow {
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
                     // TODO i cannot access enum?
-                    opacity: root.connected ? 1 : 0.3
-                    enabled: root.connected
+                    opacity: mqtt_client.data_source.is_connected ? 1 : 0.3
+                    enabled: mqtt_client.data_source.is_connected
                 }
                 ForceSliderPanel {
                     id: force_slider_panel
@@ -97,22 +97,23 @@ ApplicationWindow {
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
                     clip: true
-                    opacity: root.connected ? 1 : 0.3
-                    enabled: root.connected
+                    opacity: mqtt_client.data_source.is_connected ? 1 : 0.3
+                    enabled: mqtt_client.data_source.is_connected
                 }
                 Button {
                     id: connect_button
                     Layout.alignment: Qt.AlignTop
                     Layout.fillWidth: true
-                    onClicked: {
-                        if (!root.connected) {
-                            mqtt_client.connectToHost()
-                        } else {
-                            mqtt_client.disconnectFromHost()
-                        }
-                    }
+                    onClicked: dataSource.setConnection()
+//                    onClicked: {
+//                        if (!root.connected) {
+//                            mqtt_client.connectToHost()
+//                        } else {
+//                            mqtt_client.disconnectFromHost()
+//                        }
+//                    }
                     contentItem: Text {
-                        text: root.connected ? "disconnect" : "connect"
+                        text: mqtt_client.data_source.is_connected ? "disconnect" : "connect"
                         font.family: "Helvetica"
                         font.pointSize: 18
                         //opacity: connect_button.connect ? 1.0 : 0.3

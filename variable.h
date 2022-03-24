@@ -1,3 +1,9 @@
+/*************************************************************************
+ *
+ * This class defines the base class for our custom variable data types.
+ *
+ *************************************************************************/
+
 #ifndef VARIABLE_H
 #define VARIABLE_H
 

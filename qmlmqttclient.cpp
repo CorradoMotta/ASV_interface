@@ -6,8 +6,8 @@ QmlMqttClient::QmlMqttClient(QObject *parent)
     : QMqttClient(parent)
 {
     qDebug() << "Creating new client..";
-    m_swamp_status.gps_ahrs_status()->longitude()->setTopic_name("CNR-INM/swamp/sensors/GPS_AHRS/longitude");
-    m_swamp_status.gps_ahrs_status()->latitude()->setTopic_name("CNR-INM/swamp/sensors/GPS_AHRS/latitude");
+    //m_swamp_status.gps_ahrs_status()->longitude()->setTopic_name("CNR-INM/swamp/sensors/GPS_AHRS/longitude");
+    //m_swamp_status.gps_ahrs_status()->latitude()->setTopic_name("CNR-INM/swamp/sensors/GPS_AHRS/latitude");
     setPort(1883);
     setHostname("10.17.9.20");
     //setHostname("test.mosquitto.org");
@@ -29,8 +29,8 @@ void QmlMqttClient::connectionEstablished(){
     lon_topic = "CNR-INM/swamp/sensors/GPS_AHRS/longitude";
     psy_topic = "CNR-INM/swamp/NGC/pose/psi/actual";
     timestamp = "CNR-INM/clock/timeStamp";
-    QMqttClient::subscribe(m_swamp_status.gps_ahrs_status()->latitude()->topic_name(),0);
-    QMqttClient::subscribe(m_swamp_status.gps_ahrs_status()->longitude()->topic_name(),0);
+    QMqttClient::subscribe(m_data_source->swampData()->gps_ahrs_status()->latitude()->topic_name(),0);
+    QMqttClient::subscribe(m_data_source->swampData()->gps_ahrs_status()->longitude()->topic_name(),0);
     QMqttClient::subscribe(timestamp,0);
     QMqttClient::subscribe(psy_topic,0);
 }
@@ -59,10 +59,10 @@ void QmlMqttClient::handleMessage(const QByteArray &message, const QMqttTopicNam
         QMqttClient::publish(QMqttTopicName("CNR-INM/ground/HMI/timeStamp"), q_b.setNum(value));
         QMqttClient::publish(QMqttTopicName("CNR-INM/swamp/HMI/timeStamp"), q_b.setNum(value));
     }
-    else if(QString::compare(topic.name(), m_swamp_status.gps_ahrs_status()->latitude()->topic_name())==0){
-    m_swamp_status.gps_ahrs_status()->latitude()->setValue(value);
-    }else if (QString::compare(topic.name(), m_swamp_status.gps_ahrs_status()->longitude()->topic_name())==0){
-        m_swamp_status.gps_ahrs_status()->longitude()->setValue(value);
+    else if(QString::compare(topic.name(), m_data_source->swampData()->gps_ahrs_status()->latitude()->topic_name())==0){
+    m_data_source->swampData()->gps_ahrs_status()->latitude()->setValue(value);
+    }else if (QString::compare(topic.name(), m_data_source->swampData()->gps_ahrs_status()->longitude()->topic_name())==0){
+        m_data_source->swampData()->gps_ahrs_status()->longitude()->setValue(value);
         //emit newCoordinate(top, value);
     }else if(QString::compare(topic.name(), psy_topic)==0){
         //convert to degrees
@@ -79,4 +79,17 @@ QmlMqttClient::~QmlMqttClient(){
 SwampStatus *QmlMqttClient::swamp_status()
 {
     return &m_swamp_status;
+}
+
+DataSource *QmlMqttClient::data_source() const
+{
+    return m_data_source;
+}
+
+void QmlMqttClient::setData_source(DataSource *newData_source)
+{
+    // TODO this need to be fixed
+    m_data_source = newData_source;
+    m_data_source->swampData()->gps_ahrs_status()->latitude()->setTopic_name("CNR-INM/swamp/sensors/GPS_AHRS/latitude");
+    m_data_source->swampData()->gps_ahrs_status()->longitude()->setTopic_name("CNR-INM/swamp/sensors/GPS_AHRS/longitude");
 }
