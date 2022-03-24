@@ -4,7 +4,7 @@ import QtLocation 5.15
 
 Plugin {
     id: esri_plugin
-    name: "esri"
+    name: "mapboxgl"
 
     enum Esri_maps {
         Vector,

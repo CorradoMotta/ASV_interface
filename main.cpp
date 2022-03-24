@@ -14,6 +14,8 @@
 #include "QString"
 #include "swampstatus.h"
 #include "datasource.h"
+#include <ngc_status.h>
+
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -35,6 +37,7 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<StringVariable>("com.cnr.property",1,0,"StringVariable", "Virtual class cannot be instantiated!");
     qmlRegisterUncreatableType<GPS_AHRS_status>("com.cnr.property",1,0,"GPS_AHRS_status", "Virtual class cannot be instantiated!");
     qmlRegisterUncreatableType<SwampStatus>("com.cnr.property",1,0,"SwampStatus", "Virtual class cannot be instantiated!");
+    qmlRegisterUncreatableType<NGC_status>("com.cnr.property",1,0,"NGC_status", "Virtual class cannot be instantiated!");
 
     //engine.rootContext()->setContextProperty("swamp_status", &swamp_status);
     const QUrl url(QStringLiteral("qrc:/main.qml"));

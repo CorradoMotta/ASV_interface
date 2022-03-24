@@ -11,6 +11,7 @@ SOURCES += \
         gps_ahrs_status.cpp \
         intvariable.cpp \
         main.cpp \
+        ngc_status.cpp \
         qmlmqttclient.cpp \
         singlemarkermodel.cpp \
         stringvariable.cpp \
@@ -39,6 +40,7 @@ HEADERS += \
     geometry.h \
     gps_ahrs_status.h \
     intvariable.h \
+    ngc_status.h \
     qmlmqttclient.h \
     singlemarkermodel.h \
     stringvariable.h \

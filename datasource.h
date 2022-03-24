@@ -16,6 +16,8 @@
 #include <QtMqtt/QMqttSubscription>
 #include <QTimer>
 
+const double PI = 3.1415926535;
+
 class DataSource : public QObject
 {
     Q_OBJECT
@@ -32,6 +34,8 @@ public:
 
     bool is_connected() const;
     void set_is_connected(bool newIs_connected);
+    void publish_topic();
+    void send_timestamp(double value) const;
 
 signals:
 
@@ -49,6 +53,8 @@ private:
     SwampStatus* m_SwampStatus;
     QMqttClient *m_client;
     bool m_is_connected;
+    QString m_timestamp;
+    double m_timestamp_value;
 
 };
 

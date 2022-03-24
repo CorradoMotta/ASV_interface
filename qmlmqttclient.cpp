@@ -88,8 +88,9 @@ DataSource *QmlMqttClient::data_source() const
 
 void QmlMqttClient::setData_source(DataSource *newData_source)
 {
-    // TODO this need to be fixed
+    // TODO this need to be fixed Reading the configuration file should be done by the dataSource itself.
     m_data_source = newData_source;
     m_data_source->swampData()->gps_ahrs_status()->latitude()->setTopic_name("CNR-INM/swamp/sensors/GPS_AHRS/latitude");
     m_data_source->swampData()->gps_ahrs_status()->longitude()->setTopic_name("CNR-INM/swamp/sensors/GPS_AHRS/longitude");
+    m_data_source->swampData()->ngc_status()->psi()->setTopic_name("CNR-INM/swamp/NGC/pose/psi/actual");
 }

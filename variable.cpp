@@ -52,3 +52,13 @@ void Variable::setValid(int newValid)
     m_valid = newValid;
     emit validChanged();
 }
+
+void Variable::setTimeStamp(uint64 newTimeStamp)
+{
+    m_timeStamp = newTimeStamp;
+}
+
+uint64 Variable::timeStamp() const
+{
+    return m_timeStamp;
+}

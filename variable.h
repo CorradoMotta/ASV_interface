@@ -33,6 +33,10 @@ public:
     int valid() const;
     void setValid(int newValid);
 
+    void setTimeStamp(uint64 newTimeStamp);
+
+    uint64 timeStamp() const;
+
 signals:
 
     void topic_nameChanged();

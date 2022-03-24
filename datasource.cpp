@@ -6,7 +6,8 @@ DataSource::DataSource(QObject *parent)
       m_count_timer{0},
       m_SwampStatus{new SwampStatus()},
       m_client{new QMqttClient(this)},
-      m_is_connected{false}
+      m_is_connected{false},
+      m_timestamp{""}
 {
     // set socket info and connections
     m_client->setPort(1883);
@@ -17,15 +18,11 @@ DataSource::DataSource(QObject *parent)
     //-----------------------------------------------------------------------------------
     // trigger timer for HMI timestamps
     //-----------------------------------------------------------------------------------
-    QMqttTopicName ground_timestamp("CNR-INM/ground/HMI/timeStamp");
-    QMqttTopicName swamp_timestap("CNR-INM/swamp/HMI/timeStamp");
+
     m_timer->start(10);
     connect(m_timer, &QTimer::timeout, this,[=](){
         ++ m_count_timer;
-        QByteArray q_b;
-        // TODO name should be read from the cfg?
-        m_client->publish(ground_timestamp, q_b.setNum(m_count_timer));
-        m_client->publish(swamp_timestap, q_b.setNum(m_count_timer));
+        send_timestamp(m_count_timer);
 
     });
 }
@@ -52,15 +49,44 @@ void DataSource::connectionEstablished()
     qDebug() << "Connected!..";
 
     // do all the subscribes!
-    QMqttClient::subscribe(m_data_source->swampData()->gps_ahrs_status()->latitude()->topic_name(),0);
-    QMqttClient::subscribe(m_data_source->swampData()->gps_ahrs_status()->longitude()->topic_name(),0);
+    m_client->subscribe(m_SwampStatus->gps_ahrs_status()->latitude()->topic_name(),0);
+    m_client->subscribe(m_SwampStatus->gps_ahrs_status()->longitude()->topic_name(),0);
+    m_client->subscribe(m_SwampStatus->ngc_status()->psi()->topic_name(),0);
 
+    // todo create the right classes for them
+    m_timestamp = "CNR-INM/clock/timeStamp";
+    m_client->subscribe(m_timestamp,0);
+
+
+    // set connection true after all subscriptions are made
     set_is_connected(true);
 }
 
 void DataSource::handleMessage(const QByteArray &message, const QMqttTopicName &topic)
 {
+    // to do move the things inside here to a checkMessage method.
+    double value = QString(message).split(QLatin1Char(' '))[0].toDouble();
 
+    if(topic.name() == m_timestamp){
+        if(m_timer->isActive()) m_timer->stop();
+        m_timestamp_value = value;
+        send_timestamp(value);
+    }else if(topic.name() == m_SwampStatus->gps_ahrs_status()->latitude()->topic_name()){
+        m_SwampStatus->gps_ahrs_status()->latitude()->setValue(value);
+    }else if(topic.name() == m_SwampStatus->gps_ahrs_status()->longitude()->topic_name()){
+        m_SwampStatus->gps_ahrs_status()->longitude()->setValue(value);
+    }else if(topic.name() == m_SwampStatus->ngc_status()->psi()->topic_name()){
+        m_SwampStatus->ngc_status()->psi()->setValue(value);
+    }
+}
+
+void DataSource::send_timestamp(double value) const{
+    QMqttTopicName ground_timestamp("CNR-INM/ground/HMI/timeStamp");
+    QMqttTopicName swamp_timestap("CNR-INM/swamp/HMI/timeStamp");
+    QByteArray q_b;
+    // TODO name should be read from the cfg?
+    m_client->publish(ground_timestamp, q_b.setNum(value));
+    m_client->publish(swamp_timestap, q_b.setNum(value));
 }
 
 bool DataSource::is_connected() const
