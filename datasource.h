@@ -31,6 +31,7 @@ public:
 
     Q_INVOKABLE SwampStatus* swampData();
     Q_INVOKABLE void setConnection();
+    Q_INVOKABLE void publishMessage(const QString &topic, const QString &message);
 
     bool is_connected() const;
     void set_is_connected(bool newIs_connected);

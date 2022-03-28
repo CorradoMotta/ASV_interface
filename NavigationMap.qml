@@ -10,7 +10,7 @@ Map {
     plugin: EsriPlugin {}
     property real lat: mqtt_client.data_source.swampData().gps_ahrs_status.latitude.value
     property real lon: mqtt_client.data_source.swampData().gps_ahrs_status.longitude.value
-    property real rotation : mqtt_client.data_source.swampData().ngc_status.psi.value
+    property real v_rotation : mqtt_client.data_source.swampData().ngc_status.psi.value
     property var initialCoordinates: QtPositioning.coordinate(lat, lon)
 
     onLatChanged: lon !=0 ? root.startUp = false: ""
@@ -24,7 +24,7 @@ Map {
     }
     VehicleMapItem {
         id: swamp_icon
-        vehicle_rotation: rotation
+        rotation: v_rotation
         coordinate:  QtPositioning.coordinate(lat, lon)
     }
 

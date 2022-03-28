@@ -1,4 +1,5 @@
 #include "datasource.h"
+#include <qlocale.h>
 
 DataSource::DataSource(QObject *parent)
     : QObject{parent},
@@ -21,6 +22,7 @@ DataSource::DataSource(QObject *parent)
 
     m_timer->start(10);
     connect(m_timer, &QTimer::timeout, this,[=](){
+
         ++ m_count_timer;
         send_timestamp(m_count_timer);
 
@@ -42,6 +44,13 @@ void DataSource::setConnection()
         m_client->disconnectFromHost();
         set_is_connected(false);
     }
+}
+
+void DataSource::publishMessage(const QString &topic, const QString &message)
+{
+    QString value = message + " " +  QString::number(m_count_timer) + " " + "1";
+    qDebug() << "topic: " << topic << "value: " << value;
+    m_client->publish(topic, value.toUtf8());
 }
 
 void DataSource::connectionEstablished()
@@ -69,14 +78,15 @@ void DataSource::handleMessage(const QByteArray &message, const QMqttTopicName &
 
     if(topic.name() == m_timestamp){
         if(m_timer->isActive()) m_timer->stop();
-        m_timestamp_value = value;
+        m_count_timer = value;
         send_timestamp(value);
     }else if(topic.name() == m_SwampStatus->gps_ahrs_status()->latitude()->topic_name()){
         m_SwampStatus->gps_ahrs_status()->latitude()->setValue(value);
     }else if(topic.name() == m_SwampStatus->gps_ahrs_status()->longitude()->topic_name()){
         m_SwampStatus->gps_ahrs_status()->longitude()->setValue(value);
     }else if(topic.name() == m_SwampStatus->ngc_status()->psi()->topic_name()){
-        m_SwampStatus->ngc_status()->psi()->setValue(value);
+        double r_degree = value * 180 / PI;
+        m_SwampStatus->ngc_status()->psi()->setValue(r_degree);
     }
 }
 

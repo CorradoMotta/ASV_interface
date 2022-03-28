@@ -23,56 +23,86 @@ Rectangle {
         EngineIcon {
             id: engine_icon_fl
             engineIconText: "FL"
-            onEngineStateChanged: publish_engine_data(engineState,
-                                                      engineIconText,
-                                                      timestamp)
+            onEngineStateChanged: {
+                if (engineState === EngineIcon.EngineStates.Engine_inter) {
+
+                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f1.thr_power.topic_name,1)
+                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f1.azm_power.topic_name,1)
+                }
+                if (engineState === EngineIcon.EngineStates.Engine_on) {
+                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f1.thr_enable.topic_name,1)
+                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f1.azm_enable.topic_name,1)
+                }
+            }
         }
         EngineIcon {
             id: engine_icon_fr
             engineIconText: "FR"
-            onEngineStateChanged: publish_engine_data(engineState,
-                                                      engineIconText,
-                                                      timestamp)
+            onEngineStateChanged: {
+                if (engineState === EngineIcon.EngineStates.Engine_inter) {
+                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f2.thr_power.topic_name,1)
+                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f2.azm_power.topic_name,1)
+                }
+                if (engineState === EngineIcon.EngineStates.Engine_on) {
+                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f2.thr_enable.topic_name,1)
+                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f2.azm_enable.topic_name,1)
+                }
+            }
         }
         EngineIcon {
             id: engine_icon_rl
             engineIconText: "RL"
-            onEngineStateChanged: publish_engine_data(engineState,
-                                                      engineIconText,
-                                                      timestamp)
+            onEngineStateChanged: {
+                if (engineState === EngineIcon.EngineStates.Engine_inter) {
+                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f3.thr_power.topic_name,1)
+                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f3.azm_power.topic_name,1)
+                }
+                if (engineState === EngineIcon.EngineStates.Engine_on) {
+                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f3.thr_enable.topic_name,1)
+                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f3.azm_enable.topic_name,1)
+                }
+            }
         }
         EngineIcon {
             id: engine_icon_rr
             engineIconText: "RR"
-            onEngineStateChanged: publish_engine_data(engineState,
-                                                      engineIconText,
-                                                      timestamp)
+            onEngineStateChanged: {
+                if (engineState === EngineIcon.EngineStates.Engine_inter) {
+                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f4.thr_power.topic_name,1)
+                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f4.azm_power.topic_name,1)
+                }
+                if (engineState === EngineIcon.EngineStates.Engine_on) {
+                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f4.thr_enable.topic_name,1)
+                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f4.azm_enable.topic_name,1)
+                }
+            }
         }
     }
 
-    function publish_engine_data(state, ID, timestamp) {
+//    function publish_engine_data(topic, value) {
 
-        var s_id = ""
-        var topic = "CNR-INM/swamp/motor/digital/"
-        var value = "1 " + timestamp + " 1"
 
-        if (state === EngineIcon.EngineStates.Engine_inter) {
-            s_id = ID + "-THR-power"
-            topic = "CNR-INM/swamp/motor/digital/" + s_id
-            mqtt_client.publishMessage(topic, value)
+//                var s_id = ""
+//                var topic = "CNR-INM/swamp/motor/digital/"
+//                var value = "1 " + timestamp + " 1"
 
-            s_id = ID + "-AZM-power"
-            topic = "CNR-INM/swamp/motor/digital/" + s_id
-            mqtt_client.publishMessage(topic, value)
-        }
-        if (state === EngineIcon.EngineStates.Engine_on) {
-            s_id = ID + "-THR-enable"
-            topic = "CNR-INM/swamp/motor/digital/" + s_id
-            mqtt_client.publishMessage(topic, value)
+//                if (state === EngineIcon.EngineStates.Engine_inter) {
+//                    s_id = ID + "-THR-power"
+//                    topic = "CNR-INM/swamp/motor/digital/" + s_id
+//                    mqtt_client.publishMessage(topic, value)
 
-            s_id = ID + "-AZM-enable"
-            topic = "CNR-INM/swamp/motor/digital/" + s_id
-            mqtt_client.publishMessage(topic, value)
-        }
-    }
+//                    s_id = ID + "-AZM-power"
+//                    topic = "CNR-INM/swamp/motor/digital/" + s_id
+//                    mqtt_client.publishMessage(topic, value)
+//                }
+//                if (state === EngineIcon.EngineStates.Engine_on) {
+//                    s_id = ID + "-THR-enable"
+//                    topic = "CNR-INM/swamp/motor/digital/" + s_id
+//                    mqtt_client.publishMessage(topic, value)
+
+//                    s_id = ID + "-AZM-enable"
+//                    topic = "CNR-INM/swamp/motor/digital/" + s_id
+//                    mqtt_client.publishMessage(topic, value)
+//                }
+//    }
 }

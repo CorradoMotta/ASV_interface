@@ -15,6 +15,8 @@
 #include "swampstatus.h"
 #include "datasource.h"
 #include <ngc_status.h>
+#include <motor_status.h>
+#include <swamp_motor_status.h>
 
 int main(int argc, char *argv[])
 {
@@ -38,6 +40,8 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<GPS_AHRS_status>("com.cnr.property",1,0,"GPS_AHRS_status", "Virtual class cannot be instantiated!");
     qmlRegisterUncreatableType<SwampStatus>("com.cnr.property",1,0,"SwampStatus", "Virtual class cannot be instantiated!");
     qmlRegisterUncreatableType<NGC_status>("com.cnr.property",1,0,"NGC_status", "Virtual class cannot be instantiated!");
+    //qmlRegisterUncreatableType<Motor_status>("com.cnr.property",1,0,"Motor_status", "Virtual class cannot be instantiated!");
+    //qmlRegisterUncreatableType<Swamp_motor_status>("com.cnr.property",1,0,"Swamp_motor_status", "Virtual class cannot be instantiated!");
 
     //engine.rootContext()->setContextProperty("swamp_status", &swamp_status);
     const QUrl url(QStringLiteral("qrc:/main.qml"));

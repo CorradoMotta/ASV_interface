@@ -15,3 +15,8 @@ NGC_status *SwampStatus::ngc_status()
 {
     return &m_ngc_status;
 }
+
+Swamp_motor_status *SwampStatus::motor_status()
+{
+    return &m_motor_status;
+}

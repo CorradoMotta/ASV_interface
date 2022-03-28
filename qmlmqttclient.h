@@ -16,7 +16,6 @@ class QmlMqttClient : public QMqttClient
     Q_PROPERTY(SwampStatus* swamp_status READ swamp_status NOTIFY swamp_statusChanged)
     Q_PROPERTY(DataSource* data_source READ data_source WRITE setData_source NOTIFY data_sourceChanged)
 
-
 public:
     QmlMqttClient(QObject *parent = nullptr);
     ~QmlMqttClient();
@@ -30,9 +29,7 @@ Q_SIGNALS:
     void newCoordinate(const QString &topic, const double &value);
     void newTimeStamp(const double &value);
     void newRotation(const QString &topic, const double &value);
-
     void swamp_statusChanged();
-
     void data_sourceChanged();
 
 public slots:

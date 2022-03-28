@@ -20,41 +20,6 @@ ApplicationWindow {
 
     menuBar: CustomMenuBar {}
 
-    Connections {
-        target: mqtt_client
-//        function onNewCoordinate(top, coor) {
-
-//            if (top === "longitude")
-//                navigation_map.lon = coor
-//            else
-//                navigation_map.lat = coor
-
-//            if (startUp & navigation_map.lon!= 0 & navigation_map.lat!=0 ) {
-//                navigation_map.center = QtPositioning.coordinate(
-//                            navigation_map.lat, navigation_map.lon)
-//                navigation_map.zoomLevel = 17
-//                startUp = false
-//            }
-//        }
-
-//        function onStateChanged(state) {
-//            if (state === 2)
-//                connected = true
-//            else
-//                connected = false
-//        }
-        function onNewTimeStamp(value) {
-            force_slider_panel.timestamp = value
-            engine_panel.timestamp = value
-        }
-//        function onNewRotation(top, value){
-//            // TODO is this the best way to send the rotation value?
-//            // alternative: custom signals + connections{}
-//            // model view delegate for all values coming from mqtt peraphs grouped?
-//            navigation_map.rotation = value
-//        }
-    }
-
     RowLayout {
         anchors.fill: parent
         spacing: 10
@@ -105,13 +70,7 @@ ApplicationWindow {
                     Layout.alignment: Qt.AlignTop
                     Layout.fillWidth: true
                     onClicked: dataSource.setConnection()
-//                    onClicked: {
-//                        if (!root.connected) {
-//                            mqtt_client.connectToHost()
-//                        } else {
-//                            mqtt_client.disconnectFromHost()
-//                        }
-//                    }
+
                     contentItem: Text {
                         text: mqtt_client.data_source.is_connected ? "disconnect" : "connect"
                         font.family: "Helvetica"

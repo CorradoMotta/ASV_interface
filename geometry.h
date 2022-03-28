@@ -9,7 +9,6 @@ class Geometry : public QObject
     Q_OBJECT
 
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
-    //Q_PROPERTY(QVector<QGeoCoordinate name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QVector<QGeoCoordinate> coords READ coords WRITE setCoords NOTIFY coordsChanged)
     Q_PROPERTY(bool isActive READ isActive WRITE setIsActive NOTIFY isActiveChanged)
 
