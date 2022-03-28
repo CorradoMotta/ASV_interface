@@ -21,13 +21,15 @@ DataSource::DataSource(QObject *parent)
     //-----------------------------------------------------------------------------------
 
     m_timer->start(10);
-    connect(m_timer, &QTimer::timeout, this,[=](){
-
-        ++ m_count_timer;
-        send_timestamp(m_count_timer);
-
-    });
+    connect(m_timer, &QTimer::timeout, this, &DataSource::update);
 }
+
+void DataSource::update(){
+
+    ++ m_count_timer;
+    send_timestamp(m_count_timer);
+}
+
 
 SwampStatus *DataSource::swampData()
 {
@@ -77,6 +79,7 @@ void DataSource::handleMessage(const QByteArray &message, const QMqttTopicName &
     double value = QString(message).split(QLatin1Char(' '))[0].toDouble();
 
     if(topic.name() == m_timestamp){
+        qDebug() << "i am here";
         if(m_timer->isActive()) m_timer->stop();
         m_count_timer = value;
         send_timestamp(value);

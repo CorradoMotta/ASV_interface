@@ -53,8 +53,8 @@ ApplicationWindow {
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
                     // TODO i cannot access enum?
-                    opacity: mqtt_client.data_source.is_connected ? 1 : 0.3
-                    enabled: mqtt_client.data_source.is_connected
+                    opacity: data_model.data_source.is_connected ? 1 : 0.3
+                    enabled: data_model.data_source.is_connected
                 }
                 ForceSliderPanel {
                     id: force_slider_panel
@@ -62,8 +62,8 @@ ApplicationWindow {
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
                     clip: true
-                    opacity: mqtt_client.data_source.is_connected ? 1 : 0.3
-                    enabled: mqtt_client.data_source.is_connected
+                    opacity: data_model.data_source.is_connected ? 1 : 0.3
+                    enabled: data_model.data_source.is_connected
                 }
                 Button {
                     id: connect_button
@@ -72,7 +72,7 @@ ApplicationWindow {
                     onClicked: dataSource.setConnection()
 
                     contentItem: Text {
-                        text: mqtt_client.data_source.is_connected ? "disconnect" : "connect"
+                        text: data_model.data_source.is_connected ? "disconnect" : "connect"
                         font.family: "Helvetica"
                         font.pointSize: 18
                         //opacity: connect_button.connect ? 1.0 : 0.3

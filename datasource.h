@@ -46,6 +46,7 @@ private slots:
 
     void connectionEstablished();
     void handleMessage(const QByteArray &message, const QMqttTopicName &topic = QMqttTopicName());
+    void update();
 
 private:
 

@@ -26,12 +26,12 @@ Rectangle {
             onEngineStateChanged: {
                 if (engineState === EngineIcon.EngineStates.Engine_inter) {
 
-                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f1.thr_power.topic_name,1)
-                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f1.azm_power.topic_name,1)
+                    data_model.data_source.publishMessage(data_model.data_source.swampData().motor_status.f1.thr_power.topic_name,1)
+                    data_model.data_source.publishMessage(data_model.data_source.swampData().motor_status.f1.azm_power.topic_name,1)
                 }
                 if (engineState === EngineIcon.EngineStates.Engine_on) {
-                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f1.thr_enable.topic_name,1)
-                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f1.azm_enable.topic_name,1)
+                    data_model.data_source.publishMessage(data_model.data_source.swampData().motor_status.f1.thr_enable.topic_name,1)
+                    data_model.data_source.publishMessage(data_model.data_source.swampData().motor_status.f1.azm_enable.topic_name,1)
                 }
             }
         }
@@ -40,12 +40,12 @@ Rectangle {
             engineIconText: "FR"
             onEngineStateChanged: {
                 if (engineState === EngineIcon.EngineStates.Engine_inter) {
-                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f2.thr_power.topic_name,1)
-                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f2.azm_power.topic_name,1)
+                    data_model.data_source.publishMessage(data_model.data_source.swampData().motor_status.f2.thr_power.topic_name,1)
+                    data_model.data_source.publishMessage(data_model.data_source.swampData().motor_status.f2.azm_power.topic_name,1)
                 }
                 if (engineState === EngineIcon.EngineStates.Engine_on) {
-                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f2.thr_enable.topic_name,1)
-                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f2.azm_enable.topic_name,1)
+                    data_model.data_source.publishMessage(data_model.data_source.swampData().motor_status.f2.thr_enable.topic_name,1)
+                    data_model.data_source.publishMessage(data_model.data_source.swampData().motor_status.f2.azm_enable.topic_name,1)
                 }
             }
         }
@@ -54,12 +54,12 @@ Rectangle {
             engineIconText: "RL"
             onEngineStateChanged: {
                 if (engineState === EngineIcon.EngineStates.Engine_inter) {
-                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f3.thr_power.topic_name,1)
-                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f3.azm_power.topic_name,1)
+                    data_model.data_source.publishMessage(data_model.data_source.swampData().motor_status.f3.thr_power.topic_name,1)
+                    data_model.data_source.publishMessage(data_model.data_source.swampData().motor_status.f3.azm_power.topic_name,1)
                 }
                 if (engineState === EngineIcon.EngineStates.Engine_on) {
-                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f3.thr_enable.topic_name,1)
-                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f3.azm_enable.topic_name,1)
+                    data_model.data_source.publishMessage(data_model.data_source.swampData().motor_status.f3.thr_enable.topic_name,1)
+                    data_model.data_source.publishMessage(data_model.data_source.swampData().motor_status.f3.azm_enable.topic_name,1)
                 }
             }
         }
@@ -68,12 +68,12 @@ Rectangle {
             engineIconText: "RR"
             onEngineStateChanged: {
                 if (engineState === EngineIcon.EngineStates.Engine_inter) {
-                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f4.thr_power.topic_name,1)
-                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f4.azm_power.topic_name,1)
+                    data_model.data_source.publishMessage(data_model.data_source.swampData().motor_status.f4.thr_power.topic_name,1)
+                    data_model.data_source.publishMessage(data_model.data_source.swampData().motor_status.f4.azm_power.topic_name,1)
                 }
                 if (engineState === EngineIcon.EngineStates.Engine_on) {
-                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f4.thr_enable.topic_name,1)
-                    mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().motor_status.f4.azm_enable.topic_name,1)
+                    data_model.data_source.publishMessage(data_model.data_source.swampData().motor_status.f4.thr_enable.topic_name,1)
+                    data_model.data_source.publishMessage(data_model.data_source.swampData().motor_status.f4.azm_enable.topic_name,1)
                 }
             }
         }
@@ -89,20 +89,20 @@ Rectangle {
 //                if (state === EngineIcon.EngineStates.Engine_inter) {
 //                    s_id = ID + "-THR-power"
 //                    topic = "CNR-INM/swamp/motor/digital/" + s_id
-//                    mqtt_client.publishMessage(topic, value)
+//                    data_model.publishMessage(topic, value)
 
 //                    s_id = ID + "-AZM-power"
 //                    topic = "CNR-INM/swamp/motor/digital/" + s_id
-//                    mqtt_client.publishMessage(topic, value)
+//                    data_model.publishMessage(topic, value)
 //                }
 //                if (state === EngineIcon.EngineStates.Engine_on) {
 //                    s_id = ID + "-THR-enable"
 //                    topic = "CNR-INM/swamp/motor/digital/" + s_id
-//                    mqtt_client.publishMessage(topic, value)
+//                    data_model.publishMessage(topic, value)
 
 //                    s_id = ID + "-AZM-enable"
 //                    topic = "CNR-INM/swamp/motor/digital/" + s_id
-//                    mqtt_client.publishMessage(topic, value)
+//                    data_model.publishMessage(topic, value)
 //                }
 //    }
 }

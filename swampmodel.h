@@ -15,15 +15,27 @@
 #define SWAMPMODEL_H
 
 #include <QObject>
+#include <datasource.h>
 
 class SwampModel : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(DataSource* data_source READ data_source WRITE set_data_source NOTIFY data_sourceChanged)
+
+
 public:
     explicit SwampModel(QObject *parent = nullptr);
 
+    DataSource *data_source() const;
+    void set_data_source(DataSource *newData_source);
+
 signals:
 
+    void data_sourceChanged();
+
+private:
+
+    DataSource *m_data_source;
 };
 
 #endif // SWAMPMODEL_H

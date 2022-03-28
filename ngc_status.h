@@ -14,7 +14,6 @@ class NGC_status : public QObject
     Q_PROPERTY(NGC_variable* fw READ fw NOTIFY fwChanged)
     Q_PROPERTY(NGC_variable* tr READ tr NOTIFY trChanged)
 
-
 public:
     explicit NGC_status(QObject *parent = nullptr);
 

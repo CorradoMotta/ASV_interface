@@ -26,14 +26,14 @@ Rectangle {
             id: fu
             Layout.fillWidth: true
             slider_text: "Fu"
-            onValueChanged:  mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().ngc_status.fu.ref.topic_name,value)
+            onValueChanged:  data_model.data_source.publishMessage(data_model.data_source.swampData().ngc_status.fu.ref.topic_name,value)
         }
         BasicSlider {
 
             id: fv
             Layout.fillWidth: true
             slider_text: "Fv"
-            onValueChanged: mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().ngc_status.fv.ref.topic_name,value)
+            onValueChanged: data_model.data_source.publishMessage(data_model.data_source.swampData().ngc_status.fv.ref.topic_name,value)
         }
         BasicSlider {
 
@@ -44,7 +44,7 @@ Rectangle {
             slider_text: "Tr"
             onValueChanged: {
                 rotation_value = value
-                mqtt_client.data_source.publishMessage(mqtt_client.data_source.swampData().ngc_status.tr.ref.topic_name,value)
+                data_model.data_source.publishMessage(data_model.data_source.swampData().ngc_status.tr.ref.topic_name,value)
             }
         }
     }

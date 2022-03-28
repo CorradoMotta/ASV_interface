@@ -14,7 +14,6 @@ SOURCES += \
         motor_status.cpp \
         ngc_status.cpp \
         ngc_variable.cpp \
-        qmlmqttclient.cpp \
         singlemarkermodel.cpp \
         stringvariable.cpp \
         swamp_motor_status.cpp \
@@ -46,7 +45,6 @@ HEADERS += \
     motor_status.h \
     ngc_status.h \
     ngc_variable.h \
-    qmlmqttclient.h \
     singlemarkermodel.h \
     stringvariable.h \
     swamp_motor_status.h \
