@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 
     //engine.rootContext()->setContextProperty("swamp_status", &swamp_status);
     const QUrl url(QStringLiteral("qrc:/main.qml"));
-    //engine.rootContext()->setContextProperty(QStringLiteral("dataSource"), dataSource);
+    engine.rootContext()->setContextProperty(QStringLiteral("dataSource"), dataSource);
     engine.rootContext()->setContextProperty(QStringLiteral("_marker_model"), &model);
     engine.rootContext()->setContextProperty(QStringLiteral("data_model"), &data_model);
 
