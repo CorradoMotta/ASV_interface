@@ -69,7 +69,7 @@ ApplicationWindow {
                     id: connect_button
                     Layout.alignment: Qt.AlignTop
                     Layout.fillWidth: true
-                    onClicked: dataSource.setConnection()
+                    onClicked: data_model.data_source.setConnection()
 
                     contentItem: Text {
                         text: data_model.data_source.is_connected ? "disconnect" : "connect"
