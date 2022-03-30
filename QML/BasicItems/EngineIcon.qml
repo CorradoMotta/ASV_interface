@@ -16,11 +16,11 @@ Item {
 
     function setSource(state) {
         if (state === EngineIcon.EngineStates.Engine_off)
-            return "Images/Engine_off.png"
+            return "../../Images/Engine_off.png"
         else if (state === EngineIcon.EngineStates.Engine_inter)
-            return "Images/Engine_inter.png"
+            return "../../Images/Engine_inter.png"
         else if (state === EngineIcon.EngineStates.Engine_on)
-            return "Images/Engine_on.png"
+            return "../../Images/Engine_on.png"
     }
 
     function setEngineState(previousState) {

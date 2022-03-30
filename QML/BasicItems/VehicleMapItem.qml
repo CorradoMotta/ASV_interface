@@ -10,7 +10,7 @@ MapQuickItem {
         id: image_swamp
         visible: true
 
-        source: "Images/Swamp.png"
+        source: "../../Images/Swamp.png"
         //transform: Rotation {origin.x: 50; origin.y: 50; angle: vehicle_rotation}
         sourceSize.width: 40
         sourceSize.height: 40

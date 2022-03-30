@@ -68,7 +68,7 @@ Item {
             spacing: 3
             Image {
                 Layout.alignment: Qt.AlignLeft
-                source: "Images/ArrowUp.png"
+                source: "../../Images/ArrowUp.png"
                 sourceSize.height: 25
                 sourceSize.width: 25
                 MouseArea {
@@ -81,7 +81,7 @@ Item {
             }
             Image {
                 Layout.alignment: Qt.AlignLeft
-                source: "Images/ArrowDown.png"
+                source: "../../Images/ArrowDown.png"
                 sourceSize.height: 25
                 sourceSize.width: 25
                 MouseArea {

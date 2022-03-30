@@ -1,18 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
-        <file>BasicArrow.qml</file>
-        <file>BasicSlider.qml</file>
-        <file>BoxDrawItem.qml</file>
-        <file>CustomMenuBar.qml</file>
-        <file>DelegateSingleMarker.qml</file>
-        <file>EngineIcon.qml</file>
-        <file>EnginePanel.qml</file>
-        <file>EsriPlugin.qml</file>
-        <file>ForceSliderPanel.qml</file>
-        <file>NavigationMap.qml</file>
-        <file>OsmPlugin.qml</file>
-        <file>VehicleMapItem.qml</file>
         <file>Images/ArrowDown.png</file>
         <file>Images/ArrowUp.png</file>
         <file>Images/circle.png</file>
@@ -24,5 +11,18 @@
         <file>Images/marker_box.png</file>
         <file>Images/rect_box.png</file>
         <file>Images/Swamp.png</file>
+        <file>QML/BasicItems/BasicArrow.qml</file>
+        <file>QML/BasicItems/BasicSlider.qml</file>
+        <file>QML/BasicItems/BoxDrawItem.qml</file>
+        <file>QML/BasicItems/CustomMenuBar.qml</file>
+        <file>QML/BasicItems/EngineIcon.qml</file>
+        <file>QML/BasicItems/VehicleMapItem.qml</file>
+        <file>QML/Maps/DelegateSingleMarker.qml</file>
+        <file>QML/Maps/EsriPlugin.qml</file>
+        <file>QML/Maps/NavigationMap.qml</file>
+        <file>QML/Maps/OsmPlugin.qml</file>
+        <file>QML/Panels/EnginePanel.qml</file>
+        <file>QML/Panels/ForceSliderPanel.qml</file>
+        <file>QML/main.qml</file>
     </qresource>
 </RCC>
