@@ -24,5 +24,6 @@
         <file>QML/Panels/EnginePanel.qml</file>
         <file>QML/Panels/ForceSliderPanel.qml</file>
         <file>QML/main.qml</file>
+        <file>QML/Maps/MapBoxPlugin.qml</file>
     </qresource>
 </RCC>

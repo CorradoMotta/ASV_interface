@@ -15,6 +15,7 @@ ApplicationWindow {
     title: qsTr("Swamp interface")
     property bool connected: false
     property bool startUp: true
+    //property mapPlugin
     property double timestamp: 0
 
     onStartUpChanged: navigation_map.center =

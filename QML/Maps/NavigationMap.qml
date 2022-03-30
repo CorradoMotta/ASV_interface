@@ -7,7 +7,7 @@ import "../BasicItems"
 Map {
     id: navigation_map
     //anchors.fill: parent
-    plugin: EsriPlugin {}
+    plugin: MapBoxPlugin {}
     property real lat: data_model.data_source.swamp_status.gps_ahrs_status.latitude.value
     property real lon: data_model.data_source.swamp_status.gps_ahrs_status.longitude.value
     property real v_rotation : data_model.data_source.swamp_status.ngc_status.psi.value

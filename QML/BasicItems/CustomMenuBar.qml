@@ -18,7 +18,7 @@ MenuBar {
         Repeater {
             model: navigation_map.supportedMapTypes
             MenuItem {
-                text: model.name
+                text: navigation_map.plugin.name === "mapboxgl" ? model.description: model.name
                 onTriggered: navigation_map.setActiveMap(model.index)
             }
         }
