@@ -26,26 +26,18 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     SingleMarkerModel model;
-    //QmlMqttClient client;
     SwampModel data_model;
-    //GPS_AHRS_status gps_status;
     QQmlApplicationEngine engine;
     DataSource *dataSource = new DataSource(&data_model);
+    dataSource->read_cfg("../ASV_interface/conf/topics.txt");
     data_model.set_data_source(dataSource);
-    //SwampStatus swamp_status;
 
     qmlRegisterUncreatableType<Variable>("com.cnr.property",1,0,"Variable", "Virtual class cannot be instantiated!");
     qmlRegisterUncreatableType<DoubleVariable>("com.cnr.property",1,0,"DoubleVariable", "Virtual class cannot be instantiated!");
     qmlRegisterUncreatableType<IntVariable>("com.cnr.property",1,0,"IntVariable", "Virtual class cannot be instantiated!");
     qmlRegisterUncreatableType<StringVariable>("com.cnr.property",1,0,"StringVariable", "Virtual class cannot be instantiated!");
     qmlRegisterUncreatableType<SwampStatus>("com.cnr.property",1,0,"SwampStatus", "Virtual class cannot be instantiated!");
-//    qmlRegisterUncreatableType<GPS_AHRS_status>("com.cnr.property",1,0,"GPS_AHRS_status", "Virtual class cannot be instantiated!");
 
-//    qmlRegisterUncreatableType<NGC_status>("com.cnr.property",1,0,"NGC_status", "Virtual class cannot be instantiated!");
-//    qmlRegisterUncreatableType<Motor_status>("com.cnr.property",1,0,"Motor_status", "Virtual class cannot be instantiated!");
-//    qmlRegisterUncreatableType<Swamp_motor_status>("com.cnr.property",1,0,"Swamp_motor_status", "Virtual class cannot be instantiated!");
-
-    //engine.rootContext()->setContextProperty("swamp_status", &swamp_status);
     const QUrl url(QStringLiteral("qrc:/QML/main.qml"));
     engine.rootContext()->setContextProperty(QStringLiteral("dataSource"), dataSource);
     engine.rootContext()->setContextProperty(QStringLiteral("_marker_model"), &model);

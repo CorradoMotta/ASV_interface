@@ -36,6 +36,7 @@ public:
     void set_is_connected(bool newIs_connected);
     void publish_topic();
     void send_timestamp(double value) const;
+    bool read_cfg(QString filename);
     SwampStatus *swamp_status();
 
 signals:

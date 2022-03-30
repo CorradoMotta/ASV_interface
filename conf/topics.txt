@@ -1,0 +1,710 @@
+
+#Broker-address: 	10.17.5.109
+#Ground-Broker-address: 	10.17.5.85
+#Broker-address: 	10.75.9.19
+#Ground-Broker-address: 	10.75.9.19
+
+Broker-address: 	10.17.9.20
+Ground-Broker-address: 	10.17.9.20
+
+Broker-port:		1883
+Keep-alive-time:	30
+
+
+Environment:	CNR-INM/
+Robot: 			swamp/
+Ground:			ground/
+
+# --- Time topics --------------------------------------------------
+timeStamp: 	clock/timeStamp
+dt: 		clock/dt
+date-time:	clock/date-time
+# --- End time topics ----------------------------------------------
+
+
+# --- Telegram Bot --------------------------------------------------
+telegram-latitude: 		TelegramBot/Latitude
+telegram-longitude: 	TelegramBot/Longitude
+bot-sender:				TelegramBot/Sender
+# --- End time topics ----------------------------------------------
+
+
+# --- HMI status --------------------------------------------------
+HMI-Robot-timeStamp: 	HMI/timeStamp
+# --- End time topics ----------------------------------------------
+
+
+# --- Joypad --------------------------------------------------
+joypad: 	joypad
+# --- End time topics ----------------------------------------------
+
+
+# --- Mark --------------------------------------------------
+mark: 	mark
+# --- End time topics ----------------------------------------------
+
+
+# --- PathPlanner topics ---------------------------------------------------
+path-planner-cmd:				PathPlanner/command
+path-planner-standby-act:		PathPlanner/standby_actual
+path-planner-active-act:		PathPlanner/active_actual
+# --- End PathPlanner topics -----------------------------------------------
+
+
+
+# --- NGC topics ---------------------------------------------------
+ngc-force-fu-ref:				NGC/force/fu/reference
+ngc-force-fu-act:				NGC/force/fu/actual
+ngc-force-fu-man:				NGC/force/fu/manual
+ngc-force-fu-auto:				NGC/force/fu/automatic
+
+ngc-force-fv-ref:				NGC/force/fv/reference
+ngc-force-fv-act:				NGC/force/fv/actual
+ngc-force-fv-man:				NGC/force/fv/manual
+ngc-force-fv-auto:				NGC/force/fv/automatic
+
+ngc-force-tr-ref:				NGC/force/tr/reference
+ngc-force-tr-act:				NGC/force/tr/actual
+ngc-force-tr-man:				NGC/force/tr/manual
+ngc-force-tr-auto:				NGC/force/tr/automatic
+
+ngc-pose-phi-act:				NGC/pose/phi/actual
+ngc-pose-phi-raw:				NGC/pose/phi/raw
+ngc-pose-phi-filt:				NGC/pose/phi/filtered
+
+ngc-pose-theta-act:				NGC/pose/theta/actual
+ngc-pose-theta-raw:				NGC/pose/theta/raw
+ngc-pose-theta-filt:			NGC/pose/theta/filtered
+
+ngc-pose-psi-act:				NGC/pose/psi/actual
+ngc-pose-psi-ref:				NGC/pose/psi/reference
+ngc-pose-psi-man:				NGC/pose/psi/manual
+ngc-pose-psi-auto:				NGC/pose/psi/automatic
+ngc-pose-psi-ext:				NGC/pose/psi/external
+ngc-pose-psi-raw:				NGC/pose/psi/raw
+ngc-pose-psi-filt:				NGC/pose/psi/filtered
+
+
+ngc-velocity-body-p-act:		NGC/velocity/body/p/actual
+ngc-velocity-body-p-raw:		NGC/velocity/body/p/raw
+ngc-velocity-body-p-filt:		NGC/velocity/body/p/filtered
+
+ngc-velocity-body-q-act:		NGC/velocity/body/q/actual
+ngc-velocity-body-q-raw:		NGC/velocity/body/q/raw
+ngc-velocity-body-q-filt:		NGC/velocity/body/q/filtered
+
+ngc-velocity-body-r-act:		NGC/velocity/body/r/actual
+ngc-velocity-body-r-ref:		NGC/velocity/body/r/reference
+ngc-velocity-body-r-man:		NGC/velocity/body/r/manual
+ngc-velocity-body-r-auto:		NGC/velocity/body/r/automatic
+ngc-velocity-body-r-ext:		NGC/velocity/body/r/external
+ngc-velocity-body-r-raw:		NGC/velocity/body/r/raw
+ngc-velocity-body-r-filt:		NGC/velocity/body/r/filtered
+
+
+ngc-pose-x-act:					NGC/pose/x/actual
+ngc-pose-x-ref:					NGC/pose/x/reference
+ngc-pose-x-man:					NGC/pose/x/manual
+ngc-pose-x-auto:				NGC/pose/x/automatic
+ngc-pose-x-ext:					NGC/pose/x/external
+ngc-pose-x-raw:					NGC/pose/x/raw
+ngc-pose-x-filt:				NGC/pose/x/filtered
+
+ngc-pose-y-act:					NGC/pose/y/actual
+ngc-pose-y-ref:					NGC/pose/y/reference
+ngc-pose-y-man:					NGC/pose/y/manual
+ngc-pose-y-auto:				NGC/pose/y/automatic
+ngc-pose-y-ext:					NGC/pose/y/external
+ngc-pose-y-raw:					NGC/pose/y/raw
+ngc-pose-y-filt:				NGC/pose/y/filtered
+
+ngc-pose-a-act:					NGC/pose/a/actual
+ngc-pose-a-ref:					NGC/pose/a/reference
+ngc-pose-a-man:					NGC/pose/a/manual
+ngc-pose-a-auto:				NGC/pose/a/automatic
+ngc-pose-a-ext:					NGC/pose/a/external
+ngc-pose-a-raw:					NGC/pose/a/raw
+ngc-pose-a-filt:				NGC/pose/a/filtered
+
+
+ngc-velocity-body-u-act:		NGC/velocity/body/u/actual
+ngc-velocity-body-u-ref:		NGC/velocity/body/u/reference
+ngc-velocity-body-u-man:		NGC/velocity/body/u/manual
+ngc-velocity-body-u-auto:		NGC/velocity/body/u/automatic
+ngc-velocity-body-u-ext:		NGC/velocity/body/u/external
+ngc-velocity-body-u-raw:		NGC/velocity/body/u/raw
+ngc-velocity-body-u-filt:		NGC/velocity/body/u/filtered
+
+ngc-velocity-body-v-act:		NGC/velocity/body/v/actual
+ngc-velocity-body-v-ref:		NGC/velocity/body/v/reference
+ngc-velocity-body-v-man:		NGC/velocity/body/v/manual
+ngc-velocity-body-v-auto:		NGC/velocity/body/v/automatic
+ngc-velocity-body-v-ext:		NGC/velocity/body/v/external
+ngc-velocity-body-v-raw:		NGC/velocity/body/v/raw
+ngc-velocity-body-v-filt:		NGC/velocity/body/v/filtered
+
+ngc-velocity-body-u-SeaCurrent-act:		NGC/velocity/body/uSeaCurrent/actual
+ngc-velocity-body-u-SeaCurrent-raw:		NGC/velocity/body/uSeaCurrent/raw
+ngc-velocity-body-u-SeaCurrent-filt:	NGC/velocity/body/uSeaCurrent/filtered
+
+ngc-velocity-body-v-SeaCurrent-act:		NGC/velocity/body/vSeaCurrent/actual
+ngc-velocity-body-v-SeaCurrent-raw:		NGC/velocity/body/vSeaCurrent/raw
+ngc-velocity-body-v-SeaCurrent-filt:	NGC/velocity/body/vSeaCurrent/filtered
+
+
+ngc-velocity-inertial-xDot-act:				NGC/velocity/inertial/xDot/actual
+ngc-velocity-inertial-xDot-ref:				NGC/velocity/inertial/xDot/reference
+ngc-velocity-inertial-xDot-man:				NGC/velocity/inertial/xDot/manual
+ngc-velocity-inertial-xDot-auto:			NGC/velocity/inertial/xDot/automatic
+ngc-velocity-inertial-xDot-ext:				NGC/velocity/inertial/xDot/external
+ngc-velocity-inertial-xDot-raw:				NGC/velocity/inertial/xDot/raw
+ngc-velocity-inertial-xDot-filt:			NGC/velocity/inertial/xDot/filtered
+
+ngc-velocity-inertial-yDot-act:				NGC/velocity/inertial/yDot/actual
+ngc-velocity-inertial-yDot-ref:				NGC/velocity/inertial/yDot/reference
+ngc-velocity-inertial-yDot-man:				NGC/velocity/inertial/yDot/manual
+ngc-velocity-inertial-yDot-auto:			NGC/velocity/inertial/yDot/automatic
+ngc-velocity-inertial-yDot-ext:				NGC/velocity/inertial/yDot/external
+ngc-velocity-inertial-yDot-raw:				NGC/velocity/inertial/yDot/raw
+ngc-velocity-inertial-yDot-filt:			NGC/velocity/inertial/yDot/filtered
+
+
+ngc-velocity-inertial-speed-act:			NGC/velocity/inertial/speed/actual
+ngc-velocity-inertial-speed-ref:			NGC/velocity/inertial/speed/reference
+ngc-velocity-inertial-speed-man:			NGC/velocity/inertial/speed/manual
+ngc-velocity-inertial-speed-auto:			NGC/velocity/inertial/speed/automatic
+ngc-velocity-inertial-speed-ext:			NGC/velocity/inertial/speed/external
+ngc-velocity-inertial-speed-raw:			NGC/velocity/inertial/speed/raw
+ngc-velocity-inertial-speed-filt:			NGC/velocity/inertial/speed/filtered
+
+ngc-velocity-inertial-course-act:			NGC/velocity/inertial/course/actual
+ngc-velocity-inertial-course-ref:			NGC/velocity/inertial/course/reference
+ngc-velocity-inertial-course-man:			NGC/velocity/inertial/course/manual
+ngc-velocity-inertial-course-auto:			NGC/velocity/inertial/course/automatic
+ngc-velocity-inertial-course-ext:			NGC/velocity/inertial/course/external
+ngc-velocity-inertial-course-raw:			NGC/velocity/inertial/course/raw
+ngc-velocity-inertial-course-filt:			NGC/velocity/inertial/course/filtered
+
+
+ngc-velocity-inertial-xDot-SeaCurrent-act:	NGC/velocity/inertial/xDotSeaCurrent/actual
+ngc-velocity-inertial-xDot-SeaCurrent-raw:	NGC/velocity/inertial/xDotSeaCurrent/raw
+ngc-velocity-inertial-xDot-SeaCurrent-filt:	NGC/velocity/inertial/xDotSeaCurrent/filtered
+
+ngc-velocity-inertial-yDot-SeaCurrent-act:	NGC/velocity/inertial/yDotSeaCurrent/actual
+ngc-velocity-inertial-yDot-SeaCurrent-raw:	NGC/velocity/inertial/yDotSeaCurrent/raw
+ngc-velocity-inertial-yDot-SeaCurrent-filt:	NGC/velocity/inertial/yDotSeaCurrent/filtered
+
+# --- End NGC topics -----------------------------------------------
+
+
+#--- THRUST MAPPING topics -----------------------------------------------
+thrust-mapping-command:						thrust_mapping/command
+thrust-mapping-status:						thrust_mapping/status
+#--- End THRUST MAPPING topics -----------------------------------------------
+
+
+# --- AI control params ---------------------------------------------------
+control-ai-execution-command:		controls/ai/execution/command
+control-ai-execution-status:		controls/ai/execution/status
+control-ai-execution-rec:			controls/ai/execution/rec
+control-ai-execution-exec:			controls/ai/execution/exec
+# --- End AI control params -----------------------------------------------
+
+
+# --- Path-Following UA control params ---------------------------------------------------
+path-following-UA-execution-command:	controls/PathFollowing/UA/execution/command
+path-following-UA-execution-status:		controls/PathFollowing/UA/execution/status
+path-following-UA-Ks-ref:				controls/PathFollowing/UA/Ks/reference
+path-following-UA-Ks-act:				controls/PathFollowing/UA/Ks/actual
+path-following-UA-Kgamma-ref:			controls/PathFollowing/UA/Kgamma/reference
+path-following-UA-Kgamma-act:			controls/PathFollowing/UA/Kgamma/actual
+path-following-UA-maxAngle-ref:			controls/PathFollowing/UA/maxAngle/reference
+path-following-UA-maxAngle-act:			controls/PathFollowing/UA/maxAngle/actual
+path-following-UA-Kr-ref:				controls/PathFollowing/UA/Kr/reference
+path-following-UA-Kr-act:				controls/PathFollowing/UA/Kr/actual
+# --- End Path-Following UA control params -----------------------------------------------
+
+
+# --- Ang Vel control params ---------------------------------------------------
+control-ang-vel-execution-command:	controls/angular/velocity/execution/command
+control-ang-vel-execution-status:	controls/angular/velocity/execution/status
+control-ang-vel-Kp-ref:				controls/angular/velocity/Kp/reference
+control-ang-vel-Kp-act:				controls/angular/velocity/Kp/actual
+control-ang-vel-Ki-ref:				controls/angular/velocity/Ki/reference
+control-ang-vel-Ki-act:				controls/angular/velocity/Ki/actual
+control-ang-vel-Kd-ref:				controls/angular/velocity/Kd/reference
+control-ang-vel-Kd-act:				controls/angular/velocity/Kd/actual
+# --- End Ang Vel control params -----------------------------------------------
+
+
+# --- Ang Pos control params ---------------------------------------------------
+control-ang-pos-execution-command:	controls/angular/position/execution/command
+control-ang-pos-execution-status:	controls/angular/position/execution/status
+control-ang-pos-Kp-vel-ref:			controls/angular/position/vel_feed/Kp/reference
+control-ang-pos-Kp-vel-act:			controls/angular/position/vel_feed/Kp/actual
+control-ang-pos-Ki-vel-ref:			controls/angular/position/vel_feed/Ki/reference
+control-ang-pos-Ki-vel-act:			controls/angular/position/vel_feed/Ki/actual
+control-ang-pos-Kd-vel-ref:			controls/angular/position/vel_feed/Kd/reference
+control-ang-pos-Kd-vel-act:			controls/angular/position/vel_feed/Kd/actual
+
+control-ang-pos-Kp-force-ref:		controls/angular/position/force_feed/Kp/reference
+control-ang-pos-Kp-force-act:		controls/angular/position/force_feed/Kp/actual
+control-ang-pos-Ki-force-ref:		controls/angular/position/force_feed/Ki/reference
+control-ang-pos-Ki-force-act:		controls/angular/position/force_feed/Ki/actual
+control-ang-pos-Kd-force-ref:		controls/angular/position/force_feed/Kd/reference
+control-ang-pos-Kd-force-act:		controls/angular/position/force_feed/Kd/actual
+# --- End Ang Pos control params -----------------------------------------------
+
+
+# --- Hor Vel control params ---------------------------------------------------
+control-hor-vel-execution-command:	controls/horizontal/velocity/execution/command
+control-hor-vel-execution-status:	controls/horizontal/velocity/execution/status
+control-hor-vel-Kp-u-ref:			controls/horizontal/velocity/Kp_u/reference
+control-hor-vel-Kp-u-act:			controls/horizontal/velocity/Kp_u/actual
+control-hor-vel-Ki-u-ref:			controls/horizontal/velocity/Ki_u/reference
+control-hor-vel-Ki-u-act:			controls/horizontal/velocity/Ki_u/actual
+control-hor-vel-Kd-u-ref:			controls/horizontal/velocity/Kd_u/reference
+control-hor-vel-Kd-u-act:			controls/horizontal/velocity/Kd_u/actual
+control-hor-vel-Kp-v-ref:			controls/horizontal/velocity/Kp_v/reference
+control-hor-vel-Kp-v-act:			controls/horizontal/velocity/Kp_v/actual
+control-hor-vel-Ki-v-ref:			controls/horizontal/velocity/Ki_v/reference
+control-hor-vel-Ki-v-act:			controls/horizontal/velocity/Ki_v/actual
+control-hor-vel-Kd-v-ref:			controls/horizontal/velocity/Kd_v/reference
+control-hor-vel-Kd-v-act:			controls/horizontal/velocity/Kd_v/actual
+# --- Hor Vel control params -----------------------------------------------
+
+
+# --- Hor Pos control params ---------------------------------------------------
+control-hor-pos-execution-command:	controls/horizontal/position/execution/command
+control-hor-pos-execution-status:	controls/horizontal/position/execution/status
+control-hor-pos-Kp-vel-ref:			controls/horizontal/position/vel_feed/Kp/reference
+control-hor-pos-Kp-vel-act:			controls/horizontal/position/vel_feed/Kp/actual
+control-hor-pos-Ki-vel-ref:			controls/horizontal/position/vel_feed/Ki/reference
+control-hor-pos-Ki-vel-act:			controls/horizontal/position/vel_feed/Ki/actual
+control-hor-pos-Kd-vel-ref:			controls/horizontal/position/vel_feed/Kd/reference
+control-hor-pos-Kd-vel-act:			controls/horizontal/position/vel_feed/Kd/actual
+control-hor-pos-Kp-force-ref:		controls/horizontal/position/force_feed/Kp/reference
+control-hor-pos-Kp-force-act:		controls/horizontal/position/force_feed/Kp/actual
+control-hor-pos-Ki-force-ref:		controls/horizontal/position/force_feed/Ki/reference
+control-hor-pos-Ki-force-act:		controls/horizontal/position/force_feed/Ki/actual
+control-hor-pos-Kd-force-ref:		controls/horizontal/position/force_feed/Kd/reference
+control-hor-pos-Kd-force-act:		controls/horizontal/position/force_feed/Kd/actual
+# --- End Hor control params -----------------------------------------------
+
+
+
+# --- Ang filter params ---------------------------------------------------
+filter-ang-execution-command:	filters/angular/execution/command
+filter-ang-execution-status:	filters/angular/execution/status
+filter-ang-q-psi-ref:			filters/angular/q_psi/reference
+filter-ang-q-psi-act:			filters/angular/q_psi/actual
+filter-ang-r-psi-ref:			filters/angular/r_psi/reference
+filter-ang-r-psi-act:			filters/angular/r_psi/actual
+filter-ang-q-r-ref:				filters/angular/q_r/reference
+filter-ang-q-r-act:				filters/angular/q_r/actual
+filter-ang-r-r-ref:				filters/angular/r_r/reference
+filter-ang-r-r-act:				filters/angular/r_r/actual
+filter-ang-Kr-ref:				filters/angular/Kr/reference
+filter-ang-Kr-act:				filters/angular/Kr/actual
+filter-ang-br-ref:				filters/angular/br/reference
+filter-ang-br-act:				filters/angular/br/actual
+# --- End Ang filter params -----------------------------------------------
+
+
+
+# --- HorVel filter params ---------------------------------------------------
+filter-hor-vel-execution-command:	filters/horizontal_velocity/execution/command
+filter-hor-vel-execution-status:	filters/horizontal_velocity/execution/status
+filter-hor-vel-q-uv-ref:			filters/horizontal_velocity/q_uv/reference
+filter-hor-vel-q-uv-act:			filters/horizontal_velocity/q_uv/actual
+filter-hor-vel-q-current-ref:		filters/horizontal_velocity/q_current/reference
+filter-hor-vel-q-current-act:		filters/horizontal_velocity/q_current/actual
+filter-hor-vel-r-uv-11-ref:			filters/horizontal_velocity/r_uv_11/reference
+filter-hor-vel-r-uv-11-act:			filters/horizontal_velocity/r_uv_11/actual
+filter-hor-vel-r-uv-12-ref:			filters/horizontal_velocity/r_uv_12/reference
+filter-hor-vel-r-uv-12-act:			filters/horizontal_velocity/r_uv_12/actual
+filter-hor-vel-r-uv-22-ref:			filters/horizontal_velocity/r_uv_22/reference
+filter-hor-vel-r-uv-22-act:			filters/horizontal_velocity/r_uv_22/actual
+filter-hor-vel-Ku-ref:				filters/horizontal_velocity/Ku/reference
+filter-hor-vel-Ku-act:				filters/horizontal_velocity/Ku/actual
+filter-hor-vel-bu-ref:				filters/horizontal_velocity/bu/reference
+filter-hor-vel-bu-act:				filters/horizontal_velocity/bu/actual
+filter-hor-vel-Kv-ref:				filters/horizontal_velocity/Kv/reference
+filter-hor-vel-Kv-act:				filters/horizontal_velocity/Kv/actual
+filter-hor-vel-bv-ref:				filters/horizontal_velocity/bv/reference
+filter-hor-vel-bv-act:				filters/horizontal_velocity/bv/actual
+# --- End HorVel filter params -----------------------------------------------
+
+
+# --- HorPos filter params ---------------------------------------------------
+filter-hor-pos-execution-command:	filters/horizontal_position/execution/command
+filter-hor-pos-execution-status:	filters/horizontal_position/execution/status
+filter-hor-pos-q-xy-ref:			filters/horizontal_position/q_xy/reference
+filter-hor-pos-q-xy-act:			filters/horizontal_position/q_xy/actual
+filter-hor-pos-r-xy-11-ref:			filters/horizontal_position/r_xy_11/reference
+filter-hor-pos-r-xy-11-act:			filters/horizontal_position/r_xy_11/actual
+filter-hor-pos-r-xy-12-ref:			filters/horizontal_position/r_xy_12/reference
+filter-hor-pos-r-xy-12-act:			filters/horizontal_position/r_xy_12/actual
+filter-hor-pos-r-xy-22-ref:			filters/horizontal_position/r_xy_22/reference
+filter-hor-pos-r-xy-22-act:			filters/horizontal_position/r_xy_22/actual
+# --- End HorPos filter params -----------------------------------------------
+
+
+
+# --- Alt filter params ---------------------------------------------------
+filter-alt-execution-command:	filters/altitude/execution/command
+filter-alt-execution-status:	filters/altitude/execution/status
+filter-alt-q-a-ref:				filters/altitude/q_a/reference
+filter-alt-q-a-act:				filters/altitude/q_a/actual
+filter-alt-r-a-ref:				filters/altitude/r_a/reference
+filter-alt-r-a-act:				filters/altitude/r_a/actual
+# --- End Alt filter params -----------------------------------------------
+
+
+
+# --- Sensor measure routing topics ---------------------------------------------------
+current-ang-sensor:			sensors/measures/angular/sensor
+current-ang-measure:		sensors/measures/angular/measure
+
+current-hor-vel-sensor:		sensors/measures/horizontal_velocity/sensor
+current-hor-vel-measure:	sensors/measures/horizontal_velocity/measure
+
+current-hor-pos-sensor:		sensors/measures/horizontal_position/sensor
+current-hor-pos-measure:	sensors/measures/horizontal_position/measure
+
+current-ver-vel-sensor:		sensors/measures/vertical_velocity/sensor
+current-ver-vel-measure:	sensors/measures/vertical_velocity/measure
+
+current-ver-pos-sensor:		sensors/measures/vertical_position/sensor
+current-ver-pos-measure:	sensors/measures/vertical_position/measure
+
+current-alt-sensor:			sensors/measures/altitude/sensor
+current-alt-measure:		sensors/measures/altitude/measure
+# --- End Sensor config topics -----------------------------------------------
+
+
+
+# --- GPS-AHRS topics ---------------------------------------------------
+GPS-AHRS-roll:					sensors/GPS_AHRS/roll
+GPS-AHRS-pitch:					sensors/GPS_AHRS/pitch
+GPS-AHRS-heading:				sensors/GPS_AHRS/heading
+GPS-AHRS-roll-rate:				sensors/GPS_AHRS/roll_rate
+GPS-AHRS-pitch-rate:			sensors/GPS_AHRS/pitch_rate
+GPS-AHRS-heading-rate:			sensors/GPS_AHRS/heading_rate
+GPS-AHRS-latitude:				sensors/GPS_AHRS/latitude
+GPS-AHRS-longitude:				sensors/GPS_AHRS/longitude
+GPS-AHRS-heightAboveEllipsoid:	sensors/GPS_AHRS/heightAboveEllipsoid
+GPS-AHRS-heightAboveMSL:		sensors/GPS_AHRS/heightAboveMSL
+GPS-AHRS-northVel:				sensors/GPS_AHRS/northVel
+GPS-AHRS-eastVel:				sensors/GPS_AHRS/eastVel
+GPS-AHRS-downVel:				sensors/GPS_AHRS/downVel
+GPS-AHRS-speed:					sensors/GPS_AHRS/speed
+GPS-AHRS-groundSpeed:			sensors/GPS_AHRS/groundSpeed
+GPS-AHRS-course:				sensors/GPS_AHRS/course
+GPS-AHRS-xAcc:					sensors/GPS_AHRS/xAcc
+GPS-AHRS-yAcc:					sensors/GPS_AHRS/yAcc
+GPS-AHRS-zAcc:					sensors/GPS_AHRS/zAcc
+GPS-AHRS-horAccuracy:			sensors/GPS_AHRS/horizontalAccuracy
+GPS-AHRS-velAccuracy:			sensors/GPS_AHRS/velocityAccuracy
+GPS-AHRS-verAccuracy:			sensors/GPS_AHRS/verticalAccuracy
+GPS-AHRS-crsAccuracy:			sensors/GPS_AHRS/courseAccuracy
+GPS-AHRS-positionValidFlags:	sensors/GPS_AHRS/positionValidFlags
+GPS-AHRS-velocityValidFlags:	sensors/GPS_AHRS/velocityValidFlags
+GPS-AHRS-utcTime:				sensors/GPS_AHRS/utcTime
+GPS-AHRS-gps-status:			sensors/GPS_AHRS/gps_status
+GPS-AHRS-ahrs-status:			sensors/GPS_AHRS/ahrs_status
+GPS-AHRS-x:						sensors/GPS_AHRS/x
+GPS-AHRS-y:						sensors/GPS_AHRS/y
+GPS-AHRS-u:						sensors/GPS_AHRS/u
+GPS-AHRS-v:						sensors/GPS_AHRS/v
+GPS-AHRS-x0:					sensors/GPS_AHRS/x0
+GPS-AHRS-y0:					sensors/GPS_AHRS/y0
+# --- End GPS-AHRS topics -----------------------------------------------
+
+
+
+# --- ECHOLOGGER topics ---------------------------------------------------
+ECHOLOGGER-altitude:		SensingBox/sensors/ECHOLOGGER/altitude
+ECHOLOGGER-device-status:	SensingBox/sensors/ECHOLOGGER/device_status
+# --- End ECHOLOGGER topics -----------------------------------------------
+
+
+
+# --- UBLOX topics ---------------------------------------------------
+UBLOX-latitude:			SensingBox/sensors/UBLOX/latitude
+UBLOX-longitude:		SensingBox/sensors/UBLOX/longitude
+UBLOX-x:				SensingBox/sensors/UBLOX/x
+UBLOX-y:				SensingBox/sensors/UBLOX/y
+UBLOX-utcTime:			SensingBox/sensors/UBLOX/utcTime
+UBLOX-device-status:	SensingBox/sensors/UBLOX/device_status
+# --- End UBLOX topics -----------------------------------------------
+
+
+
+# --- I/O topics ---------------------------------------------------
+FL-THR-force-reference:		motor/analog/FL-THR-force-reference
+FL-THR-force-actual:		motor/analog/FL-THR-force-actual
+FR-THR-force-reference:		motor/analog/FR-THR-force-reference
+FR-THR-force-actual:		motor/analog/FR-THR-force-actual
+RL-THR-force-reference:		motor/analog/RL-THR-force-reference
+RL-THR-force-actual:		motor/analog/RL-THR-force-actual
+RR-THR-force-reference:		motor/analog/RR-THR-force-reference
+RR-THR-force-actual:		motor/analog/RR-THR-force-actual
+
+FL-AZM-angle-reference:		motor/analog/FL-AZM-angle-reference
+FL-AZM-angle-actual:		motor/analog/FL-AZM-angle-actual
+FR-AZM-angle-reference:		motor/analog/FR-AZM-angle-reference
+FR-AZM-angle-actual:		motor/analog/FR-AZM-angle-actual
+RL-AZM-angle-reference:		motor/analog/RL-AZM-angle-reference
+RL-AZM-angle-actual:		motor/analog/RL-AZM-angle-actual
+RR-AZM-angle-reference:		motor/analog/RR-AZM-angle-reference
+RR-AZM-angle-actual:		motor/analog/RR-AZM-angle-actual
+
+FL-AZM-speed:				motor/analog/FL-AZM-speed
+FR-AZM-speed:				motor/analog/FR-AZM-speed
+RL-AZM-speed:				motor/analog/RL-AZM-speed
+RR-AZM-speed:				motor/analog/RR-AZM-speed
+
+FL-AZM-homing:				motor/digital/FL-AZM-homing
+FR-AZM-homing:				motor/digital/FR-AZM-homing
+RL-AZM-homing:				motor/digital/RL-AZM-homing
+RR-AZM-homing:				motor/digital/RR-AZM-homing
+
+FL-THR-power-command:		motor/digital/FL-THR-power
+FL-THR-enable-command:		motor/digital/FL-THR-enable
+FL-AZM-power-command:		motor/digital/FL-AZM-power
+FL-AZM-enable-command:		motor/digital/FL-AZM-enable
+
+FR-THR-power-command:		motor/digital/FR-THR-power
+FR-THR-enable-command:		motor/digital/FR-THR-enable
+FR-AZM-power-command:		motor/digital/FR-AZM-power
+FR-AZM-enable-command:		motor/digital/FR-AZM-enable
+
+RL-THR-power-command:		motor/digital/RL-THR-power
+RL-THR-enable-command:		motor/digital/RL-THR-enable
+RL-AZM-power-command:		motor/digital/RL-AZM-power
+RL-AZM-enable-command:		motor/digital/RL-AZM-enable
+
+RR-THR-power-command:		motor/digital/RR-THR-power
+RR-THR-enable-command:		motor/digital/RR-THR-enable
+RR-AZM-power-command:		motor/digital/RR-AZM-power
+RR-AZM-enable-command:		motor/digital/RR-AZM-enable
+
+motors-auto-start-stop-command:		motor/digital/motors_auto_start_stop/command
+motors-auto-start-stop-status:		motor/digital/motors_auto_start_stop/status
+# --- End I/O topics -----------------------------------------------
+
+
+
+# --- Ground topics ---------------------------------------------------
+HMI-timeStamp: 				HMI/timeStamp
+# --- End Ground topics ---------------------------------------------------
+
+
+# --- SIMULATOR Motion -------------------------------------------------------
+sim-VVFL:						sim/motion/VVFL
+sim-VVFR:						sim/motion/VVFR
+sim-VVRL:						sim/motion/VVRL
+sim-VVRR:						sim/motion/VVRR
+sim-VHFL:						sim/motion/VHFL
+sim-VHFR:						sim/motion/VHFR
+sim-VHRL:						sim/motion/VHRL
+sim-VHRR:						sim/motion/VHRR
+
+sim-x:							sim/motion/x
+sim-y:							sim/motion/y
+sim-z:							sim/motion/z
+sim-a:							sim/motion/a
+
+sim-phi:						sim/motion/phi
+sim-theta:						sim/motion/theta
+sim-psi:						sim/motion/psi
+
+sim-u:							sim/motion/u
+sim-v:							sim/motion/v
+sim-w:							sim/motion/w
+
+sim-p:							sim/motion/p
+sim-q:							sim/motion/q
+sim-r:							sim/motion/r
+
+sim-pDot:						sim/motion/pDot
+sim-qDot:						sim/motion/qDot
+sim-rDot:						sim/motion/rDot
+
+sim-xDot:						sim/motion/xDot
+sim-yDot:						sim/motion/yDot
+sim-zDot:						sim/motion/zDot
+
+sim-xAcc:						sim/motion/xAcc
+sim-yAcc:						sim/motion/yAcc
+sim-zAcc:						sim/motion/zAcc
+
+# --- End SIMULATOR Motion ---------------------------------------------------
+
+
+# --- SIMULATOR FOG topics ---------------------------------------------------
+sim-FOG-roll:					sim/FOG/roll
+sim-FOG-pitch:					sim/FOG/pitch
+sim-FOG-heading:				sim/FOG/heading
+sim-FOG-roll-rate:				sim/FOG/roll_rate
+sim-FOG-pitch-rate:				sim/FOG/pitch_rate
+sim-FOG-heading-rate:			sim/FOG/heading_rate
+# --- End SIMULATOR FOG topics -----------------------------------------------
+
+
+# --- SIMULATOR GPS-AHRS topics ---------------------------------------------------
+sim-GPS-AHRS-roll:					sim/GPS_AHRS/roll
+sim-GPS-AHRS-pitch:					sim/GPS_AHRS/pitch
+sim-GPS-AHRS-heading:				sim/GPS_AHRS/heading
+sim-GPS-AHRS-roll-rate:				sim/GPS_AHRS/roll_rate
+sim-GPS-AHRS-pitch-rate:			sim/GPS_AHRS/pitch_rate
+sim-GPS-AHRS-heading-rate:			sim/GPS_AHRS/heading_rate
+sim-GPS-AHRS-latitude:				sim/GPS_AHRS/latitude
+sim-GPS-AHRS-longitude:				sim/GPS_AHRS/longitude
+sim-GPS-AHRS-heightAboveEllipsoid:	sim/GPS_AHRS/heightAboveEllipsoid
+sim-GPS-AHRS-heightAboveMSL:		sim/GPS_AHRS/heightAboveMSL
+sim-GPS-AHRS-northVel:				sim/GPS_AHRS/northVel
+sim-GPS-AHRS-eastVel:				sim/GPS_AHRS/eastVel
+sim-GPS-AHRS-downVel:				sim/GPS_AHRS/downVel
+sim-GPS-AHRS-speed:					sim/GPS_AHRS/speed
+sim-GPS-AHRS-groundSpeed:			sim/GPS_AHRS/groundSpeed
+sim-GPS-AHRS-course:				sim/GPS_AHRS/course
+sim-GPS-AHRS-xAcc:					sim/GPS_AHRS/xAcc
+sim-GPS-AHRS-yAcc:					sim/GPS_AHRS/yAcc
+sim-GPS-AHRS-zAcc:					sim/GPS_AHRS/zAcc
+sim-GPS-AHRS-horAccuracy:			sim/GPS_AHRS/horizontalAccuracy
+sim-GPS-AHRS-velAccuracy:			sim/GPS_AHRS/velocityAccuracy
+sim-GPS-AHRS-verAccuracy:			sim/GPS_AHRS/verticalAccuracy
+sim-GPS-AHRS-crsAccuracy:			sim/GPS_AHRS/courseAccuracy
+sim-GPS-AHRS-positionValidFlags:	sim/GPS_AHRS/positionValidFlags
+sim-GPS-AHRS-velocityValidFlags:	sim/GPS_AHRS/velocityValidFlags
+# --- End SIMULATOR GPS-AHRS topics -----------------------------------------------
+
+
+# --- SIMULATOR DVL topics ---------------------------------------------------
+sim-DVL-range1:					sim/DVL/range1
+sim-DVL-range2:					sim/DVL/range2
+sim-DVL-range3:					sim/DVL/range3
+sim-DVL-range4:					sim/DVL/range4
+sim-DVL-surge:					sim/DVL/surge
+sim-DVL-sway:					sim/DVL/sway
+sim-DVL-heave:					sim/DVL/heave
+sim-DVL-error:					sim/DVL/error
+# --- End SIMULATOR DVL topics -----------------------------------------------
+
+
+# --- SIMULATOR CTD topics ---------------------------------------------------
+sim-CTD-conductivity:			sim/CTD/conductivity
+sim-CTD-temperature:			sim/CTD/temperature
+sim-CTD-depth:					sim/CTD/depth
+# --- End SIMULATOR CTD topics -----------------------------------------------
+
+
+# --- SIMULATOR PA500 topics -------------------------------------------------
+sim-PA500-altitude:				sim/PA500/altitude
+# --- End SIMULATOR PA500 topics ---------------------------------------------
+
+
+# --- SIMULATOR ECHOLOGGERLOGGER topics -------------------------------------------------
+sim-ECHOLOGGER-altitude:		sim/ECHOLOGGER/altitude
+# --- End SIMULATOR ECHOLOGGERLOGGER topics ---------------------------------------------
+
+
+# --- SIMULATOR PINGER topics -------------------------------------------------
+sim-PINGER-x:					sim/PINGER/x
+sim-PINGER-y:					sim/PINGER/y
+sim-PINGER-z:					sim/PINGER/z
+# --- End SIMULATOR PINGER topics ---------------------------------------------
+
+	
+# --- SIMULATOR I/O topics ---------------------------------------------------
+sim-VFL-motor-volt-command:		sim/io/analog/VFL_motor_volt/command
+sim-VFR-motor-volt-command:		sim/io/analog/VFR_motor_volt/command
+sim-VRL-motor-volt-command:		sim/io/analog/VRL_motor_volt/command
+sim-VRR-motor-volt-command:		sim/io/analog/VRR_motor_volt/command
+sim-HFL-motor-volt-command:		sim/io/analog/HFL_motor_volt/command
+sim-HFR-motor-volt-command:		sim/io/analog/HFR_motor_volt/command
+sim-HRL-motor-volt-command:		sim/io/analog/HRL_motor_volt/command
+sim-HRR-motor-volt-command:		sim/io/analog/HRR_motor_volt/command
+
+sim-internal-temperature:		sim/io/analog/internal_temperature/status
+sim-battery:					sim/io/analog/battery/status
+
+sim-VFL-motor-power-command:	sim/io/digital/VFL_motor_power/command
+sim-VFL-motor-power-status:		sim/io/digital/VFL_motor_power/status
+sim-VFR-motor-power-command:	sim/io/digital/VFR_motor_power/command
+sim-VFR-motor-power-status:		sim/io/digital/VFR_motor_power/status
+sim-VRL-motor-power-command:	sim/io/digital/VRL_motor_power/command
+sim-VRL-motor-power-status:		sim/io/digital/VRL_motor_power/status
+sim-VRR-motor-power-command:	sim/io/digital/VRR_motor_power/command
+sim-VRR-motor-power-status:		sim/io/digital/VRR_motor_power/status
+sim-HFL-motor-power-command:	sim/io/digital/HFL_motor_power/command
+sim-HFL-motor-power-status:		sim/io/digital/HFL_motor_power/status
+sim-HFR-motor-power-command:	sim/io/digital/HFR_motor_power/command
+sim-HFR-motor-power-status:		sim/io/digital/HFR_motor_power/status
+sim-HRL-motor-power-command:	sim/io/digital/HRL_motor_power/command
+sim-HRL-motor-power-status:		sim/io/digital/HRL_motor_power/status
+sim-HRR-motor-power-command:	sim/io/digital/HRR_motor_power/command
+sim-HRR-motor-power-status:		sim/io/digital/HRR_motor_power/status
+
+sim-VFL-motor-enable-command:	sim/io/digital/VFL_motor_enable/command
+sim-VFL-motor-enable-status:	sim/io/digital/VFL_motor_enable/status
+sim-VFR-motor-enable-command:	sim/io/digital/VFR_motor_enable/command
+sim-VFR-motor-enable-status:	sim/io/digital/VFR_motor_enable/status
+sim-VRL-motor-enable-command:	sim/io/digital/VRL_motor_enable/command
+sim-VRL-motor-enable-status:	sim/io/digital/VRL_motor_enable/status
+sim-VRR-motor-enable-command:	sim/io/digital/VRR_motor_enable/command
+sim-VRR-motor-enable-status:	sim/io/digital/VRR_motor_enable/status
+sim-HFL-motor-enable-command:	sim/io/digital/HFL_motor_enable/command
+sim-HFL-motor-enable-status:	sim/io/digital/HFL_motor_enable/status
+sim-HFR-motor-enable-command:	sim/io/digital/HFR_motor_enable/command
+sim-HFR-motor-enable-status:	sim/io/digital/HFR_motor_enable/status
+sim-HRL-motor-enable-command:	sim/io/digital/HRL_motor_enable/command
+sim-HRL-motor-enable-status:	sim/io/digital/HRL_motor_enable/status
+sim-HRR-motor-enable-command:	sim/io/digital/HRR_motor_enable/command
+sim-HRR-motor-enable-status:	sim/io/digital/HRR_motor_enable/status
+
+sim-DVL-power-command:			sim/io/digital/DVL_power/command
+sim-DVL-power-status:			sim/io/digital/DVL_power/status
+
+sim-PA500-power-command:		sim/io/digital/PA500_power/command
+sim-PA500-power-status:			sim/io/digital/PA500_power/status
+
+sim-ECHOLOGGER-power-command:	sim/io/digital/ECHOLOGGER_power/command
+sim-ECHOLOGGER-power-status:	sim/io/digital/ECHOLOGGER_power/status
+
+sim-PINGER-power-command:		sim/io/digital/PINGER_power/command
+sim-PINGER-power-status:		sim/io/digital/PINGER_power/status
+
+sim-Light-FU-power-command:		sim/io/digital/Light_FU_power/command
+sim-Light-FU-power-status:		sim/io/digital/Light_FU_power/status
+
+sim-Light-FB-power-command:		sim/io/digital/Light_FB_power/command
+sim-Light-FB-power-status:		sim/io/digital/Light_FB_power/status
+
+sim-Light-CB-power-command:		sim/io/digital/Light_CB_power/command
+sim-Light-CB-power-status:		sim/io/digital/Light_CB_power/status
+
+sim-POE-power-command:			sim/io/digital/POE_power/command
+sim-POE-power-status:			sim/io/digital/POE_power/status
+
+sim-CPU2-power-command:			sim/io/digital/CPU2_power/command
+sim-CPU2-power-status:			sim/io/digital/CPU2_power/status
+
+sim-VFL-motor-fault-status:		sim/io/digital/VFL_motor_fault/status
+sim-VFR-motor-fault-status:		sim/io/digital/VFR_motor_fault/status
+sim-VRL-motor-fault-status:		sim/io/digital/VRL_motor_fault/status
+sim-VRR-motor-fault-status:		sim/io/digital/VRR_motor_fault/status
+sim-HFL-motor-fault-status:		sim/io/digital/HFL_motor_fault/status
+sim-HFR-motor-fault-status:		sim/io/digital/HFR_motor_fault/status
+sim-HRL-motor-fault-status:		sim/io/digital/HRL_motor_fault/status
+sim-HRR-motor-fault-status:		sim/io/digital/HRR_motor_fault/status
+
+# --- End SIMULATOR I/O topics ---------------------------------------------------
+
+
+# --- SIMULATOR test ---------------------------------------------------
+force-no-ethernet:				sim/test/force_no_ethernet
+
+# --- SIMULATOR test ---------------------------------------------------

@@ -1,5 +1,6 @@
 #include "datasource.h"
 #include <qlocale.h>
+#include <qfile.h>
 
 DataSource::DataSource(QObject *parent)
     : QObject{parent},
@@ -10,8 +11,7 @@ DataSource::DataSource(QObject *parent)
       m_timestamp{""}
 {
     // set socket info and connections
-    m_client->setPort(1883);
-    m_client->setHostname("10.17.9.20");
+
 
     m_ground_timestamp.setName("CNR-INM/ground/HMI/timeStamp");
     m_swamp_timestap.setName("CNR-INM/swamp/HMI/timeStamp");
@@ -23,7 +23,6 @@ DataSource::DataSource(QObject *parent)
     //-----------------------------------------------------------------------------------
 
     m_timer->start(100);
-    connect(m_timer, &QTimer::timeout, this, &DataSource::update);
 }
 
 void DataSource::update(){
@@ -36,6 +35,7 @@ void DataSource::setConnection()
 {
     if(!m_is_connected){
         m_client->connectToHost();
+        connect(m_timer, &QTimer::timeout, this, &DataSource::update);
     }else{
         qDebug() << "Disconnecting..";
         m_client->disconnectFromHost();
@@ -92,6 +92,66 @@ void DataSource::send_timestamp(double value) const{
     // TODO name should be read from the cfg?
     m_client->publish(m_ground_timestamp, q_b.setNum(value));
     m_client->publish(m_swamp_timestap, q_b.setNum(value));
+}
+
+// this method read the configuration file and populate all data with their topic names. It also sets
+// port and hostname for the mqtt client
+// return true or false depending on success
+bool DataSource::read_cfg(QString filename)
+{
+    // TODO add a property that only when this is finished i can set up connection.
+    QFile file(filename);
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        qDebug() << "Failed to open file:" << file.fileName() << "Error:" << file.errorString();
+        return false;
+    }
+
+    QMap<QString, QString> topic_map;
+    QTextStream in(&file);
+    while (!in.atEnd()) {
+        QStringList line = in.readLine().split(QRegExp("\\s+"));
+        if(line.size() == 2){
+            topic_map[line[0].trimmed()] = line[1].trimmed();
+        }
+
+        //RR-AZM-power-command:
+    }
+    // ready to populate my data structs
+    m_client->setPort(topic_map["Broker-port:"].toUInt());
+    m_client->setHostname(topic_map["Broker-address:"]);
+
+    m_swamp_status.gps_ahrs_status()->latitude()->setTopic_name("CNR-INM/swamp/" + topic_map["GPS-AHRS-latitude:"]);
+    m_swamp_status.gps_ahrs_status()->longitude()->setTopic_name("CNR-INM/swamp/" + topic_map["GPS-AHRS-longitude:"]);
+    m_swamp_status.ngc_status()->psi()->setTopic_name("CNR-INM/swamp/" + topic_map["ngc-pose-psi-act:"]);
+
+    // TODO WHY IN REF IF IT IS MANUAL? Force panel
+    m_swamp_status.ngc_status()->fu()->ref()->setTopic_name("CNR-INM/swamp/" + topic_map["ngc-force-fu-man:"]);
+    m_swamp_status.ngc_status()->fv()->ref()->setTopic_name("CNR-INM/swamp/" + topic_map["ngc-force-fv-man:"]);
+    m_swamp_status.ngc_status()->tr()->ref()->setTopic_name("CNR-INM/swamp/" + topic_map["ngc-force-tr-man:"]);
+
+    // engine panel
+    m_swamp_status.motor_status()->f1()->thr_enable()->setTopic_name("CNR-INM/swamp/" + topic_map["FL-THR-enable-command:"]);
+    m_swamp_status.motor_status()->f1()->azm_enable()->setTopic_name("CNR-INM/swamp/" + topic_map["FL-AZM-enable-command:"]);
+    m_swamp_status.motor_status()->f1()->thr_power()->setTopic_name("CNR-INM/swamp/" + topic_map["FL-THR-power-command:"]);
+    m_swamp_status.motor_status()->f1()->azm_power()->setTopic_name("CNR-INM/swamp/" + topic_map["FL-AZM-power-command:"]);
+
+    m_swamp_status.motor_status()->f2()->thr_enable()->setTopic_name("CNR-INM/swamp/" + topic_map["FR-THR-enable-command:"]);
+    m_swamp_status.motor_status()->f2()->azm_enable()->setTopic_name("CNR-INM/swamp/" + topic_map["FR-AZM-enable-command:"]);
+    m_swamp_status.motor_status()->f2()->thr_power()->setTopic_name("CNR-INM/swamp/" + topic_map["FR-THR-power-command:"]);
+    m_swamp_status.motor_status()->f2()->azm_power()->setTopic_name("CNR-INM/swamp/" + topic_map["FR-AZM-power-command:"]);
+
+    m_swamp_status.motor_status()->f3()->thr_enable()->setTopic_name("CNR-INM/swamp/" + topic_map["RL-THR-enable-command:"]);
+    m_swamp_status.motor_status()->f3()->azm_enable()->setTopic_name("CNR-INM/swamp/" + topic_map["RL-AZM-enable-command:"]);
+    m_swamp_status.motor_status()->f3()->thr_power()->setTopic_name("CNR-INM/swamp/" + topic_map["RL-THR-power-command:"]);
+    m_swamp_status.motor_status()->f3()->azm_power()->setTopic_name("CNR-INM/swamp/" + topic_map["RL-AZM-power-command:"]);
+
+    m_swamp_status.motor_status()->f4()->thr_enable()->setTopic_name("CNR-INM/swamp/" + topic_map["RR-THR-enable-command:"]);
+    m_swamp_status.motor_status()->f4()->azm_enable()->setTopic_name("CNR-INM/swamp/" + topic_map["RR-AZM-enable-command:"]);
+    m_swamp_status.motor_status()->f4()->thr_power()->setTopic_name("CNR-INM/swamp/" + topic_map["RR-THR-power-command:"]);
+    m_swamp_status.motor_status()->f4()->azm_power()->setTopic_name("CNR-INM/swamp/" + topic_map["RR-AZM-power-command:"]);
+
+    return true;
 }
 
 bool DataSource::is_connected() const
