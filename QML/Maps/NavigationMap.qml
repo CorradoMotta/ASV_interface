@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtPositioning 5.15
 import QtLocation 5.15
 import QtQuick.Layouts 1.11
-
+import "../BasicItems"
 
 Map {
     id: navigation_map
@@ -58,19 +58,19 @@ Map {
         id: rectangle_box_item
         Layout.preferredHeight: pre_heigth
         Layout.preferredWidth: pre_width
-        source: "Images/rect_box.png"
+        source: "../../Images/rect_box.png"
     }
     BoxDrawItem{
         id: rectangle_marker_item
         Layout.preferredHeight: pre_heigth
         Layout.preferredWidth: pre_width
-        source: "Images/marker_box.png"
+        source: "../../Images/marker_box.png"
     }
     BoxDrawItem{
         id: rectangle_list_item
         Layout.preferredHeight: pre_heigth
         Layout.preferredWidth: pre_width
-        source: "Images/line_box.png"
+        source: "../../Images/line_box.png"
     }
     }
 }

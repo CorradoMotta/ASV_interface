@@ -15,7 +15,7 @@
 #define SWAMPMODEL_H
 
 #include <QObject>
-#include <datasource.h>
+#include <swamp_models/datasource.h>
 
 class SwampModel : public QObject
 {

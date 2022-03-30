@@ -2,7 +2,7 @@
 #define NGC_VARIABLE_H
 
 #include <QObject>
-#include <doublevariable.h>
+#include <data/doublevariable.h>
 
 class NGC_variable : public QObject
 {

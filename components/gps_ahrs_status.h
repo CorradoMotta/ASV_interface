@@ -9,10 +9,10 @@
 
 #include <QObject>
 #include <math.h>
-#include "custom_types.h"
+#include "data/custom_types.h"
 #include <vector>
 #include <string>
-#include <doublevariable.h>
+#include <data/doublevariable.h>
 
 class GPS_AHRS_status : public QObject
 {

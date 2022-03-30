@@ -10,7 +10,7 @@ MapQuickItem {
     sourceItem: Image {
             id: image_marker
             //parent.anchorPoint.x: width
-            source: "Images/marker.png"
+            source: "../../Images/marker.png"
             sourceSize.width: 40
             sourceSize.height: 40
         }

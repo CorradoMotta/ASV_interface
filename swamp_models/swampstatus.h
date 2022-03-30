@@ -8,9 +8,9 @@
 #define SWAMPSTATUS_H
 
 #include <QObject>
-#include <gps_ahrs_status.h>
-#include <ngc_status.h>
-#include <swamp_motor_status.h>
+#include <components/gps_ahrs_status.h>
+#include <components/ngc_status.h>
+#include <components/swamp_motor_status.h>
 
 class SwampStatus : public QObject
 {
