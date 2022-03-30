@@ -26,14 +26,14 @@ Rectangle {
             id: fu
             Layout.fillWidth: true
             slider_text: "Fu"
-            onValueChanged: publish_force_data(value, timestamp, "fu")
+            onValueChanged:  data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc_status.fu.ref.topic_name, value)
         }
         BasicSlider {
 
             id: fv
             Layout.fillWidth: true
             slider_text: "Fv"
-            onValueChanged: publish_force_data(value, timestamp, "fv")
+            onValueChanged: data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc_status.fv.ref.topic_name, value)
         }
         BasicSlider {
 
@@ -44,15 +44,8 @@ Rectangle {
             slider_text: "Tr"
             onValueChanged: {
                 rotation_value = value
-                publish_force_data(value, timestamp, "tr")
+                data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc_status.tr.ref.topic_name,value)
             }
         }
-    }
-
-    function publish_force_data(value, timestamp, ID) {
-
-        var topic = "CNR-INM/swamp/NGC/force/" + ID + "/manual"
-        var str_value = value + ".0 " + timestamp + " 1"
-        mqtt_client.publishMessage(topic, str_value)
     }
 }

@@ -125,10 +125,8 @@ Item {
             Layout.preferredWidth: maxWidth
             Layout.rightMargin: 10
             Layout.alignment: Qt.AlignRight
-
             font.family: "Helvetica"
             font.pointSize: 18
-
             text: control.onMoved ? control.valueAt(control.position) : "0"
         }
     }

@@ -11,9 +11,13 @@ SOURCES += \
         gps_ahrs_status.cpp \
         intvariable.cpp \
         main.cpp \
-        qmlmqttclient.cpp \
+        motor_status.cpp \
+        ngc_status.cpp \
+        ngc_variable.cpp \
         singlemarkermodel.cpp \
         stringvariable.cpp \
+        swamp_motor_status.cpp \
+        swampmodel.cpp \
         swampstatus.cpp \
         variable.cpp
 
@@ -38,8 +42,12 @@ HEADERS += \
     geometry.h \
     gps_ahrs_status.h \
     intvariable.h \
-    qmlmqttclient.h \
+    motor_status.h \
+    ngc_status.h \
+    ngc_variable.h \
     singlemarkermodel.h \
     stringvariable.h \
+    swamp_motor_status.h \
+    swampmodel.h \
     swampstatus.h \
     variable.h

@@ -4,8 +4,6 @@ import QtLocation 5.6
 
 MapQuickItem {
     id: swampBox
-    property int vehicle_rotation : 0
-    rotation: vehicle_rotation
     anchorPoint.x: image_swamp.width/2
     anchorPoint.y: image_swamp.height/2
     sourceItem: Image {

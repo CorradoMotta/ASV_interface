@@ -8,16 +8,15 @@ Map {
     id: navigation_map
     //anchors.fill: parent
     plugin: EsriPlugin {}
-    property real lat: mqtt_client.swamp_status.gps_ahrs_status.latitude.value
-    property real lon: mqtt_client.swamp_status.gps_ahrs_status.longitude.value
-    onLatChanged: lon!=0? root.startUp = false: ""
-    onLonChanged: lat!=0? root.startUp = false: ""
-
+    property real lat: data_model.data_source.swamp_status.gps_ahrs_status.latitude.value
+    property real lon: data_model.data_source.swamp_status.gps_ahrs_status.longitude.value
+    property real v_rotation : data_model.data_source.swamp_status.ngc_status.psi.value
     property var initialCoordinates: QtPositioning.coordinate(lat, lon)
-    property alias rotation : swamp_icon.vehicle_rotation
 
+    onLatChanged: lon !=0 ? root.startUp = false: ""
+    onLonChanged: lat !=0 ? root.startUp = false: ""
     activeMapType: supportedMapTypes[0]
-    minimumZoomLevel: 8
+    //minimumZoomLevel: 8
     copyrightsVisible: false
 
     function setActiveMap(index) {
@@ -25,6 +24,7 @@ Map {
     }
     VehicleMapItem {
         id: swamp_icon
+        rotation: v_rotation
         coordinate:  QtPositioning.coordinate(lat, lon)
     }
 
