@@ -2,7 +2,7 @@
 #define MOTOR_STATUS_H
 
 #include <QObject>
-#include <intvariable.h>
+#include <data/intvariable.h>
 
 class Motor_status : public QObject
 {

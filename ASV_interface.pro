@@ -5,21 +5,21 @@ QT += quick positioning mqtt
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        datasource.cpp \
-        doublevariable.cpp \
-        geometry.cpp \
-        gps_ahrs_status.cpp \
-        intvariable.cpp \
+        components/gps_ahrs_status.cpp \
+        components/motor_status.cpp \
+        components/ngc_status.cpp \
+        components/swamp_motor_status.cpp \
+        data/doublevariable.cpp \
+        data/intvariable.cpp \
+        data/ngc_variable.cpp \
+        data/stringvariable.cpp \
+        data/variable.cpp \
         main.cpp \
-        motor_status.cpp \
-        ngc_status.cpp \
-        ngc_variable.cpp \
-        singlemarkermodel.cpp \
-        stringvariable.cpp \
-        swamp_motor_status.cpp \
-        swampmodel.cpp \
-        swampstatus.cpp \
-        variable.cpp
+        map_models/geometry.cpp \
+        map_models/singlemarkermodel.cpp \
+        swamp_models/datasource.cpp \
+        swamp_models/swampmodel.cpp \
+        swamp_models/swampstatus.cpp \
 
 RESOURCES += qml.qrc
 
@@ -35,19 +35,19 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    custom_types.h \
-    datasource.h \
-    define.h \
-    doublevariable.h \
-    geometry.h \
-    gps_ahrs_status.h \
-    intvariable.h \
-    motor_status.h \
-    ngc_status.h \
-    ngc_variable.h \
-    singlemarkermodel.h \
-    stringvariable.h \
-    swamp_motor_status.h \
-    swampmodel.h \
-    swampstatus.h \
-    variable.h
+    components/gps_ahrs_status.h \
+    components/motor_status.h \
+    components/ngc_status.h \
+    components/swamp_motor_status.h \
+    data/custom_types.h \
+    data/define.h \
+    data/doublevariable.h \
+    data/intvariable.h \
+    data/ngc_variable.h \
+    data/stringvariable.h \
+    data/variable.h \
+    map_models/geometry.h \
+    map_models/singlemarkermodel.h \
+    swamp_models/datasource.h \
+    swamp_models/swampmodel.h \
+    swamp_models/swampstatus.h \

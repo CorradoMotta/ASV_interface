@@ -2,8 +2,8 @@
 #define NGC_STATUS_H
 
 #include <QObject>
-#include <doublevariable.h>
-#include <ngc_variable.h>
+#include <data/doublevariable.h>
+#include <data/ngc_variable.h>
 
 class NGC_status : public QObject
 {

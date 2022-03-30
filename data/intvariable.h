@@ -2,7 +2,7 @@
 #define INTVARIABLE_H
 
 #include <QObject>
-#include <variable.h>
+#include <data/variable.h>
 
 class IntVariable : public Variable
 {

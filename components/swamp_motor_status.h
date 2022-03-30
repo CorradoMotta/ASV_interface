@@ -2,7 +2,7 @@
 #define SWAMP_MOTOR_STATUS_H
 
 #include <QObject>
-#include <motor_status.h>
+#include <components/motor_status.h>
 
 class Swamp_motor_status : public QObject
 {

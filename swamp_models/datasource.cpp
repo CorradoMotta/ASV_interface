@@ -27,7 +27,7 @@ DataSource::DataSource(QObject *parent)
 }
 
 void DataSource::update(){
-    qDebug() << m_count_timer;
+    //qDebug() << m_count_timer;
     m_count_timer += 10;
     send_timestamp(m_count_timer);
 }

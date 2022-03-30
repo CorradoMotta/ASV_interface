@@ -2,7 +2,7 @@
 #define DOUBLEVARIABLE_H
 
 #include <QObject>
-#include <variable.h>
+#include <data/variable.h>
 
 class DoubleVariable : public Variable
 {

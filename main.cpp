@@ -2,21 +2,21 @@
 #include <QQmlApplicationEngine>
 #include <QDebug>
 #include <QSslSocket>
-#include "singlemarkermodel.h"
+#include "map_models/singlemarkermodel.h"
 #include <QQmlContext>
 #include <QQmlComponent>
-#include "variable.h"
-#include "doublevariable.h"
-#include "intvariable.h"
-#include "stringvariable.h"
-#include "gps_ahrs_status.h"
+#include "data/variable.h"
+#include "data/doublevariable.h"
+#include "data/intvariable.h"
+#include "data/stringvariable.h"
+#include "components/gps_ahrs_status.h"
 #include "QString"
-#include "swampstatus.h"
-#include "datasource.h"
-#include <ngc_status.h>
-#include <motor_status.h>
-#include <swamp_motor_status.h>
-#include <swampmodel.h>
+#include "swamp_models/swampstatus.h"
+#include "swamp_models/datasource.h"
+#include "components/ngc_status.h"
+#include "components/motor_status.h"
+#include "components/swamp_motor_status.h"
+#include "swamp_models/swampmodel.h"
 
 int main(int argc, char *argv[])
 {

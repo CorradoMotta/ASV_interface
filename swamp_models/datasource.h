@@ -11,7 +11,7 @@
 #define DATASOURCE_H
 
 #include <QObject>
-#include <swampstatus.h>
+#include <swamp_models/swampstatus.h>
 #include <QtMqtt/QMqttClient>
 #include <QtMqtt/QMqttSubscription>
 #include <QTimer>

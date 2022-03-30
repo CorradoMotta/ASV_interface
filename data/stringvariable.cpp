@@ -1,5 +1,5 @@
 #include "stringvariable.h"
-#include <variable.h>
+#include <data/variable.h>
 
 StringVariable::StringVariable(QObject *parent)
     : Variable{parent},
