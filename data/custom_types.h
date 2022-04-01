@@ -28,7 +28,6 @@ typedef unsigned short ushort;
 typedef unsigned int   uint;
 typedef unsigned long  ulong;
 
-
 // double <-> int convertion factors
 
 #define IO_factor (100000.0)

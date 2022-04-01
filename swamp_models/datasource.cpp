@@ -68,14 +68,14 @@ void DataSource::handleMessage(const QByteArray &message, const QMqttTopicName &
     if(topic.name() == m_timestamp){
         m_count_timer = value;
         send_timestamp(value);
-    }else if(topic.name() == m_swamp_status.gps_ahrs_status()->latitude()->topic_name()){
+    }/*else if(topic.name() == m_swamp_status.gps_ahrs_status()->latitude()->topic_name()){
         m_swamp_status.gps_ahrs_status()->latitude()->setValue(value);
     }else if(topic.name() == m_swamp_status.gps_ahrs_status()->longitude()->topic_name()){
         m_swamp_status.gps_ahrs_status()->longitude()->setValue(value);
-    }else if(topic.name() == m_swamp_status.ngc_status()->psi()->topic_name()){
+    }*/else if(topic.name() == m_swamp_status.ngc_status()->psi()->topic_name()){
         double r_degree = value * 180 / PI;
         m_swamp_status.ngc_status()->psi()->setValue(r_degree);
-    }
+    }else if(m_double_map.contains(topic.name())) m_double_map[topic.name()]->setValue(value);
 }
 
 void DataSource::send_timestamp(double value) const{
@@ -100,7 +100,9 @@ bool DataSource::read_cfg(QString filename)
     }
 
     QString wrongTopicName = "";
+    QString prefix = "CNR-INM/swamp/";
     QString tn;
+    bool result;
     QMap<QString, QString> topic_map;
     QTextStream in(&file);
 
@@ -120,37 +122,38 @@ bool DataSource::read_cfg(QString filename)
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // NGC and GPS
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    tn = "ngc-pose-psi-act:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn ; else m_swamp_status.ngc_status()->psi()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "GPS-AHRS-latitude:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.gps_ahrs_status()->latitude()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "GPS-AHRS-longitude:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.gps_ahrs_status()->longitude()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "ngc-force-fu-man:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.ngc_status()->fu()->ref()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "ngc-force-fv-man:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.ngc_status()->fv()->ref()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "ngc-force-tr-man:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.ngc_status()->tr()->ref()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    result = set_topic_name("ngc-pose-psi-act:", m_swamp_status.ngc_status()->psi(), topic_map, prefix);
+    result = set_topic_name("GPS-AHRS-latitude:", m_swamp_status.gps_ahrs_status()->latitude() , topic_map, prefix);
+    result = set_topic_name("GPS-AHRS-longitude:", m_swamp_status.gps_ahrs_status()->longitude(), topic_map, prefix);
+    result = set_topic_name("ngc-force-fu-man:", m_swamp_status.ngc_status()->fu()->ref() , topic_map, prefix);
+    result = set_topic_name("ngc-force-fv-man:", m_swamp_status.ngc_status()->fv()->ref() , topic_map, prefix);
+    result = set_topic_name("ngc-force-tr-man:", m_swamp_status.ngc_status()->tr()->ref(), topic_map, prefix);
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // motors
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    tn = "FL-THR-enable-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f1()->thr_enable()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "FL-AZM-enable-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f1()->azm_enable()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "FL-THR-power-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f1()->thr_power()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "FL-AZM-power-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f1()->azm_power()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "FR-THR-enable-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f2()->thr_enable()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "FR-AZM-enable-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f2()->azm_enable()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "FR-THR-power-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f2()->thr_power()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "FR-AZM-power-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f2()->azm_power()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "RL-THR-enable-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f3()->thr_enable()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "RL-AZM-enable-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f3()->azm_enable()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "RL-THR-power-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f3()->thr_power()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "RL-AZM-power-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f3()->azm_power()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "RR-THR-enable-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f4()->thr_enable()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "RR-AZM-enable-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f4()->azm_enable()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "RR-THR-power-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f4()->thr_power()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
-    tn = "RR-AZM-power-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f4()->azm_power()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    result = set_topic_name("FL-THR-enable-command:", m_swamp_status.motor_status()->f1()->thr_enable(), topic_map, prefix);
+    result = set_topic_name("FL-AZM-enable-command:", m_swamp_status.motor_status()->f1()->azm_enable(), topic_map, prefix);
+    result = set_topic_name("FL-THR-power-command:", m_swamp_status.motor_status()->f1()->thr_power(), topic_map, prefix);
+    result = set_topic_name("FL-AZM-power-command:", m_swamp_status.motor_status()->f1()->azm_power(), topic_map, prefix);
+    result = set_topic_name("FR-THR-enable-command:", m_swamp_status.motor_status()->f2()->thr_enable(), topic_map, prefix);
+    result = set_topic_name("FR-AZM-enable-command:", m_swamp_status.motor_status()->f2()->azm_enable(), topic_map, prefix);
+    result = set_topic_name("FR-THR-power-command:", m_swamp_status.motor_status()->f2()->thr_power(), topic_map, prefix);
+    result = set_topic_name("FR-AZM-power-command:", m_swamp_status.motor_status()->f2()->azm_power(), topic_map, prefix);
+    result = set_topic_name("RL-THR-enable-command:", m_swamp_status.motor_status()->f3()->thr_enable(), topic_map, prefix);
+    result = set_topic_name("RL-AZM-enable-command:", m_swamp_status.motor_status()->f3()->azm_enable(), topic_map, prefix);
+    result = set_topic_name("RL-THR-power-command:", m_swamp_status.motor_status()->f3()->thr_power(), topic_map, prefix);
+    result = set_topic_name("RL-AZM-power-command:", m_swamp_status.motor_status()->f3()->azm_power(), topic_map, prefix);
+    result = set_topic_name("RR-THR-enable-command:", m_swamp_status.motor_status()->f4()->azm_enable(), topic_map, prefix);
+    result = set_topic_name("RR-AZM-enable-command:", m_swamp_status.motor_status()->f4()->thr_enable(), topic_map, prefix);
+    result = set_topic_name("RR-AZM-power-command:", m_swamp_status.motor_status()->f4()->azm_power(), topic_map, prefix);
+    result = set_topic_name("RR-THR-power-command:", m_swamp_status.motor_status()->f4()->thr_power(), topic_map, prefix);
 
     if(!wrongTopicName.isEmpty()){
         qDebug() << "Topic named " << wrongTopicName << " is not present in the configuration file or is not spelled properly.";
         return false;
     }
-    return true;
+
+    return result;
 }
 
 bool DataSource::is_connected() const
@@ -169,4 +172,43 @@ void DataSource::set_is_connected(bool newIs_connected)
 SwampStatus *DataSource::swamp_status()
 {
     return &m_swamp_status;
+}
+
+bool DataSource::set_topic_name(QString tn, DoubleVariable *dv, QMap<QString, QString> &topic_map, QString prefix)
+{
+    if(topic_map[tn].isEmpty()){
+        qDebug() << "Topic named " << tn << " is not present in the configuration file or is not spelled properly.";
+        return false;
+    }
+    else{
+        dv->setTopic_name(prefix + topic_map[tn]);
+        m_double_map[prefix+ topic_map[tn]] = dv;
+        return true;
+    }
+}
+
+bool DataSource::set_topic_name(QString tn, IntVariable *iv, QMap<QString, QString> &topic_map, QString prefix)
+{
+    if(topic_map[tn].isEmpty()){
+        qDebug() << "Topic named " << tn << " is not present in the configuration file or is not spelled properly.";
+        return false;
+    }
+    else{
+        iv->setTopic_name(prefix + topic_map[tn]);
+        m_int_map[prefix+ topic_map[tn]] = iv;
+        return true;
+    }
+}
+
+bool DataSource::set_topic_name(QString tn, StringVariable *sv, QMap<QString, QString> &topic_map, QString prefix)
+{
+    if(topic_map[tn].isEmpty()){
+        qDebug() << "Topic named " << tn << " is not present in the configuration file or is not spelled properly.";
+        return false;
+    }
+    else{
+        sv->setTopic_name(prefix + topic_map[tn]);
+        m_string_map[prefix+ topic_map[tn]] = sv;
+        return true;
+    }
 }
