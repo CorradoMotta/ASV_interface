@@ -51,3 +51,7 @@ HEADERS += \
     swamp_models/datasource.h \
     swamp_models/swampmodel.h \
     swamp_models/swampstatus.h \
+
+DISTFILES += \
+    conf/topics.cfg \
+    conf/topics.cfg

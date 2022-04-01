@@ -1,5 +1,6 @@
 #include "datasource.h"
 #include <qlocale.h>
+#include <qfile.h>
 
 DataSource::DataSource(QObject *parent)
     : QObject{parent},
@@ -9,21 +10,11 @@ DataSource::DataSource(QObject *parent)
       m_is_connected{false},
       m_timestamp{""}
 {
-    // set socket info and connections
-    m_client->setPort(1883);
-    m_client->setHostname("10.17.9.20");
-
     m_ground_timestamp.setName("CNR-INM/ground/HMI/timeStamp");
     m_swamp_timestap.setName("CNR-INM/swamp/HMI/timeStamp");
     connect(m_client, &QMqttClient::connected, this, &DataSource::connectionEstablished);
     connect(m_client, &QMqttClient::messageReceived, this, &DataSource::handleMessage);
-
-    //-----------------------------------------------------------------------------------
-    // trigger timer for HMI timestamps
-    //-----------------------------------------------------------------------------------
-
     m_timer->start(100);
-    connect(m_timer, &QTimer::timeout, this, &DataSource::update);
 }
 
 void DataSource::update(){
@@ -36,6 +27,7 @@ void DataSource::setConnection()
 {
     if(!m_is_connected){
         m_client->connectToHost();
+        connect(m_timer, &QTimer::timeout, this, &DataSource::update);
     }else{
         qDebug() << "Disconnecting..";
         m_client->disconnectFromHost();
@@ -92,6 +84,73 @@ void DataSource::send_timestamp(double value) const{
     // TODO name should be read from the cfg?
     m_client->publish(m_ground_timestamp, q_b.setNum(value));
     m_client->publish(m_swamp_timestap, q_b.setNum(value));
+}
+
+// this method read the configuration file and populate all data with their topic names. It also sets
+// port and hostname for the mqtt client
+// return true or false depending on success
+bool DataSource::read_cfg(QString filename)
+{
+    // TODO add a property that only when this is finished i can set up connection.
+    QFile file(filename);
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        qDebug() << "Failed to open file:" << file.fileName() << "Error:" << file.errorString();
+        return false;
+    }
+
+    QString wrongTopicName = "";
+    QString tn;
+    QMap<QString, QString> topic_map;
+    QTextStream in(&file);
+
+    while (!in.atEnd()) {
+        QStringList line = in.readLine().split(QRegExp("\\s+"));
+        if(line.size() == 2){
+            topic_map[line[0].trimmed()] = line[1].trimmed();
+        }
+    }
+
+    // ready to populate my data structs
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    // MQTT
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    tn = "Broker-port:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn ; m_client->setPort(topic_map[tn].toUInt());
+    tn = "Broker-address:";  if(topic_map[tn].isEmpty()) wrongTopicName = tn ;m_client->setHostname(topic_map[tn]);
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    // NGC and GPS
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    tn = "ngc-pose-psi-act:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn ; else m_swamp_status.ngc_status()->psi()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "GPS-AHRS-latitude:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.gps_ahrs_status()->latitude()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "GPS-AHRS-longitude:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.gps_ahrs_status()->longitude()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "ngc-force-fu-man:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.ngc_status()->fu()->ref()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "ngc-force-fv-man:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.ngc_status()->fv()->ref()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "ngc-force-tr-man:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.ngc_status()->tr()->ref()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    // motors
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    tn = "FL-THR-enable-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f1()->thr_enable()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "FL-AZM-enable-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f1()->azm_enable()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "FL-THR-power-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f1()->thr_power()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "FL-AZM-power-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f1()->azm_power()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "FR-THR-enable-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f2()->thr_enable()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "FR-AZM-enable-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f2()->azm_enable()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "FR-THR-power-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f2()->thr_power()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "FR-AZM-power-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f2()->azm_power()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "RL-THR-enable-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f3()->thr_enable()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "RL-AZM-enable-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f3()->azm_enable()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "RL-THR-power-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f3()->thr_power()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "RL-AZM-power-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f3()->azm_power()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "RR-THR-enable-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f4()->thr_enable()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "RR-AZM-enable-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f4()->azm_enable()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "RR-THR-power-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f4()->thr_power()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+    tn = "RR-AZM-power-command:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn; else m_swamp_status.motor_status()->f4()->azm_power()->setTopic_name("CNR-INM/swamp/" + topic_map[tn]);
+
+    if(!wrongTopicName.isEmpty()){
+        qDebug() << "Topic named " << wrongTopicName << " is not present in the configuration file or is not spelled properly.";
+        return false;
+    }
+    return true;
 }
 
 bool DataSource::is_connected() const
