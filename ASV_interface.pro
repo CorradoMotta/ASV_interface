@@ -54,4 +54,4 @@ HEADERS += \
 
 DISTFILES += \
     conf/topics.cfg \
-    conf/topics.txt
+    conf/topics.cfg
