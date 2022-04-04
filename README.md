@@ -43,8 +43,8 @@ int main(int argc, char *argv[])
 The following steps are required for windows in order to install qtmqtt which is not included in the download packages:
 
 * Installing Perl 5.8 https://www.activestate.com/products/perl/
-* Installing cmake 
-* Installing git bash
+* Installing cmake https://cmake.org/download/
+* Installing git bash https://gitforwindows.org/
 *  Open Git bash and go to the folder where you want to download the source code (e.g. on your user or in C folder)
 
 `$ git clone https://code.qt.io/qt/qtmqtt.git` (check on release page if the link is still valid: https://code.qt.io/cgit/qt/qtmqtt.git/)
