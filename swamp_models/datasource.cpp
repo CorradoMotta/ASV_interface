@@ -19,7 +19,7 @@ DataSource::DataSource(QObject *parent)
 
 void DataSource::update(){
     m_count_timer += 10;
-    send_timestamp(m_count_timer);
+    //send_timestamp(m_count_timer);
 }
 
 void DataSource::setConnection()
@@ -37,7 +37,8 @@ void DataSource::setConnection()
 
 void DataSource::publishMessage(const QString &topic, const QString &message)
 {
-    QString value = message + " " +  QString::number(m_count_timer) + " " + "1";
+    int current_timestamp = m_swamp_status.time_status()->timestamp()->value();
+    QString value = message + " " +  QString::number(current_timestamp) + " " + "1";
     m_client->publish(topic, value.toUtf8());
 }
 
@@ -71,8 +72,8 @@ void DataSource::connectionEstablished()
     }
 
     // todo create the right classes for them
-    m_timestamp = "CNR-INM/clock/timeStamp";
-    m_client->subscribe(m_timestamp,0);
+    //m_timestamp = "CNR-INM/clock/timeStamp";
+    //m_client->subscribe(m_timestamp,0);
 
     // set connection true after all subscriptions are made
     set_is_connected(true);
@@ -94,12 +95,10 @@ void DataSource::handleMessage(const QByteArray &message, const QMqttTopicName &
     }
 }
 
-void DataSource::send_timestamp(double value) const{
+void DataSource::send_timestamp(const QString topic, double value) const{
 
     QByteArray q_b;
-    // TODO name should be read from the cfg
-    m_client->publish(m_ground_timestamp, q_b.setNum(value));
-    m_client->publish(m_swamp_timestap, q_b.setNum(value));
+    m_client->publish(topic, q_b.setNum(value));
 }
 
 bool DataSource::read_cfg(QString filename)
@@ -130,6 +129,10 @@ bool DataSource::read_cfg(QString filename)
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     tn = "Broker-port:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn ; m_client->setPort(topic_map[tn].toUInt());
     tn = "Broker-address:";  if(topic_map[tn].isEmpty()) wrongTopicName = tn ;m_client->setHostname(topic_map[tn]);
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    // Timestamp
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    if(!set_topic_name("timeStamp:", m_swamp_status.time_status()->timestamp(), topic_map, "CNR-INM/")) return false;
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // NGC and GPS
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

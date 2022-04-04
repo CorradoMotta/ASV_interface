@@ -41,7 +41,7 @@ public:
     bool is_connected() const;
     void set_is_connected(bool newIs_connected);
     void publish_topic();
-    void send_timestamp(double value) const;
+    void send_timestamp(QString topic,double value) const;
     SwampStatus *swamp_status();
 
     /**

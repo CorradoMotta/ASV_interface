@@ -11,6 +11,7 @@
 #include <components/gps_ahrs_status.h>
 #include <components/ngc_status.h>
 #include <components/swamp_motor_status.h>
+#include <components/timestatus.h>
 
 class SwampStatus : public QObject
 {
@@ -26,6 +27,7 @@ public:
     GPS_AHRS_status *gps_ahrs_status(); //const
     NGC_status *ngc_status();
     Swamp_motor_status *motor_status();
+    TimeStatus *time_status();
 
 signals:
 
@@ -37,6 +39,7 @@ private:
     GPS_AHRS_status m_gps_ahrs_status;
     NGC_status m_ngc_status;
     Swamp_motor_status m_motor_status;
+    TimeStatus m_time_status;
 };
 
 #endif // SWAMPSTATUS_H
