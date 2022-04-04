@@ -3,7 +3,8 @@
 NGC_status::NGC_status(QObject *parent)
     : QObject{parent}
 {
-
+    // do subscribes
+    m_psi.setSubscribe(true);
 }
 
 DoubleVariable *NGC_status::psi()

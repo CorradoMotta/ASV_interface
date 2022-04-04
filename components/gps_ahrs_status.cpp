@@ -4,6 +4,9 @@
 GPS_AHRS_status::GPS_AHRS_status(QObject *parent)
     : QObject{parent}
 {
+    // do subscribes
+    m_longitude.setSubscribe(true);
+    m_latitude.setSubscribe(true);
 }
 
 DoubleVariable *GPS_AHRS_status::longitude()

@@ -18,7 +18,6 @@ DataSource::DataSource(QObject *parent)
 }
 
 void DataSource::update(){
-    //qDebug() << m_count_timer;
     m_count_timer += 10;
     send_timestamp(m_count_timer);
 }
@@ -28,6 +27,7 @@ void DataSource::setConnection()
     if(!m_is_connected){
         m_client->connectToHost();
         connect(m_timer, &QTimer::timeout, this, &DataSource::update);
+
     }else{
         qDebug() << "Disconnecting..";
         m_client->disconnectFromHost();
@@ -38,7 +38,6 @@ void DataSource::setConnection()
 void DataSource::publishMessage(const QString &topic, const QString &message)
 {
     QString value = message + " " +  QString::number(m_count_timer) + " " + "1";
-    qDebug() << "topic: " << topic << "value: " << value;
     m_client->publish(topic, value.toUtf8());
 }
 
@@ -46,10 +45,30 @@ void DataSource::connectionEstablished()
 {
     qDebug() << "Connected!..";
 
-    // do all the subscribes!
-    m_client->subscribe(m_swamp_status.gps_ahrs_status()->latitude()->topic_name(),0);
-    m_client->subscribe(m_swamp_status.gps_ahrs_status()->longitude()->topic_name(),0);
-    m_client->subscribe(m_swamp_status.ngc_status()->psi()->topic_name(),0);
+    // do all the subscribes
+    DoubleMap::iterator dm;
+    for (dm = m_double_map.begin(); dm != m_double_map.end(); ++dm){
+        if(dm.value()->subscribe() == true){
+            qDebug() << "subscribing to:" << dm.key();
+            m_client->subscribe(dm.key(), 0);
+        }
+    }
+
+    IntMap::iterator im;
+    for (im = m_int_map.begin(); im != m_int_map.end(); ++im){
+        if(im.value()->subscribe() == true){
+            qDebug() << "subscribing to:" << im.key();
+            m_client->subscribe(im.key(), 0);
+        }
+    }
+
+    StringMap::iterator sm;
+    for (sm = m_string_map.begin(); sm != m_string_map.end(); ++sm){
+        if(sm.value()->subscribe() == true){
+            qDebug() << "subscribing to:" << sm.key();
+            m_client->subscribe(sm.key(), 0);
+        }
+    }
 
     // todo create the right classes for them
     m_timestamp = "CNR-INM/clock/timeStamp";
@@ -62,33 +81,35 @@ void DataSource::connectionEstablished()
 
 void DataSource::handleMessage(const QByteArray &message, const QMqttTopicName &topic)
 {
-    // to do move the things inside here to a checkMessage method.
-    double value = QString(message).split(QLatin1Char(' '))[0].toDouble();
-
     if(topic.name() == m_timestamp){
+        double value = QString(message).split(QLatin1Char(' '))[0].toDouble();
         m_count_timer = value;
         send_timestamp(value);
-    }/*else if(topic.name() == m_swamp_status.gps_ahrs_status()->latitude()->topic_name()){
-        m_swamp_status.gps_ahrs_status()->latitude()->setValue(value);
-    }else if(topic.name() == m_swamp_status.gps_ahrs_status()->longitude()->topic_name()){
-        m_swamp_status.gps_ahrs_status()->longitude()->setValue(value);
-    }*/else if(topic.name() == m_swamp_status.ngc_status()->psi()->topic_name()){
+    }else if(topic.name() == m_swamp_status.ngc_status()->psi()->topic_name()){
+        double value = QString(message).split(QLatin1Char(' '))[0].toDouble();
         double r_degree = value * 180 / PI;
         m_swamp_status.ngc_status()->psi()->setValue(r_degree);
-    }else if(m_double_map.contains(topic.name())) m_double_map[topic.name()]->setValue(value);
+    }else if(m_double_map.contains(topic.name())){
+        double value = QString(message).split(QLatin1Char(' '))[0].toDouble();
+        m_double_map[topic.name()]->setValue(value);
+    }else if(m_int_map.contains(topic.name())){
+        int value = QString(message).split(QLatin1Char(' '))[0].toInt();
+        m_int_map[topic.name()]->setValue(value);
+    }else if(m_string_map.contains(topic.name())) {
+        // TODO not tested
+        QString value = QString(message).split(QLatin1Char(' '))[0];
+        m_string_map[topic.name()]->setValue(value);
+    }
 }
 
 void DataSource::send_timestamp(double value) const{
 
     QByteArray q_b;
-    // TODO name should be read from the cfg?
+    // TODO name should be read from the cfg
     m_client->publish(m_ground_timestamp, q_b.setNum(value));
     m_client->publish(m_swamp_timestap, q_b.setNum(value));
 }
 
-// this method read the configuration file and populate all data with their topic names. It also sets
-// port and hostname for the mqtt client
-// return true or false depending on success
 bool DataSource::read_cfg(QString filename)
 {
     // TODO add a property that only when this is finished i can set up connection.
@@ -102,7 +123,6 @@ bool DataSource::read_cfg(QString filename)
     QString wrongTopicName = "";
     QString prefix = "CNR-INM/swamp/";
     QString tn;
-    bool result;
     QMap<QString, QString> topic_map;
     QTextStream in(&file);
 
@@ -113,7 +133,6 @@ bool DataSource::read_cfg(QString filename)
         }
     }
 
-    // ready to populate my data structs
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // MQTT
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -122,38 +141,38 @@ bool DataSource::read_cfg(QString filename)
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // NGC and GPS
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    result = set_topic_name("ngc-pose-psi-act:", m_swamp_status.ngc_status()->psi(), topic_map, prefix);
-    result = set_topic_name("GPS-AHRS-latitude:", m_swamp_status.gps_ahrs_status()->latitude() , topic_map, prefix);
-    result = set_topic_name("GPS-AHRS-longitude:", m_swamp_status.gps_ahrs_status()->longitude(), topic_map, prefix);
-    result = set_topic_name("ngc-force-fu-man:", m_swamp_status.ngc_status()->fu()->ref() , topic_map, prefix);
-    result = set_topic_name("ngc-force-fv-man:", m_swamp_status.ngc_status()->fv()->ref() , topic_map, prefix);
-    result = set_topic_name("ngc-force-tr-man:", m_swamp_status.ngc_status()->tr()->ref(), topic_map, prefix);
+    if(!set_topic_name("ngc-pose-psi-act:", m_swamp_status.ngc_status()->psi(), topic_map, prefix)) return false;
+    if(!set_topic_name("GPS-AHRS-latitude:", m_swamp_status.gps_ahrs_status()->latitude() , topic_map, prefix)) return false;
+    if(!set_topic_name("GPS-AHRS-longitude:", m_swamp_status.gps_ahrs_status()->longitude(), topic_map, prefix)) return false;
+    if(!set_topic_name("ngc-force-fu-man:", m_swamp_status.ngc_status()->fu()->ref() , topic_map, prefix)) return false;
+    if(!set_topic_name("ngc-force-fv-man:", m_swamp_status.ngc_status()->fv()->ref() , topic_map, prefix)) return false;
+    if(!set_topic_name("ngc-force-tr-man:", m_swamp_status.ngc_status()->tr()->ref(), topic_map, prefix)) return false;
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    // motors
+    // Motors
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    result = set_topic_name("FL-THR-enable-command:", m_swamp_status.motor_status()->f1()->thr_enable(), topic_map, prefix);
-    result = set_topic_name("FL-AZM-enable-command:", m_swamp_status.motor_status()->f1()->azm_enable(), topic_map, prefix);
-    result = set_topic_name("FL-THR-power-command:", m_swamp_status.motor_status()->f1()->thr_power(), topic_map, prefix);
-    result = set_topic_name("FL-AZM-power-command:", m_swamp_status.motor_status()->f1()->azm_power(), topic_map, prefix);
-    result = set_topic_name("FR-THR-enable-command:", m_swamp_status.motor_status()->f2()->thr_enable(), topic_map, prefix);
-    result = set_topic_name("FR-AZM-enable-command:", m_swamp_status.motor_status()->f2()->azm_enable(), topic_map, prefix);
-    result = set_topic_name("FR-THR-power-command:", m_swamp_status.motor_status()->f2()->thr_power(), topic_map, prefix);
-    result = set_topic_name("FR-AZM-power-command:", m_swamp_status.motor_status()->f2()->azm_power(), topic_map, prefix);
-    result = set_topic_name("RL-THR-enable-command:", m_swamp_status.motor_status()->f3()->thr_enable(), topic_map, prefix);
-    result = set_topic_name("RL-AZM-enable-command:", m_swamp_status.motor_status()->f3()->azm_enable(), topic_map, prefix);
-    result = set_topic_name("RL-THR-power-command:", m_swamp_status.motor_status()->f3()->thr_power(), topic_map, prefix);
-    result = set_topic_name("RL-AZM-power-command:", m_swamp_status.motor_status()->f3()->azm_power(), topic_map, prefix);
-    result = set_topic_name("RR-THR-enable-command:", m_swamp_status.motor_status()->f4()->azm_enable(), topic_map, prefix);
-    result = set_topic_name("RR-AZM-enable-command:", m_swamp_status.motor_status()->f4()->thr_enable(), topic_map, prefix);
-    result = set_topic_name("RR-AZM-power-command:", m_swamp_status.motor_status()->f4()->azm_power(), topic_map, prefix);
-    result = set_topic_name("RR-THR-power-command:", m_swamp_status.motor_status()->f4()->thr_power(), topic_map, prefix);
+    if(!set_topic_name("FL-THR-enable-command:", m_swamp_status.motor_status()->f1()->thr_enable(), topic_map, prefix)) return false;
+    if(!set_topic_name("FL-AZM-enable-command:", m_swamp_status.motor_status()->f1()->azm_enable(), topic_map, prefix)) return false;
+    if(!set_topic_name("FL-THR-power-command:", m_swamp_status.motor_status()->f1()->thr_power(), topic_map, prefix)) return false;
+    if(!set_topic_name("FL-AZM-power-command:", m_swamp_status.motor_status()->f1()->azm_power(), topic_map, prefix)) return false;
+    if(!set_topic_name("FR-THR-enable-command:", m_swamp_status.motor_status()->f2()->thr_enable(), topic_map, prefix)) return false;
+    if(!set_topic_name("FR-AZM-enable-command:", m_swamp_status.motor_status()->f2()->azm_enable(), topic_map, prefix)) return false;
+    if(!set_topic_name("FR-THR-power-command:", m_swamp_status.motor_status()->f2()->thr_power(), topic_map, prefix)) return false;
+    if(!set_topic_name("FR-AZM-power-command:", m_swamp_status.motor_status()->f2()->azm_power(), topic_map, prefix)) return false;
+    if(!set_topic_name("RL-THR-enable-command:", m_swamp_status.motor_status()->f3()->thr_enable(), topic_map, prefix)) return false;
+    if(!set_topic_name("RL-AZM-enable-command:", m_swamp_status.motor_status()->f3()->azm_enable(), topic_map, prefix)) return false;
+    if(!set_topic_name("RL-THR-power-command:", m_swamp_status.motor_status()->f3()->thr_power(), topic_map, prefix)) return false;
+    if(!set_topic_name("RL-AZM-power-command:", m_swamp_status.motor_status()->f3()->azm_power(), topic_map, prefix)) return false;
+    if(!set_topic_name("RR-THR-enable-command:", m_swamp_status.motor_status()->f4()->azm_enable(), topic_map, prefix)) return false;
+    if(!set_topic_name("RR-AZM-enable-command:", m_swamp_status.motor_status()->f4()->thr_enable(), topic_map, prefix)) return false;
+    if(!set_topic_name("RR-AZM-power-command:", m_swamp_status.motor_status()->f4()->azm_power(), topic_map, prefix)) return false;
+    if(!set_topic_name("RR-THR-power-command:", m_swamp_status.motor_status()->f4()->thr_power(), topic_map, prefix)) return false;
 
     if(!wrongTopicName.isEmpty()){
         qDebug() << "Topic named " << wrongTopicName << " is not present in the configuration file or is not spelled properly.";
         return false;
     }
 
-    return result;
+    return true;
 }
 
 bool DataSource::is_connected() const
@@ -182,7 +201,7 @@ bool DataSource::set_topic_name(QString tn, DoubleVariable *dv, QMap<QString, QS
     }
     else{
         dv->setTopic_name(prefix + topic_map[tn]);
-        m_double_map[prefix+ topic_map[tn]] = dv;
+        m_double_map[prefix + topic_map[tn]] = dv;
         return true;
     }
 }
@@ -195,7 +214,7 @@ bool DataSource::set_topic_name(QString tn, IntVariable *iv, QMap<QString, QStri
     }
     else{
         iv->setTopic_name(prefix + topic_map[tn]);
-        m_int_map[prefix+ topic_map[tn]] = iv;
+        m_int_map[prefix + topic_map[tn]] = iv;
         return true;
     }
 }

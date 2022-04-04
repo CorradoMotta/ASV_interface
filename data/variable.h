@@ -19,7 +19,7 @@ class Variable : public QObject
     Q_PROPERTY(QString topic_name READ topic_name WRITE setTopic_name NOTIFY topic_nameChanged)
     Q_PROPERTY(int updated READ updated WRITE setUpdated NOTIFY updatedChanged)
     Q_PROPERTY(int valid READ valid WRITE setValid NOTIFY validChanged)
-    // TODO i am not passing the timestamp here.
+    Q_PROPERTY(bool subscribe READ subscribe WRITE setSubscribe NOTIFY subscribeChanged)
 
 public:
 
@@ -32,16 +32,17 @@ public:
     void setUpdated(int newUpdated);
     int valid() const;
     void setValid(int newValid);
-
     void setTimeStamp(uint64 newTimeStamp);
-
     uint64 timeStamp() const;
+    bool subscribe() const;
+    void setSubscribe(bool newSubscribe);
 
 signals:
 
     void topic_nameChanged();
     void updatedChanged();
     void validChanged();
+    void subscribeChanged();
 
 private:
 
@@ -49,7 +50,7 @@ private:
     int m_updated;
     int m_valid;
     uint64 m_timeStamp;
-
+    bool m_subscribe;
 };
 
 #endif // VARIABLE_H
