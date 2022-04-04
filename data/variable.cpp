@@ -5,7 +5,8 @@ Variable::Variable(QObject *parent)
       m_topic_name{""},
       m_updated{0},
       m_valid{0},
-      m_timeStamp{0}
+      m_timeStamp{0},
+      m_subscribe{false}
 {
 }
 
@@ -61,4 +62,17 @@ void Variable::setTimeStamp(uint64 newTimeStamp)
 uint64 Variable::timeStamp() const
 {
     return m_timeStamp;
+}
+
+bool Variable::subscribe() const
+{
+    return m_subscribe;
+}
+
+void Variable::setSubscribe(bool newSubscribe)
+{
+    if (m_subscribe == newSubscribe)
+        return;
+    m_subscribe = newSubscribe;
+    emit subscribeChanged();
 }
