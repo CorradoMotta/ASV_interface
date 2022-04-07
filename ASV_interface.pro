@@ -9,7 +9,7 @@ SOURCES += \
         components/motor_status.cpp \
         components/ngc_status.cpp \
         components/swamp_motor_status.cpp \
-        components/timestatus.cpp \
+        components/time_status.cpp \
         data/doublevariable.cpp \
         data/intvariable.cpp \
         data/ngc_variable.cpp \
@@ -40,7 +40,7 @@ HEADERS += \
     components/motor_status.h \
     components/ngc_status.h \
     components/swamp_motor_status.h \
-    components/timestatus.h \
+    components/time_status.h \
     data/custom_types.h \
     data/define.h \
     data/doublevariable.h \
