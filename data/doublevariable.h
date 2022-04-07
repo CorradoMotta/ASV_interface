@@ -20,6 +20,7 @@ public:
     void setValue(double newValue);
     double std() const;
     void setStd(double newStd);
+    void fromString(QString s) override;
 
 signals:
 

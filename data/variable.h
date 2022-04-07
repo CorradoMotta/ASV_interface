@@ -36,6 +36,7 @@ public:
     uint64 timeStamp() const;
     bool subscribe() const;
     void setSubscribe(bool newSubscribe);
+    virtual void fromString(QString s) = 0;
 
 signals:
 
@@ -49,7 +50,7 @@ private:
     QString m_topic_name;
     int m_updated;
     int m_valid;
-    uint64 m_timeStamp;
+    double m_timeStamp;
     bool m_subscribe;
 };
 

@@ -14,6 +14,7 @@ public:
 
     const QString &value() const;
     void setValue(const QString &newValue);
+    void fromString(QString s) override;
 
 signals:
 

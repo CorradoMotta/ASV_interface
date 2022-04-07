@@ -32,3 +32,15 @@ void DoubleVariable::setStd(double newStd)
     m_std = newStd;
     emit stdChanged();
 }
+
+void DoubleVariable::fromString(QString s)
+{
+    s = s.trimmed();
+    QStringList lString = s.split(QLatin1Char(' '));
+
+    setValue(lString[0].toDouble());
+    if(lString.size()>=2) setTimeStamp(lString[1].toDouble());
+    if(lString.size()>=3) setValid(lString[2].toInt());
+    if(lString.size()>=4) setStd(lString[3].toDouble());
+    //TODO updated member might be useless for us
+}

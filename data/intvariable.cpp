@@ -19,3 +19,13 @@ void IntVariable::setValue(int newValue)
     m_value = newValue;
     emit valueChanged();
 }
+
+void IntVariable::fromString(QString s)
+{
+    s = s.trimmed();
+    QStringList lString = s.split(QLatin1Char(' '));
+
+    setValue(lString[0].toInt());
+    if(lString.size()>=2) setTimeStamp(lString[1].toDouble());
+    if(lString.size()>=3) setValid(lString[2].toInt());
+}
