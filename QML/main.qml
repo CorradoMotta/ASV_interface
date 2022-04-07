@@ -13,10 +13,15 @@ ApplicationWindow {
     height: 850
     visible: true
     title: qsTr("Swamp interface")
+    property double pi_value: 3.1415926535
     property bool connected: false
     property bool startUp: true
-    //property mapPlugin
     property double timestamp: 0
+
+    function convertToRadiant(value) {
+        var value_in_radiant = value * 180 / pi_value
+        return value_in_radiant
+    }
 
     onStartUpChanged: navigation_map.center =
                       QtPositioning.coordinate(navigation_map.lat, navigation_map.lon)

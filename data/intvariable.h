@@ -14,6 +14,7 @@ public:
 
     int value() const;
     void setValue(int newValue);
+    void fromString(QString s) override;
 
 signals:
 

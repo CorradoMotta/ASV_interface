@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     SwampModel data_model;
     QQmlApplicationEngine engine;
     DataSource *dataSource = new DataSource(&data_model);
-
+    //qDebug() << QGuiApplication::applicationPid ();
     bool sourceIsValid = dataSource->read_cfg("../ASV_interface/conf/topics.cfg");
     if(! sourceIsValid) exit(-1);
 

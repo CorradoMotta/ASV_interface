@@ -85,20 +85,12 @@ void DataSource::handleMessage(const QByteArray &message, const QMqttTopicName &
         double value = QString(message).split(QLatin1Char(' '))[0].toDouble();
         m_count_timer = value;
         send_timestamp(value);
-    }else if(topic.name() == m_swamp_status.ngc_status()->psi()->topic_name()){
-        double value = QString(message).split(QLatin1Char(' '))[0].toDouble();
-        double r_degree = value * 180 / PI;
-        m_swamp_status.ngc_status()->psi()->setValue(r_degree);
     }else if(m_double_map.contains(topic.name())){
-        double value = QString(message).split(QLatin1Char(' '))[0].toDouble();
-        m_double_map[topic.name()]->setValue(value);
+        m_double_map[topic.name()]->fromString(QString(message));
     }else if(m_int_map.contains(topic.name())){
-        int value = QString(message).split(QLatin1Char(' '))[0].toInt();
-        m_int_map[topic.name()]->setValue(value);
-    }else if(m_string_map.contains(topic.name())) {
-        // TODO not tested
-        QString value = QString(message).split(QLatin1Char(' '))[0];
-        m_string_map[topic.name()]->setValue(value);
+        m_int_map[topic.name()]->fromString(QString(message));
+    }else if(m_string_map.contains(topic.name())) {        // TODO not tested
+        m_string_map[topic.name()]->fromString(QString(message));
     }
 }
 

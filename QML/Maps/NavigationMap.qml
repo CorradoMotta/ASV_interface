@@ -10,13 +10,12 @@ Map {
     plugin: MapBoxPlugin {}
     property real lat: data_model.data_source.swamp_status.gps_ahrs_status.latitude.value
     property real lon: data_model.data_source.swamp_status.gps_ahrs_status.longitude.value
-    property real v_rotation : data_model.data_source.swamp_status.ngc_status.psi.value
+    property real v_rotation : root.convertToRadiant(data_model.data_source.swamp_status.ngc_status.psi.value)
     property var initialCoordinates: QtPositioning.coordinate(lat, lon)
 
     onLatChanged: lon !=0 ? root.startUp = false: ""
     onLonChanged: lat !=0 ? root.startUp = false: ""
     activeMapType: supportedMapTypes[0]
-    //minimumZoomLevel: 8
     copyrightsVisible: false
 
     function setActiveMap(index) {
