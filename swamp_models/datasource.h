@@ -41,7 +41,6 @@ public:
     bool is_connected() const;
     void set_is_connected(bool newIs_connected);
     void publish_topic();
-    void send_timestamp(double value) const;
     SwampStatus *swamp_status();
 
     /**
@@ -65,6 +64,7 @@ public:
     bool set_topic_name(QString tn, DoubleVariable *dv, QMap<QString, QString> &topic_map, QString prefix);
     bool set_topic_name(QString tn, IntVariable *iv, QMap<QString, QString> &topic_map, QString prefix);
     bool set_topic_name(QString tn, StringVariable *sv, QMap<QString, QString> &topic_map, QString prefix);
+    void send_new_timestamp(double value);
 
 signals:
 
@@ -75,7 +75,8 @@ private slots:
 
     void connectionEstablished();
     void handleMessage(const QByteArray &message, const QMqttTopicName &topic = QMqttTopicName());
-    void update();
+    void update_ts_from_local();
+    void update_ts_from_vehicle();
 
 private:
 
@@ -87,10 +88,6 @@ private:
     double m_count_timer;
     QMqttClient *m_client;
     bool m_is_connected;
-    QString m_timestamp;
-    double m_timestamp_value;
-    QMqttTopicName m_ground_timestamp;
-    QMqttTopicName m_swamp_timestap;
     SwampStatus m_swamp_status;
 };
 

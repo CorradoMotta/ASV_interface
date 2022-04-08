@@ -7,27 +7,32 @@ DataSource::DataSource(QObject *parent)
       m_timer{new QTimer(this)},
       m_count_timer{0},
       m_client{new QMqttClient(this)},
-      m_is_connected{false},
-      m_timestamp{""}
+      m_is_connected{false}
 {
-    m_ground_timestamp.setName("CNR-INM/ground/HMI/timeStamp");
-    m_swamp_timestap.setName("CNR-INM/swamp/HMI/timeStamp");
     connect(m_client, &QMqttClient::connected, this, &DataSource::connectionEstablished);
     connect(m_client, &QMqttClient::messageReceived, this, &DataSource::handleMessage);
     m_timer->start(100);
 }
 
-void DataSource::update(){
-    m_count_timer += 10;
-    send_timestamp(m_count_timer);
+void DataSource::update_ts_from_local(){
+    m_count_timer += 100;  // TODO CHANGE THIS?
+    send_new_timestamp(m_count_timer);
+}
+
+void DataSource::update_ts_from_vehicle(){
+    send_new_timestamp(m_swamp_status.time_status()->timestamp()->value());
+}
+
+void DataSource::send_new_timestamp(double value){
+    QString str_value = QString::number(value);
+    m_client->publish(m_swamp_status.time_status()->hmi_timestamp()->topic_name(), str_value.toUtf8());
 }
 
 void DataSource::setConnection()
 {
     if(!m_is_connected){
         m_client->connectToHost();
-        connect(m_timer, &QTimer::timeout, this, &DataSource::update);
-
+        connect(m_timer, &QTimer::timeout, this, &DataSource::update_ts_from_local); //start sending heartbeat
     }else{
         qDebug() << "Disconnecting..";
         m_client->disconnectFromHost();
@@ -37,7 +42,8 @@ void DataSource::setConnection()
 
 void DataSource::publishMessage(const QString &topic, const QString &message)
 {
-    QString value = message + " " +  QString::number(m_count_timer) + " " + "1";
+    int current_timestamp = m_swamp_status.time_status()->timestamp()->value();
+    QString value = message + " " +  QString::number(current_timestamp) + " " + "1";
     m_client->publish(topic, value.toUtf8());
 }
 
@@ -70,22 +76,17 @@ void DataSource::connectionEstablished()
         }
     }
 
-    // todo create the right classes for them
-    m_timestamp = "CNR-INM/clock/timeStamp";
-    m_client->subscribe(m_timestamp,0);
-
-    // set connection true after all subscriptions are made
+    // connect timestamps
+    connect(m_swamp_status.time_status()->timestamp(), &DoubleVariable::valueChanged,
+            this, &DataSource::update_ts_from_vehicle);
     set_is_connected(true);
-    if(m_timer->isActive()) m_timer->stop();
 }
 
 void DataSource::handleMessage(const QByteArray &message, const QMqttTopicName &topic)
 {
-    if(topic.name() == m_timestamp){
-        double value = QString(message).split(QLatin1Char(' '))[0].toDouble();
-        m_count_timer = value;
-        send_timestamp(value);
-    }else if(m_double_map.contains(topic.name())){
+    if(m_timer->isActive()) m_timer->stop();
+
+    if(m_double_map.contains(topic.name())){
         m_double_map[topic.name()]->fromString(QString(message));
     }else if(m_int_map.contains(topic.name())){
         m_int_map[topic.name()]->fromString(QString(message));
@@ -94,17 +95,8 @@ void DataSource::handleMessage(const QByteArray &message, const QMqttTopicName &
     }
 }
 
-void DataSource::send_timestamp(double value) const{
-
-    QByteArray q_b;
-    // TODO name should be read from the cfg
-    m_client->publish(m_ground_timestamp, q_b.setNum(value));
-    m_client->publish(m_swamp_timestap, q_b.setNum(value));
-}
-
 bool DataSource::read_cfg(QString filename)
 {
-    // TODO add a property that only when this is finished i can set up connection.
     QFile file(filename);
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
@@ -129,7 +121,12 @@ bool DataSource::read_cfg(QString filename)
     // MQTT
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     tn = "Broker-port:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn ; m_client->setPort(topic_map[tn].toUInt());
-    tn = "Broker-address:";  if(topic_map[tn].isEmpty()) wrongTopicName = tn ;m_client->setHostname(topic_map[tn]);
+    tn = "Broker-address:";  if(topic_map[tn].isEmpty()) wrongTopicName = tn ; m_client->setHostname(topic_map[tn]);
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    // Timestamp
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    if(!set_topic_name("timeStamp:", m_swamp_status.time_status()->timestamp(), topic_map, "CNR-INM/")) return false;
+    if(!set_topic_name("HMI-Robot-timeStamp:", m_swamp_status.time_status()->hmi_timestamp(), topic_map, prefix)) return false;
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // NGC and GPS
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

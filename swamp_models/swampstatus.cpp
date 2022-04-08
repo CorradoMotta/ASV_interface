@@ -20,3 +20,8 @@ Swamp_motor_status *SwampStatus::motor_status()
 {
     return &m_motor_status;
 }
+
+Time_status *SwampStatus::time_status()
+{
+    return &m_time_status;
+}

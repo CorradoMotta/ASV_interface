@@ -9,6 +9,7 @@ SOURCES += \
         components/motor_status.cpp \
         components/ngc_status.cpp \
         components/swamp_motor_status.cpp \
+        components/time_status.cpp \
         data/doublevariable.cpp \
         data/intvariable.cpp \
         data/ngc_variable.cpp \
@@ -19,7 +20,7 @@ SOURCES += \
         map_models/singlemarkermodel.cpp \
         swamp_models/datasource.cpp \
         swamp_models/swampmodel.cpp \
-        swamp_models/swampstatus.cpp \
+        swamp_models/swampstatus.cpp
 
 RESOURCES += qml.qrc
 
@@ -39,6 +40,7 @@ HEADERS += \
     components/motor_status.h \
     components/ngc_status.h \
     components/swamp_motor_status.h \
+    components/time_status.h \
     data/custom_types.h \
     data/define.h \
     data/doublevariable.h \
@@ -50,7 +52,7 @@ HEADERS += \
     map_models/singlemarkermodel.h \
     swamp_models/datasource.h \
     swamp_models/swampmodel.h \
-    swamp_models/swampstatus.h \
+    swamp_models/swampstatus.h
 
 DISTFILES += \
     conf/topics.cfg \

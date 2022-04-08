@@ -23,8 +23,11 @@ ApplicationWindow {
         return value_in_radiant
     }
 
-    onStartUpChanged: navigation_map.center =
+    onStartUpChanged:{
+        navigation_map.zoomLevel = 18
+        navigation_map.center =
                       QtPositioning.coordinate(navigation_map.lat, navigation_map.lon)
+    }
 
     menuBar: CustomMenuBar {}
 
