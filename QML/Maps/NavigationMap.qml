@@ -3,6 +3,8 @@ import QtPositioning 5.15
 import QtLocation 5.15
 import QtQuick.Layouts 1.11
 import "../BasicItems"
+import "../Panels"
+
 Map {
     id: navigation_map
     //anchors.fill: parent
@@ -51,8 +53,13 @@ Map {
         anchors.fill: parent
         onPressAndHold: console.log("released")
         onClicked: {
-            var crd = navigation_map.toCoordinate(Qt.point(mouseX, mouseY))
-            mivMarker.model.insertCoordinate(mivMarker.model.index, crd)
+            if(draw_panel.provaActive === BoxDrawPanel.ActiveBox.Marker){
+                var crd = navigation_map.toCoordinate(Qt.point(mouseX, mouseY))
+                mivMarker.model.insertCoordinate(mivMarker.model.index, crd)
+            } else if(draw_panel.provaActive === BoxDrawPanel.ActiveBox.Rectangle)
+                console.log("Not implemented yet!")
+            else if(draw_panel.provaActive === BoxDrawPanel.ActiveBox.Line)
+                console.log("Not implemented yet!")
         }
     }
 
@@ -60,30 +67,7 @@ Map {
         id: recenter
     }
 
-    ColumnLayout{
-    anchors.right: parent.right
-    anchors.bottom: parent.bottom
-    anchors.rightMargin: 20
-    anchors.bottomMargin: 20
-
-    BoxDrawItem{
-        clip: true
-        id: rectangle_box_item
-        Layout.preferredHeight: pre_heigth
-        Layout.preferredWidth: pre_width
-        source: "../../Images/rect_box.png"
-    }
-    BoxDrawItem{
-        id: rectangle_marker_item
-        Layout.preferredHeight: pre_heigth
-        Layout.preferredWidth: pre_width
-        source: "../../Images/marker_box.png"
-    }
-    BoxDrawItem{
-        id: rectangle_list_item
-        Layout.preferredHeight: pre_heigth
-        Layout.preferredWidth: pre_width
-        source: "../../Images/line_box.png"
-    }
+    BoxDrawPanel{
+        id: draw_panel
     }
 }

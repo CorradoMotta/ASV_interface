@@ -7,6 +7,7 @@ import QtQuick.Controls 2.15
 import "BasicItems"
 import "Maps"
 import "Panels"
+
 ApplicationWindow {
     id: root
     width: 1410
