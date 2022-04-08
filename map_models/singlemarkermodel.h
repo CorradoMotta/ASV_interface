@@ -17,10 +17,12 @@ public:
     int rowCount(const QModelIndex& parent) const override;
     QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const override;
     QHash<int, QByteArray> roleNames() const override;
+    Q_INVOKABLE void insertCoordinate(QGeoCoordinate coordinate);
+    Q_INVOKABLE void removeCoordinate(int index);
 
 public slots:
     // this seems to be a QINVOKABLE more then a slot?
-    void insertCoordinate(int row, QGeoCoordinate coordinate);
+
 
 private: //members
     QVector<QGeoCoordinate> coords;

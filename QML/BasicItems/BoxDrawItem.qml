@@ -26,7 +26,7 @@ Item {
 
             onClicked: {
                 if (!boxRectangle.isActive) {
-                    if(box_draw_panel.provaActive === BoxDrawPanel.ActiveBox.None)
+                    if(box_draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.None)
                         boxRectangle.isActive = true
                 } else
                     boxRectangle.isActive = false

@@ -33,33 +33,59 @@ Map {
         activeMapType = supportedMapTypes[index]
     }
 
+    MouseArea {
+        id: navigation_mouse_area
+        anchors.fill: parent
+        onClicked: {
+            var crd = navigation_map.toCoordinate(Qt.point(mouseX, mouseY))
+            if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
+                mivMarker.model.insertCoordinate(crd)
+            else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Rectangle)
+               console.log("Not implemented yet!")
+            else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
+                mivLine.model.insertCoordinate(crd)
+                mapPoly.addCoordinate(crd)
+            }
+        }
+    }
+
     VehicleMapItem {
         id: swamp_icon
         rotation: v_rotation
         coordinate:  QtPositioning.coordinate(lat, lon)
     }
 
+    // model for single markers
     MapItemView {
         id: mivMarker
         model: _marker_model // defined in c++
         delegate: DelegateSingleMarker {
+            id: my_marker_delegate
             coordinate: QtPositioning.coordinate(model.coordinate.latitude,
                                                  model.coordinate.longitude)
+            is_enable: draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker? true : false
         }
     }
 
-    MouseArea {
-        id: navigation_mouse_area
-        anchors.fill: parent
-        onPressAndHold: console.log("released")
-        onClicked: {
-            if(draw_panel.provaActive === BoxDrawPanel.ActiveBox.Marker){
-                var crd = navigation_map.toCoordinate(Qt.point(mouseX, mouseY))
-                mivMarker.model.insertCoordinate(mivMarker.model.index, crd)
-            } else if(draw_panel.provaActive === BoxDrawPanel.ActiveBox.Rectangle)
-                console.log("Not implemented yet!")
-            else if(draw_panel.provaActive === BoxDrawPanel.ActiveBox.Line)
-                console.log("Not implemented yet!")
+    // model for lines
+    MapPolyline {
+        id: mapPoly
+        line.width: 3
+        line.color: 'red'
+        MouseArea{
+            drag.target: mapPoly
+        }
+
+    }
+
+    MapItemView {
+        id: mivLine
+        model: _line_model // defined in c++
+        delegate: DelegateLineGeometry {
+            id: my_line_delegate
+            coordinate: QtPositioning.coordinate(model.coordinate.latitude,
+                                                 model.coordinate.longitude)
+            //is_enable: draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line? true : false
         }
     }
 

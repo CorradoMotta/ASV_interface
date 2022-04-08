@@ -10,7 +10,7 @@ Item {
     anchors.bottomMargin: 20
     implicitHeight: cl.implicitHeight
     implicitWidth: cl.implicitWidth
-    property int provaActive : activeBox.None
+    property int draw_item_is_active : BoxDrawPanel.ActiveBox.None
 
     enum ActiveBox {
         None,
@@ -28,7 +28,7 @@ Item {
             Layout.preferredHeight: pre_heigth
             Layout.preferredWidth: pre_width
             source: "../../Images/rect_box.png"
-            onIsActiveChanged: isActive? provaActive = BoxDrawPanel.ActiveBox.Rectangle : provaActive = BoxDrawPanel.ActiveBox.None
+            onIsActiveChanged: isActive? draw_item_is_active = BoxDrawPanel.ActiveBox.Rectangle : draw_item_is_active = BoxDrawPanel.ActiveBox.None
         }
         BoxDrawItem{
             id: rectangle_marker_item
@@ -36,14 +36,14 @@ Item {
             Layout.preferredHeight: pre_heigth
             Layout.preferredWidth: pre_width
             source: "../../Images/marker_box.png"
-            onIsActiveChanged: isActive? provaActive = BoxDrawPanel.ActiveBox.Marker : provaActive = BoxDrawPanel.ActiveBox.None
+            onIsActiveChanged: isActive? draw_item_is_active = BoxDrawPanel.ActiveBox.Marker : draw_item_is_active = BoxDrawPanel.ActiveBox.None
         }
         BoxDrawItem{
             id: rectangle_list_item
             Layout.preferredHeight: pre_heigth
             Layout.preferredWidth: pre_width
             source: "../../Images/line_box.png"
-            onIsActiveChanged: isActive? provaActive = BoxDrawPanel.ActiveBox.Line : provaActive = BoxDrawPanel.ActiveBox.None
+            onIsActiveChanged: isActive? draw_item_is_active = BoxDrawPanel.ActiveBox.Line : draw_item_is_active = BoxDrawPanel.ActiveBox.None
         }
     }
 }

@@ -27,5 +27,6 @@
         <file>QML/main.qml</file>
         <file>QML/Maps/MapBoxPlugin.qml</file>
         <file>QML/Panels/BoxDrawPanel.qml</file>
+        <file>QML/Maps/DelegateLineGeometry.qml</file>
     </qresource>
 </RCC>
