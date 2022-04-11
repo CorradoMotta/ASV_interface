@@ -35,6 +35,30 @@ QHash<int, QByteArray> SingleMarkerModel::roleNames() const
     return mapping;
 }
 
+bool SingleMarkerModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    // TODO this is not working yet.
+    const QGeoCoordinate &coordinate = value.value<QGeoCoordinate>();
+    bool somethingChanged = false;
+
+    if(role == Coordinates){
+        qDebug() << "replacing coordinates" << index.row() << ": " << coordinate.longitude() << " , " << coordinate.latitude();
+        coords.replace(index.row(), coordinate);
+        somethingChanged = true;
+    }
+
+    if(somethingChanged)
+        return true;
+    return false;
+}
+
+Qt::ItemFlags SingleMarkerModel::flags(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return Qt::NoItemFlags;
+    return Qt::ItemIsEditable;
+}
+
 void SingleMarkerModel::insertCoordinate(QGeoCoordinate coordinate){
     const int index = coords.size();
     beginInsertRows(QModelIndex(), index, index);

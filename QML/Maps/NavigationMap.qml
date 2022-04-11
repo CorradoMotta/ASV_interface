@@ -37,6 +37,7 @@ Map {
         id: navigation_mouse_area
         anchors.fill: parent
         onClicked: {
+            // TODO. I should use coordinate member of QuickMapItem element. It looks more accurate.
             var crd = navigation_map.toCoordinate(Qt.point(mouseX, mouseY))
             if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
                 mivMarker.model.insertCoordinate(crd)
@@ -45,6 +46,7 @@ Map {
             else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
                 mivLine.model.insertCoordinate(crd)
                 mapPoly.addCoordinate(crd)
+                console.log("new coordinates: Lon: " + crd.longitude  + " , Lat:" + crd.latitude)
             }
         }
     }
@@ -70,12 +72,11 @@ Map {
     // model for lines
     MapPolyline {
         id: mapPoly
-        line.width: 3
+        line.width: 2.5
         line.color: 'red'
         MouseArea{
             drag.target: mapPoly
         }
-
     }
 
     MapItemView {
@@ -85,7 +86,7 @@ Map {
             id: my_line_delegate
             coordinate: QtPositioning.coordinate(model.coordinate.latitude,
                                                  model.coordinate.longitude)
-            //is_enable: draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line? true : false
+            is_enable: draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line? true : false
         }
     }
 
