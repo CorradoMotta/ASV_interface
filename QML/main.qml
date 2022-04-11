@@ -7,6 +7,7 @@ import QtQuick.Controls 2.15
 import "BasicItems"
 import "Maps"
 import "Panels"
+
 ApplicationWindow {
     id: root
     width: 1410
@@ -39,12 +40,9 @@ ApplicationWindow {
             // move to custom item
             id: navigation_map
 
-            //Layout.preferredWidth: 1000
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.topMargin: 10
-            //Layout.bottom: root.bottom
-            //rotation: force_slider_panel.rotation_value
         }
 
         Item {
@@ -52,7 +50,6 @@ ApplicationWindow {
             id: rect
 
             Layout.preferredWidth: 400
-            //Layout.fillWidth: true
             Layout.preferredHeight: 800
             Layout.topMargin: 10
             ColumnLayout {
@@ -86,7 +83,6 @@ ApplicationWindow {
                         text: data_model.data_source.is_connected ? "disconnect" : "connect"
                         font.family: "Helvetica"
                         font.pointSize: 18
-                        //opacity: connect_button.connect ? 1.0 : 0.3
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                     }

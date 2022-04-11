@@ -3,6 +3,8 @@ import QtPositioning 5.15
 import QtLocation 5.15
 import QtQuick.Layouts 1.11
 import "../BasicItems"
+import "../Panels"
+
 Map {
     id: navigation_map
     //anchors.fill: parent
@@ -31,28 +33,60 @@ Map {
         activeMapType = supportedMapTypes[index]
     }
 
+    MouseArea {
+        id: navigation_mouse_area
+        anchors.fill: parent
+        onClicked: {
+            // TODO. I should use coordinate member of QuickMapItem element. It looks more accurate.
+            var crd = navigation_map.toCoordinate(Qt.point(mouseX, mouseY))
+            if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
+                mivMarker.model.insertCoordinate(crd)
+            else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Rectangle)
+               console.log("Not implemented yet!")
+            else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
+                mivLine.model.insertCoordinate(crd)
+                mapPoly.addCoordinate(crd)
+                console.log("new coordinates: Lon: " + crd.longitude  + " , Lat:" + crd.latitude)
+            }
+        }
+    }
+
     VehicleMapItem {
         id: swamp_icon
         rotation: v_rotation
         coordinate:  QtPositioning.coordinate(lat, lon)
     }
 
+    // model for single markers
     MapItemView {
         id: mivMarker
         model: _marker_model // defined in c++
         delegate: DelegateSingleMarker {
+            id: my_marker_delegate
             coordinate: QtPositioning.coordinate(model.coordinate.latitude,
                                                  model.coordinate.longitude)
+            is_enable: draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker? true : false
         }
     }
 
-    MouseArea {
-        id: navigation_mouse_area
-        anchors.fill: parent
-        onPressAndHold: console.log("released")
-        onClicked: {
-            var crd = navigation_map.toCoordinate(Qt.point(mouseX, mouseY))
-            mivMarker.model.insertCoordinate(mivMarker.model.index, crd)
+    // model for lines
+    MapPolyline {
+        id: mapPoly
+        line.width: 2.5
+        line.color: 'red'
+        MouseArea{
+            drag.target: mapPoly
+        }
+    }
+
+    MapItemView {
+        id: mivLine
+        model: _line_model // defined in c++
+        delegate: DelegateLineGeometry {
+            id: my_line_delegate
+            coordinate: QtPositioning.coordinate(model.coordinate.latitude,
+                                                 model.coordinate.longitude)
+            is_enable: draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line? true : false
         }
     }
 
@@ -60,30 +94,7 @@ Map {
         id: recenter
     }
 
-    ColumnLayout{
-    anchors.right: parent.right
-    anchors.bottom: parent.bottom
-    anchors.rightMargin: 20
-    anchors.bottomMargin: 20
-
-    BoxDrawItem{
-        clip: true
-        id: rectangle_box_item
-        Layout.preferredHeight: pre_heigth
-        Layout.preferredWidth: pre_width
-        source: "../../Images/rect_box.png"
-    }
-    BoxDrawItem{
-        id: rectangle_marker_item
-        Layout.preferredHeight: pre_heigth
-        Layout.preferredWidth: pre_width
-        source: "../../Images/marker_box.png"
-    }
-    BoxDrawItem{
-        id: rectangle_list_item
-        Layout.preferredHeight: pre_heigth
-        Layout.preferredWidth: pre_width
-        source: "../../Images/line_box.png"
-    }
+    BoxDrawPanel{
+        id: draw_panel
     }
 }

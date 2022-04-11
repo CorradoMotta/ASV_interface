@@ -25,7 +25,8 @@ int main(int argc, char *argv[])
 #endif
     QGuiApplication app(argc, argv);
 
-    SingleMarkerModel model;
+    SingleMarkerModel marker_model;
+    SingleMarkerModel line_model;
     SwampModel data_model;
     QQmlApplicationEngine engine;
     DataSource *dataSource = new DataSource(&data_model);
@@ -43,7 +44,8 @@ int main(int argc, char *argv[])
 
     const QUrl url(QStringLiteral("qrc:/QML/main.qml"));
     engine.rootContext()->setContextProperty(QStringLiteral("dataSource"), dataSource);
-    engine.rootContext()->setContextProperty(QStringLiteral("_marker_model"), &model);
+    engine.rootContext()->setContextProperty(QStringLiteral("_marker_model"), &marker_model);
+    engine.rootContext()->setContextProperty(QStringLiteral("_line_model"), &line_model);
     engine.rootContext()->setContextProperty(QStringLiteral("data_model"), &data_model);
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

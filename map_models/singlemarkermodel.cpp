@@ -20,8 +20,9 @@ QVariant SingleMarkerModel::data(const QModelIndex &index, int role) const
 
     const QGeoCoordinate &coordinate = coords.at(index.row());
 
-    if ( role == Coordinates)
+    if ( role == Coordinates){
         return QVariant::fromValue(coordinate);
+    }
     else
         return QVariant();
 }
@@ -34,11 +35,40 @@ QHash<int, QByteArray> SingleMarkerModel::roleNames() const
     return mapping;
 }
 
-void SingleMarkerModel::insertCoordinate(int row, QGeoCoordinate coordinate){
-    if (row < 0 || row > coords.count())
-        return;
+bool SingleMarkerModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    // TODO this is not working yet.
+    const QGeoCoordinate &coordinate = value.value<QGeoCoordinate>();
+    bool somethingChanged = false;
 
-    beginInsertRows(QModelIndex(), row, row);
-    coords.insert(row, coordinate);
+    if(role == Coordinates){
+        qDebug() << "replacing coordinates" << index.row() << ": " << coordinate.longitude() << " , " << coordinate.latitude();
+        coords.replace(index.row(), coordinate);
+        somethingChanged = true;
+    }
+
+    if(somethingChanged)
+        return true;
+    return false;
+}
+
+Qt::ItemFlags SingleMarkerModel::flags(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return Qt::NoItemFlags;
+    return Qt::ItemIsEditable;
+}
+
+void SingleMarkerModel::insertCoordinate(QGeoCoordinate coordinate){
+    const int index = coords.size();
+    beginInsertRows(QModelIndex(), index, index);
+    coords.insert(index, coordinate);
     endInsertRows();
+}
+
+void SingleMarkerModel::removeCoordinate(int index)
+{
+    beginRemoveRows(QModelIndex(),index,index);
+    coords.removeAt(index);
+    endRemoveRows();
 }

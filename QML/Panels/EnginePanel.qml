@@ -18,7 +18,6 @@ Rectangle {
 
         anchors.fill: parent
         anchors.leftMargin: 20
-        //anchors.topMargin: 15
         spacing: 2
 
         EngineIcon {

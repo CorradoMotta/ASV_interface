@@ -17,7 +17,7 @@
         <file>QML/BasicItems/CustomMenuBar.qml</file>
         <file>QML/BasicItems/EngineIcon.qml</file>
         <file>QML/BasicItems/VehicleMapItem.qml</file>
-		<file>QML/BasicItems/RecenterButton.qml</file>
+        <file>QML/BasicItems/RecenterButton.qml</file>
         <file>QML/Maps/DelegateSingleMarker.qml</file>
         <file>QML/Maps/EsriPlugin.qml</file>
         <file>QML/Maps/NavigationMap.qml</file>
@@ -26,5 +26,7 @@
         <file>QML/Panels/ForceSliderPanel.qml</file>
         <file>QML/main.qml</file>
         <file>QML/Maps/MapBoxPlugin.qml</file>
+        <file>QML/Panels/BoxDrawPanel.qml</file>
+        <file>QML/Maps/DelegateLineGeometry.qml</file>
     </qresource>
 </RCC>
