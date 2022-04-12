@@ -28,5 +28,9 @@
         <file>QML/Maps/MapBoxPlugin.qml</file>
         <file>QML/Panels/BoxDrawPanel.qml</file>
         <file>QML/Maps/DelegateLineGeometry.qml</file>
+        <file>QML/Views/MainStackView.qml</file>
+        <file>QML/Views/Minions.qml</file>
+        <file>Images/arrow_close.png</file>
+        <file>Images/arrow_open.png</file>
     </qresource>
 </RCC>

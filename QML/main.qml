@@ -7,6 +7,7 @@ import QtQuick.Controls 2.15
 import "BasicItems"
 import "Maps"
 import "Panels"
+import "Views"
 
 ApplicationWindow {
     id: root
@@ -36,7 +37,7 @@ ApplicationWindow {
         anchors.fill: parent
         spacing: 10
 
-        NavigationMap {
+        MainStackView {
             // move to custom item
             id: navigation_map
 
@@ -45,7 +46,7 @@ ApplicationWindow {
             Layout.topMargin: 10
         }
 
-        Item {
+        Rectangle {
             Layout.alignment: Qt.AlignTop
             id: rect
 
