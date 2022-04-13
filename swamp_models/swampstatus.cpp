@@ -25,3 +25,23 @@ Time_status *SwampStatus::time_status()
 {
     return &m_time_status;
 }
+
+Minion *SwampStatus::minion_1()
+{
+    return &m_minion_1;
+}
+
+Minion *SwampStatus::minion_2()
+{
+    return &m_minion_2;
+}
+
+Minion *SwampStatus::minion_3()
+{
+    return &m_minion_3;
+}
+
+Minion *SwampStatus::minion_4()
+{
+    return &m_minion_4;
+}
