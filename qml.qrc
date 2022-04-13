@@ -28,5 +28,15 @@
         <file>QML/Maps/MapBoxPlugin.qml</file>
         <file>QML/Panels/BoxDrawPanel.qml</file>
         <file>QML/Maps/DelegateLineGeometry.qml</file>
+        <file>QML/Views/Minions.qml</file>
+        <file>Images/arrow_close.png</file>
+        <file>Images/arrow_open.png</file>
+        <file>QML/BasicItems/BasicStackButton.qml</file>
+        <file>QML/Panels/MinionPumpPanel.qml</file>
+        <file>QML/Panels/MinionAzimuthPanel.qml</file>
+        <file>QML/Panels/MinionIMUPanel.qml</file>
+        <file>QML/Panels/MinionGPSPanel.qml</file>
+        <file>QML/Panels/MinionGenericPanel.qml</file>
+        <file>QML/Views/SingleMinion.qml</file>
     </qresource>
 </RCC>

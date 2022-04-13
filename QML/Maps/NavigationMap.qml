@@ -7,18 +7,18 @@ import "../Panels"
 
 Map {
     id: navigation_map
-    //anchors.fill: parent
-    plugin: MapBoxPlugin {}
     property real lat: data_model.data_source.swamp_status.gps_ahrs_status.latitude.value
     property real lon: data_model.data_source.swamp_status.gps_ahrs_status.longitude.value
     property real v_rotation : root.convertToRadiant(data_model.data_source.swamp_status.ngc_status.psi.value)
     property bool is_centered: true
     property var initialCoordinates: QtPositioning.coordinate(lat, lon)
+    onLatChanged: lon !=0 ? root.startUp = false: ""
+    onLonChanged: lat !=0 ? root.startUp = false: ""
+
+    plugin: MapBoxPlugin {}
 
     gesture.enabled: true
     gesture.acceptedGestures: MapGestureArea.PanGesture | MapGestureArea.PinchGesture
-    onLatChanged: lon !=0 ? root.startUp = false: ""
-    onLonChanged: lat !=0 ? root.startUp = false: ""
     gesture.onPanFinished: {
         if(!visibleRegion.contains(QtPositioning.coordinate(lat, lon)) && !root.startUp)
             navigation_map.is_centered = false
@@ -42,11 +42,11 @@ Map {
             if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
                 mivMarker.model.insertCoordinate(crd)
             else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Rectangle)
-               console.log("Not implemented yet!")
+                console.log("Not implemented yet!")
             else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
                 mivLine.model.insertCoordinate(crd)
                 mapPoly.addCoordinate(crd)
-                console.log("new coordinates: Lon: " + crd.longitude  + " , Lat:" + crd.latitude)
+                //console.log("new coordinates: Lon: " + crd.longitude  + " , Lat:" + crd.latitude)
             }
         }
     }

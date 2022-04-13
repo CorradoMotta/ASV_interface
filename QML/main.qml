@@ -7,11 +7,12 @@ import QtQuick.Controls 2.15
 import "BasicItems"
 import "Maps"
 import "Panels"
+import "Views"
 
 ApplicationWindow {
     id: root
-    width: 1410
-    height: 850
+    width: 2000
+    height: 1000
     visible: true
     title: qsTr("Swamp interface")
     property double pi_value: 3.1415926535
@@ -27,7 +28,7 @@ ApplicationWindow {
     onStartUpChanged:{
         navigation_map.zoomLevel = 18
         navigation_map.center =
-                      QtPositioning.coordinate(navigation_map.lat, navigation_map.lon)
+                QtPositioning.coordinate(navigation_map.lat, navigation_map.lon)
     }
 
     menuBar: CustomMenuBar {}
@@ -36,19 +37,24 @@ ApplicationWindow {
         anchors.fill: parent
         spacing: 10
 
-        NavigationMap {
-            // move to custom item
-            id: navigation_map
-
+        StackView {
+            id: stack
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.topMargin: 10
+            initialItem: NavigationMap{
+                id: navigation_map
+            }
         }
 
-        Item {
-            Layout.alignment: Qt.AlignTop
-            id: rect
+        BasicStackButton{
+            id: stack_button
+            Layout.fillHeight: true
+        }
 
+        Rectangle {
+            id: control_panel
+            Layout.alignment: Qt.AlignTop
             Layout.preferredWidth: 400
             Layout.preferredHeight: 800
             Layout.topMargin: 10
@@ -78,7 +84,6 @@ ApplicationWindow {
                     Layout.alignment: Qt.AlignTop
                     Layout.fillWidth: true
                     onClicked: data_model.data_source.setConnection()
-
                     contentItem: Text {
                         text: data_model.data_source.is_connected ? "disconnect" : "connect"
                         font.family: "Helvetica"
