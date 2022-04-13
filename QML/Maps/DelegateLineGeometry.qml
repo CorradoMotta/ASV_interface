@@ -19,12 +19,12 @@ MapQuickItem {
         enabled: is_enable
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         drag.target: mqi_line_circle
-        drag.onActiveChanged:{
-            if(drag.active === false){
-                // TODO not implemented yet
-                console.log("released!")
-                }
-        }
+//        drag.onActiveChanged:{
+//            if(drag.active === false){
+//                // TODO not implemented yet
+//                console.log("released!")
+//                }
+//        }
         onClicked: if (mouse.button === Qt.RightButton){
                        mapPoly.removeCoordinate(index)
                        _line_model.removeCoordinate(index)
