@@ -33,6 +33,11 @@ ApplicationWindow {
 
     menuBar: CustomMenuBar {}
 
+    // instantiate the minion view
+    Minions{
+        id: minion_view
+    }
+
     RowLayout {
         anchors.fill: parent
         spacing: 10
@@ -77,8 +82,8 @@ ApplicationWindow {
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
                     clip: true
-                    opacity: data_model.data_source.is_connected ? 1 : 0.3
-                    enabled: data_model.data_source.is_connected
+                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
+                    //enabled: data_model.data_source.is_connected
                 }
                 Button {
                     id: connect_button

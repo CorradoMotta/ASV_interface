@@ -95,7 +95,6 @@ private:
     IntVariable m_azimuthGoHome;
     DoubleVariable m_azimuthMotorSetReference;
     IntVariable m_azimuthMotorSetRefTick;
-
 };
 
 #endif // MINION_COMMAND_H

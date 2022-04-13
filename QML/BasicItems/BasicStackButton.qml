@@ -23,7 +23,7 @@ Rectangle {
             anchors.fill: parent
             onClicked: {
                 if(open_minion){
-                    stack.push("../Views/Minions.qml")
+                    stack.push(minion_view)
                     open_minion = false
                 }else{
                     stack.pop()

@@ -37,6 +37,7 @@ Item {
 
         Image {
             id: engine_image
+            Layout.alignment: Qt.AlignHCenter
             visible: true
             source: setSource(engineState)
             sourceSize.width: 50

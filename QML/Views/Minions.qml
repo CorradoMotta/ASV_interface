@@ -22,9 +22,6 @@ Item {
             id: bar
             TabButton {
                 text: qsTr("general")
-                onClicked:{
-                    console.log("general")
-                }
             }
             TabButton {
                 text: qsTr("Minion 1")

@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
@@ -10,11 +10,12 @@ Item {
     property alias slider_text: slider_text_id.text
     property alias slider_from: control.from
     property alias slider_to: control.to
+    property alias mask_input: slider_value_id.inputMask
     property int value: 0
 
     RowLayout {
         anchors.fill: parent
-        spacing: 6
+        spacing: 3
 
         Text {
             id: slider_text_id
@@ -64,41 +65,62 @@ Item {
             snapMode: Slider.SnapOnRelease
             onPressedChanged: pressed ? "" : slider_root.value = control.value
         }
-        RowLayout {
-            spacing: 3
-            Image {
-                Layout.alignment: Qt.AlignLeft
-                source: "../../Images/ArrowUp.png"
-                sourceSize.height: 25
-                sourceSize.width: 25
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        control.increase()
-                        slider_root.value = control.value
-                    }
-                }
-            }
-            Image {
-                Layout.alignment: Qt.AlignLeft
-                source: "../../Images/ArrowDown.png"
-                sourceSize.height: 25
-                sourceSize.width: 25
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        control.decrease()
-                        slider_root.value = control.value
-                    }
+        Rectangle{
+            id: slider_text_input
+            property int maxWidth: 48
+            Layout.preferredWidth: maxWidth
+            Layout.preferredHeight: slider_value_id.implicitHeight + 6
+            Layout.alignment: Qt.AlignLeft
+            border.color: "gray"
+            border.width: 2
+            radius: 3
+            TextInput {
+                id: slider_value_id
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                font.family: "Helvetica"
+                font.pointSize: 18
+                text: control.onMoved ? control.valueAt(control.position) : "0"
+                onEditingFinished: {
+                    control.value = text * 1
                 }
             }
         }
+        Image {
+            Layout.alignment: Qt.AlignLeft
+            source: "../../Images/ArrowUp.png"
+            sourceSize.height: 25
+            sourceSize.width: 25
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    control.increase()
+                    slider_root.value = control.value
+                }
+            }
+        }
+
+        Image {
+            Layout.alignment: Qt.AlignLeft
+            source: "../../Images/ArrowDown.png"
+            sourceSize.height: 25
+            sourceSize.width: 25
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    control.decrease()
+                    slider_root.value = control.value
+                }
+            }
+        }
+
 
         Rectangle {
             id: reset_button
             Layout.alignment: Qt.AlignLeft
             Layout.preferredHeight: control.implicitHandleHeight
             Layout.preferredWidth: control.implicitHandleHeight
+            Layout.rightMargin: 10
             radius: 15
             color: "#f08080"
             Rectangle {
@@ -119,15 +141,5 @@ Item {
             }
         }
 
-        Text {
-            id: slider_value_id
-            property int maxWidth: 35
-            Layout.preferredWidth: maxWidth
-            Layout.rightMargin: 10
-            Layout.alignment: Qt.AlignRight
-            font.family: "Helvetica"
-            font.pointSize: 18
-            text: control.onMoved ? control.valueAt(control.position) : "0"
-        }
     }
 }
