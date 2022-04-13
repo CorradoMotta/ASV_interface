@@ -6,6 +6,9 @@ QT += quick positioning mqtt
 
 SOURCES += \
         components/gps_ahrs_status.cpp \
+        components/minion.cpp \
+        components/minion_command.cpp \
+        components/minion_status.cpp \
         components/motor_status.cpp \
         components/ngc_status.cpp \
         components/swamp_motor_status.cpp \
@@ -37,6 +40,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     components/gps_ahrs_status.h \
+    components/minion.h \
+    components/minion_command.h \
+    components/minion_status.h \
     components/motor_status.h \
     components/ngc_status.h \
     components/swamp_motor_status.h \
