@@ -10,26 +10,28 @@ import QtQuick.Layouts 1.15
 import "../Panels"
 
 Item {
-    ColumnLayout{
+    //    ColumnLayout{
+    //        anchors{
+    //            fill: parent
+    //            //topMargin: rowSpacing
+    //        }
+    MinionGenericPanel{
+        id: generic
+        //Layout.fillHeight: true
+        //Layout.fillWidth: true
+        height: 120
+        width: parent.width
+    }
+    GridLayout{
+        id: minion_panel_grid
+        columns: 2
+        columnSpacing: 2
+        rowSpacing: 2
         anchors{
-            fill: parent
-            //topMargin: rowSpacing
+            top:  generic.bottom
+            bottom: parent.bottom; left: parent.left; right: parent.right
+            topMargin: rowSpacing
         }
-        MinionGenericPanel{
-            id: generic
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-//            height: 200
-//            width: parent.width
-        }
-        //    GridLayout{
-        //        id: minion_panel_grid
-        //        columns: 2
-        //        anchors{
-        //            top:  generic.bottom
-        //            bottom: parent.bottom; left: parent.left; right: parent.right
-        //            topMargin: rowSpacing
-        //        }
         MinionPumpPanel{
             id: pump_panel
             Layout.fillHeight: true

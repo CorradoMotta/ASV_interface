@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.15
 
 Item {
-    implicitHeight: engine_image.implicitHeight + engine_text.implicitHeight
+    implicitHeight: engine_text.text === ""? engine_image.implicitHeight :  engine_image.implicitHeight + engine_text.implicitHeight
     implicitWidth: engine_image.implicitWidth
     property alias engineIconText: engine_text.text
 

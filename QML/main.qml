@@ -46,6 +46,7 @@ ApplicationWindow {
             id: stack
             Layout.fillWidth: true
             Layout.fillHeight: true
+            clip: true
             Layout.topMargin: 10
             initialItem: NavigationMap{
                 id: navigation_map
@@ -82,8 +83,8 @@ ApplicationWindow {
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
                     clip: true
-                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
-                    //enabled: data_model.data_source.is_connected
+                    opacity: data_model.data_source.is_connected ? 1 : 0.3
+                    enabled: data_model.data_source.is_connected
                 }
                 Button {
                     id: connect_button

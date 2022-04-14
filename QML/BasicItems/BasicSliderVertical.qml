@@ -4,24 +4,30 @@ import QtQuick.Layouts 1.15
 
 Rectangle {
     id: slider_root
-    implicitHeight: control.implicitHeight
-    implicitWidth: control.implicitWidth
+    implicitHeight: control.implicitHeight + slider_text_id.implicitHeight
+    //implicitWidth: control.implicitWidth
 
     property alias slider_text: slider_text_id.text
     property alias slider_from: control.from
     property alias slider_to: control.to
     property alias mask_input: slider_value_id.inputMask
     property int value: 0
-
+    Text {
+        id: slider_text_id
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.margins: slider_row_layout.spacing
+        font.family: "Helvetica"
+        font.pointSize: 14
+    }
     RowLayout {
-        anchors.fill: parent
+        id: slider_row_layout
+        anchors{
+            top: slider_text_id.bottom
+            bottom: parent.bottom ; left: parent.left ; right: parent.right
+       }
         spacing: 3
 
-        Text {
-            id: slider_text_id
-            font.family: "Helvetica"
-            font.pointSize: 18
-        }
         Slider {
             id: control
             property bool __pressed: false

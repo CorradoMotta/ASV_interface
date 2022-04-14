@@ -6,14 +6,9 @@
  *************************************************************************/
 
 import QtQuick 2.0
+import "../BasicItems"
 
-Rectangle{
-    id: generic
-    border.color: "gray"
-    border.width: 3
-    Text {
-        anchors.horizontalCenter: parent.horizontalCenter
-        text: "Generic"
-        font.pixelSize: 20
-    }
+BasicMinionPanelContainer{
+    title: "GENERIC"
+    color: "gainsboro"
 }
