@@ -18,7 +18,7 @@ Rectangle {
         opacity: 0.7
         visible: true
         source: open_minion? "../../Images/arrow_open.png" : "../../Images/arrow_close.png"
-        scale: 0.05
+        scale: 0.07
         MouseArea {
             anchors.fill: parent
             onClicked: {

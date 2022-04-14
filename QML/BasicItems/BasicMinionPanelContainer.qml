@@ -13,7 +13,9 @@ Rectangle{
     Text {
         id: title_text
         anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.topMargin: 10
         text: "GENERIC"
-        font.pixelSize: 18
+        font.pixelSize: 20
     }
 }

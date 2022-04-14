@@ -11,56 +11,75 @@ import QtQuick.Controls 2.15
 import "../BasicItems"
 
 BasicMinionPanelContainer{
+    id: pump_root
     title: "PUMP"
-    GridLayout{
-        columns: 2
-        rowSpacing: 10
+    RowLayout{
+        spacing: 10
         anchors{
-            topMargin: title_height
+            topMargin: title_height + 20
             fill: parent
             leftMargin: 10
         }
-
-        EngineIcon {
-            id: engine_icon_fl
+        ColumnLayout{
             Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-            //engineIconText: "THRUST"
+            spacing: 30
+            EngineIcon {
+                id: engine_icon_fl
+                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                image_size: 70
+                set_border: true
+            }
+            BasicSliderVertical {
+                id: set_reference
+                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                //Layout.fillWidth: true
+                slider_text: "SET_REF"
+                mask_input: "#000"
+                //onValueChanged:  data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc_status.fu.ref.topic_name, value)
+            }
         }
-        RowLayout{
+        Rectangle {
+            Layout.fillHeight: true
+            Layout.bottomMargin: 20
+            width: 2
+            color: "gray"
+        }
+        ColumnLayout{
+            Layout.rightMargin: 10
             Layout.alignment: Qt.AlignTop | Qt.AlignRight
-            StatusDot{
-                id: power_dot
-                info_text: "POWER"
-            }
-            StatusDot{
-                id: enable_dot
-                info_text: "ENABLE"
-            }
-            StatusDot{
-                id: fault_dot
-                info_text: "FAULT"
-            }
 
-
+            BasicTextOutput{
+                Layout.topMargin: 30
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                title_text: "MTR_CURRENT"
+            }
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                title_text: "MTR_SPEED"
+            }
         }
-        BasicSliderVertical {
-            id: set_reference
-            Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-            //Layout.fillWidth: true
-            slider_text: "SETREF"
-            mask_input: "#000"
-            //onValueChanged:  data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc_status.fu.ref.topic_name, value)
+    }
+    RowLayout{
+        spacing:10
+        //Layout.alignment: Qt.AlignTop | Qt.AlignRight
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.topMargin: 20
+        anchors.rightMargin: 10
+        StatusDot{
+            id: power_dot
+            info_text: "POWER"
+            color: "red"
         }
-
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            opacity: 0
+        StatusDot{
+            id: enable_dot
+            info_text: "ENABLE"
+            color: "green"
         }
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            opacity: 0
+        StatusDot{
+            id: fault_dot
+            info_text: "FAULT"
+            color: "gray"
         }
     }
 }

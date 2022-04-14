@@ -1,12 +1,19 @@
+/*************************************************************************
+ *
+ * Same as BasicSlider. The only difference is that the text is placed
+ * above.
+ *
+ *************************************************************************/
+
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
-Rectangle {
+Item {
     id: slider_root
-    implicitHeight: control.implicitHeight + slider_text_id.implicitHeight
-    //implicitWidth: control.implicitWidth
-
+    implicitHeight: control.implicitHeight + slider_text_id.implicitHeight + 20
+    implicitWidth: slider_row_layout.implicitWidth
+    //
     property alias slider_text: slider_text_id.text
     property alias slider_from: control.from
     property alias slider_to: control.to
@@ -20,12 +27,27 @@ Rectangle {
         font.family: "Helvetica"
         font.pointSize: 14
     }
+    //    Rectangle{
+    //        anchors{
+    //            top: slider_text_id.bottom
+    //            topMargin: 5
+    //            bottom: parent.bottom ; left: parent.left ; right: parent.right
+    //            bottomMargin: 10
+    //        }
+    //        border.color: "black"
+    //        border.width: 1
+    //        radius: 5
+    //        color: "transparent"
+    //        implicitHeight: control.implicitHeight
+    //        implicitWidth: slider_row_layout.implicitWidth
+
     RowLayout {
         id: slider_row_layout
         anchors{
             top: slider_text_id.bottom
             bottom: parent.bottom ; left: parent.left ; right: parent.right
-       }
+            bottomMargin: 10
+        }
         spacing: 3
 
         Slider {
@@ -146,6 +168,6 @@ Rectangle {
                 }
             }
         }
-
     }
 }
+

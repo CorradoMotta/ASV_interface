@@ -18,8 +18,8 @@ Rectangle{
         Dot_fault
     }
 
-    width: 30
-    height: 30
+    width: 40
+    height: 40
     radius: 30
     //border.color: "silver"
     color: "gray"

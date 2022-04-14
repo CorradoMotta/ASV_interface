@@ -55,8 +55,9 @@ ApplicationWindow {
 
         BasicStackButton{
             id: stack_button
+            Layout.topMargin: 10
             Layout.fillHeight: true
-            Layout.preferredWidth: 20
+            Layout.preferredWidth: 30
         }
 
         Rectangle {

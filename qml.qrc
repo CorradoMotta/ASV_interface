@@ -41,5 +41,7 @@
         <file>QML/BasicItems/BasicSliderVertical.qml</file>
         <file>QML/BasicItems/StatusDot.qml</file>
         <file>QML/BasicItems/BasicMinionPanelContainer.qml</file>
+        <file>QML/BasicItems/BasicTextOutput.qml</file>
+        <file>QML/BasicItems/BasicSwitch.qml</file>
     </qresource>
 </RCC>
