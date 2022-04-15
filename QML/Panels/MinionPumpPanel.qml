@@ -12,11 +12,12 @@ import "../BasicItems"
 
 BasicMinionPanelContainer{
     id: pump_root
+
     title: "PUMP"
     RowLayout{
         spacing: 10
         anchors{
-            topMargin: title_height + 20
+            topMargin: 20
             fill: parent
             leftMargin: 10
         }
@@ -25,9 +26,12 @@ BasicMinionPanelContainer{
             spacing: 30
             EngineIcon {
                 id: engine_icon_fl
+                // THIS IS THE LINE NEEDED TO CONNECT ENGINES
+                //engineState : engine_panel.engine_state_fl_prova
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                image_size: 70
+                image_size: 60
                 set_border: true
+
             }
             BasicSliderVertical {
                 id: set_reference
@@ -40,14 +44,38 @@ BasicMinionPanelContainer{
         }
         Rectangle {
             Layout.fillHeight: true
-            Layout.bottomMargin: 20
+            Layout.bottomMargin: 60
+            Layout.topMargin: title_height + 40
             width: 2
             color: "gray"
         }
         ColumnLayout{
             Layout.rightMargin: 10
             Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            RowLayout{
 
+                spacing:10
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                //                anchors.right: parent.right
+                //                anchors.top: parent.top
+                //                anchors.topMargin: 20
+                //                anchors.rightMargin: 10
+                StatusDot{
+                    id: power_dot
+                    info_text: "POWER"
+                    color: "gray"
+                }
+                StatusDot{
+                    id: enable_dot
+                    info_text: "ENABLE"
+                    color: "gray"
+                }
+                StatusDot{
+                    id: fault_dot
+                    info_text: "FAULT"
+                    color: "gray"
+                }
+            }
             BasicTextOutput{
                 Layout.topMargin: 30
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
@@ -55,31 +83,13 @@ BasicMinionPanelContainer{
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                title_text: "MTR_TEMPERATURE"
+            }
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 title_text: "MTR_SPEED"
             }
         }
     }
-    RowLayout{
-        spacing:10
-        //Layout.alignment: Qt.AlignTop | Qt.AlignRight
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.topMargin: 20
-        anchors.rightMargin: 10
-        StatusDot{
-            id: power_dot
-            info_text: "POWER"
-            color: "red"
-        }
-        StatusDot{
-            id: enable_dot
-            info_text: "ENABLE"
-            color: "green"
-        }
-        StatusDot{
-            id: fault_dot
-            info_text: "FAULT"
-            color: "gray"
-        }
-    }
+
 }

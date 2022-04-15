@@ -77,6 +77,7 @@ ApplicationWindow {
                     // TODO i cannot access enum?
                     opacity: data_model.data_source.is_connected ? 1 : 0.3
                     enabled: data_model.data_source.is_connected
+
                 }
                 ForceSliderPanel {
                     id: force_slider_panel

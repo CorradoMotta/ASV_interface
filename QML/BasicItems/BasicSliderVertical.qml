@@ -11,7 +11,7 @@ import QtQuick.Layouts 1.15
 
 Item {
     id: slider_root
-    implicitHeight: control.implicitHeight + slider_text_id.implicitHeight + 20
+    implicitHeight: control.implicitHeight + slider_text_id.implicitHeight
     implicitWidth: slider_row_layout.implicitWidth
     //
     property alias slider_text: slider_text_id.text
@@ -107,10 +107,11 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 font.family: "Helvetica"
-                font.pointSize: 18
+                font.pointSize: 14
                 text: control.onMoved ? control.valueAt(control.position) : "0"
                 onEditingFinished: {
                     control.value = text * 1
+                    slider_root.value = control.value
                 }
             }
         }

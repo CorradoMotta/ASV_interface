@@ -45,6 +45,7 @@ class MinionStatus : public QObject
     Q_PROPERTY(IntVariable* thrustMotorFault READ thrustMotorFault NOTIFY thrustMotorFaultChanged)
     Q_PROPERTY(IntVariable* thrustMotorPower READ thrustMotorPower NOTIFY thrustMotorPowerChanged)
     Q_PROPERTY(DoubleVariable* thrustMotorSpeed READ thrustMotorSpeed NOTIFY thrustMotorSpeedChanged)
+    Q_PROPERTY(IntVariable* thrustMotorTemperature READ thrustMotorTemperature NOTIFY thrustMotorTemperatureChanged)
     Q_PROPERTY(IntVariable* timeMs READ timeMs NOTIFY timeMsChanged)
 
 public:
@@ -88,6 +89,7 @@ public:
     IntVariable* thrustMotorPower();
     DoubleVariable* thrustMotorSpeed();
     IntVariable* timeMs();
+    IntVariable* thrustMotorTemperature();
 
 signals:
 
@@ -129,6 +131,7 @@ signals:
     void thrustMotorPowerChanged();
     void thrustMotorSpeedChanged();
     void timeMsChanged();
+    void thrustMotorTemperatureChanged();
 
 private:
     DoubleVariable m_azimuthMotorAngle;
@@ -169,7 +172,7 @@ private:
     IntVariable m_thrustMotorPower;
     DoubleVariable m_thrustMotorSpeed;
     IntVariable m_timeMs;
-
+    IntVariable m_thrustMotorTemperature;
 };
 
 #endif // MINION_STATUS_H

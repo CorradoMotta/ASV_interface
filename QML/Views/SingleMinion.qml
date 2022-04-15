@@ -10,11 +10,7 @@ import QtQuick.Layouts 1.15
 import "../Panels"
 
 Item {
-    //    ColumnLayout{
-    //        anchors{
-    //            fill: parent
-    //            //topMargin: rowSpacing
-    //        }
+
     MinionGenericPanel{
         id: generic
         //Layout.fillHeight: true

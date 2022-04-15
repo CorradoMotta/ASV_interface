@@ -232,3 +232,8 @@ IntVariable *MinionStatus::timeMs()
 {
     return &m_timeMs;
 }
+
+IntVariable *MinionStatus::thrustMotorTemperature()
+{
+    return &m_thrustMotorTemperature;
+}

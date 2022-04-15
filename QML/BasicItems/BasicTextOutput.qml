@@ -22,7 +22,6 @@ Item {
             height: Math.max(40, info_label_text.implicitHeight + 10)
             color: "white"
             border.color: "black"
-
             Text{
                 id: info_label_text
                 anchors.horizontalCenter: info_label.horizontalCenter

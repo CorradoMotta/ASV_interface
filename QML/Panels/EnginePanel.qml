@@ -5,6 +5,7 @@ import "../BasicItems"
 Rectangle {
     id: swamp_engine
     property double timestamp: 0
+    property alias engine_state_fl_prova: engine_icon_fl.engineState
     Layout.preferredHeight: engine_icons.implicitHeight + 30
     radius: 5.0
 
@@ -25,7 +26,6 @@ Rectangle {
             engineIconText: "FL"
             onEngineStateChanged: {
                 if (engineState === EngineIcon.EngineStates.Engine_inter) {
-
                     data_model.data_source.publishMessage(data_model.data_source.swamp_status.motor_status.f1.thr_power.topic_name,1)
                     data_model.data_source.publishMessage(data_model.data_source.swamp_status.motor_status.f1.azm_power.topic_name,1)
                 }
