@@ -53,5 +53,6 @@
         <file>Images/on_button_new.png</file>
         <file>QML/BasicItems/BasicTextInputInverted.qml</file>
         <file>QML/BasicItems/FaultDot.qml</file>
+        <file>QML/Maps/DelegateBathModel.qml</file>
     </qresource>
 </RCC>

@@ -19,16 +19,17 @@ MapQuickItem {
         enabled: is_enable
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         drag.target: mqi_marker
-//        drag.onActiveChanged:{
-//            if(drag.active === false){
-//                // TODO not implemented yet!
-//                //console.log("released!")
-//                // use coordinate member of MapQuickItem element
-//                //console.log("new coordinates: Lon: " + mqi_marker.coordinate.longitude  + " , Lat:" + mqi_marker.coordinate.latitude + " , Index:" +index)
-//                }
-//        }
+        //        drag.onActiveChanged:{
+        //            if(drag.active === false){
+        //                // TODO not implemented yet!
+        //                //console.log("released!")
+        //                // use coordinate member of MapQuickItem element
+        //                //console.log("new coordinates: Lon: " + mqi_marker.coordinate.longitude  + " , Lat:" + mqi_marker.coordinate.latitude + " , Index:" +index)
+        //                }
+        //        }
 
         onClicked: if (mouse.button === Qt.RightButton)
                        _marker_model.removeCoordinate(index)
+
     }
 }
