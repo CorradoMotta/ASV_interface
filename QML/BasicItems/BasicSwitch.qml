@@ -15,9 +15,10 @@ Item {
     property alias switch_text: switch_text_id.text
 
     implicitHeight: background.implicitHeight + 10
-    implicitWidth: background.implicitWidth  + switch_text_id.implicitWidth
+    implicitWidth: rl.implicitWidth  + 10
 
     RowLayout {
+        id: rl
         anchors.fill: parent
         spacing: 20
 

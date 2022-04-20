@@ -15,7 +15,7 @@ Item {
         id: generic
         //Layout.fillHeight: true
         //Layout.fillWidth: true
-        height: 120
+        height: implicitHeight
         width: parent.width
     }
     GridLayout{
@@ -30,12 +30,14 @@ Item {
         }
         MinionPumpPanel{
             id: pump_panel
-            Layout.fillHeight: true
+            Layout.minimumHeight: Math.max(pump_panel.implicitHeight, azimuth_panel.implicitHeight)
+            Layout.minimumWidth: implicitWidth
             Layout.fillWidth: true
         }
         MinionAzimuthPanel{
             id: azimuth_panel
-            Layout.fillHeight: true
+            Layout.minimumHeight: Math.max(pump_panel.implicitHeight, azimuth_panel.implicitHeight)
+            Layout.minimumWidth: implicitWidth
             Layout.fillWidth: true
         }
         MinionIMUPanel{

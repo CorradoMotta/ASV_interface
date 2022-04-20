@@ -11,24 +11,33 @@ import QtQuick.Controls 2.15
 import "../BasicItems"
 
 BasicMinionPanelContainer{
+    implicitHeight: Math.max(cmd_row.implicitHeight , cmd_row_2.implicitHeight) + title_height + 20
+    implicitWidth: cmd_row.implicitWidth + cmd_row_2.implicitWidth + 20
     title: "GENERIC"
-    //color: "gainsboro"
+    color: "aliceblue"
+    //border.color: "transparent"
     RowLayout{
-        spacing: 25
+        id: cmd_row
+        spacing: 2
+        width: parent.width/2
         anchors{
             topMargin: 20
-            fill: parent
+            //fill: parent
+            top: parent.top; left: parent.left; bottom: parent.bottom
             leftMargin: 10
         }
         BasicRebootIcon {
             id: reboot_icon_fl
             // THIS IS THE LINE NEEDED TO CONNECT ENGINES
             //engineState : engine_panel.engine_state_fl_prova
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
-            Layout.leftMargin: 20
+            Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+            Layout.leftMargin: 15
+            Layout.topMargin: title_height
             //image_size: 40
         }
         ColumnLayout{
+            Layout.alignment: Qt.AlignLeft
+            Layout.leftMargin: 10
             BasicTextInput{
                 id: tlm_ddr
                 //Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
@@ -39,15 +48,78 @@ BasicMinionPanelContainer{
                 //Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
                 title_text: "IP_ADDR"
             }
-//            BasicTextInput{
-//                id: port_addr
-//                //Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
-//                title_text: "PORT_ADDR"
-//            }
+            BasicTextInput{
+                id: udp_port
+                //Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
+                title_text: "UDP_PORT"
+            }
         }
-        Item{
-            Layout.fillWidth: true
+        ColumnLayout{
+            Layout.alignment: Qt.AlignLeft
+            BasicSwitch{
+                switch_text: "ENABLE_DEBUG_LOG"
+            }
+            BasicSwitch{
+                switch_text: "SET_DIGITAL"
+            }
+            BasicSwitch{
+                switch_text: "SET_ANALOG"
+            }
+        }
+    }
+    Rectangle {
+        anchors{
+            horizontalCenter: parent.horizontalCenter
+            top: parent.top
+            topMargin: title_height + 20
+            bottomMargin: 30
+            bottom: parent.bottom
+        }
+        width: 2
+        color: "gray"
+    }
+    RowLayout{
+        id: cmd_row_2
+        spacing: 2
+        width: parent.width/2
+        anchors{
+            topMargin: 20
+            top: parent.top; right: parent.right; bottom: parent.bottom
+            rightMargin: 10
+        }
 
+        ColumnLayout{
+            Layout.alignment: Qt.AlignRight
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                title_text: "NODE_ID"
+            }
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                title_text: "DATE_TIME"
+            }
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                title_text: "NOP_COUNTER"
+            }
+        }
+        ColumnLayout{
+            Layout.alignment: Qt.AlignRight
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                value_width: 200
+                title_text: "DIGITAL_INPUT"
+            }
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                value_width: 200
+                title_text: "DIGITAL_OUTPUT"
+            }
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                value_width: 200
+                title_text: "BATTERY_VOLTAGE"
+            }
         }
     }
 }

@@ -10,7 +10,8 @@ import QtQuick 2.0
 
 Rectangle {
     property bool open_minion: true
-    color: "#100000FF"
+    color: "aliceblue"
+        //"#100000FF"
     //width: 20
     Image {
         id: image_button

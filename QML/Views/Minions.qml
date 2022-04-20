@@ -24,16 +24,16 @@ Item {
                 text: qsTr("general")
             }
             TabButton {
-                text: qsTr("Minion 1")
+                text: qsTr("Minion FL")
             }
             TabButton {
-                text: qsTr("Minion 2")
+                text: qsTr("Minion FR")
             }
             TabButton {
-                text: qsTr("Minion 3")
+                text: qsTr("Minion RL")
             }
             TabButton {
-                text: qsTr("Minion 4")
+                text: qsTr("Minion RR")
             }
         }
 

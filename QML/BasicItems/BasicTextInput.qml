@@ -7,24 +7,21 @@ Item {
     property alias value_text: text_value_id.text
 
     implicitHeight: text_input_id.height
-    implicitWidth: title_text_input.implicitWidth + rl.spacing + text_input_id.width
+    implicitWidth: rl.implicitWidth
 
     RowLayout{
         id: rl
         spacing: 10
         anchors.fill: parent
         FocusScope {
-            width: 200; height: 40
+            id: text_input_id
+            width: 200; height: text_value_id.implicitHeight + 10
             Rectangle {
-                id: text_input_id
                 anchors.fill: parent
                 color: "white"
                 border.color: "black"
 
             }
-
-//            property alias text: input.text
-//            property alias input: input
 
             TextEdit {
                 id: text_value_id

@@ -11,10 +11,12 @@ import QtQuick.Controls 2.15
 import "../BasicItems"
 
 BasicMinionPanelContainer{
-    id: pump_root
 
+    implicitHeight: pump_row_id.implicitHeight + title_height + 20
+    implicitWidth: pump_row_id.implicitWidth + 20
     title: "PUMP"
     RowLayout{
+        id: pump_row_id
         spacing: 10
         anchors{
             topMargin: 20
@@ -22,6 +24,7 @@ BasicMinionPanelContainer{
             leftMargin: 10
         }
         ColumnLayout{
+            id: cmd_column_id
             Layout.alignment: Qt.AlignTop | Qt.AlignLeft
             spacing: 30
             EngineIcon {
@@ -50,6 +53,7 @@ BasicMinionPanelContainer{
             color: "gray"
         }
         ColumnLayout{
+            id: status_column_id
             Layout.rightMargin: 10
             Layout.alignment: Qt.AlignTop | Qt.AlignRight
             RowLayout{
