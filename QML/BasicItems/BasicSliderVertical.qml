@@ -93,25 +93,31 @@ Item {
             snapMode: Slider.SnapOnRelease
             onPressedChanged: pressed ? "" : slider_root.value = control.value
         }
-        Rectangle{
-            id: slider_text_input
+        FocusScope {
+            id: text_input_id
             property int maxWidth: 48
             Layout.preferredWidth: maxWidth
             Layout.preferredHeight: slider_value_id.implicitHeight + 6
             Layout.alignment: Qt.AlignLeft
-            border.color: "gray"
-            border.width: 2
-            radius: 3
-            TextInput {
-                id: slider_value_id
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
-                font.family: "Helvetica"
-                font.pointSize: 14
-                text: control.onMoved ? control.valueAt(control.position) : "0"
-                onEditingFinished: {
-                    control.value = text * 1
-                    slider_root.value = control.value
+            Rectangle{
+                id: slider_text_input
+                anchors.fill: parent
+                border.color: "gray"
+                border.width: 2
+                radius: 3
+                TextInput {
+                    id: slider_value_id
+                    anchors.fill: parent
+                    anchors.margins: 4
+                    font.family: "Helvetica"
+                    font.pointSize: 14
+                    focus: true
+                    text: control.onMoved ? control.valueAt(control.position) : 0
+                    onEditingFinished: {
+                        control.value = text * 1
+                        slider_root.value = control.value
+                        console.log("new value", control.value)
+                    }
                 }
             }
         }

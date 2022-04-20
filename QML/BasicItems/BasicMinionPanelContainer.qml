@@ -14,8 +14,9 @@ Rectangle{
         id: title_text
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
-        anchors.topMargin: 10
+        anchors.topMargin: 6
         text: "GENERIC"
         font.pixelSize: 20
+        font.bold: true
     }
 }

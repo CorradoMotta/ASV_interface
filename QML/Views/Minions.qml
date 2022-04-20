@@ -20,9 +20,9 @@ Item {
         anchors.fill: parent
         header: TabBar {
             id: bar
-            TabButton {
-                text: qsTr("general")
-            }
+//            TabButton {
+//                text: qsTr("general")
+//            }
             TabButton {
                 text: qsTr("Minion FL")
             }
@@ -43,9 +43,9 @@ Item {
             anchors.margins: minion_page.margin
             currentIndex: bar.currentIndex
 
-            Item {
-                id: general
-            }
+//            Item {
+//                id: general
+//            }
             SingleMinion {
                 id: minion1
             }

@@ -5,7 +5,7 @@ Item  {
     id: reboot_icon_root
     implicitHeight: reboot_image.implicitHeight + 5
     implicitWidth: reboot_image.implicitWidth + 5
-    property int image_size: 50
+    property int image_size: 70
 
     enum RebootStates {
         Shutdown,
@@ -16,9 +16,9 @@ Item  {
 
     function setSource(state) {
         if (state === BasicRebootIcon.RebootStates.Shutdown)
-            return "../../Images/off_button.png"
+            return "../../Images/off_button_new.png"
         else if (state === BasicRebootIcon.RebootStates.Reboot)
-            return "../../Images/on_button.png"
+            return "../../Images/on_button_new.png"
     }
 
     function setRebootState(previousState) {

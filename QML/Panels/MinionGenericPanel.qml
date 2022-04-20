@@ -19,11 +19,12 @@ BasicMinionPanelContainer{
     RowLayout{
         id: cmd_row
         spacing: 2
-        width: parent.width/2
+        //width: parent.width/2
         anchors{
             topMargin: 20
             //fill: parent
-            top: parent.top; left: parent.left; bottom: parent.bottom
+            top: parent.top; left: parent.left; bottom: parent.bottom; right: bar.right
+            rightMargin: 10
             leftMargin: 10
         }
         BasicRebootIcon {
@@ -31,8 +32,9 @@ BasicMinionPanelContainer{
             // THIS IS THE LINE NEEDED TO CONNECT ENGINES
             //engineState : engine_panel.engine_state_fl_prova
             Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-            Layout.leftMargin: 15
-            Layout.topMargin: title_height
+            Layout.leftMargin: 5
+
+            Layout.topMargin: title_height + 10
             //image_size: 40
         }
         ColumnLayout{
@@ -55,19 +57,24 @@ BasicMinionPanelContainer{
             }
         }
         ColumnLayout{
-            Layout.alignment: Qt.AlignLeft
-            BasicSwitch{
+            Layout.alignment: Qt.AlignRight
+            Layout.rightMargin: 10
+            BasicSwitchInverted{
+                Layout.alignment: Qt.AlignRight
                 switch_text: "ENABLE_DEBUG_LOG"
             }
-            BasicSwitch{
+            BasicSwitchInverted{
+                Layout.alignment: Qt.AlignRight
                 switch_text: "SET_DIGITAL"
             }
-            BasicSwitch{
+            BasicSwitchInverted{
+                Layout.alignment: Qt.AlignRight
                 switch_text: "SET_ANALOG"
             }
         }
     }
     Rectangle {
+        id: bar
         anchors{
             horizontalCenter: parent.horizontalCenter
             top: parent.top
@@ -81,25 +88,26 @@ BasicMinionPanelContainer{
     RowLayout{
         id: cmd_row_2
         spacing: 2
-        width: parent.width/2
+        //width: parent.width/2
         anchors{
             topMargin: 20
-            top: parent.top; right: parent.right; bottom: parent.bottom
+            leftMargin: 10
+            top: parent.top; right: parent.right; bottom: parent.bottom; left: bar.right
             rightMargin: 10
         }
 
         ColumnLayout{
-            Layout.alignment: Qt.AlignRight
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            Layout.alignment: Qt.AlignLeft
+            BasicTextOutputInverted{
+                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 title_text: "NODE_ID"
             }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            BasicTextOutputInverted{
+                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 title_text: "DATE_TIME"
             }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            BasicTextOutputInverted{
+                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 title_text: "NOP_COUNTER"
             }
         }

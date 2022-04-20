@@ -15,7 +15,7 @@ Item {
         id: generic
         //Layout.fillHeight: true
         //Layout.fillWidth: true
-        height: implicitHeight
+        height: implicitHeight + 50
         width: parent.width
     }
     GridLayout{
@@ -32,23 +32,33 @@ Item {
             id: pump_panel
             Layout.minimumHeight: Math.max(pump_panel.implicitHeight, azimuth_panel.implicitHeight)
             Layout.minimumWidth: implicitWidth
+            Layout.preferredHeight: minimumHeight + 50
             Layout.fillWidth: true
+            //Layout.fillHeight: true
         }
         MinionAzimuthPanel{
             id: azimuth_panel
             Layout.minimumHeight: Math.max(pump_panel.implicitHeight, azimuth_panel.implicitHeight)
+            Layout.preferredHeight: minimumHeight + 50
             Layout.minimumWidth: implicitWidth
             Layout.fillWidth: true
+            //Layout.fillHeight: true
         }
         MinionIMUPanel{
             id: imu_panel
-            Layout.fillHeight: true
+            Layout.minimumHeight: Math.max(imu_panel.implicitHeight, gps_panel.implicitHeight)
+            Layout.minimumWidth: implicitWidth
+            Layout.preferredHeight: minimumHeight + 50
             Layout.fillWidth: true
+            Layout.fillHeight: true
         }
         MinionGPSPanel{
             id: gps_panel
-            Layout.fillHeight: true
+            Layout.minimumHeight: Math.max(imu_panel.implicitHeight, gps_panel.implicitHeight)
+            Layout.minimumWidth: implicitWidth
+            Layout.preferredHeight: minimumHeight + 50
             Layout.fillWidth: true
+            Layout.fillHeight: true
         }
     }
 }

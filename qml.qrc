@@ -47,5 +47,9 @@
         <file>Images/off_button.png</file>
         <file>Images/on_button.png</file>
         <file>QML/BasicItems/BasicTextInput.qml</file>
+        <file>QML/BasicItems/BasicTextOutputInverted.qml</file>
+        <file>QML/BasicItems/BasicSwitchInverted.qml</file>
+        <file>Images/off_button_new.png</file>
+        <file>Images/on_button_new.png</file>
     </qresource>
 </RCC>
