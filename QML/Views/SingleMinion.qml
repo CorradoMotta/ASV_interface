@@ -10,55 +10,60 @@ import QtQuick.Layouts 1.15
 import "../Panels"
 
 Item {
+    property int minimumXDim : minion_panel_cln.implicitWidth
+    property int minimumYDim: minion_panel_cln.implicitHeight
 
-    MinionGenericPanel{
-        id: generic
-        //Layout.fillHeight: true
-        //Layout.fillWidth: true
-        height: implicitHeight + 50
-        width: parent.width
-    }
-    GridLayout{
-        id: minion_panel_grid
-        columns: 2
-        columnSpacing: 2
-        rowSpacing: 2
+    ColumnLayout{
+        id: minion_panel_cln
         anchors{
-            top:  generic.bottom
-            bottom: parent.bottom; left: parent.left; right: parent.right
-            topMargin: rowSpacing
+            fill: parent
         }
-        MinionPumpPanel{
-            id: pump_panel
-            Layout.minimumHeight: Math.max(pump_panel.implicitHeight, azimuth_panel.implicitHeight)
+        spacing: 2
+        MinionGenericPanel{
+            id: generic
+            Layout.minimumHeight: implicitHeight
             Layout.minimumWidth: implicitWidth
-            Layout.preferredHeight: minimumHeight + 50
+            Layout.preferredHeight: Layout.minimumHeight + 50
             Layout.fillWidth: true
-            //Layout.fillHeight: true
         }
-        MinionAzimuthPanel{
-            id: azimuth_panel
-            Layout.minimumHeight: Math.max(pump_panel.implicitHeight, azimuth_panel.implicitHeight)
-            Layout.preferredHeight: minimumHeight + 50
-            Layout.minimumWidth: implicitWidth
-            Layout.fillWidth: true
-            //Layout.fillHeight: true
-        }
-        MinionIMUPanel{
-            id: imu_panel
-            Layout.minimumHeight: Math.max(imu_panel.implicitHeight, gps_panel.implicitHeight)
-            Layout.minimumWidth: implicitWidth
-            Layout.preferredHeight: minimumHeight + 50
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-        MinionGPSPanel{
-            id: gps_panel
-            Layout.minimumHeight: Math.max(imu_panel.implicitHeight, gps_panel.implicitHeight)
-            Layout.minimumWidth: implicitWidth
-            Layout.preferredHeight: minimumHeight + 50
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        GridLayout{
+            id: minion_panel_grid
+            columns: 2
+            columnSpacing: 2
+            rowSpacing: 2
+
+            MinionPumpPanel{
+                id: pump_panel
+                Layout.minimumHeight: Math.max(pump_panel.implicitHeight, azimuth_panel.implicitHeight)
+                Layout.minimumWidth: implicitWidth
+                Layout.preferredHeight: Layout.minimumHeight + 50
+                Layout.fillWidth: true
+                //Layout.fillHeight: true
+            }
+            MinionAzimuthPanel{
+                id: azimuth_panel
+                Layout.minimumHeight: Math.max(pump_panel.implicitHeight, azimuth_panel.implicitHeight)
+                Layout.preferredHeight: Layout.minimumHeight + 50
+                Layout.minimumWidth: implicitWidth
+                Layout.fillWidth: true
+                //Layout.fillHeight: true
+            }
+            MinionIMUPanel{
+                id: imu_panel
+                Layout.minimumHeight: Math.max(imu_panel.implicitHeight, gps_panel.implicitHeight)
+                Layout.minimumWidth: implicitWidth
+                Layout.preferredHeight: Layout.minimumHeight + 50
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+            }
+            MinionGPSPanel{
+                id: gps_panel
+                Layout.minimumHeight: Math.max(imu_panel.implicitHeight, gps_panel.implicitHeight)
+                Layout.minimumWidth: implicitWidth
+                Layout.preferredHeight: Layout.minimumHeight + 50
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+            }
         }
     }
 }

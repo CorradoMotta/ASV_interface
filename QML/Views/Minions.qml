@@ -14,15 +14,17 @@ import "../Panels"
 import "../Views"
 
 Item {
+    property alias minimum_width : minion1.minimumXDim
+    property alias minimum_height: minion1.minimumYDim
     Page{
         id: minion_page
         property int margin: 10
         anchors.fill: parent
         header: TabBar {
             id: bar
-//            TabButton {
-//                text: qsTr("general")
-//            }
+            //            TabButton {
+            //                text: qsTr("general")
+            //            }
             TabButton {
                 text: qsTr("Minion FL")
             }
@@ -43,9 +45,9 @@ Item {
             anchors.margins: minion_page.margin
             currentIndex: bar.currentIndex
 
-//            Item {
-//                id: general
-//            }
+            //            Item {
+            //                id: general
+            //            }
             SingleMinion {
                 id: minion1
             }

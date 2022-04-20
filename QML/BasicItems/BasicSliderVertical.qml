@@ -116,7 +116,6 @@ Item {
                     onEditingFinished: {
                         control.value = text * 1
                         slider_root.value = control.value
-                        console.log("new value", control.value)
                     }
                 }
             }

@@ -44,7 +44,7 @@ Item  {
             implicitHeight: engine_image.implicitHeight +18
             implicitWidth: engine_image.implicitWidth + 18
             radius: 80
-            color: set_border ? "white" : "transparent"
+            color: set_border ? "aliceblue" : "transparent"
             border.color: set_border ? "black" : "transparent"
             Image {
                 id: engine_image

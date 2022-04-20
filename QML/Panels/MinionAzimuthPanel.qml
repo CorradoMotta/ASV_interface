@@ -18,7 +18,7 @@ BasicMinionPanelContainer{
         id: pump_row_id
         spacing: 10
         anchors{
-            topMargin: 20
+            topMargin: title_height+ 10
             fill: parent
             leftMargin: 10
         }

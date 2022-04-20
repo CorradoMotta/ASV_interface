@@ -11,7 +11,9 @@ import "Views"
 
 ApplicationWindow {
     id: root
-    width: 2000
+    width: 1900
+    minimumWidth: minion_view.minimum_width + main_layout.implicitWidth
+    minimumHeight: minion_view.minimum_height + menu_bar_id.implicitHeight + 20
     height: 1000
     visible: true
     title: qsTr("Swamp interface")
@@ -31,7 +33,9 @@ ApplicationWindow {
                 QtPositioning.coordinate(navigation_map.lat, navigation_map.lon)
     }
 
-    menuBar: CustomMenuBar {}
+    menuBar: CustomMenuBar {
+        id: menu_bar_id
+    }
 
     // instantiate the minion view
     Minions{
@@ -39,6 +43,7 @@ ApplicationWindow {
     }
 
     RowLayout {
+        id: main_layout
         anchors.fill: parent
         spacing: 10
 
