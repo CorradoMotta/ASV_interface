@@ -1,4 +1,4 @@
-QT += quick positioning mqtt
+QT += quick positioning mqtt gui widgets
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.

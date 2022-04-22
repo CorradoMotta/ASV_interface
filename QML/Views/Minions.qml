@@ -12,7 +12,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import "../Panels"
 import "../Views"
-
+import "../Charts"
 Item {
     property alias minimum_width : minion_fl.minimumXDim
     property alias minimum_height: minion_fl.minimumYDim
@@ -26,7 +26,7 @@ Item {
             //                text: qsTr("general")
             //            }
             TabButton {
-                text: qsTr("Minion FL")
+                text: qsTr("Bathimetry")
             }
             TabButton {
                 text: qsTr("Minion FR")
@@ -45,9 +45,13 @@ Item {
             anchors.margins: minion_page.margin
             currentIndex: bar.currentIndex
 
-            //            Item {
-            //                id: general
-            //            }
+            Rectangle {
+                id: general
+                //color: "aliceblue"
+                BathymetryChart{
+
+                }
+            }
             SingleMinion {
                 id: minion_fl
                 prefix: data_model.data_source.swamp_status.minion_fl

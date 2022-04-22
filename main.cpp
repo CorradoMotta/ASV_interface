@@ -1,9 +1,10 @@
-#include <QGuiApplication>
+#include <QtWidgets/QApplication>
 #include <QQmlApplicationEngine>
 #include <QDebug>
 #include <QSslSocket>
 #include "map_models/singlemarkermodel.h"
 #include <QQmlContext>
+#include <QtQuick/QQuickView>
 #include <QQmlComponent>
 #include "data/variable.h"
 #include "data/doublevariable.h"
@@ -23,7 +24,13 @@ int main(int argc, char *argv[])
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
+
+#ifdef Q_OS_WIN
+    QString extraImportPath(QStringLiteral("%1/../../../../%2"));
+#else
+    QString extraImportPath(QStringLiteral("%1/../../../%2"));
+#endif
 
     SingleMarkerModel marker_model;
     SingleMarkerModel line_model;
@@ -59,4 +66,6 @@ int main(int argc, char *argv[])
 
     engine.load(url);
     return app.exec();
+
+
 }

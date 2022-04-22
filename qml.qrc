@@ -54,5 +54,6 @@
         <file>QML/BasicItems/BasicTextInputInverted.qml</file>
         <file>QML/BasicItems/FaultDot.qml</file>
         <file>QML/Maps/DelegateBathModel.qml</file>
+        <file>QML/Charts/BathymetryChart.qml</file>
     </qresource>
 </RCC>
