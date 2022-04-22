@@ -14,8 +14,8 @@ MapQuickItem {
 
         source: "../../Images/Swamp.png"
         //transform: Rotation {origin.x: 50; origin.y: 50; angle: vehicle_rotation}
-        sourceSize.width: 40
-        sourceSize.height: 40
+        sourceSize.width: 50
+        sourceSize.height: 50
     }
 
 }
