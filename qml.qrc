@@ -55,5 +55,6 @@
         <file>QML/BasicItems/FaultDot.qml</file>
         <file>QML/Maps/DelegateBathModel.qml</file>
         <file>QML/Charts/BathymetryChart.qml</file>
+        <file>QML/Panels/BathymetryPanel.qml</file>
     </qresource>
 </RCC>

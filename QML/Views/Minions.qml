@@ -14,10 +14,12 @@ import "../Panels"
 import "../Views"
 import "../Charts"
 Item {
+<<<<<<< HEAD
 
     property alias minimum_width : minion1.minimumXDim
     property alias minimum_height: minion1.minimumYDim
-    property alias bathYValue : btChr.new_point
+    property alias bathymetryPoint : btChr.newPoint
+    property alias maxDepth: btChr.yMAX
 
     Page{
         id: minion_page
@@ -26,11 +28,11 @@ Item {
         anchors.fill: parent
         header: TabBar {
             id: bar
-            //            TabButton {
-            //                text: qsTr("general")
-            //            }
+			TabButton {
+				text: qsTr("Bathimetry")
+			}
             TabButton {
-                text: qsTr("Bathimetry")
+                text: qsTr("Minion FL")
             }
             TabButton {
                 text: qsTr("Minion FR")
@@ -51,7 +53,6 @@ Item {
 
             Rectangle {
                 id: general
-                //color: "aliceblue"
                 BathymetryChart{
                     id: btChr
 

@@ -12,9 +12,12 @@ Map {
     property real v_rotation : root.convertToRadiant(data_model.data_source.swamp_status.ngc_status.psi.value)
     property bool is_centered: true
     property var initialCoordinates: QtPositioning.coordinate(lat, lon)
-    property double initialValue : 0.513
+    property double initialValue : 7.13
     property real rando : 0
     property int bath_counter: 0
+    readonly property real hueMin : 0.513
+    readonly property real hueMax : 0.652
+
     onLatChanged: lon !=0 ? root.startUp = false: ""
     onLonChanged: lat !=0 ? root.startUp = false: ""
 
@@ -64,27 +67,26 @@ Map {
             if(!root.startUp &( Math.abs(old_lat - roundCoor(swamp_icon.coordinate.latitude,5)) > 0
                                | Math.abs(old_lon - roundCoor(swamp_icon.coordinate.longitude,5))>0))
             {
-                //var crd = navigation_map.toCoordinate(Qt.point(mouseX, mouseY))
-                //mivMarker.model.insertCoordinate(swamp_icon.coordinate)
-                //console.log(navigation_map.initialValue)
 
+                // TODO JUST FOR TESTING
                 rando = Math.random() * 10
-                if(rando> 6) navigation_map.initialValue = roundCoor(navigation_map.initialValue + 0.005, 3)
-                else if(rando < 3) navigation_map.initialValue = roundCoor(navigation_map.initialValue - 0.005, 3)
+                if(rando> 6) navigation_map.initialValue = roundCoor(navigation_map.initialValue + 1.2, 3)
+                else if(rando < 3) navigation_map.initialValue = roundCoor(navigation_map.initialValue - 1.2, 3)
 
+                var finalValue = navigation_map.initialValue / minion_view.maxDepth * (hueMax - hueMin) + hueMin
                 markerModel.append({
                                        "latitude": swamp_icon.coordinate.latitude,
                                        "longitude": swamp_icon.coordinate.longitude,
-                                       "colorHue": navigation_map.initialValue
+                                       "colorHue": finalValue
                                    })
-                var x = navigation_map.initialValue
-                bath_counter += 10
-                var y = bath_counter
-                minion_view.bathYValue = Qt.point(y,x)//navigation_map.initialValue
+                // scale incoming value to chart dimension
 
-                //my_bath_delegate.colore = Qt.hsla(navigation_map.initialValue, 1, 0.5, 1)
-                //bath_poly.addCoordinate(swamp_icon.coordinate)
-                //bath_poly.line.color = Qt.hsla(navigation_map.initialValue, 1, 0.5, 1)
+
+                // updating the chart
+                bath_counter += 10
+                var x = bath_counter
+                var y = navigation_map.initialValue
+                minion_view.bathymetryPoint = Qt.point(x,y)//navigation_map.initialValue
                 old_lat = roundCoor(swamp_icon.coordinate.latitude,5)
                 old_lon = roundCoor(swamp_icon.coordinate.longitude,5)
             }

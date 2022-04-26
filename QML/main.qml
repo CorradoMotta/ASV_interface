@@ -41,6 +41,7 @@ ApplicationWindow {
     // instantiate the minion view
     Minions{
         id: minion_view
+        maxDepth : bathymetry_panel.max_depth
     }
 
     RowLayout {
@@ -94,6 +95,16 @@ ApplicationWindow {
                     opacity: data_model.data_source.is_connected ? 1 : 0.3
                     enabled: data_model.data_source.is_connected
                 }
+                BathymetryPanel{
+                    id: bathymetry_panel
+                    Layout.fillWidth: true
+                    Layout.rightMargin: 10
+                    Layout.alignment: Qt.AlignTop
+                    opacity: data_model.data_source.is_connected ? 1 : 0.3
+                    enabled: data_model.data_source.is_connected
+
+                }
+
                 Button {
                     id: connect_button
                     Layout.alignment: Qt.AlignTop
