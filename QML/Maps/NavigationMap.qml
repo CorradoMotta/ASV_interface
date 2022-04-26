@@ -13,6 +13,8 @@ Map {
     property bool is_centered: true
     property var initialCoordinates: QtPositioning.coordinate(lat, lon)
     property double initialValue : 0.513
+    property real rando : 0
+    property int bath_counter: 0
     onLatChanged: lon !=0 ? root.startUp = false: ""
     onLonChanged: lat !=0 ? root.startUp = false: ""
 
@@ -64,14 +66,22 @@ Map {
             {
                 //var crd = navigation_map.toCoordinate(Qt.point(mouseX, mouseY))
                 //mivMarker.model.insertCoordinate(swamp_icon.coordinate)
-                console.log(navigation_map.initialValue)
+                //console.log(navigation_map.initialValue)
 
-                navigation_map.initialValue = roundCoor(navigation_map.initialValue + 0.005, 3)
+                rando = Math.random() * 10
+                if(rando> 6) navigation_map.initialValue = roundCoor(navigation_map.initialValue + 0.005, 3)
+                else if(rando < 3) navigation_map.initialValue = roundCoor(navigation_map.initialValue - 0.005, 3)
+
                 markerModel.append({
                                        "latitude": swamp_icon.coordinate.latitude,
                                        "longitude": swamp_icon.coordinate.longitude,
                                        "colorHue": navigation_map.initialValue
                                    })
+                var x = navigation_map.initialValue
+                bath_counter += 10
+                var y = bath_counter
+                minion_view.bathYValue = Qt.point(y,x)//navigation_map.initialValue
+
                 //my_bath_delegate.colore = Qt.hsla(navigation_map.initialValue, 1, 0.5, 1)
                 //bath_poly.addCoordinate(swamp_icon.coordinate)
                 //bath_poly.line.color = Qt.hsla(navigation_map.initialValue, 1, 0.5, 1)

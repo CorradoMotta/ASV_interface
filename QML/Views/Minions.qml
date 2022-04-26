@@ -14,11 +14,15 @@ import "../Panels"
 import "../Views"
 import "../Charts"
 Item {
-    property alias minimum_width : minion_fl.minimumXDim
-    property alias minimum_height: minion_fl.minimumYDim
+
+    property alias minimum_width : minion1.minimumXDim
+    property alias minimum_height: minion1.minimumYDim
+    property alias bathYValue : btChr.new_point
+
     Page{
         id: minion_page
         property int margin: 10
+
         anchors.fill: parent
         header: TabBar {
             id: bar
@@ -49,6 +53,7 @@ Item {
                 id: general
                 //color: "aliceblue"
                 BathymetryChart{
+                    id: btChr
 
                 }
             }
