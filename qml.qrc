@@ -38,5 +38,18 @@
         <file>QML/Panels/MinionGPSPanel.qml</file>
         <file>QML/Panels/MinionGenericPanel.qml</file>
         <file>QML/Views/SingleMinion.qml</file>
+        <file>QML/BasicItems/BasicSliderVertical.qml</file>
+        <file>QML/BasicItems/StatusDot.qml</file>
+        <file>QML/BasicItems/BasicMinionPanelContainer.qml</file>
+        <file>QML/BasicItems/BasicTextOutput.qml</file>
+        <file>QML/BasicItems/BasicSwitch.qml</file>
+        <file>QML/BasicItems/BasicRebootIcon.qml</file>
+        <file>Images/off_button.png</file>
+        <file>Images/on_button.png</file>
+        <file>QML/BasicItems/BasicTextInput.qml</file>
+        <file>QML/BasicItems/BasicTextOutputInverted.qml</file>
+        <file>QML/BasicItems/BasicSwitchInverted.qml</file>
+        <file>Images/off_button_new.png</file>
+        <file>Images/on_button_new.png</file>
     </qresource>
 </RCC>

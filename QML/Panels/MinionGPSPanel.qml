@@ -6,15 +6,67 @@
  *************************************************************************/
 
 import QtQuick 2.0
+import QtQuick.Layouts 1.15
+import "../BasicItems"
 
-Rectangle{
-    //implicitWidth: text1.implicitWidth
-    border.color: "gray"
-    border.width: 3
-    Text {
-        id: text1
-        anchors.horizontalCenter: parent.horizontalCenter
-        text: "GPS"
-        font.pixelSize: 20
+BasicMinionPanelContainer{
+    title: "GPS"
+    implicitHeight: pump_row_id.implicitHeight + title_height + 20
+    implicitWidth: pump_row_id.implicitWidth + 20
+
+    RowLayout{
+        id: pump_row_id
+        spacing: 10
+        anchors{
+            topMargin: title_height + 20
+            fill: parent
+            leftMargin: 10
+            rightMargin: 10
+        }
+        ColumnLayout{
+            id: cmd_column_id
+            Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
+            BasicTextOutputInverted{
+                //Layout.topMargin: 30
+                value_width: 200
+                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                title_text: "LATITUDE"
+            }
+            BasicTextOutputInverted{
+                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                value_width: 200
+                title_text: "LONGITUDE"
+            }
+            BasicTextOutputInverted{
+                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                value_width: 200
+                title_text: "ALTITUDE"
+            }
+
+        }
+        Rectangle {
+            Layout.fillHeight: true
+            Layout.bottomMargin: 60
+            Layout.topMargin: title_height + 40
+            width: 2
+            color: "gray"
+        }
+        ColumnLayout{
+            id: status_column_id
+            Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
+            BasicTextOutput{
+                //Layout.topMargin: 30
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                title_text: "FIX"
+            }
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                title_text: "HDOP"
+            }
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                title_text: "HEIGHT"
+            }
+        }
     }
 }

@@ -11,7 +11,9 @@ import "Views"
 
 ApplicationWindow {
     id: root
-    width: 2000
+    width: 1900
+    minimumWidth: minion_view.minimum_width + main_layout.implicitWidth
+    minimumHeight: minion_view.minimum_height + menu_bar_id.implicitHeight + 20
     height: 1000
     visible: true
     title: qsTr("Swamp interface")
@@ -31,9 +33,17 @@ ApplicationWindow {
                 QtPositioning.coordinate(navigation_map.lat, navigation_map.lon)
     }
 
-    menuBar: CustomMenuBar {}
+    menuBar: CustomMenuBar {
+        id: menu_bar_id
+    }
+
+    // instantiate the minion view
+    Minions{
+        id: minion_view
+    }
 
     RowLayout {
+        id: main_layout
         anchors.fill: parent
         spacing: 10
 
@@ -41,6 +51,7 @@ ApplicationWindow {
             id: stack
             Layout.fillWidth: true
             Layout.fillHeight: true
+            clip: true
             Layout.topMargin: 10
             initialItem: NavigationMap{
                 id: navigation_map
@@ -49,8 +60,9 @@ ApplicationWindow {
 
         BasicStackButton{
             id: stack_button
+            Layout.topMargin: 10
             Layout.fillHeight: true
-            Layout.preferredWidth: 20
+            Layout.preferredWidth: 30
         }
 
         Rectangle {
@@ -70,6 +82,7 @@ ApplicationWindow {
                     // TODO i cannot access enum?
                     opacity: data_model.data_source.is_connected ? 1 : 0.3
                     enabled: data_model.data_source.is_connected
+
                 }
                 ForceSliderPanel {
                     id: force_slider_panel

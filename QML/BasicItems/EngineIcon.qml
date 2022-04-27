@@ -1,10 +1,13 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.15
 
-Item {
-    implicitHeight: engine_image.implicitHeight + engine_text.implicitHeight
-    implicitWidth: engine_image.implicitWidth
+Item  {
+    id: engine_icon_root
+    implicitHeight: engine_text.text === ""? engine_image.implicitHeight +15 :  engine_image.implicitHeight + engine_text.implicitHeight + 15
+    implicitWidth: engine_image.implicitWidth + 15
     property alias engineIconText: engine_text.text
+    property int image_size: 50
+    property bool set_border: false
 
     enum EngineStates {
         Engine_off,
@@ -32,18 +35,31 @@ Item {
             return EngineIcon.EngineStates.Engine_off
     }
 
+
     ColumnLayout {
         id: coln
-
-        Image {
-            id: engine_image
-            visible: true
-            source: setSource(engineState)
-            sourceSize.width: 50
-            sourceSize.height: 50
+        anchors.fill: parent
+        Rectangle{
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            implicitHeight: engine_image.implicitHeight +18
+            implicitWidth: engine_image.implicitWidth + 18
+            radius: 80
+            color: set_border ? "aliceblue" : "transparent"
+            border.color: set_border ? "black" : "transparent"
+            Image {
+                id: engine_image
+                anchors.horizontalCenterOffset: 4
+                anchors.verticalCenterOffset: 3
+                anchors.centerIn: parent
+                visible: true
+                source: setSource(engineState)
+                sourceSize.width: engine_icon_root.image_size
+                sourceSize.height: engine_icon_root.image_size
+            }
         }
         Text {
             id: engine_text
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             font.family: "Helvetica"
             font.pointSize: 18
         }

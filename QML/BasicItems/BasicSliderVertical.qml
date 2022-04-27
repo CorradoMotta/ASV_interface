@@ -1,27 +1,55 @@
+/*************************************************************************
+ *
+ * Same as BasicSlider. The only difference is that the text is placed
+ * above.
+ *
+ *************************************************************************/
+
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
 Item {
     id: slider_root
-    implicitHeight: control.implicitHeight
-    implicitWidth: control.implicitWidth
-
+    implicitHeight: control.implicitHeight + slider_text_id.implicitHeight
+    implicitWidth: slider_row_layout.implicitWidth
+    //
     property alias slider_text: slider_text_id.text
     property alias slider_from: control.from
     property alias slider_to: control.to
     property alias mask_input: slider_value_id.inputMask
     property int value: 0
+    Text {
+        id: slider_text_id
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.margins: slider_row_layout.spacing
+        font.family: "Helvetica"
+        font.pointSize: 14
+    }
+    //    Rectangle{
+    //        anchors{
+    //            top: slider_text_id.bottom
+    //            topMargin: 5
+    //            bottom: parent.bottom ; left: parent.left ; right: parent.right
+    //            bottomMargin: 10
+    //        }
+    //        border.color: "black"
+    //        border.width: 1
+    //        radius: 5
+    //        color: "transparent"
+    //        implicitHeight: control.implicitHeight
+    //        implicitWidth: slider_row_layout.implicitWidth
 
     RowLayout {
-        anchors.fill: parent
+        id: slider_row_layout
+        anchors{
+            top: slider_text_id.bottom
+            bottom: parent.bottom ; left: parent.left ; right: parent.right
+            bottomMargin: 10
+        }
         spacing: 3
 
-        Text {
-            id: slider_text_id
-            font.family: "Helvetica"
-            font.pointSize: 18
-        }
         Slider {
             id: control
             property bool __pressed: false
@@ -65,24 +93,30 @@ Item {
             snapMode: Slider.SnapOnRelease
             onPressedChanged: pressed ? "" : slider_root.value = control.value
         }
-        Rectangle{
-            id: slider_text_input
+        FocusScope {
+            id: text_input_id
             property int maxWidth: 48
             Layout.preferredWidth: maxWidth
             Layout.preferredHeight: slider_value_id.implicitHeight + 6
             Layout.alignment: Qt.AlignLeft
-            border.color: "gray"
-            border.width: 2
-            radius: 3
-            TextInput {
-                id: slider_value_id
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
-                font.family: "Helvetica"
-                font.pointSize: 18
-                text: control.onMoved ? control.valueAt(control.position) : "0"
-                onEditingFinished: {
-                    control.value = text * 1
+            Rectangle{
+                id: slider_text_input
+                anchors.fill: parent
+                border.color: "gray"
+                border.width: 2
+                radius: 3
+                TextInput {
+                    id: slider_value_id
+                    anchors.fill: parent
+                    anchors.margins: 4
+                    font.family: "Helvetica"
+                    font.pointSize: 14
+                    focus: true
+                    text: control.onMoved ? control.valueAt(control.position) : 0
+                    onEditingFinished: {
+                        control.value = text * 1
+                        slider_root.value = control.value
+                    }
                 }
             }
         }
@@ -140,6 +174,6 @@ Item {
                 }
             }
         }
-
     }
 }
+
