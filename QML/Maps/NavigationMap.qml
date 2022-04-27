@@ -75,15 +75,11 @@ Map {
                 else if(rando < 3) navigation_map.initialValue = roundCoor(navigation_map.initialValue - 1.2, 3)
 
                 var finalValue = bathymetry_panel.max_depth !=0 ? (((navigation_map.initialValue + bathymetry_panel.min_depth)  / (-bathymetry_panel.max_depth +bathymetry_panel.min_depth)) * (hueMax - hueMin)) + hueMin : hueMax
-                markerModel.append({
-                                       "latitude": swamp_icon.coordinate.latitude,
-                                       "longitude": swamp_icon.coordinate.longitude,
-                                       "colorHue": finalValue > hueMax ? hueMax: finalValue < hueMin ? hueMin: finalValue,
-                                       "depth": - navigation_map.initialValue,
-                                       "zvalue": 100000 - bath_counter
-                                   })
-                // scale incoming value to chart dimension
 
+                bathView.model.addDepthPoint(QtPositioning.coordinate(swamp_icon.coordinate.latitude, swamp_icon.coordinate.longitude),
+                                             finalValue > hueMax ? hueMax: finalValue < hueMin ? hueMin: finalValue,
+                                             - navigation_map.initialValue
+                                             )
 
                 // updating the chart
                 bath_counter += 10
@@ -112,23 +108,14 @@ Map {
     // --------------------------------------------------------
     // ADDED FOR BATHIMETRY
     // --------------------------------------------------------
-    MapPolyline {
-        id: bath_poly
-        line.width: 5
-        line.color:  Qt.hsla(0.513, 1, 0.5, 1)
-    }
-
-    ListModel {
-        id: markerModel
-    }
-
     MapItemView {
-        id: bathMarker
+        id: bathView
         // create a listModel to provide data used for creating the map items defined by the delegate.
-        model: markerModel
+        model: _bathymetry_model
         delegate: DelegateBathModel{
             id: my_bath_delegate
-            coordinate: QtPositioning.coordinate(latitude, longitude)
+            coordinate: QtPositioning.coordinate(model.coordinate.latitude,
+                                                  model.coordinate.longitude)
         }
     }
     // --------------------------------------------------------

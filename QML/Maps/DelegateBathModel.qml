@@ -4,7 +4,6 @@ import QtLocation 5.15
 
 MapQuickItem {
     id: mqi
-    //property int colorHue : 0.513
     z: 1
     anchorPoint.x: imgCircle.width
     anchorPoint.y: imgCircle.height
@@ -17,7 +16,7 @@ MapQuickItem {
 
         Rectangle{
             id: info_label
-            z: zvalue
+            z: 3
             anchors.bottom: imgCircle.top
             anchors.bottomMargin: - (info_label_text.height/3)
             anchors.horizontalCenter: imgCircle.horizontalCenter
@@ -32,7 +31,7 @@ MapQuickItem {
                 anchors.horizontalCenter: info_label.horizontalCenter
                 anchors.verticalCenter: info_label.verticalCenter
                 font.pointSize: 10
-                text: colorHue
+                text: depth
             }
         }
         MouseArea{
