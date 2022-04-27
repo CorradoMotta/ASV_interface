@@ -6,7 +6,7 @@ Rectangle {
     property point newPoint : Qt.point(0,0)
     property real yMIN : 0
     property real xMIN : 0
-    property real yMAX
+    property real yMAX : -10.0 // TODO should be a cost value
     property real xMAX : 500.0
 
     anchors.fill: parent
@@ -14,6 +14,7 @@ Rectangle {
 
     onNewPointChanged: {
         if(newPoint.x > xMAX) xMAX = newPoint.x + 100
+        if(newPoint.y < yMAX) yMAX = newPoint.y - 5
         lineSeries.append(newPoint.x, newPoint.y);
     }
 
@@ -31,13 +32,13 @@ Rectangle {
         axes: [
             ValueAxis{
                 id: xAxis
-                min: yMAX
+                min: xMIN
                 max: xMAX
             },
             ValueAxis{
                 id: yAxis
-                min: yMIN
-                max: yMAX
+                min: yMAX
+                max: yMIN
             }
         ]
         LineSeries {

@@ -1,3 +1,12 @@
+/*************************************************************************
+ *
+ * Slider that contains one handle in order to set a value. It also has
+ * a title which is positioned on the left of the slider, a reset button
+ * to move the slider to 0, two arrows to increase and decrease the slider
+ * value, and an editable textInput box to show and modify the slider value.
+ *
+ *************************************************************************/
+
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15

@@ -41,7 +41,7 @@ ApplicationWindow {
     // instantiate the minion view
     Minions{
         id: minion_view
-        maxDepth : bathymetry_panel.max_depth
+        //maxDepth : bathymetry_panel.max_depth
     }
 
     RowLayout {

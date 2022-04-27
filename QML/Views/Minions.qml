@@ -14,12 +14,11 @@ import "../Panels"
 import "../Views"
 import "../Charts"
 Item {
-<<<<<<< HEAD
 
     property alias minimum_width : minion1.minimumXDim
     property alias minimum_height: minion1.minimumYDim
     property alias bathymetryPoint : btChr.newPoint
-    property alias maxDepth: btChr.yMAX
+    //property alias maxDepth: btChr.yMAX
 
     Page{
         id: minion_page

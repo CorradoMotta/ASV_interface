@@ -15,6 +15,7 @@ Map {
     property double initialValue : 7.13
     property real rando : 0
     property int bath_counter: 0
+    //property int max_depth :
     readonly property real hueMin : 0.513
     readonly property real hueMax : 0.652
 
@@ -73,11 +74,13 @@ Map {
                 if(rando> 6) navigation_map.initialValue = roundCoor(navigation_map.initialValue + 1.2, 3)
                 else if(rando < 3) navigation_map.initialValue = roundCoor(navigation_map.initialValue - 1.2, 3)
 
-                var finalValue = navigation_map.initialValue / minion_view.maxDepth * (hueMax - hueMin) + hueMin
+                var finalValue = bathymetry_panel.max_depth !=0 ? (((navigation_map.initialValue + bathymetry_panel.min_depth)  / (-bathymetry_panel.max_depth +bathymetry_panel.min_depth)) * (hueMax - hueMin)) + hueMin : hueMax
                 markerModel.append({
                                        "latitude": swamp_icon.coordinate.latitude,
                                        "longitude": swamp_icon.coordinate.longitude,
-                                       "colorHue": finalValue
+                                       "colorHue": finalValue > hueMax ? hueMax: finalValue < hueMin ? hueMin: finalValue,
+                                       "depth": - navigation_map.initialValue,
+                                       "zvalue": 100000 - bath_counter
                                    })
                 // scale incoming value to chart dimension
 
@@ -85,7 +88,7 @@ Map {
                 // updating the chart
                 bath_counter += 10
                 var x = bath_counter
-                var y = navigation_map.initialValue
+                var y = - navigation_map.initialValue
                 minion_view.bathymetryPoint = Qt.point(x,y)//navigation_map.initialValue
                 old_lat = roundCoor(swamp_icon.coordinate.latitude,5)
                 old_lon = roundCoor(swamp_icon.coordinate.longitude,5)

@@ -17,7 +17,7 @@ MapQuickItem {
 
         Rectangle{
             id: info_label
-            z: 3
+            z: zvalue
             anchors.bottom: imgCircle.top
             anchors.bottomMargin: - (info_label_text.height/3)
             anchors.horizontalCenter: imgCircle.horizontalCenter

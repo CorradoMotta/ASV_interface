@@ -56,5 +56,6 @@
         <file>QML/Maps/DelegateBathModel.qml</file>
         <file>QML/Charts/BathymetryChart.qml</file>
         <file>QML/Panels/BathymetryPanel.qml</file>
+        <file>QML/BasicItems/BasicRangeSlider.qml</file>
     </qresource>
 </RCC>
