@@ -1,5 +1,5 @@
 #include "bathymetrymodel.h"
-
+#include <qdebug.h>
 BathymetryModel::BathymetryModel(QObject *parent)
     : QAbstractListModel{parent}
 {
@@ -81,9 +81,25 @@ void BathymetryModel::addDepthPoint(Depth_point *depthPoint)
     endInsertRows();
 }
 
-void BathymetryModel::addDepthPoint(const QGeoCoordinate &coor, const double &colorHue, const double &depth)
+double BathymetryModel::calculateHueValue(const double &depth, const int &maxDepth, const int &minDepth)
 {
-    Depth_point *depthPoint = new Depth_point(coor,colorHue,depth);
+    // calculate colorHue
+    double colorHue;
+    if(maxDepth == 0) colorHue = m_hueMax;
+    else{
+        double tmpHue = (((depth + minDepth)/ (-maxDepth + minDepth)) * (m_hueMax - m_hueMin)) + m_hueMin;
+        if(tmpHue > m_hueMax) colorHue = m_hueMax;
+        else if(tmpHue < m_hueMin) colorHue = m_hueMin;
+        else colorHue = tmpHue;
+    }
+    return colorHue;
+}
+
+void BathymetryModel::addDepthPoint(const QGeoCoordinate &coor, const double &depth, const int &maxDepth, const int &minDepth)
+{
+    // calculate colorHue
+    double colorHue = calculateHueValue(depth, maxDepth, minDepth);
+    Depth_point *depthPoint = new Depth_point(coor, colorHue , -depth);
     addDepthPoint(depthPoint);
 }
 
@@ -93,3 +109,17 @@ void BathymetryModel::removeDepthPoint(int index)
     m_bathymetry.removeAt(index);
     endRemoveRows();
 }
+
+void BathymetryModel::newDepthRange(const int &maxDepth, const int &minDepth)
+{
+
+    QList<Depth_point*>::iterator depth_point;
+    for (depth_point = m_bathymetry.begin(); depth_point != m_bathymetry.end(); ++depth_point){
+        double newColorHue = calculateHueValue(-(*depth_point)->depth(), maxDepth, minDepth);
+        (*depth_point)->setColorHue(newColorHue);
+        emit dataChanged(QAbstractItemModel::createIndex(depth_point - m_bathymetry.begin(),0),QAbstractItemModel::createIndex(depth_point - m_bathymetry.begin(),0),
+                         QVector<int>()<<ColorHueRole);
+    }
+}
+
+

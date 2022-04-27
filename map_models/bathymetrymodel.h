@@ -27,11 +27,16 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
 
     void addDepthPoint (Depth_point * depthPoint);
-    Q_INVOKABLE void addDepthPoint(const QGeoCoordinate &coor, const double &colorHue, const double &depth);
+    double calculateHueValue (const double &depth, const int &maxDepth, const int &minDepth);
+    Q_INVOKABLE void addDepthPoint(const QGeoCoordinate &coor, const double &depth, const int &maxDepth, const int &minDepth);
     Q_INVOKABLE void removeDepthPoint(int index);
+    Q_INVOKABLE void newDepthRange(const int &maxDepth, const int &minDepth);
+
 
 private:
     QList<Depth_point*> m_bathymetry;
+    const double m_hueMax = 0.652;
+    const double m_hueMin = 0.513;
 };
 
 #endif // BATHYMETRYMODEL_H
