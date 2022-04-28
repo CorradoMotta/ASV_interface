@@ -65,6 +65,30 @@ HEADERS += \
     swamp_models/swampstatus.h
 
 DISTFILES += \
+    Images/ArrowDown.png \
+    Images/ArrowUp.png \
+    Images/Engine_inter.png \
+    Images/Engine_off.png \
+    Images/Engine_on.png \
+    Images/Swamp.png \
+    Images/arrow_close.png \
+    Images/arrow_open.png \
+    Images/circle.png \
+    Images/download.png \
+    Images/line_box.png \
+    Images/marker.png \
+    Images/marker_box.png \
+    Images/off_button.png \
+    Images/off_button_new.png \
+    Images/on_button.png \
+    Images/on_button_new.png \
+    Images/pause-button.png \
+    Images/pause.png \
+    Images/play-button-simple.png \
+    Images/play-button.png \
+    Images/rect_box.png \
+    Images/stop-button.png \
+    Images/stop.png \
     conf/topics.cfg \
     conf/topics.cfg \
     conf/topics_minion.cfg

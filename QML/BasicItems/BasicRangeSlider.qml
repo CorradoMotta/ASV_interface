@@ -43,8 +43,8 @@ Item {
             id: first_value_id
             property int maxWidth: 35
             Layout.preferredWidth: maxWidth
-            Layout.rightMargin: 10
-            Layout.alignment: Qt.AlignRight
+            //Layout.leftMargin: 10
+            Layout.alignment: Qt.AlignLeft
             font.family: "Helvetica"
             font.pointSize: 18
             text: control.first.onMoved ? control.valueAt(control.first.position) : "0"

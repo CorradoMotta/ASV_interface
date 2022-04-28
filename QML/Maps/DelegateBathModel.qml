@@ -38,10 +38,11 @@ MapQuickItem {
             anchors.fill: parent
             hoverEnabled : true
             onEntered: {
-                info_label.visible = true
+                //info_label.visible = true
+                navigation_map.updateLabel(depth, true)
             }
             onExited: {
-                info_label.visible = false
+                navigation_map.updateLabel(depth, false)
             }
         }
     }

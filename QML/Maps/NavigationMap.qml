@@ -77,10 +77,11 @@ Map {
                 if(rando> 6) navigation_map.initialValue = roundCoor(navigation_map.initialValue + 1.2, 3)
                 else if(rando < 3) navigation_map.initialValue = roundCoor(navigation_map.initialValue - 1.2, 3)
 
+                if(bathymetry_panel.isPLaying){
                 bathView.model.addDepthPoint(QtPositioning.coordinate(swamp_icon.coordinate.latitude, swamp_icon.coordinate.longitude),
                                              navigation_map.initialValue, // positive value expected
-											 max_bathymetry_depth,
-											 min_bathymetry_depth
+                                             max_bathymetry_depth,
+                                             min_bathymetry_depth
                                              )
 
                 // updating the chart
@@ -90,6 +91,7 @@ Map {
                 minion_view.bathymetryPoint = Qt.point(x,y)//navigation_map.initialValue
                 old_lat = roundCoor(swamp_icon.coordinate.latitude,5)
                 old_lon = roundCoor(swamp_icon.coordinate.longitude,5)
+                }
             }
         }
     }
@@ -118,6 +120,27 @@ Map {
             id: my_bath_delegate
             coordinate: QtPositioning.coordinate(model.coordinate.latitude,
                                                  model.coordinate.longitude)
+        }
+    }
+
+    Rectangle{
+        id: info_label
+        property alias depth_value : info_label_text.text
+        anchors.top: parent.top
+        anchors.topMargin: 30
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: info_label_text.implicitWidth + 15
+        height: info_label_text.implicitHeight + 15
+        color: "white"
+        border.color: "black"
+        radius: 14
+        visible: false
+
+        Text{
+            id: info_label_text
+            anchors.horizontalCenter: info_label.horizontalCenter
+            anchors.verticalCenter: info_label.verticalCenter
+            font.pointSize: 14
         }
     }
     // --------------------------------------------------------
@@ -155,5 +178,10 @@ Map {
 
     function roundCoor(coor, dec){
         return Math.round(coor * Math.pow(10, dec))/ Math.pow(10, dec)
+    }
+
+    function updateLabel(depth, visibility){
+        info_label.depth_value = depth
+        info_label.visible = visibility
     }
 }
