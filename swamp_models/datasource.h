@@ -77,6 +77,7 @@ signals:
 private slots:
 
     void connectionEstablished();
+    void handleDisconnected();
     void handleMessage(const QByteArray &message, const QMqttTopicName &topic = QMqttTopicName());
     void update_ts_from_local();
     void update_ts_from_vehicle();

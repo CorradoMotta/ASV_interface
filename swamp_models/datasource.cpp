@@ -10,8 +10,9 @@ DataSource::DataSource(QObject *parent)
       m_is_connected{false}
 {
     connect(m_client, &QMqttClient::connected, this, &DataSource::connectionEstablished);
-    connect(m_client, &QMqttClient::messageReceived, this, &DataSource::handleMessage);
-    m_timer->start(100);
+    connect(m_client, &QMqttClient::messageReceived, this, &DataSource::handleDisconnected);
+    connect(m_client, &QMqttClient::disconnected, this, &DataSource::handleDisconnected);
+    //m_timer->start(100);
 }
 
 void DataSource::update_ts_from_local(){
@@ -32,7 +33,7 @@ void DataSource::setConnection()
 {
     if(!m_is_connected){
         m_client->connectToHost();
-        connect(m_timer, &QTimer::timeout, this, &DataSource::update_ts_from_local); //start sending heartbeat
+        //connect(m_timer, &QTimer::timeout, this, &DataSource::update_ts_from_local); //start sending heartbeat
     }else{
         qDebug() << "Disconnecting..";
         m_client->disconnectFromHost();
@@ -79,9 +80,16 @@ void DataSource::connectionEstablished()
     }
 
     // connect timestamps
-    connect(m_swamp_status.time_status()->timestamp(), &DoubleVariable::valueChanged,
-            this, &DataSource::update_ts_from_vehicle);
+    //connect(m_swamp_status.time_status()->timestamp(), &DoubleVariable::valueChanged,
+    //        this, &DataSource::update_ts_from_vehicle);
     set_is_connected(true);
+}
+
+void DataSource::handleDisconnected()
+{
+    //TODO implement automatic reconnection
+    set_is_connected(false);
+    qDebug() << "disconnected";
 }
 
 void DataSource::handleMessage(const QByteArray &message, const QMqttTopicName &topic)

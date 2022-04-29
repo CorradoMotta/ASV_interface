@@ -92,9 +92,10 @@ ApplicationWindow {
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
                     // TODO i cannot access enum?
-                    opacity: data_model.data_source.is_connected ? 1 : 0.3
-                    enabled: data_model.data_source.is_connected
-
+                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
+                    //enabled: data_model.data_source.is_connected
+                    opacity: 0.3
+                    enabled: false
                 }
                 ForceSliderPanel {
                     id: force_slider_panel
@@ -102,16 +103,19 @@ ApplicationWindow {
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
                     clip: true
-                    opacity: data_model.data_source.is_connected ? 1 : 0.3
-                    enabled: data_model.data_source.is_connected
+                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
+                    //enabled: data_model.data_source.is_connected
+                    opacity: 0.3
+                    enabled: false
+
                 }
                 BathymetryPanel{
                     id: bathymetry_panel
                     Layout.fillWidth: true
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
-                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
-                    //enabled: data_model.data_source.is_connected
+                    opacity: data_model.data_source.is_connected ? 1 : 0.3
+                    enabled: data_model.data_source.is_connected
 
                 }
 
@@ -161,7 +165,6 @@ ApplicationWindow {
     SequentialAnimation{
         id: message_prompt_anim
     NumberAnimation {
-
         target: message_prompt
         property: "opacity"
         from: 0.0; to: 1.0
