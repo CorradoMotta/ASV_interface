@@ -121,9 +121,10 @@ bool DataSource::read_cfg(QString filename)
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // PREFIX
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    QString env_prefix;
     QString prefix;
-    tn = "Environment:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn ; prefix = topic_map[tn];
-    tn = "Robot:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn ; prefix += topic_map[tn];
+    tn = "Environment:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn ; env_prefix = topic_map[tn];
+    tn = "Robot:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn ; prefix = env_prefix+  topic_map[tn];
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // MQTT
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -136,9 +137,9 @@ bool DataSource::read_cfg(QString filename)
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Timestamp
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    if(!set_topic_name("timeStamp:", m_swamp_status.time_status()->timestamp(), topic_map, "CNR-INM/")) return false;
+    if(!set_topic_name("timeStamp:", m_swamp_status.time_status()->timestamp(), topic_map, env_prefix)) return false;
     if(!set_topic_name("HMI-Robot-timeStamp:", m_swamp_status.time_status()->hmi_timestamp(), topic_map, prefix)) return false;
-    if(!set_topic_name("date-time:", m_swamp_status.time_status()->dateTime(), topic_map, "CNR-INM/")) return false;
+    if(!set_topic_name("date-time:", m_swamp_status.time_status()->dateTime(), topic_map, env_prefix)) return false;
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // NGC and GPS
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
