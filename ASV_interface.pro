@@ -90,5 +90,5 @@ DISTFILES += \
     Images/stop-button.png \
     Images/stop.png \
     conf/topics.cfg \
-    conf/topics.cfg \
-    conf/topics_minion.cfg
+    conf/topics_minion.cfg \
+    conf/topics_proteus.cfg

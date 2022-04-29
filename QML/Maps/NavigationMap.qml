@@ -9,12 +9,13 @@ Map {
     id: navigation_map
     property var lat: data_model.data_source.swamp_status.gps_ahrs_status.latitude
     property var lon: data_model.data_source.swamp_status.gps_ahrs_status.longitude
+    property real altitude: data_model.data_source.swamp_status.ngc_status.altitude.value
     property real latValue : lat.value
     property real lonValue: lon.value
     property real v_rotation : root.convertToRadiant(data_model.data_source.swamp_status.ngc_status.psi.value)
     property bool is_centered: true
     property var initialCoordinates: QtPositioning.coordinate(lat.value, lon.value)
-    property double initialValue : 7.13
+    //property double initialValue : 7.13
     property real rando : 0
     property int bath_counter: 0
     property int max_bathymetry_depth : bathymetry_panel.max_depth
@@ -75,22 +76,22 @@ Map {
             {
 
                 // TODO JUST FOR TESTING
-                rando = Math.random() * 10
-                if(rando> 6) navigation_map.initialValue = roundCoor(navigation_map.initialValue + 1.2, 3)
-                else if(rando < 3) navigation_map.initialValue = roundCoor(navigation_map.initialValue - 1.2, 3)
+//                rando = Math.random() * 10
+//                if(rando> 6) navigation_map.initialValue = roundCoor(navigation_map.initialValue + 1.2, 3)
+//                else if(rando < 3) navigation_map.initialValue = roundCoor(navigation_map.initialValue - 1.2, 3)
 
                 if(bathymetry_panel.isPLaying){
                 bathView.model.addDepthPoint(latValue,
                                              lon.value,
                                              lat.timeStamp,
-                                             navigation_map.initialValue, // positive value expected
+                                             altitude, // positive value expected
                                              max_bathymetry_depth,
                                              min_bathymetry_depth
                                              )
 
-                bath_counter += 10
+                bath_counter += 5
                 var x = bath_counter
-                var y = - navigation_map.initialValue
+                var y = - altitude
                 minion_view.bathymetryPoint = Qt.point(x,y)//navigation_map.initialValue
                 old_lat = roundCoor(lat.value,5)
                 old_lon = roundCoor(lon.value,5)
@@ -142,7 +143,6 @@ Map {
             font.pointSize: 10
         }
     }
-
     // --------------------------------------------------------
     // END
     // --------------------------------------------------------
