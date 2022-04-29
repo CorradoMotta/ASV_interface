@@ -7,11 +7,13 @@ import "../Panels"
 
 Map {
     id: navigation_map
-    property real lat: data_model.data_source.swamp_status.gps_ahrs_status.latitude.value
-    property real lon: data_model.data_source.swamp_status.gps_ahrs_status.longitude.value
+    property var lat: data_model.data_source.swamp_status.gps_ahrs_status.latitude
+    property var lon: data_model.data_source.swamp_status.gps_ahrs_status.longitude
+    property real latValue : lat.value
+    property real lonValue: lon.value
     property real v_rotation : root.convertToRadiant(data_model.data_source.swamp_status.ngc_status.psi.value)
     property bool is_centered: true
-    property var initialCoordinates: QtPositioning.coordinate(lat, lon)
+    property var initialCoordinates: QtPositioning.coordinate(lat.value, lon.value)
     property double initialValue : 7.13
     property real rando : 0
     property int bath_counter: 0
@@ -20,8 +22,8 @@ Map {
     readonly property real hueMin : 0.513
     readonly property real hueMax : 0.652
 
-    onLatChanged: lon !=0 ? root.startUp = false: ""
-    onLonChanged: lat !=0 ? root.startUp = false: ""
+    onLatValueChanged: lon.value !==0 ? root.startUp = false: ""
+    onLonValueChanged: lat.value !==0 ? root.startUp = false: ""
     onMax_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
     onMin_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
 
@@ -30,7 +32,7 @@ Map {
     gesture.enabled: true
     gesture.acceptedGestures: MapGestureArea.PanGesture | MapGestureArea.PinchGesture
     gesture.onPanFinished: {
-        if(!visibleRegion.contains(QtPositioning.coordinate(lat, lon)) && !root.startUp)
+        if(!visibleRegion.contains(QtPositioning.coordinate(lat.value, lon.value)) && !root.startUp)
             navigation_map.is_centered = false
         else if(navigation_map.is_centered)
             navigation_map.is_centered = true
@@ -65,11 +67,11 @@ Map {
         id: swamp_icon
         z: 1
         rotation: v_rotation
-        coordinate:  QtPositioning.coordinate(lat, lon)
+        coordinate:  QtPositioning.coordinate(lat.value, lon.value)
         onCoordinateChanged:
         {
-            if(!root.startUp &( Math.abs(old_lat - roundCoor(swamp_icon.coordinate.latitude,5)) > 0
-                               | Math.abs(old_lon - roundCoor(swamp_icon.coordinate.longitude,5))>0))
+            if(!root.startUp &( Math.abs(old_lat - roundCoor(lat.value,5)) > 0
+                              | Math.abs(old_lon - roundCoor(lon.value,5)) > 0))
             {
 
                 // TODO JUST FOR TESTING
@@ -78,19 +80,20 @@ Map {
                 else if(rando < 3) navigation_map.initialValue = roundCoor(navigation_map.initialValue - 1.2, 3)
 
                 if(bathymetry_panel.isPLaying){
-                bathView.model.addDepthPoint(QtPositioning.coordinate(swamp_icon.coordinate.latitude, swamp_icon.coordinate.longitude),
+                bathView.model.addDepthPoint(latValue,
+                                             lon.value,
+                                             lat.timeStamp,
                                              navigation_map.initialValue, // positive value expected
                                              max_bathymetry_depth,
                                              min_bathymetry_depth
                                              )
 
-                // updating the chart
                 bath_counter += 10
                 var x = bath_counter
                 var y = - navigation_map.initialValue
                 minion_view.bathymetryPoint = Qt.point(x,y)//navigation_map.initialValue
-                old_lat = roundCoor(swamp_icon.coordinate.latitude,5)
-                old_lon = roundCoor(swamp_icon.coordinate.longitude,5)
+                old_lat = roundCoor(lat.value,5)
+                old_lon = roundCoor(lon.value,5)
                 }
             }
         }
@@ -126,23 +129,20 @@ Map {
     Rectangle{
         id: info_label
         property alias depth_value : info_label_text.text
-        anchors.top: parent.top
-        anchors.topMargin: 30
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: info_label_text.implicitWidth + 15
-        height: info_label_text.implicitHeight + 15
+        width: info_label_text.implicitWidth + 6
+        height: info_label_text.implicitHeight + 6
         color: "white"
         border.color: "black"
-        radius: 14
         visible: false
 
         Text{
             id: info_label_text
             anchors.horizontalCenter: info_label.horizontalCenter
             anchors.verticalCenter: info_label.verticalCenter
-            font.pointSize: 14
+            font.pointSize: 10
         }
     }
+
     // --------------------------------------------------------
     // END
     // --------------------------------------------------------
@@ -180,8 +180,10 @@ Map {
         return Math.round(coor * Math.pow(10, dec))/ Math.pow(10, dec)
     }
 
-    function updateLabel(depth, visibility){
+    function updateLabel(depth, visibility, xVal, yVal){
         info_label.depth_value = depth
         info_label.visible = visibility
+        info_label.x = xVal
+        info_label.y = yVal
     }
 }

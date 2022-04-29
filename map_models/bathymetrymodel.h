@@ -11,6 +11,7 @@ class BathymetryModel : public QAbstractListModel
 
     enum bathRoles{
         CoordinateRole = Qt::UserRole +1,
+        TimestampRole,
         ColorHueRole,
         DepthRole
     };
@@ -19,7 +20,7 @@ signals:
 
     // QAbstractItemModel interface
 public:
-    explicit BathymetryModel(QObject *parent = nullptr);
+    explicit BathymetryModel(QString folderName, QObject *parent = nullptr);
     virtual int rowCount(const QModelIndex &parent) const override;
     virtual QVariant data(const QModelIndex &index, int role) const override;
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role) override;
@@ -28,15 +29,18 @@ public:
 
     void addDepthPoint (Depth_point * depthPoint);
     double calculateHueValue (const double &depth, const int &maxDepth, const int &minDepth);
-    Q_INVOKABLE void addDepthPoint(const QGeoCoordinate &coor, const double &depth, const int &maxDepth, const int &minDepth);
+    Q_INVOKABLE void addDepthPoint(const double &lat, const double &lon, const double &timestamp, const double &depth, const int &maxDepth, const int &minDepth);
     Q_INVOKABLE void removeDepthPoint(int index);
     Q_INVOKABLE void newDepthRange(const int &maxDepth, const int &minDepth);
-
+    Q_INVOKABLE void reset();
+    Q_INVOKABLE QString saveToDisk(QString filename);
 
 private:
+    QString m_folderName;
     QList<Depth_point*> m_bathymetry;
     const double m_hueMax = 0.652;
     const double m_hueMin = 0.513;
+
 };
 
 #endif // BATHYMETRYMODEL_H

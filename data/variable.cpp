@@ -54,12 +54,15 @@ void Variable::setValid(int newValid)
     emit validChanged();
 }
 
-void Variable::setTimeStamp(uint64 newTimeStamp)
+void Variable::setTimeStamp(double newTimeStamp)
 {
+    if (qFuzzyCompare(m_timeStamp, newTimeStamp))
+        return;
     m_timeStamp = newTimeStamp;
+    emit timeStampChanged();
 }
 
-uint64 Variable::timeStamp() const
+double Variable::timeStamp() const
 {
     return m_timeStamp;
 }

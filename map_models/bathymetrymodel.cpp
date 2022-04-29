@@ -1,9 +1,16 @@
 #include "bathymetrymodel.h"
 #include <qdebug.h>
-BathymetryModel::BathymetryModel(QObject *parent)
-    : QAbstractListModel{parent}
+#include <QDir>
+BathymetryModel::BathymetryModel(QString folderName, QObject *parent)
+    : m_folderName(folderName),
+      QAbstractListModel{parent}
 {
+    // create folder for bathymetry
 
+    if (!QDir(m_folderName).exists()){
+        QDir().mkdir(m_folderName);
+    }
+    //qDebug() << QDir::currentPath();
 }
 
 int BathymetryModel::rowCount(const QModelIndex &parent) const
@@ -19,6 +26,8 @@ QVariant BathymetryModel::data(const QModelIndex &index, int role) const
     Depth_point *depth_point = m_bathymetry[index.row()];
     if(role == CoordinateRole)
         return QVariant::fromValue(depth_point->coordinate());
+    if(role == TimestampRole)
+        return depth_point->timestamp();
     if(role == ColorHueRole)
         return depth_point->colorHue();
     if(role == DepthRole)
@@ -67,6 +76,7 @@ QHash<int, QByteArray> BathymetryModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[CoordinateRole] = "coordinate";
+    roles[TimestampRole] = "timestamp";
     roles[ColorHueRole] = "colorHue";
     roles[DepthRole] = "depth";
 
@@ -95,11 +105,12 @@ double BathymetryModel::calculateHueValue(const double &depth, const int &maxDep
     return colorHue;
 }
 
-void BathymetryModel::addDepthPoint(const QGeoCoordinate &coor, const double &depth, const int &maxDepth, const int &minDepth)
+void BathymetryModel::addDepthPoint(const double &lat, const double &lon, const double &timestamp, const double &depth, const int &maxDepth, const int &minDepth)
 {
     // calculate colorHue
+    QGeoCoordinate coor(lat,lon);
     double colorHue = calculateHueValue(depth, maxDepth, minDepth);
-    Depth_point *depthPoint = new Depth_point(coor, colorHue , -depth);
+    Depth_point *depthPoint = new Depth_point(coor, timestamp, colorHue , -depth);
     addDepthPoint(depthPoint);
 }
 
@@ -119,6 +130,40 @@ void BathymetryModel::newDepthRange(const int &maxDepth, const int &minDepth)
         (*depth_point)->setColorHue(newColorHue);
         emit dataChanged(QAbstractItemModel::createIndex(depth_point - m_bathymetry.begin(),0),QAbstractItemModel::createIndex(depth_point - m_bathymetry.begin(),0),
                          QVector<int>()<<ColorHueRole);
+    }
+}
+
+void BathymetryModel::reset()
+{
+    beginRemoveRows(QModelIndex(), 0 , m_bathymetry.size()-1);
+    m_bathymetry.clear();
+    endRemoveRows();
+}
+
+QString BathymetryModel::saveToDisk(QString qmlFilename)
+{
+    if(m_bathymetry.isEmpty()){
+        return "Dataset is empty. No data to save";
+    }
+    else{
+        // TODO make it better
+        QString filename = m_folderName + "/" +qmlFilename.replace(":","-") + ".txt";
+        QFile file(filename);
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+            return "Problem in creating the file. Try again.";
+
+        QTextStream out(&file);
+        out << "Timestamp"<< " " << "Latitude" << " " <<"Longitude" << " " << "Altitude" << "\n";
+
+        QList<Depth_point*>::iterator depth_point;
+        for (depth_point = m_bathymetry.begin(); depth_point != m_bathymetry.end(); ++depth_point)
+            out << qSetRealNumberPrecision( 10 )
+                <<  (*depth_point)->timestamp() << " "
+                << (*depth_point)->coordinate().latitude() << " "
+                <<(*depth_point)->coordinate().longitude() << " "
+                << (*depth_point)->depth() << "\n";
+
+        return "Bathymetry saved in file location: " + filename;
     }
 }
 

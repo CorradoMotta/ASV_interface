@@ -4,8 +4,9 @@ import QtQuick.Controls 2.15
 import "../BasicItems"
 
 Rectangle {
-    id: root
+    id: root_bath_panel
     Layout.preferredHeight: slider_depth.implicitHeight + icon_row.implicitHeight + 33 //TODO not having numbers here.
+    property string dateTime: data_model.data_source.swamp_status.time_status.dateTime.value
     radius: 5.0
     property alias max_depth : slider_depth.max_value //slider_value_id.text
     property alias min_depth: slider_depth.min_value
@@ -37,13 +38,13 @@ Rectangle {
             id: play_and_pause
             property bool play : false
             visible: true
-            source: root.isPLaying? "../../Images/pause_resized.png" : "../../Images/play-button_resized.png"
+            source: root_bath_panel.isPLaying? "../../Images/pause_resized.png" : "../../Images/play-button_resized.png"
             MouseArea{
                 anchors.fill: parent
                 onClicked:
                 {
-                    if(root.isPLaying) root.isPLaying = false
-                    else root.isPLaying = true
+                    if(root_bath_panel.isPLaying) root_bath_panel.isPLaying = false
+                    else root_bath_panel.isPLaying = true
                 }
             }
 
@@ -52,14 +53,35 @@ Rectangle {
             id: download_icon
             visible: true
             source: "../../Images/download_resized.png"
-            opacity: root.isPLaying? 0.4 : 1
+            opacity: root_bath_panel.isPLaying? 0.4 : 1
+            MouseArea{
+                anchors.fill: parent
+                onClicked:
+                {
+                    if(!root_bath_panel.isPLaying) {
+                        var message = _bathymetry_model.saveToDisk(root_bath_panel.dateTime)
+                        root.messagePrompt(message)
+                    }
+                }
+            }
         }
         Image {
-            id: stop_icon
+            id: reset_icon
             visible: true
             source: "../../Images/stop_resized.png"
-            opacity: root.isPLaying? 0.4 : 1
-        }
+            opacity: root_bath_panel.isPLaying? 0.4 : 1
+            MouseArea{
+                anchors.fill: parent
+                onClicked:
+                {
+                    if(!root_bath_panel.isPLaying) {
 
+                        _bathymetry_model.reset()
+                        minion_view.bathymetryReset = true
+                        navigation_map.bath_counter = 0
+                    }
+                }
+            }
+        }
     }
 }

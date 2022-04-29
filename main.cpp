@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
     SingleMarkerModel marker_model;
     SingleMarkerModel line_model;
-    BathymetryModel bath_model;
+    BathymetryModel bath_model("Bathymetry");
     SwampModel data_model;
     QQmlApplicationEngine engine;
     DataSource *dataSource = new DataSource(&data_model);

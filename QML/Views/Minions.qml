@@ -18,6 +18,7 @@ Item {
     property alias minimum_width : minion1.minimumXDim
     property alias minimum_height: minion1.minimumYDim
     property alias bathymetryPoint : btChr.newPoint
+    property alias bathymetryReset: btChr.reset
     //property alias maxDepth: btChr.yMAX
 
     Page{

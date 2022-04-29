@@ -6,9 +6,10 @@ Depth_point::Depth_point(QObject *parent)
 
 }
 
-Depth_point::Depth_point(const QGeoCoordinate &coor, const double &colorHue, const double &depth, QObject *parent):
+Depth_point::Depth_point(const QGeoCoordinate &coor, const double timestamp, const double &colorHue, const double &depth, QObject *parent):
     QObject{parent},
     m_coordinate(coor),
+    m_timestamp(timestamp),
     m_colorHue(colorHue),
     m_depth(depth)
 {
@@ -52,4 +53,17 @@ void Depth_point::setDepth(double newDepth)
         return;
     m_depth = newDepth;
     emit depthChanged();
+}
+
+double Depth_point::timestamp() const
+{
+    return m_timestamp;
+}
+
+void Depth_point::setTimestamp(double newTimestamp)
+{
+    if (qFuzzyCompare(m_timestamp, newTimestamp))
+        return;
+    m_timestamp = newTimestamp;
+    emit timestampChanged();
 }

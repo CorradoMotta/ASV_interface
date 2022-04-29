@@ -39,10 +39,10 @@ MapQuickItem {
             hoverEnabled : true
             onEntered: {
                 //info_label.visible = true
-                navigation_map.updateLabel(depth, true)
+                navigation_map.updateLabel(depth, true,mqi.x, mqi.y - imgCircle.height)
             }
             onExited: {
-                navigation_map.updateLabel(depth, false)
+                navigation_map.updateLabel(0, false,0,0)
             }
         }
     }

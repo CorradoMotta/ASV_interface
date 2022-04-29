@@ -107,7 +107,7 @@ bool DataSource::read_cfg(QString filename)
     }
 
     QString wrongTopicName = "";
-    QString prefix = "CNR-INM/swamp/";
+
     QString tn;
     QMap<QString, QString> topic_map;
     QTextStream in(&file);
@@ -118,7 +118,12 @@ bool DataSource::read_cfg(QString filename)
             topic_map[line[0].trimmed()] = line[1].trimmed();
         }
     }
-
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    // PREFIX
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    QString prefix;
+    tn = "Environment:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn ; prefix = topic_map[tn];
+    tn = "Robot:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn ; prefix += topic_map[tn];
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // MQTT
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -129,6 +134,7 @@ bool DataSource::read_cfg(QString filename)
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     if(!set_topic_name("timeStamp:", m_swamp_status.time_status()->timestamp(), topic_map, "CNR-INM/")) return false;
     if(!set_topic_name("HMI-Robot-timeStamp:", m_swamp_status.time_status()->hmi_timestamp(), topic_map, prefix)) return false;
+    if(!set_topic_name("date-time:", m_swamp_status.time_status()->dateTime(), topic_map, "CNR-INM/")) return false;
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // NGC and GPS
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -324,6 +330,7 @@ bool DataSource::set_topic_name(QString tn, StringVariable *sv, QMap<QString, QS
         qDebug() << "Topic named " << tn << " is not present in the configuration file or is not spelled properly.";
         return false;
     }
+
     else{
         sv->setTopic_name(prefix + topic_map[tn]);
         m_string_map[prefix+ topic_map[tn]] = sv;

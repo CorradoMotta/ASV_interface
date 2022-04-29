@@ -32,7 +32,7 @@ Item{
             id: recenter_area
             anchors.fill: parent
             onClicked: {
-                navigation_map.center = QtPositioning.coordinate(navigation_map.lat, navigation_map.lon)
+                navigation_map.center = QtPositioning.coordinate(navigation_map.lat.value, navigation_map.lon.value)
                 navigation_map.is_centered = true
             }
         }

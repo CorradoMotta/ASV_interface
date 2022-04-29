@@ -20,6 +20,8 @@ class Variable : public QObject
     Q_PROPERTY(int updated READ updated WRITE setUpdated NOTIFY updatedChanged)
     Q_PROPERTY(int valid READ valid WRITE setValid NOTIFY validChanged)
     Q_PROPERTY(bool subscribe READ subscribe WRITE setSubscribe NOTIFY subscribeChanged)
+    Q_PROPERTY(double timeStamp READ timeStamp WRITE setTimeStamp NOTIFY timeStampChanged)
+
 
 public:
 
@@ -32,8 +34,8 @@ public:
     void setUpdated(int newUpdated);
     int valid() const;
     void setValid(int newValid);
-    void setTimeStamp(uint64 newTimeStamp);
-    uint64 timeStamp() const;
+    void setTimeStamp(double newTimeStamp);
+    double timeStamp() const;
     bool subscribe() const;
     void setSubscribe(bool newSubscribe);
     virtual void fromString(QString s) = 0;
@@ -44,6 +46,7 @@ signals:
     void updatedChanged();
     void validChanged();
     void subscribeChanged();
+    void timeStampChanged();
 
 private:
 
