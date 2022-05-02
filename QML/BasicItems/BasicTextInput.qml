@@ -6,7 +6,7 @@ Item {
     property alias title_text: title_text_input.text
     property alias value_text: text_value_id.text
 
-    implicitHeight: text_input_id.height
+    implicitHeight: rl.implicitHeight
     implicitWidth: rl.implicitWidth
 
     RowLayout{

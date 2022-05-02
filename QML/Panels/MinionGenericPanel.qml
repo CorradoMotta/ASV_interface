@@ -110,20 +110,23 @@ BasicMinionPanelContainer{
             Layout.alignment: Qt.AlignLeft
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                value_width: 150
+                value_width: 120
                 title_text: "NODE_ID"
+                value_text: minion_view.nodeID
+
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                value_width: 150
+                value_width: 120
                 title_text: "DATE_TIME"
+                value_text: minion_view.date_and_time
             }
         }
         ColumnLayout{
             Layout.alignment: Qt.AlignRight
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                value_width: 150
+                value_width: 120
                 title_text: "NOP_COUNTER"
             }
             //            BasicTextOutput{
@@ -138,8 +141,9 @@ BasicMinionPanelContainer{
             //            }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                value_width: 150
-                title_text: "BATTERY_VOLTAGE"
+                value_width: 120
+                title_text: "VOLTAGE"
+                value_text: minion_view.battery_voltage
             }
         }
     }

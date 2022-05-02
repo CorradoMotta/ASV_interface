@@ -86,14 +86,17 @@ BasicMinionPanelContainer{
                 Layout.topMargin: 30
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 title_text: "MTR_CURRENT"
+                value_text: minion_view.thrust_motor_current
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 title_text: "MTR_TEMPERATURE"
+                value_text: minion_view.thrust_motor_temperature
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 title_text: "MTR_SPEED"
+                value_text: minion_view.thrust_motor_speed
             }
         }
     }

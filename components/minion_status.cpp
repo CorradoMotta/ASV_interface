@@ -25,6 +25,7 @@ MinionStatus::MinionStatus(QObject *parent)
     m_gpsMonth.setSubscribe(true);
     m_gpsTime.setSubscribe(true);
     m_gpsYear.setSubscribe(true);
+    m_gpsNSatellite.setSubscribe(true);
     m_imuCalibrationStatus.setSubscribe(true);
     m_imuPitch.setSubscribe(true);
     m_imuRoll.setSubscribe(true);
@@ -236,4 +237,9 @@ IntVariable *MinionStatus::timeMs()
 IntVariable *MinionStatus::thrustMotorTemperature()
 {
     return &m_thrustMotorTemperature;
+}
+
+IntVariable *MinionStatus::gpsNSatellite()
+{
+    return &m_gpsNSatellite;
 }

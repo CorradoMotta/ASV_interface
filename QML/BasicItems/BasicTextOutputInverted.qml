@@ -5,8 +5,8 @@ Item {
     property alias title_text: title_text_output.text
     property alias value_text: info_label_text.text
     property alias value_width : info_label.width
-    implicitHeight: info_label.height
-    implicitWidth: title_text_output.implicitWidth + rl.spacing + info_label.width
+    implicitHeight: rl.implicitHeight
+    implicitWidth: rl.implicitWidth
 
     RowLayout{
         id: rl

@@ -4,8 +4,8 @@ import QtQuick.Layouts 1.15
 
 Item {
     id: slider_root
-    implicitHeight: control.implicitHeight
-    implicitWidth: control.implicitWidth
+    implicitHeight: slider_row.implicitHeight
+    implicitWidth: slider_row.implicitWidth
 
     property alias slider_text: slider_text_id.text
     property alias slider_from: control.from
@@ -14,6 +14,7 @@ Item {
     property int value: 0
 
     RowLayout {
+        id: slider_row
         anchors.fill: parent
         spacing: 3
 

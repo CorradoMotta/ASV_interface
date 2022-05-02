@@ -11,8 +11,8 @@ import QtQuick.Layouts 1.15
 
 Item {
     id: slider_root
-    implicitHeight: column_stack.implicitHeight
-    implicitWidth: slider_row_layout.implicitWidth
+    implicitHeight: column_stack.implicitHeight + 10
+    implicitWidth: column_stack.implicitWidth
     //
     property alias slider_text: slider_text_id.text
     property alias slider_from: control.from

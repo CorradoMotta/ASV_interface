@@ -100,3 +100,8 @@ IntVariable *MinionCommand::azimuthMotorEnable()
 {
     return &m_azimuthMotorEnable;
 }
+
+IntVariable *MinionCommand::log()
+{
+    return &m_log;
+}

@@ -28,6 +28,8 @@ class MinionCommand : public QObject
     Q_PROPERTY(IntVariable* azimuthGoHome READ azimuthGoHome NOTIFY azimuthGoHomeChanged)
     Q_PROPERTY(DoubleVariable* azimuthMotorSetReference READ azimuthMotorSetReference NOTIFY azimuthMotorSetReferenceChanged)
     Q_PROPERTY(IntVariable* azimuthMotorSetRefTick READ azimuthMotorSetRefTick NOTIFY azimuthMotorSetRefTickChanged)
+    Q_PROPERTY(IntVariable* log READ log NOTIFY logChanged)
+
 
 public:
     explicit MinionCommand(QObject *parent = nullptr);
@@ -51,6 +53,7 @@ public:
     IntVariable *azimuthGoHome();
     DoubleVariable *azimuthMotorSetReference();
     IntVariable *azimuthMotorSetRefTick();
+    IntVariable *log();
 
 signals:
 
@@ -73,6 +76,7 @@ signals:
     void azimuthMotorSetReferenceChanged();
     void azimuthMotorSetRefTickChanged();
     void azimuthMotorEnableChanged();
+    void logChanged();
 
 private:
 
@@ -95,6 +99,7 @@ private:
     IntVariable m_azimuthGoHome;
     DoubleVariable m_azimuthMotorSetReference;
     IntVariable m_azimuthMotorSetRefTick;
+    IntVariable m_log;
 };
 
 #endif // MINION_COMMAND_H

@@ -31,16 +31,19 @@ BasicMinionPanelContainer{
                 value_width: 200
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 title_text: "LATITUDE"
+                value_text: minion_view.gps_latitude
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 200
                 title_text: "LONGITUDE"
+                value_text: minion_view.gps_longitude
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 200
                 title_text: "ALTITUDE"
+                value_text: minion_view.gps_altitude
             }
 
         }
@@ -58,10 +61,12 @@ BasicMinionPanelContainer{
                 //Layout.topMargin: 30
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 title_text: "FIX"
+                value_text: minion_view.gps_fix
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "NUM_SATELLITES"
+                title_text: "NS"
+                value_text: minion_view.gps_ns
             }
 //            BasicTextOutput{
 //                Layout.alignment: Qt.AlignTop | Qt.AlignRight

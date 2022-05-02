@@ -14,7 +14,7 @@ Item {
     id: slider_root
     property alias switch_text: switch_text_id.text
 
-    implicitHeight: background.implicitHeight + 10
+    implicitHeight: rl.implicitHeight + 10
     implicitWidth: rl.implicitWidth  + 10
 
     RowLayout {

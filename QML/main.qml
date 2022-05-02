@@ -11,10 +11,11 @@ import "Views"
 
 ApplicationWindow {
     id: root
-    width: 1900
+
     minimumWidth: minion_view.minimum_width + main_layout.implicitWidth + 20
-    minimumHeight: minion_view.minimum_height + menu_bar_id.implicitHeight + 100
-    height: 1000
+    minimumHeight: minion_view.minimum_height + menu_bar_id.implicitHeight + 110
+    height: minimumHeight
+    width: minimumWidth
     visible: true
     title: qsTr("Swamp interface")
     property double pi_value: 3.1415926535
@@ -97,6 +98,7 @@ ApplicationWindow {
                     id: connect_button
                     Layout.alignment: Qt.AlignTop
                     Layout.fillWidth: true
+                    Layout.rightMargin: 10
                     onClicked: data_model.data_source.setConnection()
                     contentItem: Text {
                         text: data_model.data_source.is_connected ? "disconnect" : "connect"

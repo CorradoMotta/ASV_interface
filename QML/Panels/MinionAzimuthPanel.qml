@@ -18,7 +18,7 @@ BasicMinionPanelContainer{
         id: pump_row_id
         spacing: 10
         anchors{
-            topMargin: title_height+ 10
+            topMargin: title_height
             fill: parent
             leftMargin: 10
         }
@@ -105,18 +105,22 @@ BasicMinionPanelContainer{
                 Layout.topMargin: 30
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 title_text: "MTR_POSITION"
+                value_text: minion_view.azimuth_motor_position
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 title_text: "MTR_ANGLE"
+                value_text: minion_view.azimuth_motor_angle
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 title_text: "MTR_TEMPERATURE"
+                value_text: minion_view.azimuth_motor_temperature
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 title_text: "MTR_CURRENT"
+                value_text: minion_view.azimuth_motor_current
             }
         }
     }
