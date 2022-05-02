@@ -18,7 +18,7 @@ BasicMinionPanelContainer{
         id: pump_row_id
         spacing: 10
         anchors{
-            topMargin: title_height + 20
+            topMargin: title_height
             fill: parent
             leftMargin: 10
             rightMargin: 10
@@ -61,12 +61,12 @@ BasicMinionPanelContainer{
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "HDOP"
+                title_text: "NUM_SATELLITES"
             }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "HEIGHT"
-            }
+//            BasicTextOutput{
+//                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+//                title_text: "HEIGHT"
+//            }
         }
     }
 }

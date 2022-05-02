@@ -155,6 +155,11 @@ bool DataSource::read_cfg(QString filename)
     if(!set_topic_name("RR-AZM-enable-command:", m_swamp_status.motor_status()->f4()->thr_enable(), topic_map, prefix)) return false;
     if(!set_topic_name("RR-AZM-power-command:", m_swamp_status.motor_status()->f4()->azm_power(), topic_map, prefix)) return false;
     if(!set_topic_name("RR-THR-power-command:", m_swamp_status.motor_status()->f4()->thr_power(), topic_map, prefix)) return false;
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    // Minions
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
     if(!wrongTopicName.isEmpty()){
         qDebug() << "Topic named " << wrongTopicName << " is not present in the configuration file or is not spelled properly.";

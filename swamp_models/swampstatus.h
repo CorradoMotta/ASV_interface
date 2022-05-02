@@ -22,10 +22,10 @@ class SwampStatus : public QObject
     Q_PROPERTY(NGC_status* ngc_status READ ngc_status NOTIFY ngc_statusChanged)
     Q_PROPERTY(Swamp_motor_status* motor_status READ motor_status NOTIFY motor_statusChanged)
     Q_PROPERTY(Time_status* time_status READ time_status NOTIFY time_statusChanged)
-    Q_PROPERTY(Minion* minion_1 READ minion_1 NOTIFY minion_1_Changed)
-    Q_PROPERTY(Minion* minion_2 READ minion_2 NOTIFY minion_2_Changed)
-    Q_PROPERTY(Minion* minion_3 READ minion_3 NOTIFY minion_3_Changed)
-    Q_PROPERTY(Minion* minion_4 READ minion_4 NOTIFY minion_4_Changed)
+    Q_PROPERTY(Minion* minion_fl READ minion_fl NOTIFY minion_fl_Changed)
+    Q_PROPERTY(Minion* minion_fr READ minion_fr NOTIFY minion_fr_Changed)
+    Q_PROPERTY(Minion* minion_rl READ minion_rl NOTIFY minion_rl_Changed)
+    Q_PROPERTY(Minion* minion_rr READ minion_rr NOTIFY minion_rr_Changed)
 
 public:
     explicit SwampStatus(QObject *parent = nullptr);
@@ -34,10 +34,10 @@ public:
     NGC_status *ngc_status();
     Swamp_motor_status *motor_status();
     Time_status *time_status();
-    Minion *minion_1();
-    Minion *minion_2();
-    Minion *minion_3();
-    Minion *minion_4();
+    Minion *minion_fl();
+    Minion *minion_fr();
+    Minion *minion_rl();
+    Minion *minion_rr();
 
 signals:
 
@@ -45,10 +45,10 @@ signals:
     void ngc_statusChanged();
     void motor_statusChanged();
     void time_statusChanged();
-    void minion_1_Changed();
-    void minion_2_Changed();
-    void minion_3_Changed();
-    void minion_4_Changed();
+    void minion_fl_Changed();
+    void minion_fr_Changed();
+    void minion_rl_Changed();
+    void minion_rr_Changed();
 
 private:
 
@@ -56,10 +56,10 @@ private:
     NGC_status m_ngc_status;
     Swamp_motor_status m_motor_status;
     Time_status m_time_status;
-    Minion m_minion_1;
-    Minion m_minion_2;
-    Minion m_minion_3;
-    Minion m_minion_4;
+    Minion m_minion_fl;
+    Minion m_minion_fr;
+    Minion m_minion_rl;
+    Minion m_minion_rr;
 };
 
 #endif // SWAMPSTATUS_H

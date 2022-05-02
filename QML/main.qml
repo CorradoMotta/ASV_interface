@@ -12,8 +12,8 @@ import "Views"
 ApplicationWindow {
     id: root
     width: 1900
-    minimumWidth: minion_view.minimum_width + main_layout.implicitWidth
-    minimumHeight: minion_view.minimum_height + menu_bar_id.implicitHeight + 20
+    minimumWidth: minion_view.minimum_width + main_layout.implicitWidth + 20
+    minimumHeight: minion_view.minimum_height + menu_bar_id.implicitHeight + 100
     height: 1000
     visible: true
     title: qsTr("Swamp interface")

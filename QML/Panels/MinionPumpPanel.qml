@@ -40,8 +40,10 @@ BasicMinionPanelContainer{
                 id: set_reference
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 //Layout.fillWidth: true
-                slider_text: "SET_REF"
-                mask_input: "#000"
+                slider_text: "SET_REFERENCE"
+                slider_from: 0
+                slider_to: 99
+                mask_input: "00"
                 //onValueChanged:  data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc_status.fu.ref.topic_name, value)
             }
         }

@@ -35,28 +35,26 @@ BasicMinionPanelContainer{
                 set_border: true
 
             }
+//            BasicSwitch{
+
+//                switch_text: "SET_MAX_SPEED"
+//            }
             BasicSwitch{
                 Layout.topMargin: 15
-                switch_text: "SET_MAX_SPEED"
-            }
-            BasicSwitch{
                 switch_text: "SET_HOME"
             }
             BasicSwitch{
                 switch_text: "GO_HOME"
             }
-            //            BasicSwitch{
-            //                switch_text: "SET_REF_TICK"
-            //            }
-            BasicSliderVertical{
+            BasicSliderVertical {
+                id: set_reference
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                slider_text: "SET_ANGLE"
+                //Layout.fillWidth: true
+                slider_text: "SET_REFERENCE"
+                slider_from: -180
+                slider_to: 180
                 mask_input: "#000"
-            }
-            BasicSliderVertical{
-                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                slider_text: "SET_POSITION"
-                mask_input: "#000"
+                //onValueChanged:  data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc_status.fu.ref.topic_name, value)
             }
         }
         Rectangle {
@@ -94,16 +92,17 @@ BasicMinionPanelContainer{
                     color: "gray"
                 }
             }
+            //            BasicTextOutput{
+            //                Layout.topMargin: 30
+            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            //                title_text: "MTR_OP_STATUS"
+            //            }
+            //            BasicTextOutput{
+            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            //                title_text: "MTR_CONF_STATUS"
+            //            }
             BasicTextOutput{
                 Layout.topMargin: 30
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "MTR_OP_STATUS"
-            }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "MTR_CONF_STATUS"
-            }
-            BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 title_text: "MTR_POSITION"
             }

@@ -19,7 +19,7 @@ BasicMinionPanelContainer{
         id: pump_row_id
         spacing: 10
         anchors{
-            topMargin: title_height + 20
+            topMargin: title_height
             fill: parent
             leftMargin: 10
             rightMargin: 10
@@ -69,10 +69,10 @@ BasicMinionPanelContainer{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 title_text: "Z_GYRO"
             }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "CALIBRATION"
-            }
+//            BasicTextOutput{
+//                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+//                title_text: "CALIBRATION"
+//            }
 
         }
     }
