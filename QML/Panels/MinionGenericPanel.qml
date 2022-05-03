@@ -135,6 +135,7 @@ BasicMinionPanelContainer{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 value_width: 120
                 title_text: "NOP_COUNTER"
+                value_text: minion_view.nop_counter
             }
             //            BasicTextOutput{
             //                Layout.alignment: Qt.AlignTop | Qt.AlignRight

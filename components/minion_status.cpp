@@ -13,6 +13,7 @@ MinionStatus::MinionStatus(QObject *parent)
     m_azimuthMotorPower.setSubscribe(true);
     m_azimuthMotorTemperature.setSubscribe(true);
     m_batteryVoltage.setSubscribe(true);
+    m_nopCounter.setSubscribe(true);
     m_dateAndTime.setSubscribe(true);
     m_digitalInput.setSubscribe(true);
     m_digitalOutput.setSubscribe(true);
@@ -242,4 +243,9 @@ IntVariable *MinionStatus::thrustMotorTemperature()
 IntVariable *MinionStatus::gpsNSatellite()
 {
     return &m_gpsNSatellite;
+}
+
+DoubleVariable *MinionStatus::nopCounter()
+{
+    return &m_nopCounter;
 }

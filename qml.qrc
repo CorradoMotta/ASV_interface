@@ -52,6 +52,5 @@
         <file>Images/off_button_new.png</file>
         <file>Images/on_button_new.png</file>
         <file>QML/BasicItems/BasicTextInputInverted.qml</file>
-        <file>conf/topics_minion.cfg</file>
     </qresource>
 </RCC>

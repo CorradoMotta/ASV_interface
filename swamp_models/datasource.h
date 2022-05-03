@@ -52,6 +52,9 @@ public:
      */
     bool read_cfg(QString filename);
 
+    // tmp function added to read minion cfg file
+    bool read_cfg_minion(QString filename);
+
     /**
      * Set the topic name to a double variable.
      *
