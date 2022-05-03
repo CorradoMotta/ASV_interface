@@ -42,8 +42,8 @@ BasicMinionPanelContainer{
                     if (engineState === EngineIcon.EngineStates.Engine_inter) minion_view.publish_topic(minion_view.azimuth_motor_power_tn,1)
                     else if (engineState === EngineIcon.EngineStates.Engine_on) minion_view.publish_topic(minion_view.azimuth_motor_enable_tn,1)
                     else if(engineState === EngineIcon.EngineStates.Engine_off){
-                        minion_view.publish_topic(minion_view.azimuth_motor_power_tn,0)
                         minion_view.publish_topic(minion_view.azimuth_motor_enable_tn,0)
+                        minion_view.publish_topic(minion_view.azimuth_motor_power_tn,0)
                     }
                 }
             }

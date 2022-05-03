@@ -189,10 +189,16 @@ bool DataSource::read_cfg_minion(QString filename)
     QString env_prefix;
     QString minion_prefix;
     QString prefix;
+    Minion* singleMinion;
+
     tn = "Environment:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn ; env_prefix = topic_map[tn];
     tn = "Minion:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn ; minion_prefix = topic_map[tn];
     tn = "Robot:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn ; prefix = env_prefix +  topic_map[tn] + minion_prefix;
 
+    if(minion_prefix.contains("FL")) singleMinion = m_swamp_status.minion_fl();
+    else if(minion_prefix.contains("FR")) singleMinion = m_swamp_status.minion_fr();
+    else if(minion_prefix.contains("RL")) singleMinion = m_swamp_status.minion_rl();
+    else if(minion_prefix.contains("RR")) singleMinion = m_swamp_status.minion_rr();
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Timestamp
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -202,60 +208,60 @@ bool DataSource::read_cfg_minion(QString filename)
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Generic
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    if(!set_topic_name("state-node-id:", m_swamp_status.minion_fl()->minionState()->nodeId(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-date-time:", m_swamp_status.minion_fl()->minionState()->dateAndTime(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-battery-voltage:", m_swamp_status.minion_fl()->minionState()->batteryVoltage(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-nop-counter:", m_swamp_status.minion_fl()->minionState()->nopCounter(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-node-id:", singleMinion->minionState()->nodeId(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-date-time:", singleMinion->minionState()->dateAndTime(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-battery-voltage:", singleMinion->minionState()->batteryVoltage(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-nop-counter:", singleMinion->minionState()->nopCounter(), topic_map, prefix)) return false;
 
-    if(!set_topic_name("cmd-log:", m_swamp_status.minion_fl()->minionCmd()->log(), topic_map, prefix)) return false;
-    if(!set_topic_name("cmd-change-tlm-addr:", m_swamp_status.minion_fl()->minionCmd()->changeTlmAddr(), topic_map, prefix)) return false;
+    if(!set_topic_name("cmd-log:", singleMinion->minionCmd()->log(), topic_map, prefix)) return false;
+    if(!set_topic_name("cmd-change-tlm-addr:", singleMinion->minionCmd()->changeTlmAddr(), topic_map, prefix)) return false;
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Pump
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    if(!set_topic_name("state-thrust-fault:", m_swamp_status.minion_fl()->minionState()->thrustMotorFault(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-thrust-power:", m_swamp_status.minion_fl()->minionState()->thrustMotorPower(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-thrust-enable:", m_swamp_status.minion_fl()->minionState()->thrustMotorEnable(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-thrust-temperature:", m_swamp_status.minion_fl()->minionState()->thrustMotorTemperature(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-thrust-speed:", m_swamp_status.minion_fl()->minionState()->thrustMotorSpeed(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-thrust-current:", m_swamp_status.minion_fl()->minionState()->thrustMotorCurrent(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-thrust-fault:", singleMinion->minionState()->thrustMotorFault(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-thrust-power:", singleMinion->minionState()->thrustMotorPower(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-thrust-enable:", singleMinion->minionState()->thrustMotorEnable(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-thrust-temperature:", singleMinion->minionState()->thrustMotorTemperature(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-thrust-speed:", singleMinion->minionState()->thrustMotorSpeed(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-thrust-current:", singleMinion->minionState()->thrustMotorCurrent(), topic_map, prefix)) return false;
 
-    if(!set_topic_name("cmd-thrust-power:", m_swamp_status.minion_fl()->minionCmd()->thrustMotorPower(), topic_map, prefix)) return false;
-    if(!set_topic_name("cmd-thrust-enable:", m_swamp_status.minion_fl()->minionCmd()->thrustMotorEnable(), topic_map, prefix)) return false;
-    if(!set_topic_name("cmd-thrust-reference:", m_swamp_status.minion_fl()->minionCmd()->thrustMotorSetReference(), topic_map, prefix)) return false;
+    if(!set_topic_name("cmd-thrust-power:", singleMinion->minionCmd()->thrustMotorPower(), topic_map, prefix)) return false;
+    if(!set_topic_name("cmd-thrust-enable:", singleMinion->minionCmd()->thrustMotorEnable(), topic_map, prefix)) return false;
+    if(!set_topic_name("cmd-thrust-reference:", singleMinion->minionCmd()->thrustMotorSetReference(), topic_map, prefix)) return false;
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Azimuth
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    if(!set_topic_name("state-azimuth-fault:", m_swamp_status.minion_fl()->minionState()->azimuthMotorFault(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-azimuth-power:", m_swamp_status.minion_fl()->minionState()->azimuthMotorPower(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-azimuth-enable:", m_swamp_status.minion_fl()->minionState()->azimuthMotorEnable(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-azimuth-position:", m_swamp_status.minion_fl()->minionState()->azimuthMotorPosition(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-azimuth-angle:", m_swamp_status.minion_fl()->minionState()->azimuthMotorAngle(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-azimuth-temperature:", m_swamp_status.minion_fl()->minionState()->azimuthMotorTemperature(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-azimuth-current:", m_swamp_status.minion_fl()->minionState()->azimuthMotorCurrent(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-azimuth-fault:", singleMinion->minionState()->azimuthMotorFault(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-azimuth-power:", singleMinion->minionState()->azimuthMotorPower(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-azimuth-enable:", singleMinion->minionState()->azimuthMotorEnable(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-azimuth-position:", singleMinion->minionState()->azimuthMotorPosition(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-azimuth-angle:", singleMinion->minionState()->azimuthMotorAngle(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-azimuth-temperature:", singleMinion->minionState()->azimuthMotorTemperature(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-azimuth-current:", singleMinion->minionState()->azimuthMotorCurrent(), topic_map, prefix)) return false;
 
-    if(!set_topic_name("cmd-azimuth-power:", m_swamp_status.minion_fl()->minionCmd()->azimuthMotorPower(), topic_map, prefix)) return false;
-    if(!set_topic_name("cmd-azimuth-enable:", m_swamp_status.minion_fl()->minionCmd()->azimuthMotorEnable(), topic_map, prefix)) return false;
-    if(!set_topic_name("cmd-azimuth-set-home:", m_swamp_status.minion_fl()->minionCmd()->azimuthSetHome(), topic_map, prefix)) return false;
-    if(!set_topic_name("cmd-azimuth-go-home:", m_swamp_status.minion_fl()->minionCmd()->azimuthGoHome(), topic_map, prefix)) return false;
-    if(!set_topic_name("cmd-azimuth-angle:", m_swamp_status.minion_fl()->minionCmd()->azimuthMotorSetReference(), topic_map, prefix)) return false;
+    if(!set_topic_name("cmd-azimuth-power:", singleMinion->minionCmd()->azimuthMotorPower(), topic_map, prefix)) return false;
+    if(!set_topic_name("cmd-azimuth-enable:", singleMinion->minionCmd()->azimuthMotorEnable(), topic_map, prefix)) return false;
+    if(!set_topic_name("cmd-azimuth-set-home:", singleMinion->minionCmd()->azimuthSetHome(), topic_map, prefix)) return false;
+    if(!set_topic_name("cmd-azimuth-go-home:", singleMinion->minionCmd()->azimuthGoHome(), topic_map, prefix)) return false;
+    if(!set_topic_name("cmd-azimuth-angle:", singleMinion->minionCmd()->azimuthMotorSetReference(), topic_map, prefix)) return false;
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // IMU
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    if(!set_topic_name("state-imu-yaw:", m_swamp_status.minion_fl()->minionState()->imuYaw(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-imu-pitch:", m_swamp_status.minion_fl()->minionState()->imuPitch(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-imu-roll:", m_swamp_status.minion_fl()->minionState()->imuRoll(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-imu-xGyro:", m_swamp_status.minion_fl()->minionState()->imuXGyro(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-imu-yGyro:", m_swamp_status.minion_fl()->minionState()->imuYGyro(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-imu-zGyro:", m_swamp_status.minion_fl()->minionState()->imuZGyro(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-imu-temperature:", m_swamp_status.minion_fl()->minionState()->imuTemperature(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-imu-yaw:", singleMinion->minionState()->imuYaw(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-imu-pitch:", singleMinion->minionState()->imuPitch(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-imu-roll:", singleMinion->minionState()->imuRoll(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-imu-xGyro:", singleMinion->minionState()->imuXGyro(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-imu-yGyro:", singleMinion->minionState()->imuYGyro(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-imu-zGyro:", singleMinion->minionState()->imuZGyro(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-imu-temperature:", singleMinion->minionState()->imuTemperature(), topic_map, prefix)) return false;
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // GPS
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    if(!set_topic_name("state-gps-latitude:", m_swamp_status.minion_fl()->minionState()->gpsLatitude(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-gps-longitude:", m_swamp_status.minion_fl()->minionState()->gpsLongitude(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-gps-fix:", m_swamp_status.minion_fl()->minionState()->gpsFixQuality(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-gps-nSatellites:", m_swamp_status.minion_fl()->minionState()->gpsNSatellite(), topic_map, prefix)) return false;
-    if(!set_topic_name("state-gps-altitude:", m_swamp_status.minion_fl()->minionState()->gpsAltitude(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-gps-latitude:", singleMinion->minionState()->gpsLatitude(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-gps-longitude:", singleMinion->minionState()->gpsLongitude(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-gps-fix:", singleMinion->minionState()->gpsFixQuality(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-gps-nSatellites:", singleMinion->minionState()->gpsNSatellite(), topic_map, prefix)) return false;
+    if(!set_topic_name("state-gps-altitude:", singleMinion->minionState()->gpsAltitude(), topic_map, prefix)) return false;
 
     if(!wrongTopicName.isEmpty()){
         qDebug() << "Topic named " << wrongTopicName << " is not present in the configuration file or is not spelled properly.";
