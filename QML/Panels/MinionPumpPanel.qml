@@ -11,10 +11,15 @@ import QtQuick.Controls 2.15
 import "../BasicItems"
 
 BasicMinionPanelContainer{
+    title: "PUMP"
+
+    required property int pump_motor_enable
+    required property int pump_motor_fault
+    required property int pump_motor_power
 
     implicitHeight: pump_row_id.implicitHeight + title_height + 20
     implicitWidth: pump_row_id.implicitWidth + 20
-    title: "PUMP"
+
     RowLayout{
         id: pump_row_id
         spacing: 10
@@ -44,7 +49,7 @@ BasicMinionPanelContainer{
                 slider_from: 0
                 slider_to: 99
                 mask_input: "00"
-                //onValueChanged:  data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc_status.fu.ref.topic_name, value)
+                onValueChanged:  minion_view.publish_topic(minion_view.thrust_motor_set_reference_tn, value)
             }
         }
         Rectangle {
@@ -70,16 +75,19 @@ BasicMinionPanelContainer{
                     id: power_dot
                     info_text: "POWER"
                     color: "gray"
+                    dot_state: pump_motor_power
                 }
                 StatusDot{
                     id: enable_dot
                     info_text: "ENABLE"
                     color: "gray"
+                    dot_state: pump_motor_enable
                 }
                 StatusDot{
                     id: fault_dot
                     info_text: "FAULT"
                     color: "gray"
+                    dot_state: pump_motor_fault
                 }
             }
             BasicTextOutput{

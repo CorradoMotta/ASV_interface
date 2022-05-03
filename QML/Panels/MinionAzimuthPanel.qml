@@ -11,6 +11,11 @@ import "../BasicItems"
 
 BasicMinionPanelContainer{
     title: "AZIMUTH"
+
+    required property int azimuth_motor_enable
+    required property int azimuth_motor_fault
+    required property int azimuth_motor_power
+
     implicitHeight: pump_row_id.implicitHeight + title_height + 20
     implicitWidth: pump_row_id.implicitWidth + 20
 
@@ -35,16 +40,16 @@ BasicMinionPanelContainer{
                 set_border: true
 
             }
-//            BasicSwitch{
-
-//                switch_text: "SET_MAX_SPEED"
-//            }
             BasicSwitch{
                 Layout.topMargin: 15
                 switch_text: "SET_HOME"
+                onSwitch_is_activeChanged: switch_is_active? minion_view.publish_topic(minion_view.azimuth_motor_set_home_tn, 1)
+                                                           : minion_view.publish_topic(minion_view.azimuth_motor_set_home_tn, 0)
             }
             BasicSwitch{
                 switch_text: "GO_HOME"
+                onSwitch_is_activeChanged: switch_is_active? minion_view.publish_topic(minion_view.azimuth_motor_go_home_tn, 1)
+                                                           : minion_view.publish_topic(minion_view.azimuth_motor_go_home_tn, 0)
             }
             BasicSliderVertical {
                 id: set_reference
@@ -54,7 +59,7 @@ BasicMinionPanelContainer{
                 slider_from: -180
                 slider_to: 180
                 mask_input: "#000"
-                //onValueChanged:  data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc_status.fu.ref.topic_name, value)
+                onValueChanged:  minion_view.publish_topic(minion_view.azimuth_motor_set_reference_tn, value)
             }
         }
         Rectangle {
@@ -79,17 +84,17 @@ BasicMinionPanelContainer{
                 StatusDot{
                     id: power_dot
                     info_text: "POWER"
-                    color: "red"
+                    dot_state: azimuth_motor_power
                 }
                 StatusDot{
                     id: enable_dot
                     info_text: "ENABLE"
-                    color: "green"
+                    dot_state: azimuth_motor_enable
                 }
                 StatusDot{
                     id: fault_dot
                     info_text: "FAULT"
-                    color: "gray"
+                    dot_state: azimuth_motor_fault
                 }
             }
             //            BasicTextOutput{

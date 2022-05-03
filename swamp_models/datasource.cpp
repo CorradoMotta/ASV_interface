@@ -42,8 +42,10 @@ void DataSource::setConnection()
 
 void DataSource::publishMessage(const QString &topic, const QString &message)
 {
+    qDebug() << message;
     int current_timestamp = m_swamp_status.time_status()->timestamp()->value();
     QString value = message + " " +  QString::number(current_timestamp) + " " + "1";
+    // TODO publish only if it is connected
     m_client->publish(topic, value.toUtf8());
 }
 

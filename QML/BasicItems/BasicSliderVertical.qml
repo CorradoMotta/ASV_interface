@@ -19,6 +19,7 @@ Item {
     property alias slider_to: control.to
     property alias mask_input: slider_value_id.inputMask
     property int value: 0
+
     ColumnLayout{
         id: column_stack
         anchors.left: parent.left

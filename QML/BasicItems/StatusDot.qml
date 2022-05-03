@@ -11,18 +11,21 @@ import QtQuick 2.0
 Rectangle{
     id: dot
 
-    property alias info_text : info_label_text.text
     enum DotStates {
         Dot_off,
         Dot_on,
         Dot_fault
     }
+    property alias info_text : info_label_text.text
+    property int dot_state: StatusDot.DotStates.Dot_off
 
     width: 40
     height: 40
     radius: 30
     //border.color: "silver"
-    color: "gray"
+    color: dot_state === StatusDot.DotStates.Dot_off?
+               "gray" : dot_state === StatusDot.DotStates.Dot_on?
+                   "green": "red"
 
     Rectangle{
         id: info_label

@@ -66,6 +66,8 @@ BasicMinionPanelContainer{
             BasicSwitchInverted{
                 Layout.alignment: Qt.AlignRight
                 switch_text: "LOG"
+                onSwitch_is_activeChanged: switch_is_active? minion_view.publish_topic(minion_view.log_tn, 1)
+                                                           : minion_view.publish_topic(minion_view.log_tn, 0)
             }
             BasicTextInputInverted{
                 id: tlm_ddr
