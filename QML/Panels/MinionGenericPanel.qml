@@ -33,9 +33,12 @@ BasicMinionPanelContainer{
             //engineState : engine_panel.engine_state_fl_prova
             Layout.alignment: Qt.AlignTop | Qt.AlignLeft
             Layout.leftMargin: 10
-
             Layout.topMargin: title_height + 30
-            //image_size: 40
+            // TODO deactivated for now
+//            onRebootStateChanged: {
+//                    if(rebootState === BasicRebootIcon.RebootStates.Reboot) minion_view.publish_topic(minion_view.reboot_tn, 1)
+//                    else if(rebootState === BasicRebootIcon.RebootStates.Shutdown) minion_view.publish_topic(minion_view.shutdown_tn, 1)
+//            }
         }
 //        ColumnLayout{
 //            Layout.alignment: Qt.AlignLeft
@@ -73,6 +76,8 @@ BasicMinionPanelContainer{
                 id: tlm_ddr
                 //Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
                 title_text: "TLM_ADDR"
+                // TODO add loss of scope
+                onNew_text_valueChanged: minion_view.publish_topic(minion_view.changeTlmAddr_tn, new_text_value)
             }
 
             //            BasicSwitchInverted{
