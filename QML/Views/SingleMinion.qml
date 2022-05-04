@@ -43,7 +43,7 @@ Item {
     readonly property real imu_yaw:  prefix.minionState.imuYaw.value
     readonly property real imu_pitch:  prefix.minionState.imuPitch.value
     readonly property real imu_roll:  prefix.minionState.imuRoll.value
-    readonly property int  imu_temperature:  prefix.minionState.imuTemperature.value
+    readonly property real imu_temperature:  prefix.minionState.imuTemperature.value
     readonly property real imu_x_gyro:  prefix.minionState.imuXGyro.value
     readonly property real imu_y_gyro:  prefix.minionState.imuYGyro.value
     readonly property real imu_z_gyro:  prefix.minionState.imuZGyro.value
@@ -86,8 +86,8 @@ Item {
         spacing: 2
         MinionGenericPanel{
             id: generic
-            Layout.minimumHeight: implicitHeight
-            Layout.minimumWidth: implicitWidth
+            Layout.minimumHeight: generic.implicitHeight
+            Layout.minimumWidth: generic.implicitWidth
             Layout.preferredHeight: generic.minimumHeight + 50
             Layout.fillWidth: true
         }
@@ -101,8 +101,8 @@ Item {
                 id: pump_panel
 
                 pump_motor_enable: prefix.minionState.thrustMotorEnable.value
-                pump_motor_fault:  prefix.minionState.thrustMotorPower.value
-                pump_motor_power:  prefix.minionState.thrustMotorFault.value
+                pump_motor_fault:  prefix.minionState.thrustMotorFault.value
+                pump_motor_power:  prefix.minionState.thrustMotorPower.value
 
                 Layout.minimumHeight: Math.max(pump_panel.implicitHeight, azimuth_panel.implicitHeight)
                 Layout.minimumWidth: pump_panel.implicitWidth

@@ -82,36 +82,36 @@ BasicMinionPanelContainer{
                 StatusDot{
                     id: power_dot
                     info_text: "POWER"
-                    color: "gray"
+                    //color: "gray"
                     dot_state: pump_motor_power
                 }
                 StatusDot{
                     id: enable_dot
                     info_text: "ENABLE"
-                    color: "gray"
+                    //color: "gray"
                     dot_state: pump_motor_enable
                 }
-                StatusDot{
+                FaultDot{
                     id: fault_dot
                     info_text: "FAULT"
-                    color: "gray"
+                    //color: "gray"
                     dot_state: pump_motor_fault
                 }
             }
             BasicTextOutput{
                 Layout.topMargin: 30
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "MTR_CURRENT"
+                title_text: "CURRENT"
                 value_text: minion_view.thrust_motor_current
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "MTR_TEMPERATURE"
+                title_text: "TEMPERATURE"
                 value_text: minion_view.thrust_motor_temperature
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "MTR_SPEED"
+                title_text: "SPEED"
                 value_text: minion_view.thrust_motor_speed
             }
         }

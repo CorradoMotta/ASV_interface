@@ -21,11 +21,15 @@ Item {
             id: info_label
             width: 100
             height: info_label_text.implicitHeight + 10
+            clip: true
             color: "white"
             border.color: "black"
             Text{
                 id: info_label_text
-                anchors.horizontalCenter: info_label.horizontalCenter
+                horizontalAlignment : Text.AlignLeft
+                //anchors.horizontalCenter: info_label.horizontalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 4
                 anchors.verticalCenter: info_label.verticalCenter
                 font.family: "Helvetica"
                 font.pointSize: 14

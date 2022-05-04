@@ -11,8 +11,9 @@ import QtQuick.Controls 2.15
 import "../BasicItems"
 
 BasicMinionPanelContainer{
+    id : root
     implicitHeight: Math.max(cmd_row.implicitHeight , cmd_row_2.implicitHeight) + title_height + 20
-    implicitWidth: cmd_row.implicitWidth + cmd_row_2.implicitWidth + 20
+    implicitWidth: cmd_row.implicitWidth + cmd_row_2.implicitWidth + bar.width + 200 // TODO WHY SO MUCH
     title: "GENERIC"
     color: "aliceblue"
     //border.color: "transparent"

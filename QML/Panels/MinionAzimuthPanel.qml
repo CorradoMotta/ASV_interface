@@ -95,7 +95,7 @@ BasicMinionPanelContainer{
                     info_text: "ENABLE"
                     dot_state: azimuth_motor_enable
                 }
-                StatusDot{
+                FaultDot{
                     id: fault_dot
                     info_text: "FAULT"
                     dot_state: azimuth_motor_fault
@@ -104,31 +104,31 @@ BasicMinionPanelContainer{
             //            BasicTextOutput{
             //                Layout.topMargin: 30
             //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-            //                title_text: "MTR_OP_STATUS"
+            //                title_text: "OP_STATUS"
             //            }
             //            BasicTextOutput{
             //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-            //                title_text: "MTR_CONF_STATUS"
+            //                title_text: "CONF_STATUS"
             //            }
             BasicTextOutput{
                 Layout.topMargin: 30
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "MTR_POSITION"
+                title_text: "POSITION"
                 value_text: minion_view.azimuth_motor_position
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "MTR_ANGLE"
+                title_text: "ANGLE"
                 value_text: minion_view.azimuth_motor_angle
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "MTR_TEMPERATURE"
+                title_text: "TEMPERATURE"
                 value_text: minion_view.azimuth_motor_temperature
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "MTR_CURRENT"
+                title_text: "CURRENT"
                 value_text: minion_view.azimuth_motor_current
             }
         }

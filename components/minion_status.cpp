@@ -170,7 +170,7 @@ DoubleVariable *MinionStatus::imuRoll()
     return &m_imuRoll;
 }
 
-IntVariable *MinionStatus::imuTemperature()
+DoubleVariable *MinionStatus::imuTemperature()
 {
     return &m_imuTemperature;
 }

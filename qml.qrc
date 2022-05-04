@@ -52,5 +52,6 @@
         <file>Images/off_button_new.png</file>
         <file>Images/on_button_new.png</file>
         <file>QML/BasicItems/BasicTextInputInverted.qml</file>
+        <file>QML/BasicItems/FaultDot.qml</file>
     </qresource>
 </RCC>

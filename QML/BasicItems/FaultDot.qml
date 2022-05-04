@@ -13,19 +13,19 @@ Rectangle{
 
     // TODO fix the fault (0 - 1 per fault)
     enum DotStates {
+        Dot_fault,
         Dot_off,
-        Dot_on,
-        Dot_fault
+        Dot_on
     }
     property alias info_text : info_label_text.text
-    property int dot_state: StatusDot.DotStates.Dot_off
+    property int dot_state: FaultDot.DotStates.Dot_off
 
     width: 40
     height: 40
     radius: 30
     //border.color: "silver"
-    color: dot_state === StatusDot.DotStates.Dot_off?
-               "gray" : dot_state === StatusDot.DotStates.Dot_on?
+    color: dot_state === FaultDot.DotStates.Dot_off?
+               "gray" : dot_state === FaultDot.DotStates.Dot_on?
                    "green": "red"
 
     Rectangle{
@@ -53,6 +53,7 @@ Rectangle{
         hoverEnabled : true
         onEntered: {
             info_label.visible = true
+            console.log(dot_state)
         }
         onExited: {
             info_label.visible = false

@@ -35,7 +35,7 @@ class MinionStatus : public QObject
     Q_PROPERTY(DoubleVariable* imuCalibrationStatus READ imuCalibrationStatus NOTIFY imuCalibrationStatusChanged)
     Q_PROPERTY(DoubleVariable* imuPitch READ imuPitch NOTIFY imuPitchChanged)
     Q_PROPERTY(DoubleVariable* imuRoll READ imuRoll NOTIFY imuRollChanged)
-    Q_PROPERTY(IntVariable* imuTemperature READ imuTemperature NOTIFY imuTemperatureChanged)
+    Q_PROPERTY(DoubleVariable* imuTemperature READ imuTemperature NOTIFY imuTemperatureChanged)
     Q_PROPERTY(DoubleVariable* imuXGyro READ imuXGyro NOTIFY imuXGyroChanged)
     Q_PROPERTY(DoubleVariable* imuYGyro READ imuYGyro NOTIFY imuYGyroChanged)
     Q_PROPERTY(DoubleVariable* imuYaw READ imuYaw NOTIFY imuYawChanged)
@@ -78,7 +78,7 @@ public:
     DoubleVariable* imuCalibrationStatus();
     DoubleVariable* imuPitch();
     DoubleVariable* imuRoll();
-    IntVariable* imuTemperature();
+    DoubleVariable* imuTemperature();
     DoubleVariable* imuXGyro();
     DoubleVariable* imuYGyro();
     DoubleVariable* imuYaw();
@@ -165,7 +165,7 @@ private:
     DoubleVariable m_imuCalibrationStatus;
     DoubleVariable m_imuPitch;
     DoubleVariable m_imuRoll;
-    IntVariable m_imuTemperature;
+    DoubleVariable m_imuTemperature;
     DoubleVariable m_imuXGyro;
     DoubleVariable m_imuYGyro;
     DoubleVariable m_imuYaw;
