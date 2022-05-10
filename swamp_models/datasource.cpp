@@ -10,9 +10,9 @@ DataSource::DataSource(QObject *parent)
       m_is_connected{false}
 {
     connect(m_client, &QMqttClient::connected, this, &DataSource::connectionEstablished);
-    connect(m_client, &QMqttClient::messageReceived, this, &DataSource::handleDisconnected);
+    connect(m_client, &QMqttClient::messageReceived, this, &DataSource::handleMessage);
     connect(m_client, &QMqttClient::disconnected, this, &DataSource::handleDisconnected);
-    //m_timer->start(100);
+    m_timer->start(100);
 }
 
 void DataSource::update_ts_from_local(){
@@ -33,7 +33,7 @@ void DataSource::setConnection()
 {
     if(!m_is_connected){
         m_client->connectToHost();
-        //connect(m_timer, &QTimer::timeout, this, &DataSource::update_ts_from_local); //start sending heartbeat
+        connect(m_timer, &QTimer::timeout, this, &DataSource::update_ts_from_local); //start sending heartbeat
     }else{
         qDebug() << "Disconnecting..";
         m_client->disconnectFromHost();
@@ -80,8 +80,8 @@ void DataSource::connectionEstablished()
     }
 
     // connect timestamps
-    //connect(m_swamp_status.time_status()->timestamp(), &DoubleVariable::valueChanged,
-    //        this, &DataSource::update_ts_from_vehicle);
+    connect(m_swamp_status.time_status()->timestamp(), &DoubleVariable::valueChanged,
+            this, &DataSource::update_ts_from_vehicle);
     set_is_connected(true);
 }
 
@@ -139,7 +139,7 @@ bool DataSource::read_cfg(QString filename)
     tn = "Broker-port:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn ; m_client->setPort(topic_map[tn].toUInt());
     tn = "Broker-address:";  if(topic_map[tn].isEmpty()) wrongTopicName = tn ; m_client->setHostname(topic_map[tn]);
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    // Bathymetry for proteus
+    // Bathymetry
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     if(!set_topic_name("ngc-pose-a-act:", m_swamp_status.ngc_status()->altitude(), topic_map, prefix)) return false;
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -154,28 +154,28 @@ bool DataSource::read_cfg(QString filename)
     if(!set_topic_name("ngc-pose-psi-act:", m_swamp_status.ngc_status()->psi(), topic_map, prefix)) return false;
     if(!set_topic_name("GPS-AHRS-latitude:", m_swamp_status.gps_ahrs_status()->latitude() , topic_map, prefix)) return false;
     if(!set_topic_name("GPS-AHRS-longitude:", m_swamp_status.gps_ahrs_status()->longitude(), topic_map, prefix)) return false;
-//    if(!set_topic_name("ngc-force-fu-man:", m_swamp_status.ngc_status()->fu()->ref() , topic_map, prefix)) return false;
-//    if(!set_topic_name("ngc-force-fv-man:", m_swamp_status.ngc_status()->fv()->ref() , topic_map, prefix)) return false;
-//    if(!set_topic_name("ngc-force-tr-man:", m_swamp_status.ngc_status()->tr()->ref(), topic_map, prefix)) return false;
+    if(!set_topic_name("ngc-force-fu-man:", m_swamp_status.ngc_status()->fu()->ref() , topic_map, prefix)) return false;
+    if(!set_topic_name("ngc-force-fv-man:", m_swamp_status.ngc_status()->fv()->ref() , topic_map, prefix)) return false;
+    if(!set_topic_name("ngc-force-tr-man:", m_swamp_status.ngc_status()->tr()->ref(), topic_map, prefix)) return false;
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Motors
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//    if(!set_topic_name("FL-THR-enable-command:", m_swamp_status.motor_status()->f1()->thr_enable(), topic_map, prefix)) return false;
-//    if(!set_topic_name("FL-AZM-enable-command:", m_swamp_status.motor_status()->f1()->azm_enable(), topic_map, prefix)) return false;
-//    if(!set_topic_name("FL-THR-power-command:", m_swamp_status.motor_status()->f1()->thr_power(), topic_map, prefix)) return false;
-//    if(!set_topic_name("FL-AZM-power-command:", m_swamp_status.motor_status()->f1()->azm_power(), topic_map, prefix)) return false;
-//    if(!set_topic_name("FR-THR-enable-command:", m_swamp_status.motor_status()->f2()->thr_enable(), topic_map, prefix)) return false;
-//    if(!set_topic_name("FR-AZM-enable-command:", m_swamp_status.motor_status()->f2()->azm_enable(), topic_map, prefix)) return false;
-//    if(!set_topic_name("FR-THR-power-command:", m_swamp_status.motor_status()->f2()->thr_power(), topic_map, prefix)) return false;
-//    if(!set_topic_name("FR-AZM-power-command:", m_swamp_status.motor_status()->f2()->azm_power(), topic_map, prefix)) return false;
-//    if(!set_topic_name("RL-THR-enable-command:", m_swamp_status.motor_status()->f3()->thr_enable(), topic_map, prefix)) return false;
-//    if(!set_topic_name("RL-AZM-enable-command:", m_swamp_status.motor_status()->f3()->azm_enable(), topic_map, prefix)) return false;
-//    if(!set_topic_name("RL-THR-power-command:", m_swamp_status.motor_status()->f3()->thr_power(), topic_map, prefix)) return false;
-//    if(!set_topic_name("RL-AZM-power-command:", m_swamp_status.motor_status()->f3()->azm_power(), topic_map, prefix)) return false;
-//    if(!set_topic_name("RR-THR-enable-command:", m_swamp_status.motor_status()->f4()->azm_enable(), topic_map, prefix)) return false;
-//    if(!set_topic_name("RR-AZM-enable-command:", m_swamp_status.motor_status()->f4()->thr_enable(), topic_map, prefix)) return false;
-//    if(!set_topic_name("RR-AZM-power-command:", m_swamp_status.motor_status()->f4()->azm_power(), topic_map, prefix)) return false;
-//    if(!set_topic_name("RR-THR-power-command:", m_swamp_status.motor_status()->f4()->thr_power(), topic_map, prefix)) return false;
+    if(!set_topic_name("FL-THR-enable-command:", m_swamp_status.motor_status()->f1()->thr_enable(), topic_map, prefix)) return false;
+    if(!set_topic_name("FL-AZM-enable-command:", m_swamp_status.motor_status()->f1()->azm_enable(), topic_map, prefix)) return false;
+    if(!set_topic_name("FL-THR-power-command:", m_swamp_status.motor_status()->f1()->thr_power(), topic_map, prefix)) return false;
+    if(!set_topic_name("FL-AZM-power-command:", m_swamp_status.motor_status()->f1()->azm_power(), topic_map, prefix)) return false;
+    if(!set_topic_name("FR-THR-enable-command:", m_swamp_status.motor_status()->f2()->thr_enable(), topic_map, prefix)) return false;
+    if(!set_topic_name("FR-AZM-enable-command:", m_swamp_status.motor_status()->f2()->azm_enable(), topic_map, prefix)) return false;
+    if(!set_topic_name("FR-THR-power-command:", m_swamp_status.motor_status()->f2()->thr_power(), topic_map, prefix)) return false;
+    if(!set_topic_name("FR-AZM-power-command:", m_swamp_status.motor_status()->f2()->azm_power(), topic_map, prefix)) return false;
+    if(!set_topic_name("RL-THR-enable-command:", m_swamp_status.motor_status()->f3()->thr_enable(), topic_map, prefix)) return false;
+    if(!set_topic_name("RL-AZM-enable-command:", m_swamp_status.motor_status()->f3()->azm_enable(), topic_map, prefix)) return false;
+    if(!set_topic_name("RL-THR-power-command:", m_swamp_status.motor_status()->f3()->thr_power(), topic_map, prefix)) return false;
+    if(!set_topic_name("RL-AZM-power-command:", m_swamp_status.motor_status()->f3()->azm_power(), topic_map, prefix)) return false;
+    if(!set_topic_name("RR-THR-enable-command:", m_swamp_status.motor_status()->f4()->azm_enable(), topic_map, prefix)) return false;
+    if(!set_topic_name("RR-AZM-enable-command:", m_swamp_status.motor_status()->f4()->thr_enable(), topic_map, prefix)) return false;
+    if(!set_topic_name("RR-AZM-power-command:", m_swamp_status.motor_status()->f4()->azm_power(), topic_map, prefix)) return false;
+    if(!set_topic_name("RR-THR-power-command:", m_swamp_status.motor_status()->f4()->thr_power(), topic_map, prefix)) return false;
 
     if(!wrongTopicName.isEmpty()){
         qDebug() << "Topic named " << wrongTopicName << " is not present in the configuration file or is not spelled properly.";

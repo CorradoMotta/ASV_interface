@@ -15,8 +15,8 @@ import "../Views"
 import "../Charts"
 Item {
 
-    property alias minimum_width : minion1.minimumXDim
-    property alias minimum_height: minion1.minimumYDim
+    property alias minimum_width : minion_fl.minimumXDim
+    property alias minimum_height: minion_fl.minimumYDim
     property alias bathymetryPoint : btChr.newPoint
     property alias bathymetryReset: btChr.reset
     //property alias maxDepth: btChr.yMAX

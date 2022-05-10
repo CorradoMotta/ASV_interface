@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     DataSource *dataSource = new DataSource(&data_model);
     //qDebug() << QGuiApplication::applicationPid ();
-    bool sourceIsValid = dataSource->read_cfg("../ASV_interface/conf/topics_proteus.cfg");
+    bool sourceIsValid = dataSource->read_cfg("../ASV_interface/conf/topics.cfg");
     if(! sourceIsValid) exit(-1);
 
     sourceIsValid = dataSource->read_cfg_minion("../ASV_interface/conf/topics_minion.cfg");
