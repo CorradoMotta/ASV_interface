@@ -11,10 +11,15 @@ import QtQuick.Controls 2.15
 import "../BasicItems"
 
 BasicMinionPanelContainer{
+    title: "PUMP"
+
+    required property int pump_motor_enable
+    required property int pump_motor_fault
+    required property int pump_motor_power
 
     implicitHeight: pump_row_id.implicitHeight + title_height + 20
     implicitWidth: pump_row_id.implicitWidth + 20
-    title: "PUMP"
+
     RowLayout{
         id: pump_row_id
         spacing: 10
@@ -34,15 +39,25 @@ BasicMinionPanelContainer{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 image_size: 60
                 set_border: true
+                onEngineStateChanged:{
+                    if (engineState === EngineIcon.EngineStates.Engine_inter) minion_view.publish_topic(minion_view.thrust_motor_power_tn,1)
+                    else if (engineState === EngineIcon.EngineStates.Engine_on) minion_view.publish_topic(minion_view.thrust_motor_enable_tn,1)
+                    else if(engineState === EngineIcon.EngineStates.Engine_off){
+                        minion_view.publish_topic(minion_view.thrust_motor_enable_tn,0)
+                        minion_view.publish_topic(minion_view.thrust_motor_power_tn,0)
+                    }
+                }
 
             }
             BasicSliderVertical {
                 id: set_reference
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 //Layout.fillWidth: true
-                slider_text: "SET_REF"
-                mask_input: "#000"
-                //onValueChanged:  data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc_status.fu.ref.topic_name, value)
+                slider_text: "SET_REFERENCE"
+                slider_from: 0
+                slider_to: 99
+                mask_input: "00"
+                onValueChanged:  minion_view.publish_topic(minion_view.thrust_motor_set_reference_tn, value)
             }
         }
         Rectangle {
@@ -67,31 +82,37 @@ BasicMinionPanelContainer{
                 StatusDot{
                     id: power_dot
                     info_text: "POWER"
-                    color: "gray"
+                    //color: "gray"
+                    dot_state: pump_motor_power
                 }
                 StatusDot{
                     id: enable_dot
                     info_text: "ENABLE"
-                    color: "gray"
+                    //color: "gray"
+                    dot_state: pump_motor_enable
                 }
-                StatusDot{
+                FaultDot{
                     id: fault_dot
                     info_text: "FAULT"
-                    color: "gray"
+                    //color: "gray"
+                    dot_state: pump_motor_fault
                 }
             }
             BasicTextOutput{
                 Layout.topMargin: 30
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "MTR_CURRENT"
+                title_text: "CURRENT"
+                value_text: minion_view.thrust_motor_current
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "MTR_TEMPERATURE"
+                title_text: "TEMPERATURE"
+                value_text: minion_view.thrust_motor_temperature
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "MTR_SPEED"
+                title_text: "SPEED"
+                value_text: minion_view.thrust_motor_speed
             }
         }
     }

@@ -3,8 +3,8 @@ import QtQuick.Layouts 1.15
 
 Item  {
     id: reboot_icon_root
-    implicitHeight: reboot_image.implicitHeight + 5
-    implicitWidth: reboot_image.implicitWidth + 5
+    implicitHeight: coln.implicitHeight + 5
+    implicitWidth: coln.implicitWidth + 5
     property int image_size: 70
 
     enum RebootStates {

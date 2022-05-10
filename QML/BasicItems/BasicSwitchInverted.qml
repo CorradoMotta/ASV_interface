@@ -1,7 +1,8 @@
 /*************************************************************************
  *
  * Same as basic switch but text is displayed on the left side
- * of the switch.
+ * of the switch. The custom property alias switch_is_active carries the
+ * signal used to notify a change in the slider.
  *
  *************************************************************************/
 
@@ -11,9 +12,11 @@ import QtQuick.Layouts 1.15
 
 Item {
     id: slider_root
-    property alias switch_text: switch_text_id.text
 
-    implicitHeight: background.implicitHeight + 10
+    property alias switch_text: switch_text_id.text
+    property alias switch_is_active: control.checked
+
+    implicitHeight: rl.implicitHeight + 10
     implicitWidth: rl.implicitWidth  + 10
 
     RowLayout {
@@ -59,6 +62,5 @@ Item {
                 verticalAlignment: Text.AlignVCenter
             }
         }
-
     }
 }

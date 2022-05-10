@@ -11,6 +11,11 @@ import "../BasicItems"
 
 BasicMinionPanelContainer{
     title: "AZIMUTH"
+
+    required property int azimuth_motor_enable
+    required property int azimuth_motor_fault
+    required property int azimuth_motor_power
+
     implicitHeight: pump_row_id.implicitHeight + title_height + 20
     implicitWidth: pump_row_id.implicitWidth + 20
 
@@ -18,7 +23,7 @@ BasicMinionPanelContainer{
         id: pump_row_id
         spacing: 10
         anchors{
-            topMargin: title_height+ 10
+            topMargin: title_height
             fill: parent
             leftMargin: 10
         }
@@ -33,30 +38,45 @@ BasicMinionPanelContainer{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 image_size: 60
                 set_border: true
-
+                onEngineStateChanged:{
+                    if (engineState === EngineIcon.EngineStates.Engine_inter) minion_view.publish_topic(minion_view.azimuth_motor_power_tn,1)
+                    else if (engineState === EngineIcon.EngineStates.Engine_on) minion_view.publish_topic(minion_view.azimuth_motor_enable_tn,1)
+                    else if(engineState === EngineIcon.EngineStates.Engine_off){
+                        minion_view.publish_topic(minion_view.azimuth_motor_enable_tn,0)
+                        minion_view.publish_topic(minion_view.azimuth_motor_power_tn,0)
+                    }
+                }
             }
-            BasicSwitch{
+            BasicTextInput{
                 Layout.topMargin: 15
-                switch_text: "SET_MAX_SPEED"
+                id: set_speed
+                //Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
+                title_text: "SET_SPEED"
+                mask: "0000"
+                onNew_text_valueChanged: minion_view.publish_topic(minion_view.azimuth_motor_set_max_speed_tn, new_text_value)
             }
             BasicSwitch{
+
                 switch_text: "SET_HOME"
+                onSwitch_is_activeChanged: switch_is_active? minion_view.publish_topic(minion_view.azimuth_motor_set_home_tn, 1)
+                                                           : minion_view.publish_topic(minion_view.azimuth_motor_set_home_tn, 0)
             }
             BasicSwitch{
                 switch_text: "GO_HOME"
+                onSwitch_is_activeChanged: switch_is_active? minion_view.publish_topic(minion_view.azimuth_motor_go_home_tn, 1)
+                                                           : minion_view.publish_topic(minion_view.azimuth_motor_go_home_tn, 0)
             }
-            //            BasicSwitch{
-            //                switch_text: "SET_REF_TICK"
-            //            }
-            BasicSliderVertical{
+
+
+            BasicSliderVertical {
+                id: set_reference
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                slider_text: "SET_ANGLE"
+                //Layout.fillWidth: true
+                slider_text: "SET_REFERENCE"
+                slider_from: -180
+                slider_to: 180
                 mask_input: "#000"
-            }
-            BasicSliderVertical{
-                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                slider_text: "SET_POSITION"
-                mask_input: "#000"
+                onValueChanged:  minion_view.publish_topic(minion_view.azimuth_motor_set_reference_tn, value)
             }
         }
         Rectangle {
@@ -74,50 +94,52 @@ BasicMinionPanelContainer{
             RowLayout{
                 spacing:10
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                //                anchors.right: parent.right
-                //                anchors.top: parent.top
-                //                anchors.topMargin: 20
-                //                anchors.rightMargin: 10
+
                 StatusDot{
                     id: power_dot
                     info_text: "POWER"
-                    color: "red"
+                    dot_state: azimuth_motor_power
                 }
                 StatusDot{
                     id: enable_dot
                     info_text: "ENABLE"
-                    color: "green"
+                    dot_state: azimuth_motor_enable
                 }
-                StatusDot{
+                FaultDot{
                     id: fault_dot
                     info_text: "FAULT"
-                    color: "gray"
+                    dot_state: azimuth_motor_fault
                 }
             }
+            //            BasicTextOutput{
+            //                Layout.topMargin: 30
+            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            //                title_text: "OP_STATUS"
+            //            }
+            //            BasicTextOutput{
+            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            //                title_text: "CONF_STATUS"
+            //            }
             BasicTextOutput{
                 Layout.topMargin: 30
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "MTR_OP_STATUS"
+                title_text: "POSITION"
+                value_text: minion_view.azimuth_motor_position
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "MTR_CONF_STATUS"
+                title_text: "ANGLE"
+                value_text: minion_view.azimuth_motor_angle
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "MTR_POSITION"
+                title_text: "TEMPERATURE"
+                value_text: minion_view.azimuth_motor_temperature
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "MTR_ANGLE"
-            }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "MTR_TEMPERATURE"
-            }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "MTR_CURRENT"
+                title_text: "CURRENT"
+                value_text: minion_view.azimuth_motor_current
             }
         }
     }

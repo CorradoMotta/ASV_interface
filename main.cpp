@@ -34,6 +34,9 @@ int main(int argc, char *argv[])
     bool sourceIsValid = dataSource->read_cfg("../ASV_interface/conf/topics.cfg");
     if(! sourceIsValid) exit(-1);
 
+    sourceIsValid = dataSource->read_cfg_minion("../ASV_interface/conf/topics_minion.cfg");
+    if(! sourceIsValid) exit(-1);
+
     data_model.set_data_source(dataSource);
 
     qmlRegisterUncreatableType<Variable>("com.cnr.property",1,0,"Variable", "Virtual class cannot be instantiated!");

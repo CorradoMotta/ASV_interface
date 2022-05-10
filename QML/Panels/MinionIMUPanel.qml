@@ -19,7 +19,7 @@ BasicMinionPanelContainer{
         id: pump_row_id
         spacing: 10
         anchors{
-            topMargin: title_height + 20
+            topMargin: title_height
             fill: parent
             leftMargin: 10
             rightMargin: 10
@@ -31,18 +31,22 @@ BasicMinionPanelContainer{
                 //Layout.topMargin: 30
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 title_text: "YAW"
+                value_text: minion_view.imu_yaw
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 title_text: "PITCH"
+                value_text: minion_view.imu_pitch
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 title_text: "ROLL"
+                value_text: minion_view.imu_roll
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 title_text: "TEMPERATURE"
+                value_text: minion_view.imu_temperature
             }
 
         }
@@ -57,23 +61,20 @@ BasicMinionPanelContainer{
             id: status_column_id
             Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
             BasicTextOutput{
-                //Layout.topMargin: 30
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 title_text: "X_GYRO"
+                value_text: minion_view.imu_x_gyro
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 title_text: "Y_GYRO"
+                value_text: minion_view.imu_y_gyro
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 title_text: "Z_GYRO"
+                value_text: minion_view.imu_z_gyro
             }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "CALIBRATION"
-            }
-
         }
     }
 }

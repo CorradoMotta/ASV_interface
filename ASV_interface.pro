@@ -62,4 +62,5 @@ HEADERS += \
 
 DISTFILES += \
     conf/topics.cfg \
-    conf/topics.cfg
+    conf/topics.cfg \
+    conf/topics_minion.cfg

@@ -13,6 +13,7 @@ MinionStatus::MinionStatus(QObject *parent)
     m_azimuthMotorPower.setSubscribe(true);
     m_azimuthMotorTemperature.setSubscribe(true);
     m_batteryVoltage.setSubscribe(true);
+    m_nopCounter.setSubscribe(true);
     m_dateAndTime.setSubscribe(true);
     m_digitalInput.setSubscribe(true);
     m_digitalOutput.setSubscribe(true);
@@ -25,6 +26,7 @@ MinionStatus::MinionStatus(QObject *parent)
     m_gpsMonth.setSubscribe(true);
     m_gpsTime.setSubscribe(true);
     m_gpsYear.setSubscribe(true);
+    m_gpsNSatellite.setSubscribe(true);
     m_imuCalibrationStatus.setSubscribe(true);
     m_imuPitch.setSubscribe(true);
     m_imuRoll.setSubscribe(true);
@@ -168,7 +170,7 @@ DoubleVariable *MinionStatus::imuRoll()
     return &m_imuRoll;
 }
 
-IntVariable *MinionStatus::imuTemperature()
+DoubleVariable *MinionStatus::imuTemperature()
 {
     return &m_imuTemperature;
 }
@@ -236,4 +238,14 @@ IntVariable *MinionStatus::timeMs()
 IntVariable *MinionStatus::thrustMotorTemperature()
 {
     return &m_thrustMotorTemperature;
+}
+
+IntVariable *MinionStatus::gpsNSatellite()
+{
+    return &m_gpsNSatellite;
+}
+
+DoubleVariable *MinionStatus::nopCounter()
+{
+    return &m_nopCounter;
 }

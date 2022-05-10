@@ -2,7 +2,8 @@
  *
  * This element is a basic switch that contains a text followed by a
  * switch control button. Such button is white when off and gets green when
- * is switched.
+ * is switched. The custom property alias switch_is_active carries the
+ * signal used to notify a change in the slider.
  *
  *************************************************************************/
 
@@ -12,9 +13,11 @@ import QtQuick.Layouts 1.15
 
 Item {
     id: slider_root
-    property alias switch_text: switch_text_id.text
 
-    implicitHeight: background.implicitHeight + 10
+    property alias switch_text: switch_text_id.text
+    property alias switch_is_active: control.checked
+
+    implicitHeight: rl.implicitHeight + 10
     implicitWidth: rl.implicitWidth  + 10
 
     RowLayout {

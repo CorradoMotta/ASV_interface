@@ -18,6 +18,7 @@ class MinionStatus : public QObject
     Q_PROPERTY(IntVariable* azimuthMotorPower READ azimuthMotorPower NOTIFY azimuthMotorPowerChanged)
     Q_PROPERTY(IntVariable* azimuthMotorTemperature READ azimuthMotorTemperature NOTIFY azimuthMotorTemperatureChanged)
     Q_PROPERTY(DoubleVariable* batteryVoltage READ batteryVoltage NOTIFY batteryVoltageChanged)
+    Q_PROPERTY(DoubleVariable* nopCounter READ nopCounter NOTIFY nopCounterChanged)
     Q_PROPERTY(IntVariable* dateAndTime READ dateAndTime NOTIFY dateAndTimeChanged)
     Q_PROPERTY(IntVariable* digitalInput READ digitalInput NOTIFY digitalInputChanged)
     Q_PROPERTY(IntVariable* digitalOutput READ digitalOutput NOTIFY digitalOutputChanged)
@@ -29,11 +30,12 @@ class MinionStatus : public QObject
     Q_PROPERTY(DoubleVariable* gpsLongitude READ gpsLongitude NOTIFY gpsLongitudeChanged)
     Q_PROPERTY(IntVariable* gpsMonth READ gpsMonth NOTIFY gpsMonthChanged)
     Q_PROPERTY(DoubleVariable* gpsTime READ gpsTime NOTIFY gpsTimeChanged)
+    Q_PROPERTY(IntVariable* gpsNSatellite READ gpsNSatellite NOTIFY gpsNSatelliteChanged)
     Q_PROPERTY(IntVariable* gpsYear READ gpsYear NOTIFY gpsYearChanged)
     Q_PROPERTY(DoubleVariable* imuCalibrationStatus READ imuCalibrationStatus NOTIFY imuCalibrationStatusChanged)
     Q_PROPERTY(DoubleVariable* imuPitch READ imuPitch NOTIFY imuPitchChanged)
     Q_PROPERTY(DoubleVariable* imuRoll READ imuRoll NOTIFY imuRollChanged)
-    Q_PROPERTY(IntVariable* imuTemperature READ imuTemperature NOTIFY imuTemperatureChanged)
+    Q_PROPERTY(DoubleVariable* imuTemperature READ imuTemperature NOTIFY imuTemperatureChanged)
     Q_PROPERTY(DoubleVariable* imuXGyro READ imuXGyro NOTIFY imuXGyroChanged)
     Q_PROPERTY(DoubleVariable* imuYGyro READ imuYGyro NOTIFY imuYGyroChanged)
     Q_PROPERTY(DoubleVariable* imuYaw READ imuYaw NOTIFY imuYawChanged)
@@ -76,7 +78,7 @@ public:
     DoubleVariable* imuCalibrationStatus();
     DoubleVariable* imuPitch();
     DoubleVariable* imuRoll();
-    IntVariable* imuTemperature();
+    DoubleVariable* imuTemperature();
     DoubleVariable* imuXGyro();
     DoubleVariable* imuYGyro();
     DoubleVariable* imuYaw();
@@ -90,6 +92,8 @@ public:
     DoubleVariable* thrustMotorSpeed();
     IntVariable* timeMs();
     IntVariable* thrustMotorTemperature();
+    IntVariable* gpsNSatellite();
+    DoubleVariable* nopCounter();
 
 signals:
 
@@ -132,6 +136,8 @@ signals:
     void thrustMotorSpeedChanged();
     void timeMsChanged();
     void thrustMotorTemperatureChanged();
+    void gpsNSatelliteChanged();
+    void nopCounterChanged();
 
 private:
     DoubleVariable m_azimuthMotorAngle;
@@ -159,7 +165,7 @@ private:
     DoubleVariable m_imuCalibrationStatus;
     DoubleVariable m_imuPitch;
     DoubleVariable m_imuRoll;
-    IntVariable m_imuTemperature;
+    DoubleVariable m_imuTemperature;
     DoubleVariable m_imuXGyro;
     DoubleVariable m_imuYGyro;
     DoubleVariable m_imuYaw;
@@ -173,6 +179,8 @@ private:
     DoubleVariable m_thrustMotorSpeed;
     IntVariable m_timeMs;
     IntVariable m_thrustMotorTemperature;
+    IntVariable m_gpsNSatellite;
+    DoubleVariable m_nopCounter;
 };
 
 #endif // MINION_STATUS_H

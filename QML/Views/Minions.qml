@@ -14,8 +14,8 @@ import "../Panels"
 import "../Views"
 
 Item {
-    property alias minimum_width : minion1.minimumXDim
-    property alias minimum_height: minion1.minimumYDim
+    property alias minimum_width : minion_fl.minimumXDim
+    property alias minimum_height: minion_fl.minimumYDim
     Page{
         id: minion_page
         property int margin: 10
@@ -49,16 +49,20 @@ Item {
             //                id: general
             //            }
             SingleMinion {
-                id: minion1
+                id: minion_fl
+                prefix: data_model.data_source.swamp_status.minion_fl
             }
             SingleMinion {
-                id: minion2
+                id: minion_fr
+                prefix: data_model.data_source.swamp_status.minion_fr
             }
             SingleMinion {
-                id: minion3
+                id: minion_rl
+                prefix: data_model.data_source.swamp_status.minion_rl
             }
             SingleMinion {
-                id: minion4
+                id: minion_rr
+                prefix: data_model.data_source.swamp_status.minion_rr
             }
         }
     }

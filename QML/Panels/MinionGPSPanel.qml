@@ -18,7 +18,7 @@ BasicMinionPanelContainer{
         id: pump_row_id
         spacing: 10
         anchors{
-            topMargin: title_height + 20
+            topMargin: title_height
             fill: parent
             leftMargin: 10
             rightMargin: 10
@@ -31,16 +31,19 @@ BasicMinionPanelContainer{
                 value_width: 200
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 title_text: "LATITUDE"
+                value_text: minion_view.gps_latitude
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 200
                 title_text: "LONGITUDE"
+                value_text: minion_view.gps_longitude
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 200
                 title_text: "ALTITUDE"
+                value_text: minion_view.gps_altitude
             }
 
         }
@@ -58,15 +61,17 @@ BasicMinionPanelContainer{
                 //Layout.topMargin: 30
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 title_text: "FIX"
+                value_text: minion_view.gps_fix
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "HDOP"
+                title_text: "NS"
+                value_text: minion_view.gps_ns
             }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                title_text: "HEIGHT"
-            }
+//            BasicTextOutput{
+//                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+//                title_text: "HEIGHT"
+//            }
         }
     }
 }
