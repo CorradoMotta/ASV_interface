@@ -23,7 +23,8 @@ SOURCES += \
         map_models/depth_point.cpp \
         map_models/geometry.cpp \
         map_models/singlemarkermodel.cpp \
-        swamp_models/datasource.cpp \
+        swamp_models/datasource_mqtt.cpp \
+        swamp_models/datasource_udp.cpp \
         swamp_models/swampmodel.cpp \
         swamp_models/swampstatus.cpp
 
@@ -49,6 +50,7 @@ HEADERS += \
     components/ngc_status.h \
     components/swamp_motor_status.h \
     components/time_status.h \
+    data/HciNgiInterface.h \
     data/custom_types.h \
     data/define.h \
     data/doublevariable.h \
@@ -61,6 +63,8 @@ HEADERS += \
     map_models/geometry.h \
     map_models/singlemarkermodel.h \
     swamp_models/datasource.h \
+    swamp_models/datasource_mqtt.h \
+    swamp_models/datasource_udp.h \
     swamp_models/swampmodel.h \
     swamp_models/swampstatus.h
 

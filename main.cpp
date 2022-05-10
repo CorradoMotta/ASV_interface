@@ -19,6 +19,7 @@
 #include "components/motor_status.h"
 #include "components/swamp_motor_status.h"
 #include "swamp_models/swampmodel.h"
+#include "swamp_models/datasource_udp.h"
 
 int main(int argc, char *argv[])
 {
@@ -38,13 +39,18 @@ int main(int argc, char *argv[])
     BathymetryModel bath_model("Bathymetry");
     SwampModel data_model;
     QQmlApplicationEngine engine;
-    DataSource *dataSource = new DataSource(&data_model);
+
+
+    // change depending on network binding
+    DataSource *dataSource = new DataSourceUdp(&data_model);
+    //DataSource *dataSource = new DataSourceMqtt(&data_model);
+
     //qDebug() << QGuiApplication::applicationPid ();
-    bool sourceIsValid = dataSource->read_cfg("../ASV_interface/conf/topics.cfg");
+    bool sourceIsValid = dataSource->set_cfg("../ASV_interface/conf/topics.cfg");
     if(! sourceIsValid) exit(-1);
 
-    sourceIsValid = dataSource->read_cfg_minion("../ASV_interface/conf/topics_minion.cfg");
-    if(! sourceIsValid) exit(-1);
+//    sourceIsValid = dataSource->read_cfg_minion("../ASV_interface/conf/topics_minion.cfg");
+//    if(! sourceIsValid) exit(-1);
 
     data_model.set_data_source(dataSource);
 
@@ -69,6 +75,5 @@ int main(int argc, char *argv[])
 
     engine.load(url);
     return app.exec();
-
 
 }

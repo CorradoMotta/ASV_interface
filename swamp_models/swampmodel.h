@@ -15,6 +15,7 @@
 #define SWAMPMODEL_H
 
 #include <QObject>
+#include <swamp_models/datasource_mqtt.h>
 #include <swamp_models/datasource.h>
 
 class SwampModel : public QObject

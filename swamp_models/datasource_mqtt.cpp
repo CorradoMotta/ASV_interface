@@ -1,39 +1,40 @@
-#include "datasource.h"
+#include "datasource_mqtt.h"
 #include <qlocale.h>
 #include <qfile.h>
+#include <data/variable.h>
 
-DataSource::DataSource(QObject *parent)
-    : QObject{parent},
+DataSourceMqtt::DataSourceMqtt(QObject *parent)
+    : DataSource{parent},
       m_timer{new QTimer(this)},
       m_count_timer{0},
       m_client{new QMqttClient(this)},
       m_is_connected{false}
 {
-    connect(m_client, &QMqttClient::connected, this, &DataSource::connectionEstablished);
-    connect(m_client, &QMqttClient::messageReceived, this, &DataSource::handleMessage);
-    connect(m_client, &QMqttClient::disconnected, this, &DataSource::handleDisconnected);
+    connect(m_client, &QMqttClient::connected, this, &DataSourceMqtt::connectionEstablished);
+    connect(m_client, &QMqttClient::messageReceived, this, &DataSourceMqtt::handleMessage);
+    connect(m_client, &QMqttClient::disconnected, this, &DataSourceMqtt::handleDisconnected);
     m_timer->start(100);
 }
 
-void DataSource::update_ts_from_local(){
+void DataSourceMqtt::update_ts_from_local(){
     m_count_timer += 100;  // TODO CHANGE THIS?
     send_new_timestamp(m_count_timer);
 }
 
-void DataSource::update_ts_from_vehicle(){
+void DataSourceMqtt::update_ts_from_vehicle(){
     send_new_timestamp(m_swamp_status.time_status()->timestamp()->value());
 }
 
-void DataSource::send_new_timestamp(double value){
+void DataSourceMqtt::send_new_timestamp(double value){
     QString str_value = QString::number(value);
     m_client->publish(m_swamp_status.time_status()->hmi_timestamp()->topic_name(), str_value.toUtf8());
 }
 
-void DataSource::setConnection()
+void DataSourceMqtt::setConnection()
 {
     if(!m_is_connected){
         m_client->connectToHost();
-        connect(m_timer, &QTimer::timeout, this, &DataSource::update_ts_from_local); //start sending heartbeat
+        connect(m_timer, &QTimer::timeout, this, &DataSourceMqtt::update_ts_from_local); //start sending heartbeat
     }else{
         qDebug() << "Disconnecting..";
         m_client->disconnectFromHost();
@@ -41,7 +42,7 @@ void DataSource::setConnection()
     }
 }
 
-void DataSource::publishMessage(const QString &topic, const QString &message)
+void DataSourceMqtt::publishMessage(const QString &topic, const QString &message)
 {
     qDebug() <<topic << " : " << message;
     int current_timestamp = m_swamp_status.time_status()->timestamp()->value();
@@ -50,7 +51,7 @@ void DataSource::publishMessage(const QString &topic, const QString &message)
     m_client->publish(topic, value.toUtf8());
 }
 
-void DataSource::connectionEstablished()
+void DataSourceMqtt::connectionEstablished()
 {
     qDebug() << "Connected!..";
 
@@ -81,18 +82,18 @@ void DataSource::connectionEstablished()
 
     // connect timestamps
     connect(m_swamp_status.time_status()->timestamp(), &DoubleVariable::valueChanged,
-            this, &DataSource::update_ts_from_vehicle);
+            this, &DataSourceMqtt::update_ts_from_vehicle);
     set_is_connected(true);
 }
 
-void DataSource::handleDisconnected()
+void DataSourceMqtt::handleDisconnected()
 {
     //TODO implement automatic reconnection
     set_is_connected(false);
     qDebug() << "disconnected";
 }
 
-void DataSource::handleMessage(const QByteArray &message, const QMqttTopicName &topic)
+void DataSourceMqtt::handleMessage(const QByteArray &message, const QMqttTopicName &topic)
 {
     if(m_timer->isActive()) m_timer->stop();
 
@@ -105,7 +106,7 @@ void DataSource::handleMessage(const QByteArray &message, const QMqttTopicName &
     }
 }
 
-bool DataSource::read_cfg(QString filename)
+bool DataSourceMqtt::set_cfg(QString filename)
 {
     QFile file(filename);
 
@@ -185,7 +186,7 @@ bool DataSource::read_cfg(QString filename)
     return true;
 }
 
-bool DataSource::read_cfg_minion(QString filename)
+bool DataSourceMqtt::read_cfg_minion(QString filename)
 {
     QFile file(filename);
 
@@ -293,12 +294,12 @@ bool DataSource::read_cfg_minion(QString filename)
     return true;
 }
 
-bool DataSource::is_connected() const
+bool DataSourceMqtt::is_connected() const
 {
     return m_is_connected;
 }
 
-void DataSource::set_is_connected(bool newIs_connected)
+void DataSourceMqtt::set_is_connected(bool newIs_connected)
 {
     if (m_is_connected == newIs_connected)
         return;
@@ -306,12 +307,12 @@ void DataSource::set_is_connected(bool newIs_connected)
     emit is_connectedChanged();
 }
 
-SwampStatus *DataSource::swamp_status()
+SwampStatus *DataSourceMqtt::swamp_status()
 {
     return &m_swamp_status;
 }
 
-bool DataSource::set_topic_name(QString tn, DoubleVariable *dv, QMap<QString, QString> &topic_map, QString prefix)
+bool DataSourceMqtt::set_topic_name(QString tn, DoubleVariable *dv, QMap<QString, QString> &topic_map, QString prefix)
 {
     if(topic_map[tn].isEmpty()){
         qDebug() << "Topic named " << tn << " is not present in the configuration file or is not spelled properly.";
@@ -324,7 +325,7 @@ bool DataSource::set_topic_name(QString tn, DoubleVariable *dv, QMap<QString, QS
     }
 }
 
-bool DataSource::set_topic_name(QString tn, IntVariable *iv, QMap<QString, QString> &topic_map, QString prefix)
+bool DataSourceMqtt::set_topic_name(QString tn, IntVariable *iv, QMap<QString, QString> &topic_map, QString prefix)
 {
     if(topic_map[tn].isEmpty()){
         qDebug() << "Topic named " << tn << " is not present in the configuration file or is not spelled properly.";
@@ -337,7 +338,7 @@ bool DataSource::set_topic_name(QString tn, IntVariable *iv, QMap<QString, QStri
     }
 }
 
-bool DataSource::set_topic_name(QString tn, StringVariable *sv, QMap<QString, QString> &topic_map, QString prefix)
+bool DataSourceMqtt::set_topic_name(QString tn, StringVariable *sv, QMap<QString, QString> &topic_map, QString prefix)
 {
     if(topic_map[tn].isEmpty()){
         qDebug() << "Topic named " << tn << " is not present in the configuration file or is not spelled properly.";
