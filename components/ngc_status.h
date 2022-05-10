@@ -13,6 +13,7 @@ class NGC_status : public QObject
     Q_PROPERTY(NGC_variable* fv READ fv NOTIFY fvChanged)
     Q_PROPERTY(NGC_variable* fw READ fw NOTIFY fwChanged)
     Q_PROPERTY(NGC_variable* tr READ tr NOTIFY trChanged)
+    Q_PROPERTY(DoubleVariable* altitude READ altitude NOTIFY altitudeChanged)
 
 public:
     explicit NGC_status(QObject *parent = nullptr);
@@ -22,6 +23,7 @@ public:
     NGC_variable *fv();
     NGC_variable *fw();
     NGC_variable *tr();
+    DoubleVariable *altitude();
 
 signals:
 
@@ -30,6 +32,7 @@ signals:
     void fvChanged();
     void fwChanged();
     void trChanged();
+    void altitudeChanged();
 
 private:
 
@@ -38,6 +41,7 @@ private:
     NGC_variable m_fv;
     NGC_variable m_fw;
     NGC_variable m_tr;
+    DoubleVariable m_altitude;
 };
 
 #endif // NGC_STATUS_H

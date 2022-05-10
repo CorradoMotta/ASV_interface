@@ -1,9 +1,11 @@
-#include <QGuiApplication>
+#include <QtWidgets/QApplication>
 #include <QQmlApplicationEngine>
 #include <QDebug>
 #include <QSslSocket>
 #include "map_models/singlemarkermodel.h"
+#include "map_models/bathymetrymodel.h"
 #include <QQmlContext>
+#include <QtQuick/QQuickView>
 #include <QQmlComponent>
 #include "data/variable.h"
 #include "data/doublevariable.h"
@@ -23,10 +25,17 @@ int main(int argc, char *argv[])
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
+
+#ifdef Q_OS_WIN
+    QString extraImportPath(QStringLiteral("%1/../../../../%2"));
+#else
+    QString extraImportPath(QStringLiteral("%1/../../../%2"));
+#endif
 
     SingleMarkerModel marker_model;
     SingleMarkerModel line_model;
+    BathymetryModel bath_model("Bathymetry");
     SwampModel data_model;
     QQmlApplicationEngine engine;
     DataSource *dataSource = new DataSource(&data_model);
@@ -48,6 +57,7 @@ int main(int argc, char *argv[])
     const QUrl url(QStringLiteral("qrc:/QML/main.qml"));
     engine.rootContext()->setContextProperty(QStringLiteral("dataSource"), dataSource);
     engine.rootContext()->setContextProperty(QStringLiteral("_marker_model"), &marker_model);
+    engine.rootContext()->setContextProperty(QStringLiteral("_bathymetry_model"), &bath_model);
     engine.rootContext()->setContextProperty(QStringLiteral("_line_model"), &line_model);
     engine.rootContext()->setContextProperty(QStringLiteral("data_model"), &data_model);
 
@@ -59,4 +69,6 @@ int main(int argc, char *argv[])
 
     engine.load(url);
     return app.exec();
+
+
 }

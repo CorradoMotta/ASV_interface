@@ -53,5 +53,19 @@
         <file>Images/on_button_new.png</file>
         <file>QML/BasicItems/BasicTextInputInverted.qml</file>
         <file>QML/BasicItems/FaultDot.qml</file>
+        <file>QML/Maps/DelegateBathModel.qml</file>
+        <file>QML/Charts/BathymetryChart.qml</file>
+        <file>QML/Panels/BathymetryPanel.qml</file>
+        <file>QML/BasicItems/BasicRangeSlider.qml</file>
+        <file>Images/download.png</file>
+        <file>Images/pause-button.png</file>
+        <file>Images/play-button.png</file>
+        <file>Images/play-button-simple.png</file>
+        <file>Images/pause.png</file>
+        <file>Images/stop.png</file>
+        <file>Images/pause_resized.png</file>
+        <file>Images/download_resized.png</file>
+        <file>Images/play-button_resized.png</file>
+        <file>Images/stop_resized.png</file>
     </qresource>
 </RCC>

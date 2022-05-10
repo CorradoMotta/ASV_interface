@@ -23,6 +23,13 @@ ApplicationWindow {
     property bool startUp: true
     property double timestamp: 0
 
+    function messagePrompt(prompt_text){
+        message_prompt.message = prompt_text
+        //message_prompt.visible = true
+        //message_prompt_anim.from = 0.0
+        message_prompt_anim.running = true
+    }
+
     function convertToRadiant(value) {
         var value_in_radiant = value * 180 / pi_value
         return value_in_radiant
@@ -31,17 +38,21 @@ ApplicationWindow {
     onStartUpChanged:{
         navigation_map.zoomLevel = 18
         navigation_map.center =
-                QtPositioning.coordinate(navigation_map.lat, navigation_map.lon)
+                QtPositioning.coordinate(navigation_map.lat.value, navigation_map.lon.value)
     }
 
     menuBar: CustomMenuBar {
         id: menu_bar_id
     }
 
+
+
     // instantiate the minion view
     Minions{
         id: minion_view
     }
+
+
 
     RowLayout {
         id: main_layout
@@ -83,7 +94,6 @@ ApplicationWindow {
                     // TODO i cannot access enum?
                     opacity: data_model.data_source.is_connected ? 1 : 0.3
                     enabled: data_model.data_source.is_connected
-
                 }
                 ForceSliderPanel {
                     id: force_slider_panel
@@ -93,7 +103,18 @@ ApplicationWindow {
                     clip: true
                     opacity: data_model.data_source.is_connected ? 1 : 0.3
                     enabled: data_model.data_source.is_connected
+
                 }
+                BathymetryPanel{
+                    id: bathymetry_panel
+                    Layout.fillWidth: true
+                    Layout.rightMargin: 10
+                    Layout.alignment: Qt.AlignTop
+                    opacity: data_model.data_source.is_connected ? 1 : 0.3
+                    enabled: data_model.data_source.is_connected
+
+                }
+
                 Button {
                     id: connect_button
                     Layout.alignment: Qt.AlignTop
@@ -114,5 +135,49 @@ ApplicationWindow {
                 }
             }
         }
+    }
+    Rectangle{
+        id: message_prompt
+        property alias message : text_prompt.text
+        anchors.horizontalCenter: parent.horizontalCenter
+        //anchors.verticalCenter: parent.verticalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 100
+        width: Math.max(1100, text_prompt.implicitWidth + 200)
+        height: text_prompt.implicitHeight + 10
+        radius: 20
+        color: "cornflowerblue"
+        //visible: false
+        opacity: 0
+        //border.color: "black"
+        Text{
+            id: text_prompt
+            anchors.horizontalCenter: message_prompt.horizontalCenter
+            anchors.verticalCenter: message_prompt.verticalCenter
+            font.family: "Helvetica"
+            font.pointSize: 14
+        }
+    }
+    SequentialAnimation{
+        id: message_prompt_anim
+    NumberAnimation {
+        target: message_prompt
+        property: "opacity"
+        from: 0.0; to: 1.0
+        duration: 1000
+        //running: true
+    }
+    PauseAnimation{
+        duration: 2000
+    }
+
+    NumberAnimation {
+        id: message_prompt_anim_disappear
+        target: message_prompt
+        property: "opacity"
+        from: 1.0; to: 0
+        duration: 600
+        //running: true
+    }
     }
 }

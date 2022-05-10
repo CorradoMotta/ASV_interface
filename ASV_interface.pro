@@ -1,4 +1,4 @@
-QT += quick positioning mqtt
+QT += quick positioning mqtt gui widgets
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -19,6 +19,8 @@ SOURCES += \
         data/stringvariable.cpp \
         data/variable.cpp \
         main.cpp \
+        map_models/bathymetrymodel.cpp \
+        map_models/depth_point.cpp \
         map_models/geometry.cpp \
         map_models/singlemarkermodel.cpp \
         swamp_models/datasource.cpp \
@@ -54,6 +56,8 @@ HEADERS += \
     data/ngc_variable.h \
     data/stringvariable.h \
     data/variable.h \
+    map_models/bathymetrymodel.h \
+    map_models/depth_point.h \
     map_models/geometry.h \
     map_models/singlemarkermodel.h \
     swamp_models/datasource.h \
@@ -61,6 +65,30 @@ HEADERS += \
     swamp_models/swampstatus.h
 
 DISTFILES += \
+    Images/ArrowDown.png \
+    Images/ArrowUp.png \
+    Images/Engine_inter.png \
+    Images/Engine_off.png \
+    Images/Engine_on.png \
+    Images/Swamp.png \
+    Images/arrow_close.png \
+    Images/arrow_open.png \
+    Images/circle.png \
+    Images/download.png \
+    Images/line_box.png \
+    Images/marker.png \
+    Images/marker_box.png \
+    Images/off_button.png \
+    Images/off_button_new.png \
+    Images/on_button.png \
+    Images/on_button_new.png \
+    Images/pause-button.png \
+    Images/pause.png \
+    Images/play-button-simple.png \
+    Images/play-button.png \
+    Images/rect_box.png \
+    Images/stop-button.png \
+    Images/stop.png \
     conf/topics.cfg \
-    conf/topics.cfg \
-    conf/topics_minion.cfg
+    conf/topics_minion.cfg \
+    conf/topics_proteus.cfg

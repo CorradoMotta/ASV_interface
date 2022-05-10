@@ -11,6 +11,7 @@ DataSource::DataSource(QObject *parent)
 {
     connect(m_client, &QMqttClient::connected, this, &DataSource::connectionEstablished);
     connect(m_client, &QMqttClient::messageReceived, this, &DataSource::handleMessage);
+    connect(m_client, &QMqttClient::disconnected, this, &DataSource::handleDisconnected);
     m_timer->start(100);
 }
 
@@ -84,6 +85,13 @@ void DataSource::connectionEstablished()
     set_is_connected(true);
 }
 
+void DataSource::handleDisconnected()
+{
+    //TODO implement automatic reconnection
+    set_is_connected(false);
+    qDebug() << "disconnected";
+}
+
 void DataSource::handleMessage(const QByteArray &message, const QMqttTopicName &topic)
 {
     if(m_timer->isActive()) m_timer->stop();
@@ -107,7 +115,7 @@ bool DataSource::read_cfg(QString filename)
     }
 
     QString wrongTopicName = "";
-    QString prefix = "CNR-INM/swamp/";
+
     QString tn;
     QMap<QString, QString> topic_map;
     QTextStream in(&file);
@@ -118,17 +126,28 @@ bool DataSource::read_cfg(QString filename)
             topic_map[line[0].trimmed()] = line[1].trimmed();
         }
     }
-
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    // PREFIX
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    QString env_prefix;
+    QString prefix;
+    tn = "Environment:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn ; env_prefix = topic_map[tn];
+    tn = "Robot:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn ; prefix = env_prefix+  topic_map[tn];
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // MQTT
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     tn = "Broker-port:"; if(topic_map[tn].isEmpty()) wrongTopicName = tn ; m_client->setPort(topic_map[tn].toUInt());
     tn = "Broker-address:";  if(topic_map[tn].isEmpty()) wrongTopicName = tn ; m_client->setHostname(topic_map[tn]);
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    // Bathymetry
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    if(!set_topic_name("ngc-pose-a-act:", m_swamp_status.ngc_status()->altitude(), topic_map, prefix)) return false;
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Timestamp
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    if(!set_topic_name("timeStamp:", m_swamp_status.time_status()->timestamp(), topic_map, "CNR-INM/")) return false;
+    if(!set_topic_name("timeStamp:", m_swamp_status.time_status()->timestamp(), topic_map, env_prefix)) return false;
     if(!set_topic_name("HMI-Robot-timeStamp:", m_swamp_status.time_status()->hmi_timestamp(), topic_map, prefix)) return false;
+    if(!set_topic_name("date-time:", m_swamp_status.time_status()->dateTime(), topic_map, env_prefix)) return false;
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // NGC and GPS
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -324,6 +343,7 @@ bool DataSource::set_topic_name(QString tn, StringVariable *sv, QMap<QString, QS
         qDebug() << "Topic named " << tn << " is not present in the configuration file or is not spelled properly.";
         return false;
     }
+
     else{
         sv->setTopic_name(prefix + topic_map[tn]);
         m_string_map[prefix+ topic_map[tn]] = sv;

@@ -5,6 +5,7 @@ NGC_status::NGC_status(QObject *parent)
 {
     // do subscribes
     m_psi.setSubscribe(true);
+    m_altitude.setSubscribe(true);
 }
 
 DoubleVariable *NGC_status::psi()
@@ -30,4 +31,9 @@ NGC_variable *NGC_status::fw()
 NGC_variable *NGC_status::tr()
 {
     return &m_tr;
+}
+
+DoubleVariable *NGC_status::altitude()
+{
+    return &m_altitude;
 }
