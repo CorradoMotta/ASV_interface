@@ -36,10 +36,10 @@ BasicMinionPanelContainer{
             Layout.leftMargin: 10
             Layout.topMargin: title_height + 30
             // TODO deactivated for now
-//            onRebootStateChanged: {
-//                    if(rebootState === BasicRebootIcon.RebootStates.Reboot) minion_view.publish_topic(minion_view.reboot_tn, 1)
-//                    else if(rebootState === BasicRebootIcon.RebootStates.Shutdown) minion_view.publish_topic(minion_view.shutdown_tn, 1)
-//            }
+            onRebootStateChanged: {
+                    if(rebootState === BasicRebootIcon.RebootStates.Reboot) minion_view.publish_topic(minion_view.reboot_tn, 1)
+                    else if(rebootState === BasicRebootIcon.RebootStates.Shutdown) minion_view.publish_topic(minion_view.shutdown_tn, 1)
+            }
         }
 //        ColumnLayout{
 //            Layout.alignment: Qt.AlignLeft

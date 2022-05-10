@@ -4,7 +4,6 @@ import QtQuick.Layouts 1.15
 
 Item {
     property alias title_text: title_text_input.text
-    property alias value_text: text_value_id.text
     property string new_text_value: ""
 
 

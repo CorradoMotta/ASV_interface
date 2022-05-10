@@ -76,6 +76,7 @@ Item {
     readonly property string azimuth_motor_set_reference_tn: prefix.minionCmd.azimuthMotorSetReference.topic_name
     readonly property string azimuth_motor_set_home_tn: prefix.minionCmd.azimuthSetHome.topic_name
     readonly property string azimuth_motor_go_home_tn: prefix.minionCmd.azimuthGoHome.topic_name
+    readonly property string azimuth_motor_set_max_speed_tn: prefix.minionCmd.azimuthSetMaxSpeed.topic_name
 
 
     ColumnLayout{

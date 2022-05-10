@@ -47,8 +47,16 @@ BasicMinionPanelContainer{
                     }
                 }
             }
-            BasicSwitch{
+            BasicTextInput{
                 Layout.topMargin: 15
+                id: set_speed
+                //Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
+                title_text: "SET_SPEED"
+                mask: "0000"
+                onNew_text_valueChanged: minion_view.publish_topic(minion_view.azimuth_motor_set_max_speed_tn, new_text_value)
+            }
+            BasicSwitch{
+
                 switch_text: "SET_HOME"
                 onSwitch_is_activeChanged: switch_is_active? minion_view.publish_topic(minion_view.azimuth_motor_set_home_tn, 1)
                                                            : minion_view.publish_topic(minion_view.azimuth_motor_set_home_tn, 0)
@@ -58,6 +66,8 @@ BasicMinionPanelContainer{
                 onSwitch_is_activeChanged: switch_is_active? minion_view.publish_topic(minion_view.azimuth_motor_go_home_tn, 1)
                                                            : minion_view.publish_topic(minion_view.azimuth_motor_go_home_tn, 0)
             }
+
+
             BasicSliderVertical {
                 id: set_reference
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft

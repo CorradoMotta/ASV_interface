@@ -13,8 +13,8 @@ Rectangle{
 
     // TODO fix the fault (0 - 1 per fault)
     enum DotStates {
-        Dot_fault,
         Dot_off,
+        Dot_fault,
         Dot_on
     }
     property alias info_text : info_label_text.text
@@ -53,7 +53,6 @@ Rectangle{
         hoverEnabled : true
         onEntered: {
             info_label.visible = true
-            console.log(dot_state)
         }
         onExited: {
             info_label.visible = false

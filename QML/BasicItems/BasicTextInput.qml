@@ -4,7 +4,8 @@ import QtQuick.Layouts 1.15
 
 Item {
     property alias title_text: title_text_input.text
-    property alias value_text: text_value_id.text
+    property alias mask: text_value_id.inputMask
+    property string new_text_value: ""
 
     implicitHeight: rl.implicitHeight
     implicitWidth: rl.implicitWidth
@@ -15,7 +16,7 @@ Item {
         anchors.fill: parent
         FocusScope {
             id: text_input_id
-            width: 200; height: text_value_id.implicitHeight + 10
+            width: 100; height: text_value_id.implicitHeight + 10
             Rectangle {
                 anchors.fill: parent
                 color: "white"
@@ -23,13 +24,14 @@ Item {
 
             }
 
-            TextEdit {
+            TextInput {
                 id: text_value_id
                 anchors.fill: parent
                 anchors.margins: 4
                 font.family: "Helvetica"
                 font.pointSize: 14
                 focus: true
+                onEditingFinished: text.trim() === ''?  0 : new_text_value =  text
             }
         }
 

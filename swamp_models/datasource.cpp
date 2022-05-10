@@ -215,6 +215,8 @@ bool DataSource::read_cfg_minion(QString filename)
 
     if(!set_topic_name("cmd-log:", singleMinion->minionCmd()->log(), topic_map, prefix)) return false;
     if(!set_topic_name("cmd-change-tlm-addr:", singleMinion->minionCmd()->changeTlmAddr(), topic_map, prefix)) return false;
+    if(!set_topic_name("cmd-shutdown:", singleMinion->minionCmd()->shutdown(), topic_map, prefix)) return false;
+    if(!set_topic_name("cmd-reboot:", singleMinion->minionCmd()->reboot(), topic_map, prefix)) return false;
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Pump
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -244,6 +246,7 @@ bool DataSource::read_cfg_minion(QString filename)
     if(!set_topic_name("cmd-azimuth-set-home:", singleMinion->minionCmd()->azimuthSetHome(), topic_map, prefix)) return false;
     if(!set_topic_name("cmd-azimuth-go-home:", singleMinion->minionCmd()->azimuthGoHome(), topic_map, prefix)) return false;
     if(!set_topic_name("cmd-azimuth-angle:", singleMinion->minionCmd()->azimuthMotorSetReference(), topic_map, prefix)) return false;
+    if(!set_topic_name("cmd-azimuth-max-speed:",singleMinion->minionCmd()->azimuthSetMaxSpeed(), topic_map, prefix)) return false;
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // IMU
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
