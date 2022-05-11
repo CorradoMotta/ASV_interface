@@ -40,6 +40,9 @@ int main(int argc, char *argv[])
 }
 ``` 
 ### QtMqtt
+
+**NOTE**: this is tested only with mingw compilers!
+
 The following steps are required for windows in order to install qtmqtt which is not included in the download packages:
 
 * Installing Perl 5.8 https://www.activestate.com/products/perl/
@@ -55,3 +58,121 @@ The following steps are required for windows in order to install qtmqtt which is
 * Then run: `$ C:\Qt\Tools\mingw<yourVersion>\bin\mingw32-make.exe install`
 
 __Source:__ https://forum.qt.io/topic/91877/where-do-i-find-qt-for-automation/7
+
+## Info on implementation
+The HCI interface is developed using QML for the "front end" and C++ for the "back end". Communication between C++ and QML is implemented in the standard QT way, using `setContextProperty` method and `Q_OBJECT`. For interaction with the navigation map, the model-view-delegate architecture is used (https://doc.qt.io/qt-5/model-view-programming.html), where the model part is coded in C++. Such classes are contained in the folder map_models.
+
+### Network Binding
+The front-end of the application is fully detached from the underlying communication protocol. In the backend, the class `swampmodel` contains a pointer to a `dataSource` object. `dataSource` is a virtual class which offers a basic set of methods that can be implemented by different communication protocol:
+
+``` cpp
+class DataSource : public QObject
+{
+    Q_OBJECT
+
+    Q_PROPERTY(bool is_connected READ is_connected WRITE set_is_connected NOTIFY is_connectedChanged)
+    Q_PROPERTY(SwampStatus* swamp_status READ swamp_status NOTIFY swamp_statusChanged)
+
+public:
+    explicit DataSource(QObject *parent = nullptr) : QObject{parent}, m_is_connected{false}{}
+
+    /**
+     * Set a connection on the underlying protocol.
+     *
+     */
+    Q_INVOKABLE virtual void setConnection() = 0;
+
+    /**
+     * Send a message out. It is made Q_invokable to be used directly in QML code.
+     *
+     * @param identifier of the packet that is going to be sent.
+     * @param message to be sent.
+     *
+     */
+    Q_INVOKABLE virtual void publishMessage(const QString &identifier, const QString &message) = 0;
+
+    /**
+     * Set initial configuration parameters, such as the identifier for each variable.
+     * As configuration can also be stored on a file, it is possible to add a parameter with the filename.
+     *
+     * @param filename path to the configuration file. Default is empty.
+     * @return true if configuration is completed properly, false otherwise.
+     */
+    virtual bool set_cfg(QString filename = "") = 0;
+
+    /**
+     * Q_PROPERTY read method. Check if connection is established.
+     *
+     * @return true if connection is established, false otherwise.
+     */
+    bool is_connected() const;
+
+    /**
+     * Q_PROPERTY write method. Set the status of the connection.
+     *
+     * @param filename path to the configuration file. Default is empty.
+     * @return true if configuration is completed properly, false otherwise.
+     */
+    void set_is_connected(bool newIs_connected);
+
+    /**
+     * Q_PROPERTY read method for swampStatus.
+     *
+     * @return Pointer to SwampStatus.
+     */
+    SwampStatus *swamp_status();
+
+signals:
+
+    void is_connectedChanged();
+    void swamp_statusChanged();
+
+protected:
+
+    bool m_is_connected;
+    SwampStatus m_swamp_status;
+};
+```
+
+QML reacts to new commands on the interface and publish data by calling the virtual Q_INVOKABLE method `publishMessage`. From QML, it is also possible to explicitly request a connection (or to disconnect) to the vehicle.
+
+Right now, two bindings are available: mqtt and UDP. In order to activate one or the other, simply set the corresponding argument on the command line when running the application ("mqtt" or "udp"). In QT Creator this is simply done in Projects>Run Settings> Command line arguments. Then the main.cpp will create the corresponding object using C++ polymorphism:
+
+``` cpp
+SwampModel data_model;
+DataSource *dataSource;
+if(networkBinding =="mqtt")  dataSource= new DataSourceMqtt(&data_model);
+else if(networkBinding =="udp") dataSource = new DataSourceUdp(&data_model);
+else { qDebug() << "Input network binding not recognized or available : " << networkBinding; exit(-1); }
+
+bool sourceIsValid = dataSource->set_cfg("../ASV_interface/conf/topics.cfg");
+if(! sourceIsValid) exit(-1);
+// here i set the dataSource
+data_model.set_data_source(dataSource);
+```
+
+Fully dynamic network binding is not made available right now, but it could be simply implemented, as the dataSource object is dynamically set in the `swampmodel` class:
+
+
+``` cpp
+class SwampModel : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(DataSource* data_source READ data_source WRITE set_data_source NOTIFY data_sourceChanged)
+
+public:
+    explicit SwampModel(QObject *parent = nullptr);
+
+    DataSource *data_source() const;
+    void set_data_source(DataSource *newData_source);
+
+signals:
+
+    void data_sourceChanged();
+
+private:
+
+    DataSource *m_data_source;
+};
+``` 
+ As it is possible to see, the method `set_data_source` is generated by the above Q_PROPERTY. Therefore, theoretically (not tested), it should be possible to switch between communication protocol also directly from the QML view.
