@@ -21,6 +21,7 @@ enum MinionNgcCmd {
     MINION_AZIMUTH_SET_ANGLE, // par: double angle [deg]
 
 };
+
 enum NgcCommand {
     HCI_NOP=0,
     SET_GC_WORKING_MODE, // par: GCworkingMode gcWorkingMode
@@ -41,12 +42,13 @@ enum NgcCommand {
     MINION_CMD, // par: uint8 minionId, <MinionNgcCmd> as specified in "MinionNgcInterface.h"
     CMD_NUMBER
 };
+
 enum NgcTelemetryPacket {
-    NGC_TLM=0,
-    MINION_FL_TLM,
+    MINION_FL_TLM=0,
     MINION_FR_TLM,
     MINION_RR_TLM,
     MINION_RL_TLM,
+    NGC_TLM,
     TLM_NUMBER
 };
 

@@ -1,25 +1,19 @@
 #include <QtWidgets/QApplication>
 #include <QQmlApplicationEngine>
 #include <QDebug>
-#include <QSslSocket>
+#include <QQmlContext>
+
 #include "map_models/singlemarkermodel.h"
 #include "map_models/bathymetrymodel.h"
-#include <QQmlContext>
-#include <QtQuick/QQuickView>
-#include <QQmlComponent>
 #include "data/variable.h"
 #include "data/doublevariable.h"
 #include "data/intvariable.h"
 #include "data/stringvariable.h"
-#include "components/gps_ahrs_status.h"
-#include "QString"
 #include "swamp_models/swampstatus.h"
 #include "swamp_models/datasource.h"
-#include "components/ngc_status.h"
-#include "components/motor_status.h"
-#include "components/swamp_motor_status.h"
 #include "swamp_models/swampmodel.h"
 #include "swamp_models/datasource_udp.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -48,14 +42,14 @@ int main(int argc, char *argv[])
     DataSource *dataSource;
     if(networkBinding =="mqtt")  dataSource= new DataSourceMqtt(&data_model);
     else if(networkBinding =="udp") dataSource = new DataSourceUdp(&data_model);
-    else { qDebug() << "Input network binding not recognized or available : " << networkBinding; exit(-1); }
-    //DataSource *dataSource = new DataSourceMqtt(&data_model);
+    else {qDebug() << "Input network binding not recognized or available : " << networkBinding; exit(-1);}
 
-    //qDebug() << QGuiApplication::applicationPid ();
     bool sourceIsValid = dataSource->set_cfg("../ASV_interface/conf/topics.cfg");
     if(! sourceIsValid) exit(-1);
 
     data_model.set_data_source(dataSource);
+
+    // set types to be available in qml
     qmlRegisterUncreatableType<Variable>("com.cnr.property",1,0,"Variable", "Virtual class cannot be instantiated!");
     qmlRegisterUncreatableType<DoubleVariable>("com.cnr.property",1,0,"DoubleVariable", "Virtual class cannot be instantiated!");
     qmlRegisterUncreatableType<IntVariable>("com.cnr.property",1,0,"IntVariable", "Virtual class cannot be instantiated!");
@@ -63,7 +57,8 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<SwampStatus>("com.cnr.property",1,0,"SwampStatus", "Virtual class cannot be instantiated!");
 
     const QUrl url(QStringLiteral("qrc:/QML/main.qml"));
-    //engine.rootContext()->setContextProperty(QStringLiteral("dataSource"), dataSource);
+
+    // set context properties, one for each model
     engine.rootContext()->setContextProperty(QStringLiteral("_marker_model"), &marker_model);
     engine.rootContext()->setContextProperty(QStringLiteral("_bathymetry_model"), &bath_model);
     engine.rootContext()->setContextProperty(QStringLiteral("_line_model"), &line_model);
@@ -77,5 +72,4 @@ int main(int argc, char *argv[])
 
     engine.load(url);
     return app.exec();
-
 }

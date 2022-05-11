@@ -100,7 +100,7 @@ void DataSourceMqtt::handleMessage(const QByteArray &message, const QMqttTopicNa
         m_double_map[topic.name()]->fromString(QString(message));
     }else if(m_int_map.contains(topic.name())){
         m_int_map[topic.name()]->fromString(QString(message));
-    }else if(m_string_map.contains(topic.name())) {        // TODO not tested
+    }else if(m_string_map.contains(topic.name())) {
         m_string_map[topic.name()]->fromString(QString(message));
     }
 }
