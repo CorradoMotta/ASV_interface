@@ -9,19 +9,9 @@ DataSourceUdp::DataSourceUdp(QObject *parent)
     : DataSource{parent},
       m_timer{new QTimer(this)},
       m_count_timer{0},
-      m_is_connected{false},
       m_udpSocket{new QUdpSocket(this)}
-{
-    m_udpSocket->bind(QHostAddress::LocalHost, 7750);
-    connect(m_udpSocket, &QUdpSocket::readyRead, this, &DataSourceUdp::handleMessage);
-    //connect(m_client, &QMqttClient::connected, this, &DataSourceUdp::connectionEstablished);
-    //connect(m_client, &QMqttClient::messageReceived, this, &DataSourceUdp::handleMessage);
-    //connect(m_client, &QMqttClient::disconnected, this, &DataSourceUdp::handleDisconnected);
-    m_timer->start(100);
-    //to do where this should be moved?
-//    connect(m_swamp_status.time_status()->timestamp(), &DoubleVariable::valueChanged,
-//            this, &DataSourceUdp::update_ts_from_vehicle);
-    set_is_connected(true);
+{ 
+    //m_timer->start(100);
 }
 
 void DataSourceUdp::update_ts_from_local(){
@@ -41,30 +31,22 @@ void DataSourceUdp::send_new_timestamp(double value){
 void DataSourceUdp::setConnection()
 {
     if(!m_is_connected){
-        //m_client->connectToHost();
-        connect(m_timer, &QTimer::timeout, this, &DataSourceUdp::update_ts_from_local); //start sending heartbeat
+        bool isUdpConnected = m_udpSocket->bind(QHostAddress::LocalHost, 7750);
+        if (isUdpConnected){
+        connect(m_udpSocket, &QUdpSocket::readyRead, this, &DataSourceUdp::handleMessage);
+        //connect(m_timer, &QTimer::timeout, this, &DataSourceUdp::update_ts_from_local); //start sending heartbeat
+        set_is_connected(true);
+        }
     }else{
-        qDebug() << "Disconnecting..";
-        //m_client->disconnectFromHost();
-        set_is_connected(false);
+        qDebug() << "Cannot disconnect a UDP connection!";
     }
 }
 
-void DataSourceUdp::publishMessage(const QString &topic, const QString &message)
+void DataSourceUdp::publishMessage(const QString &identifier, const QString &message)
 {
-    //qDebug() <<topic << " : " << message;
-    //int current_timestamp = m_swamp_status.time_status()->timestamp()->value();
-    QString value = topic + " " + message;
+    QString value = identifier + " " + message;
     qDebug() << "sending : " << value;
     m_udpSocket->writeDatagram(value.toUtf8(), QHostAddress::LocalHost, 50367);
-}
-
-
-void DataSourceUdp::handleDisconnected()
-{
-    //TODO implement automatic reconnection
-    set_is_connected(false);
-    qDebug() << "disconnected";
 }
 
 void DataSourceUdp::handleNgcPacket(QTextStream &in)
@@ -148,22 +130,4 @@ bool DataSourceUdp::set_cfg(QString filename)
         singleMinion->minionCmd()->azimuthSetMaxSpeed()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(MinionNgcCmd::MINION_AZIMUTH_MAX_SPEED));
     }
     return true;
-}
-
-bool DataSourceUdp::is_connected() const
-{
-    return m_is_connected;
-}
-
-void DataSourceUdp::set_is_connected(bool newIs_connected)
-{
-    if (m_is_connected == newIs_connected)
-        return;
-    m_is_connected = newIs_connected;
-    emit is_connectedChanged();
-}
-
-SwampStatus *DataSourceUdp::swamp_status()
-{
-    return &m_swamp_status;
 }

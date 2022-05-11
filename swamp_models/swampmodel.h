@@ -23,7 +23,6 @@ class SwampModel : public QObject
     Q_OBJECT
     Q_PROPERTY(DataSource* data_source READ data_source WRITE set_data_source NOTIFY data_sourceChanged)
 
-
 public:
     explicit SwampModel(QObject *parent = nullptr);
 

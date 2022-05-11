@@ -7,8 +7,7 @@ DataSourceMqtt::DataSourceMqtt(QObject *parent)
     : DataSource{parent},
       m_timer{new QTimer(this)},
       m_count_timer{0},
-      m_client{new QMqttClient(this)},
-      m_is_connected{false}
+      m_client{new QMqttClient(this)}
 {
     connect(m_client, &QMqttClient::connected, this, &DataSourceMqtt::connectionEstablished);
     connect(m_client, &QMqttClient::messageReceived, this, &DataSourceMqtt::handleMessage);
@@ -42,13 +41,13 @@ void DataSourceMqtt::setConnection()
     }
 }
 
-void DataSourceMqtt::publishMessage(const QString &topic, const QString &message)
+void DataSourceMqtt::publishMessage(const QString &identifier, const QString &message)
 {
-    qDebug() <<topic << " : " << message;
+    qDebug() <<identifier << " : " << message;
     int current_timestamp = m_swamp_status.time_status()->timestamp()->value();
     QString value = message + " " +  QString::number(current_timestamp) + " " + "1";
-    // TODO publish only if it is connected
-    m_client->publish(topic, value.toUtf8());
+    // TODO publish ONLY if it is connected or gray minion page.
+    m_client->publish(identifier, value.toUtf8());
 }
 
 void DataSourceMqtt::connectionEstablished()
@@ -189,7 +188,6 @@ bool DataSourceMqtt::set_cfg(QString filename)
 bool DataSourceMqtt::read_cfg_minion(QString filename)
 {
     QFile file(filename);
-
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
         qDebug() << "Failed to open file:" << file.fileName() << "Error:" << file.errorString();
         return false;
@@ -292,24 +290,6 @@ bool DataSourceMqtt::read_cfg_minion(QString filename)
     }
 
     return true;
-}
-
-bool DataSourceMqtt::is_connected() const
-{
-    return m_is_connected;
-}
-
-void DataSourceMqtt::set_is_connected(bool newIs_connected)
-{
-    if (m_is_connected == newIs_connected)
-        return;
-    m_is_connected = newIs_connected;
-    emit is_connectedChanged();
-}
-
-SwampStatus *DataSourceMqtt::swamp_status()
-{
-    return &m_swamp_status;
 }
 
 bool DataSourceMqtt::set_topic_name(QString tn, DoubleVariable *dv, QMap<QString, QString> &topic_map, QString prefix)

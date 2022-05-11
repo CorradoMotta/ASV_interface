@@ -74,12 +74,6 @@ Map {
             if(!root.startUp &( Math.abs(old_lat - roundCoor(lat.value,5)) > 0
                               | Math.abs(old_lon - roundCoor(lon.value,5)) > 0))
             {
-
-                // TODO JUST FOR TESTING
-//                rando = Math.random() * 10
-//                if(rando> 6) navigation_map.initialValue = roundCoor(navigation_map.initialValue + 1.2, 3)
-//                else if(rando < 3) navigation_map.initialValue = roundCoor(navigation_map.initialValue - 1.2, 3)
-
                 if(bathymetry_panel.isPLaying){
                 bathView.model.addDepthPoint(latValue,
                                              lon.value,

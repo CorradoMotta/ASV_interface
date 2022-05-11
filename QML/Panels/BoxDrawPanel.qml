@@ -28,14 +28,15 @@ Item {
             Layout.preferredHeight: pre_heigth
             Layout.preferredWidth: pre_width
             source: "../../Images/rect_box.png"
+            isImplemented: false
             onIsActiveChanged: isActive? draw_item_is_active = BoxDrawPanel.ActiveBox.Rectangle : draw_item_is_active = BoxDrawPanel.ActiveBox.None
         }
         BoxDrawItem{
             id: rectangle_marker_item
-            isImplemented: true
             Layout.preferredHeight: pre_heigth
             Layout.preferredWidth: pre_width
             source: "../../Images/marker_box.png"
+            isImplemented: true
             onIsActiveChanged: isActive? draw_item_is_active = BoxDrawPanel.ActiveBox.Marker : draw_item_is_active = BoxDrawPanel.ActiveBox.None
         }
         BoxDrawItem{
@@ -43,6 +44,7 @@ Item {
             Layout.preferredHeight: pre_heigth
             Layout.preferredWidth: pre_width
             source: "../../Images/line_box.png"
+            isImplemented: true
             onIsActiveChanged: isActive? draw_item_is_active = BoxDrawPanel.ActiveBox.Line : draw_item_is_active = BoxDrawPanel.ActiveBox.None
         }
     }

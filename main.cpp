@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     QString extraImportPath(QStringLiteral("%1/../../../%2"));
 #endif
 
-    qDebug() <<argc << " " << argv[1];
+    qDebug() << "Network binding:" << argv[1];
     QString networkBinding = "empty";
     if(argc == 2) networkBinding = argv[1];
     networkBinding = networkBinding.toLower().trimmed();
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<SwampStatus>("com.cnr.property",1,0,"SwampStatus", "Virtual class cannot be instantiated!");
 
     const QUrl url(QStringLiteral("qrc:/QML/main.qml"));
-    engine.rootContext()->setContextProperty(QStringLiteral("dataSource"), dataSource);
+    //engine.rootContext()->setContextProperty(QStringLiteral("dataSource"), dataSource);
     engine.rootContext()->setContextProperty(QStringLiteral("_marker_model"), &marker_model);
     engine.rootContext()->setContextProperty(QStringLiteral("_bathymetry_model"), &bath_model);
     engine.rootContext()->setContextProperty(QStringLiteral("_line_model"), &line_model);
