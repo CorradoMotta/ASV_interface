@@ -182,8 +182,8 @@ bool DataSourceMqtt::set_cfg(QString filename)
         qDebug() << "Topic named " << wrongTopicName << " is not present in the configuration file or is not spelled properly.";
         return false;
     }
-
-    return true;
+    bool minionResult = read_cfg_minion("../ASV_interface/conf/topics_minion.cfg");
+    return minionResult;
 }
 
 bool DataSourceMqtt::read_cfg_minion(QString filename)

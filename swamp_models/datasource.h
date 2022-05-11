@@ -10,8 +10,15 @@
 class DataSource : public QObject
 {
     Q_OBJECT
+
 public:
     explicit DataSource(QObject *parent = nullptr) : QObject{parent}{}
+
+    /**
+     * Set a connection using the underlying protocol.
+     *
+     */
+    Q_INVOKABLE virtual void setConnection() = 0;
 
     /**
      * Send a message out. It is made Q_invokable to be used directly in QML code.

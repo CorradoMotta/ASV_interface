@@ -36,12 +36,11 @@ public:
 
     // TODO doing a base class for all DataSource with the method there available for all?
     // in that case also swampstatus would need a base class or a different name.
-    Q_INVOKABLE void setConnection();
+    Q_INVOKABLE virtual void setConnection();
     Q_INVOKABLE virtual void publishMessage(const QString &topic, const QString &message);
 
     bool is_connected() const;
     void set_is_connected(bool newIs_connected);
-    void publish_topic();
     SwampStatus *swamp_status();
 
     virtual bool set_cfg(QString filename = "");

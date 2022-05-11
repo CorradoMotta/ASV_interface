@@ -34,26 +34,28 @@ int main(int argc, char *argv[])
     QString extraImportPath(QStringLiteral("%1/../../../%2"));
 #endif
 
+    qDebug() <<argc << " " << argv[1];
+    QString networkBinding = "empty";
+    if(argc == 2) networkBinding = argv[1];
+    networkBinding = networkBinding.toLower().trimmed();
+
     SingleMarkerModel marker_model;
     SingleMarkerModel line_model;
     BathymetryModel bath_model("Bathymetry");
     SwampModel data_model;
     QQmlApplicationEngine engine;
 
-
-    // change depending on network binding
-    DataSource *dataSource = new DataSourceUdp(&data_model);
+    DataSource *dataSource;
+    if(networkBinding =="mqtt")  dataSource= new DataSourceMqtt(&data_model);
+    else if(networkBinding =="udp") dataSource = new DataSourceUdp(&data_model);
+    else { qDebug() << "Input network binding not recognized or available : " << networkBinding; exit(-1); }
     //DataSource *dataSource = new DataSourceMqtt(&data_model);
 
     //qDebug() << QGuiApplication::applicationPid ();
     bool sourceIsValid = dataSource->set_cfg("../ASV_interface/conf/topics.cfg");
     if(! sourceIsValid) exit(-1);
 
-//    sourceIsValid = dataSource->read_cfg_minion("../ASV_interface/conf/topics_minion.cfg");
-//    if(! sourceIsValid) exit(-1);
-
     data_model.set_data_source(dataSource);
-
     qmlRegisterUncreatableType<Variable>("com.cnr.property",1,0,"Variable", "Virtual class cannot be instantiated!");
     qmlRegisterUncreatableType<DoubleVariable>("com.cnr.property",1,0,"DoubleVariable", "Virtual class cannot be instantiated!");
     qmlRegisterUncreatableType<IntVariable>("com.cnr.property",1,0,"IntVariable", "Virtual class cannot be instantiated!");
