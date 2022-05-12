@@ -37,3 +37,18 @@ DoubleVariable *NGC_status::altitude()
 {
     return &m_altitude;
 }
+
+IntVariable *NGC_status::gcWorkingMode()
+{
+    return &m_gcWorkingMode;
+}
+
+IntVariable *NGC_status::thrustMappingManualMode()
+{
+    return &m_thrustMappingManualMode;
+}
+
+IntVariable *NGC_status::thrustMappingAutoMode()
+{
+    return &m_thrustMappingAutoMode;
+}

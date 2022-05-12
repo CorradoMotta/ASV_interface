@@ -29,6 +29,9 @@ Item {
         header: TabBar {
             id: bar
             TabButton {
+                text: qsTr("NGC")
+            }
+            TabButton {
                 text: qsTr("Minion FL")
             }
             TabButton {
@@ -50,7 +53,9 @@ Item {
             anchors.fill: parent
             anchors.margins: minion_page.margin
             currentIndex: bar.currentIndex
-
+            Ngc {
+                id: ngc
+            }
             SingleMinion {
                 id: minion_fl
                 prefix: data_model.data_source.swamp_status.minion_fl

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <data/doublevariable.h>
 #include <data/ngc_variable.h>
+#include <data/intvariable.h>
 
 class NGC_status : public QObject
 {
@@ -14,6 +15,9 @@ class NGC_status : public QObject
     Q_PROPERTY(NGC_variable* fw READ fw NOTIFY fwChanged)
     Q_PROPERTY(NGC_variable* tr READ tr NOTIFY trChanged)
     Q_PROPERTY(DoubleVariable* altitude READ altitude NOTIFY altitudeChanged)
+    Q_PROPERTY(IntVariable* gcWorkingMode READ gcWorkingMode NOTIFY gcWorkingModeChanged)
+    Q_PROPERTY(IntVariable* thrustMappingManualMode READ thrustMappingManualMode NOTIFY thrustMappingManualModeChanged)
+    Q_PROPERTY(IntVariable* thrustMappingAutoMode READ thrustMappingAutoMode NOTIFY thrustMappingAutoModeChanged)
 
 public:
     explicit NGC_status(QObject *parent = nullptr);
@@ -24,6 +28,9 @@ public:
     NGC_variable *fw();
     NGC_variable *tr();
     DoubleVariable *altitude();
+    IntVariable *gcWorkingMode();
+    IntVariable *thrustMappingManualMode();
+    IntVariable *thrustMappingAutoMode();
 
 signals:
 
@@ -33,6 +40,9 @@ signals:
     void fwChanged();
     void trChanged();
     void altitudeChanged();
+    void gcWorkingModeChanged();
+    void thrustMappingManualModeChanged();
+    void thrustMappingAutoModeChanged();
 
 private:
 
@@ -42,6 +52,9 @@ private:
     NGC_variable m_fw;
     NGC_variable m_tr;
     DoubleVariable m_altitude;
+    IntVariable m_gcWorkingMode;
+    IntVariable m_thrustMappingManualMode;
+    IntVariable m_thrustMappingAutoMode;
 };
 
 #endif // NGC_STATUS_H

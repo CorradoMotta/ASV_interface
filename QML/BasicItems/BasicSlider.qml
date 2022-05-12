@@ -30,7 +30,7 @@ Item {
         Text {
             id: slider_text_id
             font.family: "Helvetica"
-            font.pointSize: 18
+            font.pointSize: 14
         }
         Slider {
             id: control
