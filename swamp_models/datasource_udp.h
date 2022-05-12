@@ -14,6 +14,11 @@
 #include <data/HciNgiInterface.h>
 #include <swamp_models/datasource.h>
 
+struct Address{
+    QHostAddress ip_addr;
+    int port_addr;
+};
+
 class DataSourceUdp : public DataSource
 {
 
@@ -30,6 +35,7 @@ public:
     void send_new_timestamp(double value);
     void handleNgcPacket(QTextStream& in);
     void handleMinionPacket(int MinionId, QTextStream &in);
+    bool checkConfKey(QString key, QMap<QString, QString> &address_map);
 
 private slots:
 
@@ -44,6 +50,8 @@ private:
     QTimer *m_timer;
     double m_count_timer;
     QUdpSocket *m_udpSocket;
+    Address m_HCIAddr;
+    Address m_NGCAddr;
 };
 
 #endif // DataSource_UDP_H

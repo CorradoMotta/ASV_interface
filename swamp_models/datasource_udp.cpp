@@ -31,7 +31,7 @@ void DataSourceUdp::send_new_timestamp(double value){
 void DataSourceUdp::setConnection()
 {
     if(!m_is_connected){
-        bool isUdpConnected = m_udpSocket->bind(QHostAddress("192.168.29.244"), 4969);
+        bool isUdpConnected = m_udpSocket->bind(m_HCIAddr.ip_addr, m_HCIAddr.port_addr);
         if (isUdpConnected){
             connect(m_udpSocket, &QUdpSocket::readyRead, this, &DataSourceUdp::handleMessage);
             //connect(m_timer, &QTimer::timeout, this, &DataSourceUdp::update_ts_from_local); //start sending heartbeat
@@ -46,7 +46,7 @@ void DataSourceUdp::publishMessage(const QString &identifier, const QString &mes
 {
     QString value = identifier + " " + message;
     qDebug() << "sending : " << value;
-    m_udpSocket->writeDatagram(value.toUtf8(), QHostAddress("192.168.29.99"), 4968);
+    m_udpSocket->writeDatagram(value.toUtf8(), m_NGCAddr.ip_addr, m_NGCAddr.port_addr);
 }
 
 void DataSourceUdp::handleNgcPacket(QTextStream &in)
@@ -159,11 +159,32 @@ void DataSourceUdp::handleMessage()
 
 bool DataSourceUdp::set_cfg(QString filename)
 {
-    if(!filename.trimmed().isEmpty()) qDebug() << "Filename " << filename << "is never used";
+    //if(!filename.trimmed().isEmpty()) qDebug() << "Filename " << filename << "is never used";
+    QFile file(filename);
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        qDebug() << "Failed to open file:" << file.fileName() << "Error:" << file.errorString();
+        return false;
+    }
+
+    QMap<QString, QString> address_map;
+    QTextStream in(&file);
 
     Minion* singleMinion;
     QString minionId;
     QString minionCmd = QString::number(NgcCommand::MINION_CMD);
+
+    while (!in.atEnd()) {
+        QStringList line = in.readLine().split(QRegExp("\\s+"));
+        if(line.size() == 2){
+            address_map[line[0].trimmed()] = line[1].trimmed();
+        }
+    }
+
+    if(checkConfKey("HCI-address:", address_map)) m_HCIAddr.ip_addr = QHostAddress(address_map["HCI-address:"].trimmed()); else return false;
+    if(checkConfKey("HCI-port:", address_map)) m_HCIAddr.port_addr = address_map["HCI-address:"].trimmed().toInt(); else return false;
+    if(checkConfKey("NGC-address:", address_map)) m_NGCAddr.ip_addr = QHostAddress(address_map["HCI-address:"].trimmed()); else return false;
+    if(checkConfKey("NGC-port:", address_map)) m_NGCAddr.port_addr = address_map["HCI-address:"].trimmed().toInt(); else return false;
 
     for (int var = 0; var < 4; ++var) {
         minionId = QString::number(var);
@@ -185,6 +206,15 @@ bool DataSourceUdp::set_cfg(QString filename)
         singleMinion->minionCmd()->azimuthGoHome()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(MinionNgcCmd::MINION_AZIMUTH_GO_HOME));
         singleMinion->minionCmd()->azimuthMotorSetReference()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(MinionNgcCmd::MINION_AZIMUTH_SET_ANGLE));
         singleMinion->minionCmd()->azimuthSetMaxSpeed()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(MinionNgcCmd::MINION_AZIMUTH_MAX_SPEED));
+    }
+    return true;
+}
+
+bool DataSourceUdp::checkConfKey(QString key, QMap<QString, QString> &address_map)
+{
+    if(address_map[key].isEmpty()){
+        qDebug() << "Address key named " << key << " is not present in the configuration file or is not spelled properly.";
+        return false;
     }
     return true;
 }

@@ -95,4 +95,5 @@ DISTFILES += \
     Images/stop.png \
     conf/topics.cfg \
     conf/topics_minion.cfg \
-    conf/topics_proteus.cfg
+    conf/topics_proteus.cfg \
+    conf/udp_address.cfg
