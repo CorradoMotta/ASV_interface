@@ -9,36 +9,35 @@ DataSourceUdp::DataSourceUdp(QObject *parent)
     : DataSource{parent},
       m_timer{new QTimer(this)},
       m_count_timer{0},
+      isBound{false},
       m_udpSocket{new QUdpSocket(this)}
 { 
-    //m_timer->start(100);
+    m_timer->start(250);
 }
 
 void DataSourceUdp::update_ts_from_local(){
-    m_count_timer += 100;  // TODO CHANGE THIS?
-    send_new_timestamp(m_count_timer);
-}
-
-void DataSourceUdp::update_ts_from_vehicle(){
-    send_new_timestamp(m_swamp_status.time_status()->timestamp()->value());
-}
-
-void DataSourceUdp::send_new_timestamp(double value){
-    QString str_value = QString::number(value);
-    //m_client->publish(m_swamp_status.time_status()->hmi_timestamp()->topic_name(), str_value.toUtf8());
+    m_count_timer += 1;
+    publishMessage(m_swamp_status.time_status()->hmi_timestamp()->topic_name(), QString::number(m_count_timer));
 }
 
 void DataSourceUdp::setConnection()
 {
-    if(!m_is_connected){
+    if(!m_is_connected &&!isBound){
         bool isUdpConnected = m_udpSocket->bind(m_HCIAddr.ip_addr, m_HCIAddr.port_addr);
         if (isUdpConnected){
             connect(m_udpSocket, &QUdpSocket::readyRead, this, &DataSourceUdp::handleMessage);
-            //connect(m_timer, &QTimer::timeout, this, &DataSourceUdp::update_ts_from_local); //start sending heartbeat
+            connect(m_timer, &QTimer::timeout, this, &DataSourceUdp::update_ts_from_local); //start sending heartbeat
+            isBound = true;
             set_is_connected(true);
         }
-    }else{
-        qDebug() << "Cannot disconnect a UDP connection!";
+    }else if(!m_is_connected && isBound){
+        if(!m_timer->isActive()) m_timer->start();
+        set_is_connected(true);
+    }
+    else{
+        if(m_timer->isActive()) m_timer->stop();
+        set_is_connected(false);
+        //qDebug() << "Cannot disconnect a UDP connection!";
     }
 }
 
@@ -46,6 +45,7 @@ void DataSourceUdp::publishMessage(const QString &identifier, const QString &mes
 {
     QString value = identifier + " " + message;
     qDebug() << "sending : " << value;
+    //qDebug() << m_NGCAddr.ip_addr << m_NGCAddr.port_addr;
     m_udpSocket->writeDatagram(value.toUtf8(), m_NGCAddr.ip_addr, m_NGCAddr.port_addr);
 }
 
@@ -137,22 +137,23 @@ void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)
 
 void DataSourceUdp::handleMessage()
 {
-    if(m_timer->isActive()) m_timer->stop();
+    //if(m_timer->isActive()) m_timer->stop();
+    if (m_is_connected){
+        while(m_udpSocket->hasPendingDatagrams()) {
 
-    while(m_udpSocket->hasPendingDatagrams()) {
-
-        // receive datagram
-        QNetworkDatagram datagram = m_udpSocket->receiveDatagram();
-        if(!datagram.isNull()){
-            // get data into a QTextStream
-            QTextStream in(datagram.data());
-            //qDebug() << "\n\n new Packet  "<< datagram.data();
-            // Check which packet it is
-            int packetIndex;
-            in >> packetIndex;
-            // call appropriate function
-            if(packetIndex == NgcTelemetryPacket::NGC_TLM) handleNgcPacket(in); //qDebug() << //"Receive NGC packet" << datagram.data(); handleNgcPacket(in);
-            else handleMinionPacket(packetIndex, in);
+            // receive datagram
+            QNetworkDatagram datagram = m_udpSocket->receiveDatagram();
+            if(!datagram.isNull()){
+                // get data into a QTextStream
+                QTextStream in(datagram.data());
+                //qDebug() << "\n\n new Packet  "<< datagram.data();
+                // Check which packet it is
+                int packetIndex;
+                in >> packetIndex;
+                // call appropriate function
+                if(packetIndex == NgcTelemetryPacket::NGC_TLM) handleNgcPacket(in); //qDebug() << //"Receive NGC packet" << datagram.data(); handleNgcPacket(in);
+                else handleMinionPacket(packetIndex, in);
+            }
         }
     }
 }
@@ -182,9 +183,9 @@ bool DataSourceUdp::set_cfg(QString filename)
     }
 
     if(checkConfKey("HCI-address:", address_map)) m_HCIAddr.ip_addr = QHostAddress(address_map["HCI-address:"].trimmed()); else return false;
-    if(checkConfKey("HCI-port:", address_map)) m_HCIAddr.port_addr = address_map["HCI-address:"].trimmed().toInt(); else return false;
-    if(checkConfKey("NGC-address:", address_map)) m_NGCAddr.ip_addr = QHostAddress(address_map["HCI-address:"].trimmed()); else return false;
-    if(checkConfKey("NGC-port:", address_map)) m_NGCAddr.port_addr = address_map["HCI-address:"].trimmed().toInt(); else return false;
+    if(checkConfKey("HCI-port:", address_map)) m_HCIAddr.port_addr = address_map["HCI-port:"].trimmed().toInt(); else return false;
+    if(checkConfKey("NGC-address:", address_map)) m_NGCAddr.ip_addr = QHostAddress(address_map["NGC-address:"].trimmed()); else return false;
+    if(checkConfKey("NGC-port:", address_map)) m_NGCAddr.port_addr = address_map["NGC-port:"].trimmed().toInt(); else return false;
 
     for (int var = 0; var < 4; ++var) {
         minionId = QString::number(var);
@@ -207,6 +208,10 @@ bool DataSourceUdp::set_cfg(QString filename)
         singleMinion->minionCmd()->azimuthMotorSetReference()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(MinionNgcCmd::MINION_AZIMUTH_SET_ANGLE));
         singleMinion->minionCmd()->azimuthSetMaxSpeed()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(MinionNgcCmd::MINION_AZIMUTH_MAX_SPEED));
     }
+
+    //NGC topics
+    m_swamp_status.time_status()->hmi_timestamp()->setTopic_name(QString::number(NgcTelemetryPacket::NGC_TLM) + " " + QString::number(NgcCommand::HCI_NOP));
+
     return true;
 }
 

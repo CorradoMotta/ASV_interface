@@ -32,26 +32,25 @@ public:
     virtual bool set_cfg(QString filename = "");
 
     // class methods
-    void send_new_timestamp(double value);
     void handleNgcPacket(QTextStream& in);
     void handleMinionPacket(int MinionId, QTextStream &in);
     bool checkConfKey(QString key, QMap<QString, QString> &address_map);
 
 private slots:
 
-    void handleDisconnected();
     void handleMessage();
     void update_ts_from_local();
-    void update_ts_from_vehicle();
 
 private:
 
     Q_DISABLE_COPY(DataSourceUdp)
     QTimer *m_timer;
     double m_count_timer;
+    bool isBound;
     QUdpSocket *m_udpSocket;
     Address m_HCIAddr;
     Address m_NGCAddr;
+
 };
 
 #endif // DataSource_UDP_H
