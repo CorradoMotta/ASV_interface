@@ -25,11 +25,14 @@ Item {
             hoverEnabled: true
 
             onClicked: {
-                if (!boxRectangle.isActive) {
-                    if(box_draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.None)
-                        boxRectangle.isActive = true
-                } else
-                    boxRectangle.isActive = false
+                if(!boxRectangle.isImplemented) messagePrompt("This functionality is not implemented yet.")
+                else{
+                    if (!boxRectangle.isActive) {
+                        if(box_draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.None)
+                            boxRectangle.isActive = true
+                    } else
+                        boxRectangle.isActive = false
+                }
             }
         }
     }

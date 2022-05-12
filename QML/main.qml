@@ -25,8 +25,6 @@ ApplicationWindow {
 
     function messagePrompt(prompt_text){
         message_prompt.message = prompt_text
-        //message_prompt.visible = true
-        //message_prompt_anim.from = 0.0
         message_prompt_anim.running = true
     }
 
@@ -45,14 +43,10 @@ ApplicationWindow {
         id: menu_bar_id
     }
 
-
-
     // instantiate the minion view
     Minions{
         id: minion_view
     }
-
-
 
     RowLayout {
         id: main_layout

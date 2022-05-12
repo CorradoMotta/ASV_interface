@@ -53,10 +53,10 @@ BasicMinionPanelContainer{
                 id: set_reference
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 //Layout.fillWidth: true
-                slider_text: "SET_REFERENCE"
+                slider_text: "SET_RPM"
                 slider_from: 0
-                slider_to: 99
-                mask_input: "00"
+                slider_to: 2000
+                mask_input: "0000"
                 onValueChanged:  minion_view.publish_topic(minion_view.thrust_motor_set_reference_tn, value)
             }
         }

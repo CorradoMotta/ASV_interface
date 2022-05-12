@@ -28,9 +28,6 @@ Item {
         anchors.fill: parent
         header: TabBar {
             id: bar
-			TabButton {
-				text: qsTr("Bathimetry")
-			}
             TabButton {
                 text: qsTr("Minion FL")
             }
@@ -43,6 +40,9 @@ Item {
             TabButton {
                 text: qsTr("Minion RR")
             }
+            TabButton {
+                text: qsTr("Bathimetry")
+            }
         }
 
         StackLayout {
@@ -51,13 +51,6 @@ Item {
             anchors.margins: minion_page.margin
             currentIndex: bar.currentIndex
 
-            Rectangle {
-                id: general
-                BathymetryChart{
-                    id: btChr
-
-                }
-            }
             SingleMinion {
                 id: minion_fl
                 prefix: data_model.data_source.swamp_status.minion_fl
@@ -73,6 +66,13 @@ Item {
             SingleMinion {
                 id: minion_rr
                 prefix: data_model.data_source.swamp_status.minion_rr
+            }
+            Rectangle {
+                id: general
+                BathymetryChart{
+                    id: btChr
+
+                }
             }
         }
     }

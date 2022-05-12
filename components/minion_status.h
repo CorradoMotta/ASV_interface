@@ -23,7 +23,7 @@ class MinionStatus : public QObject
     Q_PROPERTY(IntVariable* digitalInput READ digitalInput NOTIFY digitalInputChanged)
     Q_PROPERTY(IntVariable* digitalOutput READ digitalOutput NOTIFY digitalOutputChanged)
     Q_PROPERTY(DoubleVariable* gpsAltitude READ gpsAltitude NOTIFY gpsAltitudeChanged)
-    Q_PROPERTY(IntVariable* gpsDay READ gpsDay NOTIFY gpsDayChanged)
+    Q_PROPERTY(IntVariable* gpsDate READ gpsDate NOTIFY gpsDateChanged)
     Q_PROPERTY(IntVariable* gpsFixQuality READ gpsFixQuality NOTIFY gpsFixQualityChanged)
     Q_PROPERTY(DoubleVariable* gpsHDOP READ gpsHDOP NOTIFY gpsHDOPChanged)
     Q_PROPERTY(DoubleVariable* gpsLatitude READ gpsLatitude NOTIFY gpsLatitudeChanged)
@@ -32,6 +32,7 @@ class MinionStatus : public QObject
     Q_PROPERTY(DoubleVariable* gpsTime READ gpsTime NOTIFY gpsTimeChanged)
     Q_PROPERTY(IntVariable* gpsNSatellite READ gpsNSatellite NOTIFY gpsNSatelliteChanged)
     Q_PROPERTY(IntVariable* gpsYear READ gpsYear NOTIFY gpsYearChanged)
+    Q_PROPERTY(DoubleVariable* gpsHeightGeoid READ gpsHeightGeoid NOTIFY gpsHeightGeoidChanged)
     Q_PROPERTY(DoubleVariable* imuCalibrationStatus READ imuCalibrationStatus NOTIFY imuCalibrationStatusChanged)
     Q_PROPERTY(DoubleVariable* imuPitch READ imuPitch NOTIFY imuPitchChanged)
     Q_PROPERTY(DoubleVariable* imuRoll READ imuRoll NOTIFY imuRollChanged)
@@ -47,7 +48,7 @@ class MinionStatus : public QObject
     Q_PROPERTY(IntVariable* thrustMotorFault READ thrustMotorFault NOTIFY thrustMotorFaultChanged)
     Q_PROPERTY(IntVariable* thrustMotorPower READ thrustMotorPower NOTIFY thrustMotorPowerChanged)
     Q_PROPERTY(DoubleVariable* thrustMotorSpeed READ thrustMotorSpeed NOTIFY thrustMotorSpeedChanged)
-    Q_PROPERTY(IntVariable* thrustMotorTemperature READ thrustMotorTemperature NOTIFY thrustMotorTemperatureChanged)
+    Q_PROPERTY(DoubleVariable* thrustMotorTemperature READ thrustMotorTemperature NOTIFY thrustMotorTemperatureChanged)
     Q_PROPERTY(IntVariable* timeMs READ timeMs NOTIFY timeMsChanged)
 
 public:
@@ -67,7 +68,7 @@ public:
     IntVariable* digitalInput();
     IntVariable* digitalOutput();
     DoubleVariable* gpsAltitude();
-    IntVariable* gpsDay();
+    IntVariable* gpsDate();
     IntVariable* gpsFixQuality();
     DoubleVariable* gpsHDOP();
     DoubleVariable* gpsLatitude();
@@ -91,9 +92,10 @@ public:
     IntVariable* thrustMotorPower();
     DoubleVariable* thrustMotorSpeed();
     IntVariable* timeMs();
-    IntVariable* thrustMotorTemperature();
+    DoubleVariable* thrustMotorTemperature();
     IntVariable* gpsNSatellite();
     DoubleVariable* nopCounter();
+    DoubleVariable* gpsHeightGeoid();
 
 signals:
 
@@ -111,7 +113,7 @@ signals:
     void digitalInputChanged();
     void digitalOutputChanged();
     void gpsAltitudeChanged();
-    void gpsDayChanged();
+    void gpsDateChanged();
     void gpsFixQualityChanged();
     void gpsHDOPChanged();
     void gpsLatitudeChanged();
@@ -138,6 +140,7 @@ signals:
     void thrustMotorTemperatureChanged();
     void gpsNSatelliteChanged();
     void nopCounterChanged();
+    void gpsHeightGeoidChanged();
 
 private:
     DoubleVariable m_azimuthMotorAngle;
@@ -154,7 +157,7 @@ private:
     IntVariable m_digitalInput;
     IntVariable m_digitalOutput;
     DoubleVariable m_gpsAltitude;
-    IntVariable m_gpsDay;
+    IntVariable m_gpsDate;
     IntVariable m_gpsFixQuality;
     DoubleVariable m_gpsHDOP;
     DoubleVariable m_gpsLatitude;
@@ -178,9 +181,10 @@ private:
     IntVariable m_thrustMotorPower;
     DoubleVariable m_thrustMotorSpeed;
     IntVariable m_timeMs;
-    IntVariable m_thrustMotorTemperature;
+    DoubleVariable m_thrustMotorTemperature;
     IntVariable m_gpsNSatellite;
     DoubleVariable m_nopCounter;
+    DoubleVariable m_gpsHeightGeoid;
 };
 
 #endif // MINION_STATUS_H

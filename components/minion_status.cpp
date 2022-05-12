@@ -18,7 +18,7 @@ MinionStatus::MinionStatus(QObject *parent)
     m_digitalInput.setSubscribe(true);
     m_digitalOutput.setSubscribe(true);
     m_gpsAltitude.setSubscribe(true);
-    m_gpsDay.setSubscribe(true);
+    m_gpsDate.setSubscribe(true);
     m_gpsFixQuality.setSubscribe(true);
     m_gpsHDOP.setSubscribe(true);
     m_gpsLatitude.setSubscribe(true);
@@ -115,9 +115,9 @@ DoubleVariable *MinionStatus::gpsAltitude()
     return &m_gpsAltitude;
 }
 
-IntVariable *MinionStatus::gpsDay()
+IntVariable *MinionStatus::gpsDate()
 {
-    return &m_gpsDay;
+    return &m_gpsDate;
 }
 
 IntVariable *MinionStatus::gpsFixQuality()
@@ -235,7 +235,7 @@ IntVariable *MinionStatus::timeMs()
     return &m_timeMs;
 }
 
-IntVariable *MinionStatus::thrustMotorTemperature()
+DoubleVariable *MinionStatus::thrustMotorTemperature()
 {
     return &m_thrustMotorTemperature;
 }
@@ -248,4 +248,9 @@ IntVariable *MinionStatus::gpsNSatellite()
 DoubleVariable *MinionStatus::nopCounter()
 {
     return &m_nopCounter;
+}
+
+DoubleVariable *MinionStatus::gpsHeightGeoid()
+{
+    return &m_gpsHeightGeoid;
 }

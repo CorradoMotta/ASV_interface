@@ -7,10 +7,10 @@
 
 class Minion : public QObject
 {
+
     Q_OBJECT
     Q_PROPERTY(MinionCommand* minionCmd READ minionCmd NOTIFY minionCmdChanged)
     Q_PROPERTY(MinionStatus* minionState READ minionState NOTIFY minionStateChanged)
-
 
 public:
     explicit Minion(QObject *parent = nullptr);

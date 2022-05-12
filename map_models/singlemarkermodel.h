@@ -24,8 +24,6 @@ public:
     Q_INVOKABLE void removeCoordinate(int index);
 
 public slots:
-    // this seems to be a QINVOKABLE more then a slot?
-
 
 private: //members
     QVector<QGeoCoordinate> coords;
