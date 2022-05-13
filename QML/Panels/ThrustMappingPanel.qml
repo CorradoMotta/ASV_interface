@@ -5,41 +5,79 @@ import QtQuick.Controls 2.15
 
 Rectangle{
     id : rpm_panel
+
+    property string value : ""
+    property alias title : text_id.text
+    property alias slider1_text : fu.slider_text
+    property alias slider2_text : fv.slider_text
+    property alias slider3_text : tr.slider_text
+    property alias slider1_from : fu.slider_from
+    property alias slider2_from : fv.slider_from
+    property alias slider3_from : tr.slider_from
+    property alias slider1_to : fu.slider_to
+    property alias slider2_to : fv.slider_to
+    property alias slider3_to : tr.slider_to
+    property alias slider1_mask : fu.mask_input
+    property alias slider2_mask : fv.mask_input
+    property alias slider3_mask : tr.mask_input
+
     Layout.preferredHeight: cl.implicitHeight
     color: "transparent"
+
     ColumnLayout {
         id: cl
-        spacing: 10
-        //anchors.fill: parent
+        spacing: 4
+        anchors.fill: parent
+
         RowLayout{
             Layout.alignment: Qt.AlignTop
-            spacing: 100
+            Layout.fillWidth: true
+            //spacing: 100
+
             Text {
-                id: slider_text_id
+                id: text_id
                 Layout.alignment: Qt.AlignLeft
-                text: "RPM_ALPHA"
+                Layout.leftMargin: 4
+                //text: "RPM_ALPHA"
                 font.family: "Helvetica"
                 font.pointSize: 14
+                font.bold: true
+
             }
+            Rectangle{
+                Layout.fillWidth: true
+            }
+
             Button {
-                id: connect_button
+                id: control
                 Layout.alignment: Qt.AlignRight
                 width: 200
-                Layout.rightMargin: 10
+                onClicked: value = fu.value + " " + fv.value + " " + tr.value
+                //Layout.rightMargin: 10
                 //onClicked: data_model.data_source.setConnection()
                 contentItem: Text {
+                    id: testo
                     text: "SEND"
                     font.family: "Helvetica"
                     font.pointSize: 14
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
+                    anchors.horizontalCenter: background_b.horizontalCenter
+                    //verticalAlignment: background_b.AlignVCenter
+                }
+                background: Rectangle{
+                    id: background_b
+                    height: testo.implicitHeight + 10
+                    width: testo.implicitWidth + 10
+                    color: control.down? "peachpuff" : "papayawhip"
+                    border.width: 1
+                    border.color: "black"
+                    radius: 4
                 }
             }
         }
         Rectangle {
             id: force_slider
             height: (fu.implicitHeight * 3) + 50
-            width: force_slider_panel.implicitWidth
+            width: force_slider_panel.implicitWidth + 50
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignTop
             radius: 5.0
@@ -58,7 +96,9 @@ Rectangle{
                 BasicSlider {
                     id: fu
                     Layout.fillWidth: true
-                    slider_text: "NREF     "
+                    //slider_text: "NREF     "
+                    slider_from: 0
+                    slider_to: 100
                     mask_input: "#000"
                     //onValueChanged:  data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc_status.fu.ref.topic_name, value)
                 }
@@ -66,7 +106,9 @@ Rectangle{
 
                     id: fv
                     Layout.fillWidth: true
-                    slider_text: "DNREF    "
+                    //slider_text: "DNREF    "
+                    slider_from: 0
+                    slider_to: 100
                     mask_input: "#000"
                     //onValueChanged: data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc_status.fv.ref.topic_name, value)
                 }
@@ -74,9 +116,9 @@ Rectangle{
 
                     id: tr
                     Layout.fillWidth: true
-                    slider_from: -180
-                    slider_to: 180
-                    slider_text: "ALPHAREF"
+                    slider_from: 0
+                    slider_to: 100
+                    //slider_text: "ALPHAREF"
                     mask_input: "#000"
                     // onValueChanged: {
                     //     rotation_value = value

@@ -87,17 +87,20 @@ ApplicationWindow {
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
                     // TODO i cannot access enum?
-                    opacity: data_model.data_source.is_connected ? 1 : 0.3
-                    enabled: data_model.data_source.is_connected
-                }
+                    //enabled: data_model.data_source.is_connected
+                    opacity: 0.3
+                    enabled: false
+                    }
                 ForceSliderPanel {
                     id: force_slider_panel
                     Layout.fillWidth: true
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
                     clip: true
-                    opacity: data_model.data_source.is_connected ? 1 : 0.3
-                    enabled: data_model.data_source.is_connected
+                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
+                    //enabled: data_model.data_source.is_connected
+                    opacity: 0.3
+                    enabled: false
 
                 }
                 BathymetryPanel{
@@ -105,9 +108,10 @@ ApplicationWindow {
                     Layout.fillWidth: true
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
-                    opacity: data_model.data_source.is_connected ? 1 : 0.3
-                    enabled: data_model.data_source.is_connected
-
+                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
+                    //enabled: data_model.data_source.is_connected
+                    opacity: 0.3
+                    enabled: false
                 }
 
                 Button {
@@ -155,24 +159,24 @@ ApplicationWindow {
     }
     SequentialAnimation{
         id: message_prompt_anim
-    NumberAnimation {
-        target: message_prompt
-        property: "opacity"
-        from: 0.0; to: 1.0
-        duration: 1000
-        //running: true
-    }
-    PauseAnimation{
-        duration: 2000
-    }
+        NumberAnimation {
+            target: message_prompt
+            property: "opacity"
+            from: 0.0; to: 1.0
+            duration: 1000
+            //running: true
+        }
+        PauseAnimation{
+            duration: 2000
+        }
 
-    NumberAnimation {
-        id: message_prompt_anim_disappear
-        target: message_prompt
-        property: "opacity"
-        from: 1.0; to: 0
-        duration: 600
-        //running: true
-    }
+        NumberAnimation {
+            id: message_prompt_anim_disappear
+            target: message_prompt
+            property: "opacity"
+            from: 1.0; to: 0
+            duration: 600
+            //running: true
+        }
     }
 }

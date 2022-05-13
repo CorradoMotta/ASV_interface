@@ -41,29 +41,7 @@ BasicMinionPanelContainer{
                     else if(rebootState === BasicRebootIcon.RebootStates.Shutdown) minion_view.publish_topic(minion_view.shutdown_tn, 1)
             }
         }
-//        ColumnLayout{
-//            Layout.alignment: Qt.AlignLeft
-//            Layout.leftMargin: 10
-////            BasicTextInput{
-////                id: tlm_ddr
-////                //Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
-////                title_text: "TLM_ADDR"
-////            }
-////            BasicSwitch{
-////                //Layout.alignment: Qt.AlignRight
-////                switch_text: "ENABLE_DEBUG_LOG"
-////            }
-//            //            BasicTextInput{
-//            //                id: ip_addr
-//            //                //Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
-//            //                title_text: "IP_ADDR"
-//            //            }
-//            //            BasicTextInput{
-//            //                id: udp_port
-//            //                //Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
-//            //                title_text: "UDP_PORT"
-//            //            }
-//        }
+
         ColumnLayout{
             Layout.alignment: Qt.AlignRight
             Layout.rightMargin: 10

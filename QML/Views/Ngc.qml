@@ -11,6 +11,13 @@ BasicMinionPanelContainer{
     implicitWidth: cmd_row.implicitWidth + cmd_row_2.implicitWidth + bar.width + 200 // TODO WHY SO MUCH
     title: "NGC"
     color: "whitesmoke"
+
+    property var prefix: data_model.data_source.swamp_status.ngc_status
+    readonly property string ngcEnableTn: prefix.ngcEnable.topic_name
+    readonly property string rpmAlphaTn: prefix.rpmAlpha.topic_name
+    readonly property string forceTorqueTn: prefix.forceTorque.topic_name
+    readonly property var publish_topic: data_model.data_source.publishMessage
+
     //border.color: "transparent"
     RowLayout{
         id: cmd_row
@@ -26,17 +33,44 @@ BasicMinionPanelContainer{
         ColumnLayout{
             Layout.alignment: Qt.AlignLeft
             Layout.leftMargin: 10
+            spacing: 15
         BasicSwitch{
             switch_text: "NGC_ENABLE"
             // TODO
-//            onSwitch_is_activeChanged: switch_is_active? minion_view.publish_topic(minion_view.log_tn, 1)
-//                                                       : minion_view.publish_topic(minion_view.log_tn, 0)
+            onSwitch_is_activeChanged: switch_is_active? root.publish_topic(root.ngcEnableTn, 1)
+                                                      : root.publish_topic(root.ngcEnableTn, 0)
         }
-        RpmPanel{
+        ThrustMappingPanel{
+            id: rpm_alpha
+            Layout.fillWidth: true
+            Layout.rightMargin: 10
+            Layout.alignment: Qt.AlignTop
+            title: "RPM_ALPHA"
+            slider1_text: "NREF   "; slider1_from: 0; slider1_to: 1800; slider1_mask: "0000"
+            slider2_text: "DNREF  "; slider2_from: -900; slider2_to: 900; slider2_mask: "#000"
+            slider3_text: "ALFAREF"; slider3_from: -180; slider3_to: 180; slider3_mask: "#000"
+            clip: true
+            onValueChanged: root.publish_topic(root.rpmAlphaTn, value) //console.log(value)
+        }
+        ThrustMappingPanel{
+            id: force_torque
+            Layout.fillWidth: true
+            Layout.rightMargin: 10
+            Layout.alignment: Qt.AlignTop
+            title: "FORCE_TORQUE"
+            slider1_text: "X"; slider1_from: 0; slider1_to: 1000; slider1_mask: "0000"
+            slider2_text: "Y"; slider2_from: 0; slider2_to: 1000; slider2_mask: "0000"
+            slider3_text: "N"; slider3_from: 0; slider3_to: 1000; slider3_mask: "0000"
+            clip: true
+            onValueChanged: root.publish_topic(root.forceTorqueTn, value)
+        }
+        ControlPanel{
+            id: control_panel
             Layout.fillWidth: true
             Layout.rightMargin: 10
             Layout.alignment: Qt.AlignTop
             clip: true
+            onValueChanged: console.log(value)
         }
         }
 

@@ -33,6 +33,7 @@ void DataSourceUdp::setConnection()
     }else if(!m_is_connected && isBound){
         if(!m_timer->isActive()) m_timer->start();
         set_is_connected(true);
+
     }
     else{
         if(m_timer->isActive()) m_timer->stop();
@@ -151,7 +152,7 @@ void DataSourceUdp::handleMessage()
                 int packetIndex;
                 in >> packetIndex;
                 // call appropriate function
-                if(packetIndex == HciNgiInterface::NgcTelemetryPacket::NGC_TLM) handleNgcPacket(in); //qDebug() << //"Receive NGC packet" << datagram.data(); handleNgcPacket(in);
+                if(packetIndex == HciNgiInterface::NgcTelemetryPacket::NGC_TLM) handleNgcPacket(in); //qDebug() << //"Received NGC packet" << datagram.data(); handleNgcPacket(in);
                 else handleMinionPacket(packetIndex, in);
             }
         }
@@ -191,8 +192,8 @@ bool DataSourceUdp::set_cfg(QString filename)
         minionId = QString::number(var);
         if(minionId == "0") singleMinion = m_swamp_status.minion_fl();
         else if(minionId == "1") singleMinion = m_swamp_status.minion_fr();
-        else if(minionId == "2") singleMinion = m_swamp_status.minion_rl();
-        else if(minionId == "3") singleMinion = m_swamp_status.minion_rr();
+        else if(minionId == "2") singleMinion = m_swamp_status.minion_rr();
+        else if(minionId == "3") singleMinion = m_swamp_status.minion_rl();
 
         singleMinion->minionCmd()->log()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_LOG));
         singleMinion->minionCmd()->changeTlmAddr()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_SET_TLM_IPADDRESS_PORT));
@@ -208,12 +209,19 @@ bool DataSourceUdp::set_cfg(QString filename)
         singleMinion->minionCmd()->azimuthMotorSetReference()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_AZIMUTH_SET_ANGLE));
         singleMinion->minionCmd()->azimuthSetMaxSpeed()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_AZIMUTH_MAX_SPEED));
     }
-    QString tlm_number = QString::number(HciNgiInterface::NgcTelemetryPacket::NGC_TLM);
+    //QString tlm_number = QString::number(HciNgiInterface::NgcTelemetryPacket::NGC_TLM);
     //NGC topics
-    m_swamp_status.time_status()->hmi_timestamp()->setTopic_name(tlm_number + " " + QString::number(HciNgiInterface::NgcCommand::HCI_NOP));
-    m_swamp_status.ngc_status()->gcWorkingMode()->setTopic_name(tlm_number + " " + QString::number(HciNgiInterface::NgcCommand::SET_GC_WORKING_MODE));
-    m_swamp_status.ngc_status()->thrustMappingManualMode()->setTopic_name(tlm_number + " " + QString::number(HciNgiInterface::NgcCommand::SET_TM_MANUAL_MODE));
-    m_swamp_status.ngc_status()->thrustMappingAutoMode()->setTopic_name(tlm_number + " " + QString::number(HciNgiInterface::NgcCommand::SET_TM_AUTO_MODE));
+    m_swamp_status.time_status()->hmi_timestamp()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::HCI_NOP));
+    m_swamp_status.ngc_status()->gcWorkingMode()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_GC_WORKING_MODE));
+    m_swamp_status.ngc_status()->thrustMappingManualMode()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_TM_MANUAL_MODE));
+    m_swamp_status.ngc_status()->thrustMappingAutoMode()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_TM_AUTO_MODE));
+    m_swamp_status.ngc_status()->rpmAlpha()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_RPM_ALPHA));
+    m_swamp_status.ngc_status()->forceTorque()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_FORCE_TORQUE));
+    m_swamp_status.ngc_status()->ngcEnable()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::NGC_ENABLE));
+    m_swamp_status.ngc_status()->surge()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_SURGE));
+    m_swamp_status.ngc_status()->sway()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_SWAY));
+    m_swamp_status.ngc_status()->yaw()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_YAW));
+    m_swamp_status.ngc_status()->heading()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_HEADING));
 
     return true;
 }

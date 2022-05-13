@@ -52,3 +52,38 @@ IntVariable *NGC_status::thrustMappingAutoMode()
 {
     return &m_thrustMappingAutoMode;
 }
+
+IntVariable *NGC_status::rpmAlpha()
+{
+    return &m_rpmAlpha;
+}
+
+IntVariable *NGC_status::forceTorque()
+{
+    return &m_forceTorque;
+}
+
+IntVariable *NGC_status::ngcEnable()
+{
+    return &m_ngcEnable;
+}
+
+DoubleVariable *NGC_status::surge()
+{
+    return &m_surge;
+}
+
+DoubleVariable *NGC_status::sway()
+{
+    return &m_sway;
+}
+
+DoubleVariable *NGC_status::yaw()
+{
+    return &m_yaw;
+}
+
+DoubleVariable *NGC_status::heading()
+{
+    return &m_heading;
+}

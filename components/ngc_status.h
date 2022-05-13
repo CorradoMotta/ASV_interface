@@ -18,6 +18,16 @@ class NGC_status : public QObject
     Q_PROPERTY(IntVariable* gcWorkingMode READ gcWorkingMode NOTIFY gcWorkingModeChanged)
     Q_PROPERTY(IntVariable* thrustMappingManualMode READ thrustMappingManualMode NOTIFY thrustMappingManualModeChanged)
     Q_PROPERTY(IntVariable* thrustMappingAutoMode READ thrustMappingAutoMode NOTIFY thrustMappingAutoModeChanged)
+    Q_PROPERTY(DoubleVariable* surge READ surge NOTIFY surgeChanged)
+    Q_PROPERTY(DoubleVariable* sway READ sway NOTIFY swayChanged)
+    Q_PROPERTY(DoubleVariable* yaw READ yaw NOTIFY yawChanged)
+    Q_PROPERTY(DoubleVariable* heading READ heading NOTIFY headingChanged)
+
+    // TODO remake them in an appropriate way!
+    Q_PROPERTY(IntVariable* rpmAlpha READ rpmAlpha NOTIFY rpmAlphaChanged)
+    Q_PROPERTY(IntVariable* forceTorque READ forceTorque NOTIFY forceTorqueChanged)
+    Q_PROPERTY(IntVariable* ngcEnable READ ngcEnable NOTIFY ngcEnableChanged)
+
 
 public:
     explicit NGC_status(QObject *parent = nullptr);
@@ -31,6 +41,13 @@ public:
     IntVariable *gcWorkingMode();
     IntVariable *thrustMappingManualMode();
     IntVariable *thrustMappingAutoMode();
+    IntVariable *rpmAlpha();
+    IntVariable *forceTorque();
+    IntVariable *ngcEnable();
+    DoubleVariable *surge();
+    DoubleVariable *sway();
+    DoubleVariable *yaw();
+    DoubleVariable *heading();
 
 signals:
 
@@ -43,6 +60,13 @@ signals:
     void gcWorkingModeChanged();
     void thrustMappingManualModeChanged();
     void thrustMappingAutoModeChanged();
+    void rpmAlphaChanged();
+    void forceTorqueChanged();
+    void ngcEnableChanged();
+    void surgeChanged();
+    void swayChanged();
+    void yawChanged();
+    void headingChanged();
 
 private:
 
@@ -55,6 +79,13 @@ private:
     IntVariable m_gcWorkingMode;
     IntVariable m_thrustMappingManualMode;
     IntVariable m_thrustMappingAutoMode;
+    IntVariable m_rpmAlpha;
+    IntVariable m_forceTorque;
+    IntVariable m_ngcEnable;
+    DoubleVariable m_surge;
+    DoubleVariable m_sway;
+    DoubleVariable m_yaw;
+    DoubleVariable m_heading;
 };
 
 #endif // NGC_STATUS_H
