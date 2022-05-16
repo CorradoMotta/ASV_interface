@@ -48,6 +48,7 @@ public:
         SET_LINE_XY, // par: double xLref [m], double yLonLRef [m], double gammaLref [deg]
         // the following commands MUST be used only when TM_DISABLE_MODE
         MINION_CMD, // par: uint8 minionId, <MinionNgcCmd> as specified in "MinionNgcInterface.h"
+        SET_LOG,
         CMD_NUMBER
     };
 

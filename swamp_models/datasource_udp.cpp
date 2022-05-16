@@ -52,13 +52,15 @@ void DataSourceUdp::publishMessage(const QString &identifier, const QString &mes
 
 void DataSourceUdp::handleNgcPacket(QTextStream &in)
 {
-    //TODO
-    //    int secondNumber;
-    //    int thirdNumber;
-    //    //in >> firstNumber;             // firstNumber == 80
-    //    in >> secondNumber;
-    //    in >> thirdNumber;
-    //qDebug() << qSetRealNumberPrecision( 10 ) << secondNumber << " - " << thirdNumber;
+    double doubleContainer;
+    int intContainer;
+
+    in >> doubleContainer;// qDebug() << "Timestamp" << doubleContainer;//timestamp singleMinion->minionState()->nopCounter()->setValue(doubleContainer); // should be U64
+    in >> intContainer; //qDebug() << "GPS date" << intContainer;//gpsdate   singleMinion->minionState()->thrustMotorFault()->setValue(intContainer);
+    in >> doubleContainer; //qDebug() << "GPS time" << doubleContainer; //gpstime   singleMinion->minionState()->thrustMotorPower()->setValue(intContainer);
+    in >> doubleContainer; m_swamp_status.gps_ahrs_status()->latitude()->setValue(doubleContainer);  //lat
+    in >> doubleContainer; m_swamp_status.gps_ahrs_status()->longitude()->setValue(doubleContainer); //lon
+
 }
 
 void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)
@@ -222,6 +224,7 @@ bool DataSourceUdp::set_cfg(QString filename)
     m_swamp_status.ngc_status()->sway()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_SWAY));
     m_swamp_status.ngc_status()->yaw()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_YAW));
     m_swamp_status.ngc_status()->heading()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_HEADING));
+
 
     return true;
 }
