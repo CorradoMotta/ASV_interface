@@ -14,7 +14,7 @@ Item {
     id: minion_view
     property int minimumXDim : minion_panel_cln.implicitWidth
     property int minimumYDim: minion_panel_cln.implicitHeight
-
+    required property int engineState  //engine_panel.engine_state_fl_prova
     required property var prefix
     readonly property var publish_topic: data_model.data_source.publishMessage
 
@@ -117,7 +117,6 @@ Item {
                 azimuth_motor_enable: prefix.minionState.azimuthMotorEnable.value
                 azimuth_motor_fault:  prefix.minionState.azimuthMotorFault.value
                 azimuth_motor_power:  prefix.minionState.azimuthMotorPower.value
-
                 Layout.minimumHeight: Math.max(pump_panel.implicitHeight, azimuth_panel.implicitHeight)
                 //Layout.preferredHeight: azimuth_panel.minimumHeight
                 Layout.minimumWidth: azimuth_panel.implicitWidth

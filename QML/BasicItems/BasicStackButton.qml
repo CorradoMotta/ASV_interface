@@ -24,7 +24,8 @@ Rectangle {
             anchors.fill: parent
             onClicked: {
                 if(open_minion){
-                    if(data_model.data_source.is_connected){
+                    //data_model.data_source.is_connected
+                    if(true){
                     stack.push(minion_view)
                     open_minion = false
                     }else messagePrompt("Connection is not established. Please connect first.")

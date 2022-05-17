@@ -36,6 +36,7 @@ BasicMinionPanelContainer{
                 id: engine_icon_fl
                 // THIS IS THE LINE NEEDED TO CONNECT ENGINES
                 //engineState : engine_panel.engine_state_fl_prova
+                engineState : minion_view.engineState
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 image_size: 60
                 set_border: true

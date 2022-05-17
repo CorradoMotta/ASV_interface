@@ -6,6 +6,54 @@ NGC_status::NGC_status(QObject *parent)
     // do subscribes
     m_psi.setSubscribe(true);
     m_altitude.setSubscribe(true);
+    m_asvHatX.setSubscribe(true);
+    m_asvHatY.setSubscribe(true);
+    m_asvHatlat.setSubscribe(true);
+    m_asvHatlon.setSubscribe(true);
+    m_asvHatpsi.setSubscribe(true);
+    m_asvHatr.setSubscribe(true);
+    m_asvHatu.setSubscribe(true);
+    m_asvHatv.setSubscribe(true);
+    m_asvHatxDot.setSubscribe(true);
+    m_asvHatyDot.setSubscribe(true);
+    m_asvRefNref.setSubscribe(true);
+    m_asvRefXRef.setSubscribe(true);
+    m_asvRefXref.setSubscribe(true);
+    m_asvRefYRef.setSubscribe(true);
+    m_asvRefYref.setSubscribe(true);
+    m_asvRefalphaRef.setSubscribe(true);
+    m_asvRefazimuthFL.setSubscribe(true);
+    m_asvRefazimuthFR.setSubscribe(true);
+    m_asvRefazimuthRL.setSubscribe(true);
+    m_asvRefazimuthRR.setSubscribe(true);
+    m_asvRefdnRef.setSubscribe(true);
+    m_asvRefgammaLref.setSubscribe(true);
+    m_asvReflatLref.setSubscribe(true);
+    m_asvReflatRef.setSubscribe(true);
+    m_asvReflonLref.setSubscribe(true);
+    m_asvReflonRef.setSubscribe(true);
+    m_asvRefnFL.setSubscribe(true);
+    m_asvRefnFR.setSubscribe(true);
+    m_asvRefnRL.setSubscribe(true);
+    m_asvRefnRR.setSubscribe(true);
+    m_asvRefnRef.setSubscribe(true);
+    m_asvRefpsiRef.setSubscribe(true);
+    m_asvRefrRef.setSubscribe(true);
+    m_asvRefuRef.setSubscribe(true);
+    m_asvRefvRef.setSubscribe(true);
+    m_asvRefxLref.setSubscribe(true);
+    m_asvRefyDot.setSubscribe(true);
+    m_asvRefyLref.setSubscribe(true);
+    m_pIMU.setSubscribe(true);
+    m_phiIMU.setSubscribe(true);
+    m_qIMU.setSubscribe(true);
+    m_rIMU.setSubscribe(true);
+    m_refAutoMode.setSubscribe(true);
+    m_refExecutionWorking_mode.setSubscribe(true);
+    m_refManual_mode.setSubscribe(true);
+    m_refNgcEnable.setSubscribe(true);
+    m_refWorking_mode.setSubscribe(true);
+    m_thetaIMU.setSubscribe(true);
 }
 
 DoubleVariable *NGC_status::psi()
@@ -86,4 +134,244 @@ DoubleVariable *NGC_status::yaw()
 DoubleVariable *NGC_status::heading()
 {
     return &m_heading;
+}
+
+DoubleVariable *NGC_status::asvHatX()
+{
+return &m_asvHatX;
+}
+
+DoubleVariable *NGC_status::asvHatY()
+{
+return &m_asvHatY;
+}
+
+DoubleVariable *NGC_status::asvHatlat()
+{
+return &m_asvHatlat;
+}
+
+DoubleVariable *NGC_status::asvHatlon()
+{
+return &m_asvHatlon;
+}
+
+DoubleVariable *NGC_status::asvHatpsi()
+{
+return &m_asvHatpsi;
+}
+
+DoubleVariable *NGC_status::asvHatr()
+{
+return &m_asvHatr;
+}
+
+DoubleVariable *NGC_status::asvHatu()
+{
+return &m_asvHatu;
+}
+
+DoubleVariable *NGC_status::asvHatv()
+{
+return &m_asvHatv;
+}
+
+DoubleVariable *NGC_status::asvHatxDot()
+{
+return &m_asvHatxDot;
+}
+
+DoubleVariable *NGC_status::asvHatyDot()
+{
+return &m_asvHatyDot;
+}
+
+DoubleVariable *NGC_status::asvRefNref()
+{
+return &m_asvRefNref;
+}
+
+DoubleVariable *NGC_status::asvRefXRef()
+{
+return &m_asvRefXRef;
+}
+
+DoubleVariable *NGC_status::asvRefXref()
+{
+return &m_asvRefXref;
+}
+
+DoubleVariable *NGC_status::asvRefYRef()
+{
+return &m_asvRefYRef;
+}
+
+DoubleVariable *NGC_status::asvRefYref()
+{
+return &m_asvRefYref;
+}
+
+DoubleVariable *NGC_status::asvRefalphaRef()
+{
+return &m_asvRefalphaRef;
+}
+
+DoubleVariable *NGC_status::asvRefazimuthFL()
+{
+return &m_asvRefazimuthFL;
+}
+
+DoubleVariable *NGC_status::asvRefazimuthFR()
+{
+return &m_asvRefazimuthFR;
+}
+
+DoubleVariable *NGC_status::asvRefazimuthRL()
+{
+return &m_asvRefazimuthRL;
+}
+
+DoubleVariable *NGC_status::asvRefazimuthRR()
+{
+return &m_asvRefazimuthRR;
+}
+
+DoubleVariable *NGC_status::asvRefdnRef()
+{
+return &m_asvRefdnRef;
+}
+
+DoubleVariable *NGC_status::asvRefgammaLref()
+{
+return &m_asvRefgammaLref;
+}
+
+DoubleVariable *NGC_status::asvReflatLref()
+{
+return &m_asvReflatLref;
+}
+
+DoubleVariable *NGC_status::asvReflatRef()
+{
+return &m_asvReflatRef;
+}
+
+DoubleVariable *NGC_status::asvReflonLref()
+{
+return &m_asvReflonLref;
+}
+
+DoubleVariable *NGC_status::asvReflonRef()
+{
+return &m_asvReflonRef;
+}
+
+DoubleVariable *NGC_status::asvRefnFL()
+{
+return &m_asvRefnFL;
+}
+
+DoubleVariable *NGC_status::asvRefnFR()
+{
+return &m_asvRefnFR;
+}
+
+DoubleVariable *NGC_status::asvRefnRL()
+{
+return &m_asvRefnRL;
+}
+
+DoubleVariable *NGC_status::asvRefnRR()
+{
+return &m_asvRefnRR;
+}
+
+DoubleVariable *NGC_status::asvRefnRef()
+{
+return &m_asvRefnRef;
+}
+
+DoubleVariable *NGC_status::asvRefpsiRef()
+{
+return &m_asvRefpsiRef;
+}
+
+DoubleVariable *NGC_status::asvRefrRef()
+{
+return &m_asvRefrRef;
+}
+
+DoubleVariable *NGC_status::asvRefuRef()
+{
+return &m_asvRefuRef;
+}
+
+DoubleVariable *NGC_status::asvRefvRef()
+{
+return &m_asvRefvRef;
+}
+
+DoubleVariable *NGC_status::asvRefxLref()
+{
+return &m_asvRefxLref;
+}
+
+DoubleVariable *NGC_status::asvRefyDot()
+{
+return &m_asvRefyDot;
+}
+
+DoubleVariable *NGC_status::asvRefyLref()
+{
+return &m_asvRefyLref;
+}
+
+DoubleVariable *NGC_status::pIMU()
+{
+return &m_pIMU;
+}
+
+DoubleVariable *NGC_status::phiIMU()
+{
+return &m_phiIMU;
+}
+
+DoubleVariable *NGC_status::qIMU()
+{
+return &m_qIMU;
+}
+
+DoubleVariable *NGC_status::rIMU()
+{
+return &m_rIMU;
+}
+
+IntVariable *NGC_status::refAutoMode()
+{
+return &m_refAutoMode;
+}
+
+IntVariable *NGC_status::refExecutionWorking_mode()
+{
+return &m_refExecutionWorking_mode;
+}
+
+IntVariable *NGC_status::refManual_mode()
+{
+return &m_refManual_mode;
+}
+
+IntVariable *NGC_status::refNgcEnable()
+{
+return &m_refNgcEnable;
+}
+
+IntVariable *NGC_status::refWorking_mode()
+{
+return &m_refWorking_mode;
+}
+
+DoubleVariable *NGC_status::thetaIMU()
+{
+return &m_thetaIMU;
 }

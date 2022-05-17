@@ -88,8 +88,8 @@ ApplicationWindow {
                     Layout.alignment: Qt.AlignTop
                     // TODO i cannot access enum?
                     //enabled: data_model.data_source.is_connected
-                    opacity: 0.3
-                    enabled: false
+                    //opacity: 0.3
+                    enabled: true
                     }
                 ForceSliderPanel {
                     id: force_slider_panel

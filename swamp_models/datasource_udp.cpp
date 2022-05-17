@@ -45,7 +45,7 @@ void DataSourceUdp::setConnection()
 void DataSourceUdp::publishMessage(const QString &identifier, const QString &message)
 {
     QString value = identifier + " " + message;
-    //qDebug() << "sending : " << value;
+    qDebug() << "sending : " << value;
     //qDebug() << m_NGCAddr.ip_addr << m_NGCAddr.port_addr;
     m_udpSocket->writeDatagram(value.toUtf8(), m_NGCAddr.ip_addr, m_NGCAddr.port_addr);
 }
@@ -55,12 +55,70 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
     double doubleContainer;
     int intContainer;
 
+    //GPS ASV
     in >> doubleContainer;// qDebug() << "Timestamp" << doubleContainer;//timestamp singleMinion->minionState()->nopCounter()->setValue(doubleContainer); // should be U64
     in >> intContainer; //qDebug() << "GPS date" << intContainer;//gpsdate   singleMinion->minionState()->thrustMotorFault()->setValue(intContainer);
-    in >> doubleContainer; //qDebug() << "GPS time" << doubleContainer; //gpstime   singleMinion->minionState()->thrustMotorPower()->setValue(intContainer);
+    in >> intContainer; //qDebug() << "GPS time" << doubleContainer; //gpstime   singleMinion->minionState()->thrustMotorPower()->setValue(intContainer);
     in >> doubleContainer; m_swamp_status.gps_ahrs_status()->latitude()->setValue(doubleContainer);  //lat
     in >> doubleContainer; m_swamp_status.gps_ahrs_status()->longitude()->setValue(doubleContainer); //lon
+    in >> doubleContainer; //m_swamp_status.ngc_status()->;// xgps
+    in >> doubleContainer; // ygps
+    in >> doubleContainer; m_swamp_status.ngc_status()->psi(); // psiIMU
+    in >> doubleContainer; m_swamp_status.ngc_status()->phiIMU();// phiIMU
+    in >> doubleContainer; m_swamp_status.ngc_status()->thetaIMU();// thetaIMU
+    in >> doubleContainer; m_swamp_status.ngc_status()->rIMU();// rIMU
+    in >> doubleContainer; m_swamp_status.ngc_status()->pIMU();// pIMU
+    in >> doubleContainer; m_swamp_status.ngc_status()->qIMU();// qIMU
 
+    // ASVHAT
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatX(); // X
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatY(); // Y
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatpsi(); // psi
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatu(); // u
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatv();// v
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatr();// r
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatxDot();// xDot
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatyDot();// yDot
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatlat();// lat
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatlon();// lon
+
+
+    // ASVREF
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefXref(); // Xref
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefYRef(); // Yref
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvReflatLref(); // latRef
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvReflonLref(); // lonRef
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefpsiRef(); // psiRef
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefxLref(); // xLref
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefyLref(); // yLref
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefyDot(); // yDot
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvReflatLref(); // latLref
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvReflonLref(); // lonLref
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefgammaLref(); // gammaLref
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefuRef(); // uRef
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefvRef(); // vRef
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefrRef(); // rRef
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefXRef(); // XRef TODO repetition
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefYRef(); // YRef TODO repetition
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefNref(); // Nref
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefnRef(); // nRef
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefdnRef(); // dnRef
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefalphaRef(); // alphaRef
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefnFL(); // n[FL]
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefnFR(); // n[FR]
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefnRR(); // n[RR]
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefnRL(); // n[RL]
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefazimuthFL(); // azimuth[FL]
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefazimuthFR(); // azimuth[FR]
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefazimuthRR(); // azimuth[RR]
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefazimuthRL(); // azimuth[RL]
+
+    // MODES
+    in >> intContainer; m_swamp_status.ngc_status()->refNgcEnable(); // ngcEnable
+    in >> intContainer; m_swamp_status.ngc_status()->refExecutionWorking_mode(); // asvExecutionControl->get_working_mode()
+    in >> intContainer; m_swamp_status.ngc_status()->refWorking_mode(); // asvThrustMapping->get_working_mode(),
+    in >> intContainer; m_swamp_status.ngc_status()->refManual_mode(); // asvThrustMapping->get_manual_mode()
+    in >> intContainer; m_swamp_status.ngc_status()->refAutoMode(); // asvThrustMapping->get_autoMode()
 }
 
 void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)

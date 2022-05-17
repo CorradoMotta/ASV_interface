@@ -10,11 +10,14 @@ import QtQuick.Layouts 1.15
 import "../BasicItems"
 
 BasicMinionPanelContainer{
+    id: azimuth
     title: "AZIMUTH"
 
     required property int azimuth_motor_enable
     required property int azimuth_motor_fault
     required property int azimuth_motor_power
+
+    property int engineState
 
     implicitHeight: pump_row_id.implicitHeight + title_height + 20
     implicitWidth: pump_row_id.implicitWidth + 20
@@ -34,7 +37,7 @@ BasicMinionPanelContainer{
             EngineIcon {
                 id: engine_icon_fl_azm
                 // THIS IS THE LINE NEEDED TO CONNECT ENGINES
-                //engineState : engine_panel.engine_state_fl_prova
+                engineState : minion_view.engineState //engine_panel.engine_state_fl_prova
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 image_size: 60
                 set_border: true
