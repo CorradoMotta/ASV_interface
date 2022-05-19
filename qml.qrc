@@ -67,5 +67,9 @@
         <file>Images/download_resized.png</file>
         <file>Images/play-button_resized.png</file>
         <file>Images/stop_resized.png</file>
+        <file>QML/Views/Ngc.qml</file>
+        <file>QML/BasicItems/BasicRadioButton.qml</file>
+        <file>QML/Panels/ThrustMappingPanel.qml</file>
+        <file>QML/Panels/ControlPanel.qml</file>
     </qresource>
 </RCC>

@@ -72,3 +72,43 @@ void SingleMarkerModel::removeCoordinate(int index)
     coords.removeAt(index);
     endRemoveRows();
 }
+
+SingleMarker::SingleMarker(QObject *parent)
+    : QObject{parent}
+{
+
+}
+
+SingleMarker::SingleMarker(const QGeoCoordinate &coor, const int group, QObject *parent):
+    QObject{parent},
+    m_coordinate(coor),
+    m_group(group)
+{
+
+}
+
+const QGeoCoordinate &SingleMarker::coordinate() const
+{
+    return m_coordinate;
+}
+
+void SingleMarker::setCoordinate(const QGeoCoordinate &newCoordinate)
+{
+    if (m_coordinate == newCoordinate)
+        return;
+    m_coordinate = newCoordinate;
+    emit coordinateChanged();
+}
+
+int SingleMarker::group() const
+{
+    return m_group;
+}
+
+void SingleMarker::setGroup(int newGroup)
+{
+    if (m_group == newGroup)
+        return;
+    m_group = newGroup;
+    emit groupChanged();
+}

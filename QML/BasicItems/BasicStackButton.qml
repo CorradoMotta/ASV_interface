@@ -24,6 +24,7 @@ Rectangle {
             anchors.fill: parent
             onClicked: {
                 if(open_minion){
+                    //data_model.data_source.is_connected
                     if(data_model.data_source.is_connected){
                     stack.push(minion_view)
                     open_minion = false

@@ -29,13 +29,14 @@ Item {
 
         Text {
             id: slider_text_id
+            Layout.alignment: Qt.AlignLeft
             font.family: "Helvetica"
-            font.pointSize: 18
+            font.pointSize: 14
         }
         Slider {
             id: control
             property bool __pressed: false
-            Layout.alignment: Qt.AlignLeft
+            Layout.alignment: Qt.AlignRight
             Layout.preferredWidth: rect.implicitWidth
             stepSize: 1
             from: -99
@@ -75,29 +76,35 @@ Item {
             snapMode: Slider.SnapOnRelease
             onPressedChanged: pressed ? "" : slider_root.value = control.value
         }
-        Rectangle{
-            id: slider_text_input
+        FocusScope {
+            id: text_input_id
             property int maxWidth: 48
             Layout.preferredWidth: maxWidth
             Layout.preferredHeight: slider_value_id.implicitHeight + 6
             Layout.alignment: Qt.AlignLeft
-            border.color: "gray"
-            border.width: 2
-            radius: 3
-            TextInput {
-                id: slider_value_id
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
-                font.family: "Helvetica"
-                font.pointSize: 18
-                text: control.onMoved ? control.valueAt(control.position) : "0"
-                onEditingFinished: {
-                    control.value = text * 1
+            Rectangle{
+                id: slider_text_input
+                anchors.fill: parent
+                border.color: "gray"
+                border.width: 2
+                radius: 3
+                TextInput {
+                    id: slider_value_id
+                    anchors.fill: parent
+                    anchors.margins: 4
+                    font.family: "Helvetica"
+                    font.pointSize: 16
+                    focus: true
+                    text: control.onMoved ? control.valueAt(control.position) : 0
+                    onEditingFinished: {
+                        control.value = text * 1
+                        slider_root.value = control.value
+                    }
                 }
             }
         }
         Image {
-            Layout.alignment: Qt.AlignLeft
+            Layout.alignment: Qt.AlignRight
             source: "../../Images/ArrowUp.png"
             sourceSize.height: 25
             sourceSize.width: 25
@@ -111,7 +118,7 @@ Item {
         }
 
         Image {
-            Layout.alignment: Qt.AlignLeft
+            Layout.alignment: Qt.AlignRight
             source: "../../Images/ArrowDown.png"
             sourceSize.height: 25
             sourceSize.width: 25
@@ -127,7 +134,7 @@ Item {
 
         Rectangle {
             id: reset_button
-            Layout.alignment: Qt.AlignLeft
+            Layout.alignment: Qt.AlignRight
             Layout.preferredHeight: control.implicitHandleHeight
             Layout.preferredWidth: control.implicitHandleHeight
             Layout.rightMargin: 10

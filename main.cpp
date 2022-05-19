@@ -9,11 +9,11 @@
 #include "data/doublevariable.h"
 #include "data/intvariable.h"
 #include "data/stringvariable.h"
+#include "data/HciNgiInterface.h"
 #include "swamp_models/swampstatus.h"
 #include "swamp_models/datasource.h"
 #include "swamp_models/swampmodel.h"
 #include "swamp_models/datasource_udp.h"
-
 
 int main(int argc, char *argv[])
 {
@@ -56,6 +56,7 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<IntVariable>("com.cnr.property",1,0,"IntVariable", "Virtual class cannot be instantiated!");
     qmlRegisterUncreatableType<StringVariable>("com.cnr.property",1,0,"StringVariable", "Virtual class cannot be instantiated!");
     qmlRegisterUncreatableType<SwampStatus>("com.cnr.property",1,0,"SwampStatus", "Virtual class cannot be instantiated!");
+    qmlRegisterUncreatableType<HciNgiInterface>("com.cnr.property",1,0,"HciNgiInterface", "Not creatable as it is an enum type.");
 
     const QUrl url(QStringLiteral("qrc:/QML/main.qml"));
 

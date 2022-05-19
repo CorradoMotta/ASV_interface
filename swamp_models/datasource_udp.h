@@ -14,6 +14,8 @@
 #include <data/HciNgiInterface.h>
 #include <swamp_models/datasource.h>
 
+typedef HciNgiInterface::NgcTelemetryPacket hciEnum;
+
 struct Address{
     QHostAddress ip_addr;
     int port_addr;

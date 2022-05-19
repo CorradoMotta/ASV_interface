@@ -9,10 +9,16 @@ Item  {
     property int image_size: 50
     property bool set_border: false
 
+    enum ButtonClicked{
+        Right,
+        Left
+    }
+
     enum EngineStates {
         Engine_off,
         Engine_inter,
-        Engine_on
+        Engine_on,
+        Engine_backToInter
     }
 
     property int engineState: EngineIcon.EngineStates.Engine_off
@@ -20,21 +26,23 @@ Item  {
     function setSource(state) {
         if (state === EngineIcon.EngineStates.Engine_off)
             return "../../Images/Engine_off.png"
-        else if (state === EngineIcon.EngineStates.Engine_inter)
+        else if (state === EngineIcon.EngineStates.Engine_inter || state === EngineIcon.EngineStates.Engine_backToInter)
             return "../../Images/Engine_inter.png"
         else if (state === EngineIcon.EngineStates.Engine_on)
             return "../../Images/Engine_on.png"
     }
 
-    function setEngineState(previousState) {
-        if (previousState === EngineIcon.EngineStates.Engine_off)
+    function setEngineState(previousState, buttonClicked) {
+        if (previousState === EngineIcon.EngineStates.Engine_off && buttonClicked === EngineIcon.ButtonClicked.Left)
             return EngineIcon.EngineStates.Engine_inter
-        else if (previousState === EngineIcon.EngineStates.Engine_inter)
-            return EngineIcon.EngineStates.Engine_on
-        else if (previousState === EngineIcon.EngineStates.Engine_on)
+        else if((previousState === EngineIcon.EngineStates.Engine_inter || previousState === EngineIcon.EngineStates.Engine_backToInter ) && buttonClicked === EngineIcon.ButtonClicked.Left)
             return EngineIcon.EngineStates.Engine_off
+        else if ((previousState === EngineIcon.EngineStates.Engine_inter || previousState === EngineIcon.EngineStates.Engine_backToInter ) && buttonClicked === EngineIcon.ButtonClicked.Right)
+            return EngineIcon.EngineStates.Engine_on
+        else if (previousState === EngineIcon.EngineStates.Engine_on && buttonClicked === EngineIcon.ButtonClicked.Right)
+            return EngineIcon.EngineStates.Engine_backToInter
+        else return previousState
     }
-
 
     ColumnLayout {
         id: coln
@@ -67,6 +75,14 @@ Item  {
     MouseArea {
         id: ma
         anchors.fill: parent
-        onClicked: engineState = setEngineState(engineState)
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        onClicked: {
+            if(mouse.button === Qt.RightButton)
+                engineState = setEngineState(engineState, EngineIcon.ButtonClicked.Right)
+            else if(mouse.button === Qt.LeftButton)
+                 engineState = setEngineState(engineState, EngineIcon.ButtonClicked.Left)
+        }
+
+
     }
 }
