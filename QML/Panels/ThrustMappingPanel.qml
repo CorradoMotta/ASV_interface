@@ -20,6 +20,9 @@ Rectangle{
     property alias slider1_mask : fu.mask_input
     property alias slider2_mask : fv.mask_input
     property alias slider3_mask : tr.mask_input
+    property alias slider1_ref : fu.ref_value
+    property alias slider2_ref : fv.ref_value
+    property alias slider3_ref : tr.ref_value
 
     Layout.preferredHeight: cl.implicitHeight
     color: "transparent"
@@ -93,7 +96,7 @@ Rectangle{
                 anchors.leftMargin: 10
                 spacing: 2
 
-                BasicSlider {
+                BasicSliderWithRef {
                     id: fu
                     Layout.fillWidth: true
                     //slider_text: "NREF     "
@@ -102,7 +105,7 @@ Rectangle{
                     mask_input: "#000"
                     onValueChanged:  rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
                 }
-                BasicSlider {
+                BasicSliderWithRef {
 
                     id: fv
                     Layout.fillWidth: true
@@ -112,7 +115,7 @@ Rectangle{
                     mask_input: "#000"
                     onValueChanged: rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
                 }
-                BasicSlider {
+                BasicSliderWithRef {
 
                     id: tr
                     Layout.fillWidth: true

@@ -37,10 +37,6 @@ NGC_status::NGC_status(QObject *parent)
     m_asvRefnRL.setSubscribe(true);
     m_asvRefnRR.setSubscribe(true);
     m_asvRefnRef.setSubscribe(true);
-    m_asvRefpsiRef.setSubscribe(true);
-    m_asvRefrRef.setSubscribe(true);
-    m_asvRefuRef.setSubscribe(true);
-    m_asvRefvRef.setSubscribe(true);
     m_asvRefxLref.setSubscribe(true);
     m_asvRefyDot.setSubscribe(true);
     m_asvRefyLref.setSubscribe(true);
@@ -51,7 +47,6 @@ NGC_status::NGC_status(QObject *parent)
     m_refAutoMode.setSubscribe(true);
     m_refExecutionWorking_mode.setSubscribe(true);
     m_refManual_mode.setSubscribe(true);
-    m_refNgcEnable.setSubscribe(true);
     m_refWorking_mode.setSubscribe(true);
     m_thetaIMU.setSubscribe(true);
 }
@@ -111,27 +106,27 @@ IntVariable *NGC_status::forceTorque()
     return &m_forceTorque;
 }
 
-IntVariable *NGC_status::ngcEnable()
+NGC_variable *NGC_status::ngcEnable()
 {
     return &m_ngcEnable;
 }
 
-DoubleVariable *NGC_status::surge()
+NGC_variable *NGC_status::surge()
 {
     return &m_surge;
 }
 
-DoubleVariable *NGC_status::sway()
+NGC_variable *NGC_status::sway()
 {
     return &m_sway;
 }
 
-DoubleVariable *NGC_status::yaw()
+NGC_variable *NGC_status::yaw()
 {
     return &m_yaw;
 }
 
-DoubleVariable *NGC_status::heading()
+NGC_variable *NGC_status::heading()
 {
     return &m_heading;
 }
@@ -291,26 +286,6 @@ DoubleVariable *NGC_status::asvRefnRef()
 return &m_asvRefnRef;
 }
 
-DoubleVariable *NGC_status::asvRefpsiRef()
-{
-return &m_asvRefpsiRef;
-}
-
-DoubleVariable *NGC_status::asvRefrRef()
-{
-return &m_asvRefrRef;
-}
-
-DoubleVariable *NGC_status::asvRefuRef()
-{
-return &m_asvRefuRef;
-}
-
-DoubleVariable *NGC_status::asvRefvRef()
-{
-return &m_asvRefvRef;
-}
-
 DoubleVariable *NGC_status::asvRefxLref()
 {
 return &m_asvRefxLref;
@@ -359,11 +334,6 @@ return &m_refExecutionWorking_mode;
 IntVariable *NGC_status::refManual_mode()
 {
 return &m_refManual_mode;
-}
-
-IntVariable *NGC_status::refNgcEnable()
-{
-return &m_refNgcEnable;
 }
 
 IntVariable *NGC_status::refWorking_mode()

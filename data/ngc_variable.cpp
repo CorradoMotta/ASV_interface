@@ -3,7 +3,7 @@
 NGC_variable::NGC_variable(QObject *parent)
     : QObject{parent}
 {
-
+    m_ref.subscribe();
 }
 
 DoubleVariable *NGC_variable::act()

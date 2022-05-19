@@ -18,16 +18,20 @@ class NGC_status : public QObject
     Q_PROPERTY(IntVariable* gcWorkingMode READ gcWorkingMode NOTIFY gcWorkingModeChanged)
     Q_PROPERTY(IntVariable* thrustMappingManualMode READ thrustMappingManualMode NOTIFY thrustMappingManualModeChanged)
     Q_PROPERTY(IntVariable* thrustMappingAutoMode READ thrustMappingAutoMode NOTIFY thrustMappingAutoModeChanged)
-    Q_PROPERTY(DoubleVariable* surge READ surge NOTIFY surgeChanged)
-    Q_PROPERTY(DoubleVariable* sway READ sway NOTIFY swayChanged)
-    Q_PROPERTY(DoubleVariable* yaw READ yaw NOTIFY yawChanged)
-    Q_PROPERTY(DoubleVariable* heading READ heading NOTIFY headingChanged)
+
+
+
+    Q_PROPERTY(NGC_variable* surge READ surge NOTIFY surgeChanged)
+    Q_PROPERTY(NGC_variable* sway READ sway NOTIFY swayChanged)
+    Q_PROPERTY(NGC_variable* yaw READ yaw NOTIFY yawChanged)
+    Q_PROPERTY(NGC_variable* heading READ heading NOTIFY headingChanged)
     Q_PROPERTY(IntVariable* setLog READ setLog NOTIFY setLogChanged)
+
 
     // TODO remake them in an appropriate way!
     Q_PROPERTY(IntVariable* rpmAlpha READ rpmAlpha NOTIFY rpmAlphaChanged)
     Q_PROPERTY(IntVariable* forceTorque READ forceTorque NOTIFY forceTorqueChanged)
-    Q_PROPERTY(IntVariable* ngcEnable READ ngcEnable NOTIFY ngcEnableChanged)
+    Q_PROPERTY(NGC_variable* ngcEnable READ ngcEnable NOTIFY ngcEnableChanged)
     Q_PROPERTY(DoubleVariable* asvHatX READ asvHatX NOTIFY asvHatXChanged)
     Q_PROPERTY(DoubleVariable* asvHatY READ asvHatY NOTIFY asvHatYChanged)
     Q_PROPERTY(DoubleVariable* asvHatlat READ asvHatlat NOTIFY asvHatlatChanged)
@@ -59,10 +63,6 @@ class NGC_status : public QObject
     Q_PROPERTY(DoubleVariable* asvRefnRL READ asvRefnRL NOTIFY asvRefnRLChanged)
     Q_PROPERTY(DoubleVariable* asvRefnRR READ asvRefnRR NOTIFY asvRefnRRChanged)
     Q_PROPERTY(DoubleVariable* asvRefnRef READ asvRefnRef NOTIFY asvRefnRefChanged)
-    Q_PROPERTY(DoubleVariable* asvRefpsiRef READ asvRefpsiRef NOTIFY asvRefpsiRefChanged)
-    Q_PROPERTY(DoubleVariable* asvRefrRef READ asvRefrRef NOTIFY asvRefrRefChanged)
-    Q_PROPERTY(DoubleVariable* asvRefuRef READ asvRefuRef NOTIFY asvRefuRefChanged)
-    Q_PROPERTY(DoubleVariable* asvRefvRef READ asvRefvRef NOTIFY asvRefvRefChanged)
     Q_PROPERTY(DoubleVariable* asvRefxLref READ asvRefxLref NOTIFY asvRefxLrefChanged)
     Q_PROPERTY(DoubleVariable* asvRefyDot READ asvRefyDot NOTIFY asvRefyDotChanged)
     Q_PROPERTY(DoubleVariable* asvRefyLref READ asvRefyLref NOTIFY asvRefyLrefChanged)
@@ -73,7 +73,6 @@ class NGC_status : public QObject
     Q_PROPERTY(IntVariable* refAutoMode READ refAutoMode NOTIFY refAutoModeChanged)
     Q_PROPERTY(IntVariable* refExecutionWorking_mode READ refExecutionWorking_mode NOTIFY refExecutionWorking_modeChanged)
     Q_PROPERTY(IntVariable* refManual_mode READ refManual_mode NOTIFY refManual_modeChanged)
-    Q_PROPERTY(IntVariable* refNgcEnable READ refNgcEnable NOTIFY refNgcEnableChanged)
     Q_PROPERTY(IntVariable* refWorking_mode READ refWorking_mode NOTIFY refWorking_modeChanged)
     Q_PROPERTY(DoubleVariable* thetaIMU READ thetaIMU NOTIFY thetaIMUChanged)
 
@@ -91,11 +90,11 @@ public:
     IntVariable *thrustMappingAutoMode();
     IntVariable *rpmAlpha();
     IntVariable *forceTorque();
-    IntVariable *ngcEnable();
-    DoubleVariable *surge();
-    DoubleVariable *sway();
-    DoubleVariable *yaw();
-    DoubleVariable *heading();
+    NGC_variable *ngcEnable();
+    NGC_variable *surge();
+    NGC_variable *sway();
+    NGC_variable *yaw();
+    NGC_variable *heading();
 
     DoubleVariable* asvHatX();
     DoubleVariable* asvHatY();
@@ -128,10 +127,6 @@ public:
     DoubleVariable* asvRefnRL();
     DoubleVariable* asvRefnRR();
     DoubleVariable* asvRefnRef();
-    DoubleVariable* asvRefpsiRef();
-    DoubleVariable* asvRefrRef();
-    DoubleVariable* asvRefuRef();
-    DoubleVariable* asvRefvRef();
     DoubleVariable* asvRefxLref();
     DoubleVariable* asvRefyDot();
     DoubleVariable* asvRefyLref();
@@ -142,7 +137,6 @@ public:
     IntVariable* refAutoMode();
     IntVariable* refExecutionWorking_mode();
     IntVariable* refManual_mode();
-    IntVariable* refNgcEnable();
     IntVariable* refWorking_mode();
     DoubleVariable* thetaIMU();
     IntVariable *setLog();
@@ -197,10 +191,6 @@ signals:
     void asvRefnRLChanged();
     void asvRefnRRChanged();
     void asvRefnRefChanged();
-    void asvRefpsiRefChanged();
-    void asvRefrRefChanged();
-    void asvRefuRefChanged();
-    void asvRefvRefChanged();
     void asvRefxLrefChanged();
     void asvRefyDotChanged();
     void asvRefyLrefChanged();
@@ -211,7 +201,6 @@ signals:
     void refAutoModeChanged();
     void refExecutionWorking_modeChanged();
     void refManual_modeChanged();
-    void refNgcEnableChanged();
     void refWorking_modeChanged();
     void thetaIMUChanged();
     void setLogChanged();
@@ -229,11 +218,11 @@ private:
     IntVariable m_thrustMappingAutoMode;
     IntVariable m_rpmAlpha;
     IntVariable m_forceTorque;
-    IntVariable m_ngcEnable;
-    DoubleVariable m_surge;
-    DoubleVariable m_sway;
-    DoubleVariable m_yaw;
-    DoubleVariable m_heading;
+    NGC_variable m_ngcEnable;
+    NGC_variable m_surge;
+    NGC_variable m_sway;
+    NGC_variable m_yaw;
+    NGC_variable m_heading;
 
     DoubleVariable m_asvHatX;
     DoubleVariable m_asvHatY;
@@ -266,10 +255,6 @@ private:
     DoubleVariable m_asvRefnRL;
     DoubleVariable m_asvRefnRR;
     DoubleVariable m_asvRefnRef;
-    DoubleVariable m_asvRefpsiRef;
-    DoubleVariable m_asvRefrRef;
-    DoubleVariable m_asvRefuRef;
-    DoubleVariable m_asvRefvRef;
     DoubleVariable m_asvRefxLref;
     DoubleVariable m_asvRefyDot;
     DoubleVariable m_asvRefyLref;
@@ -280,7 +265,6 @@ private:
     IntVariable m_refAutoMode;
     IntVariable m_refExecutionWorking_mode;
     IntVariable m_refManual_mode;
-    IntVariable m_refNgcEnable;
     IntVariable m_refWorking_mode;
     DoubleVariable m_thetaIMU;
     IntVariable m_setLog;

@@ -88,15 +88,17 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefyRef()->setValue(doubleContainer); // Yref
     in >> doubleContainer; m_swamp_status.ngc_status()->asvReflatRef()->setValue(doubleContainer); // latRef
     in >> doubleContainer; m_swamp_status.ngc_status()->asvReflonRef()->setValue(doubleContainer); // lonRef
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefpsiRef()->setValue(doubleContainer); // psiRef
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefxLref()->setValue(doubleContainer); // xLref
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefyLref()->setValue(doubleContainer); // yLref
     in >> doubleContainer; m_swamp_status.ngc_status()->asvReflatLref()->setValue(doubleContainer); // latLref
     in >> doubleContainer; m_swamp_status.ngc_status()->asvReflonLref()->setValue(doubleContainer); // lonLref
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefgammaLref()->setValue(doubleContainer); // gammaLref
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefuRef()->setValue(doubleContainer); // uRef
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefvRef()->setValue(doubleContainer); // vRef
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefrRef()->setValue(doubleContainer); // rRef
+
+    in >> doubleContainer; m_swamp_status.ngc_status()->surge()->ref()->setValue(doubleContainer); // uRef
+    in >> doubleContainer; m_swamp_status.ngc_status()->sway()->ref()->setValue(doubleContainer); // vRef
+    in >> doubleContainer; m_swamp_status.ngc_status()->yaw()->ref()->setValue(doubleContainer); // rRef
+    in >> doubleContainer; m_swamp_status.ngc_status()->heading()->ref()->setValue(doubleContainer); // psiRef
+
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefXref()->setValue(doubleContainer); // XRef TODO repetition
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefYref()->setValue(doubleContainer); // YRef TODO repetition
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefNref()->setValue(doubleContainer); // Nref
@@ -113,7 +115,7 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefazimuthRL()->setValue(doubleContainer); // azimuth[RL]
 
     // MODES
-    in >> intContainer; m_swamp_status.ngc_status()->refNgcEnable()->setValue(intContainer); // ngcEnable
+    in >> intContainer; m_swamp_status.ngc_status()->ngcEnable()->ref()->setValue(intContainer); // ngcEnable
     in >> intContainer; m_swamp_status.ngc_status()->refExecutionWorking_mode()->setValue(intContainer); // asvExecutionControl->get_working_mode()
     in >> intContainer; m_swamp_status.ngc_status()->refWorking_mode()->setValue(intContainer); // asvThrustMapping->get_working_mode(),
     in >> intContainer; m_swamp_status.ngc_status()->refManual_mode()->setValue(intContainer); // asvThrustMapping->get_manual_mode()
@@ -276,11 +278,11 @@ bool DataSourceUdp::set_cfg(QString filename)
     m_swamp_status.ngc_status()->thrustMappingAutoMode()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_TM_AUTO_MODE));
     m_swamp_status.ngc_status()->rpmAlpha()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_RPM_ALPHA));
     m_swamp_status.ngc_status()->forceTorque()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_FORCE_TORQUE));
-    m_swamp_status.ngc_status()->ngcEnable()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::NGC_ENABLE));
-    m_swamp_status.ngc_status()->surge()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_SURGE));
-    m_swamp_status.ngc_status()->sway()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_SWAY));
-    m_swamp_status.ngc_status()->yaw()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_YAW));
-    m_swamp_status.ngc_status()->heading()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_HEADING));
+    m_swamp_status.ngc_status()->ngcEnable()->act()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::NGC_ENABLE));
+    m_swamp_status.ngc_status()->surge()->act()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_SURGE));
+    m_swamp_status.ngc_status()->sway()->act()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_SWAY));
+    m_swamp_status.ngc_status()->yaw()->act()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_YAW));
+    m_swamp_status.ngc_status()->heading()->act()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_HEADING));
     m_swamp_status.ngc_status()->setLog()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_LOG));
 
 
