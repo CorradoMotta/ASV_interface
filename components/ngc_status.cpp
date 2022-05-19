@@ -17,9 +17,9 @@ NGC_status::NGC_status(QObject *parent)
     m_asvHatxDot.setSubscribe(true);
     m_asvHatyDot.setSubscribe(true);
     m_asvRefNref.setSubscribe(true);
-    m_asvRefXRef.setSubscribe(true);
+    m_asvRefxRef.setSubscribe(true);
     m_asvRefXref.setSubscribe(true);
-    m_asvRefYRef.setSubscribe(true);
+    m_asvRefyRef.setSubscribe(true);
     m_asvRefYref.setSubscribe(true);
     m_asvRefalphaRef.setSubscribe(true);
     m_asvRefazimuthFL.setSubscribe(true);
@@ -191,9 +191,9 @@ DoubleVariable *NGC_status::asvRefNref()
 return &m_asvRefNref;
 }
 
-DoubleVariable *NGC_status::asvRefXRef()
+DoubleVariable *NGC_status::asvRefxRef()
 {
-return &m_asvRefXRef;
+return &m_asvRefxRef;
 }
 
 DoubleVariable *NGC_status::asvRefXref()
@@ -201,9 +201,9 @@ DoubleVariable *NGC_status::asvRefXref()
 return &m_asvRefXref;
 }
 
-DoubleVariable *NGC_status::asvRefYRef()
+DoubleVariable *NGC_status::asvRefyRef()
 {
-return &m_asvRefYRef;
+return &m_asvRefyRef;
 }
 
 DoubleVariable *NGC_status::asvRefYref()
@@ -374,4 +374,9 @@ return &m_refWorking_mode;
 DoubleVariable *NGC_status::thetaIMU()
 {
 return &m_thetaIMU;
+}
+
+IntVariable *NGC_status::setLog()
+{
+return &m_setLog;
 }

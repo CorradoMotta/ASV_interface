@@ -87,9 +87,9 @@ ApplicationWindow {
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
                     // TODO i cannot access enum?
-                    //enabled: data_model.data_source.is_connected
-                    //opacity: 0.3
-                    enabled: true
+                    enabled: data_model.data_source.is_connected
+                    opacity: data_model.data_source.is_connected? 1 : 0.3
+                    //enabled: true
                     }
                 ForceSliderPanel {
                     id: force_slider_panel

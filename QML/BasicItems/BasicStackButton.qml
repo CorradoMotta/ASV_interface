@@ -25,7 +25,7 @@ Rectangle {
             onClicked: {
                 if(open_minion){
                     //data_model.data_source.is_connected
-                    if(true){
+                    if(data_model.data_source.is_connected){
                     stack.push(minion_view)
                     open_minion = false
                     }else messagePrompt("Connection is not established. Please connect first.")

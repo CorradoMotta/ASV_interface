@@ -22,6 +22,7 @@ class NGC_status : public QObject
     Q_PROPERTY(DoubleVariable* sway READ sway NOTIFY swayChanged)
     Q_PROPERTY(DoubleVariable* yaw READ yaw NOTIFY yawChanged)
     Q_PROPERTY(DoubleVariable* heading READ heading NOTIFY headingChanged)
+    Q_PROPERTY(IntVariable* setLog READ setLog NOTIFY setLogChanged)
 
     // TODO remake them in an appropriate way!
     Q_PROPERTY(IntVariable* rpmAlpha READ rpmAlpha NOTIFY rpmAlphaChanged)
@@ -38,9 +39,9 @@ class NGC_status : public QObject
     Q_PROPERTY(DoubleVariable* asvHatxDot READ asvHatxDot NOTIFY asvHatxDotChanged)
     Q_PROPERTY(DoubleVariable* asvHatyDot READ asvHatyDot NOTIFY asvHatyDotChanged)
     Q_PROPERTY(DoubleVariable* asvRefNref READ asvRefNref NOTIFY asvRefNrefChanged)
-    Q_PROPERTY(DoubleVariable* asvRefXRef READ asvRefXRef NOTIFY asvRefXRefChanged)
+    Q_PROPERTY(DoubleVariable* asvRefxRef READ asvRefxRef NOTIFY asvRefxRefChanged)
     Q_PROPERTY(DoubleVariable* asvRefXref READ asvRefXref NOTIFY asvRefXrefChanged)
-    Q_PROPERTY(DoubleVariable* asvRefYRef READ asvRefYRef NOTIFY asvRefYRefChanged)
+    Q_PROPERTY(DoubleVariable* asvRefyRef READ asvRefyRef NOTIFY asvRefyRefChanged)
     Q_PROPERTY(DoubleVariable* asvRefYref READ asvRefYref NOTIFY asvRefYrefChanged)
     Q_PROPERTY(DoubleVariable* asvRefalphaRef READ asvRefalphaRef NOTIFY asvRefalphaRefChanged)
     Q_PROPERTY(DoubleVariable* asvRefazimuthFL READ asvRefazimuthFL NOTIFY asvRefazimuthFLChanged)
@@ -107,9 +108,9 @@ public:
     DoubleVariable* asvHatxDot();
     DoubleVariable* asvHatyDot();
     DoubleVariable* asvRefNref();
-    DoubleVariable* asvRefXRef();
+    DoubleVariable* asvRefxRef();
     DoubleVariable* asvRefXref();
-    DoubleVariable* asvRefYRef();
+    DoubleVariable* asvRefyRef();
     DoubleVariable* asvRefYref();
     DoubleVariable* asvRefalphaRef();
     DoubleVariable* asvRefazimuthFL();
@@ -144,6 +145,7 @@ public:
     IntVariable* refNgcEnable();
     IntVariable* refWorking_mode();
     DoubleVariable* thetaIMU();
+    IntVariable *setLog();
 
 signals:
 
@@ -175,9 +177,9 @@ signals:
     void asvHatxDotChanged();
     void asvHatyDotChanged();
     void asvRefNrefChanged();
-    void asvRefXRefChanged();
+    void asvRefxRefChanged();
     void asvRefXrefChanged();
-    void asvRefYRefChanged();
+    void asvRefyRefChanged();
     void asvRefYrefChanged();
     void asvRefalphaRefChanged();
     void asvRefazimuthFLChanged();
@@ -212,6 +214,7 @@ signals:
     void refNgcEnableChanged();
     void refWorking_modeChanged();
     void thetaIMUChanged();
+    void setLogChanged();
 
 private:
 
@@ -243,9 +246,9 @@ private:
     DoubleVariable m_asvHatxDot;
     DoubleVariable m_asvHatyDot;
     DoubleVariable m_asvRefNref;
-    DoubleVariable m_asvRefXRef;
+    DoubleVariable m_asvRefxRef;
     DoubleVariable m_asvRefXref;
-    DoubleVariable m_asvRefYRef;
+    DoubleVariable m_asvRefyRef;
     DoubleVariable m_asvRefYref;
     DoubleVariable m_asvRefalphaRef;
     DoubleVariable m_asvRefazimuthFL;
@@ -280,6 +283,7 @@ private:
     IntVariable m_refNgcEnable;
     IntVariable m_refWorking_mode;
     DoubleVariable m_thetaIMU;
+    IntVariable m_setLog;
 };
 
 #endif // NGC_STATUS_H
