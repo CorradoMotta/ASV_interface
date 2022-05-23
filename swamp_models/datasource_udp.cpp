@@ -61,8 +61,8 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
     in >> intContainer; //qDebug() << "GPS time" << doubleContainer; //gpstime   singleMinion->minionState()->thrustMotorPower()->setValue(intContainer);
     in >> doubleContainer; m_swamp_status.gps_ahrs_status()->latitude()->setValue(doubleContainer);  //lat
     in >> doubleContainer; m_swamp_status.gps_ahrs_status()->longitude()->setValue(doubleContainer); //lon
-    in >> doubleContainer; //m_swamp_status.ngc_status()->;// xgps
-    in >> doubleContainer; // ygps
+    in >> doubleContainer; m_swamp_status.gps_ahrs_status()->xGps()->setValue(doubleContainer); // xgps TODO NOT SHOWN
+    in >> doubleContainer; m_swamp_status.gps_ahrs_status()->yGps()->setValue(doubleContainer); // ygps TODO NOT SHOWN
     in >> doubleContainer; m_swamp_status.ngc_status()->psi()->setValue(doubleContainer); // psiIMU
     in >> doubleContainer; m_swamp_status.ngc_status()->phiIMU()->setValue(doubleContainer);// phiIMU
     in >> doubleContainer; m_swamp_status.ngc_status()->thetaIMU()->setValue(doubleContainer);// thetaIMU
@@ -71,40 +71,43 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
     in >> doubleContainer; m_swamp_status.ngc_status()->qIMU()->setValue(doubleContainer);// qIMU
 
     // ASVHAT
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatX()->setValue(doubleContainer); // X
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatY()->setValue(doubleContainer); // Y
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatpsi()->setValue(doubleContainer); // psi
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatu()->setValue(doubleContainer); // u
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatv()->setValue(doubleContainer);// v
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatr()->setValue(doubleContainer);// r
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatX()->setValue(doubleContainer); // X position [m]
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatY()->setValue(doubleContainer); // Y position [m]
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatpsi()->setValue(doubleContainer); // psi orientation [rad] (HEADING)
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatu()->setValue(doubleContainer); // surge [m/s]
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatv()->setValue(doubleContainer); // sway [m/s]
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatr()->setValue(doubleContainer); // angular speed [rad/s]
     in >> doubleContainer; m_swamp_status.ngc_status()->asvHatxDot()->setValue(doubleContainer);// xDot
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatyDot()->setValue(doubleContainer);// yDot
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatyDot()->setValue(doubleContainer);// yDot absolute speed [m/s]
     in >> doubleContainer; m_swamp_status.ngc_status()->asvHatlat()->setValue(doubleContainer);// lat
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatlon()->setValue(doubleContainer);// lon
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvHatlon()->setValue(doubleContainer);// lon // [deg]
 
+    // ASVREF POSITION TODO NOT SHOWN NOW
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefxRef()->setValue(doubleContainer); // xRef Set position
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefyRef()->setValue(doubleContainer); // yRef Set position
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvReflatRef()->setValue(doubleContainer); // latRef Set position in coordinates
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvReflonRef()->setValue(doubleContainer); // lonRef Set position in coordinates
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefxLref()->setValue(doubleContainer); // xLref Set line
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefyLref()->setValue(doubleContainer); // yLref Set line
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvReflatLref()->setValue(doubleContainer); // latLref Set line in coordinates
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvReflonLref()->setValue(doubleContainer); // lonLref Set line in coordinates TODO make them act and ref
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefgammaLref()->setValue(doubleContainer); // gammaLref Set gamma for line
 
-    // ASVREF
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefxRef()->setValue(doubleContainer); // Xref
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefyRef()->setValue(doubleContainer); // Yref
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvReflatRef()->setValue(doubleContainer); // latRef
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvReflonRef()->setValue(doubleContainer); // lonRef
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefxLref()->setValue(doubleContainer); // xLref
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefyLref()->setValue(doubleContainer); // yLref
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvReflatLref()->setValue(doubleContainer); // latLref
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvReflonLref()->setValue(doubleContainer); // lonLref
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefgammaLref()->setValue(doubleContainer); // gammaLref
+    // ASVREF CONTROL
+    in >> doubleContainer; m_swamp_status.ngc_status()->surge()->ref()->setValue(doubleContainer); // uRef CONTROL
+    in >> doubleContainer; m_swamp_status.ngc_status()->sway()->ref()->setValue(doubleContainer); // vRef CONTROL
+    in >> doubleContainer; m_swamp_status.ngc_status()->yaw()->ref()->setValue(doubleContainer); // rRef CONTROL
+    in >> doubleContainer; m_swamp_status.ngc_status()->heading()->ref()->setValue(doubleContainer); // psiRef CONTROL
 
-    in >> doubleContainer; m_swamp_status.ngc_status()->surge()->ref()->setValue(doubleContainer); // uRef
-    in >> doubleContainer; m_swamp_status.ngc_status()->sway()->ref()->setValue(doubleContainer); // vRef
-    in >> doubleContainer; m_swamp_status.ngc_status()->yaw()->ref()->setValue(doubleContainer); // rRef
-    in >> doubleContainer; m_swamp_status.ngc_status()->heading()->ref()->setValue(doubleContainer); // psiRef
-
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefXref()->setValue(doubleContainer); // XRef TODO repetition
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefYref()->setValue(doubleContainer); // YRef TODO repetition
+    // ASVREF FORCE SURGE
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefXref()->setValue(doubleContainer); // XRef
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefYref()->setValue(doubleContainer); // YRef
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefNref()->setValue(doubleContainer); // Nref
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefnRef()->setValue(doubleContainer); // nRef
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefdnRef()->setValue(doubleContainer); // dnRef
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefalphaRef()->setValue(doubleContainer); // alphaRef
+
+    // ASVREF Minion N and azimuth
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefnFL()->setValue(doubleContainer); // n[FL]
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefnFR()->setValue(doubleContainer); // n[FR]
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefnRR()->setValue(doubleContainer); // n[RR]
@@ -115,7 +118,7 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefazimuthRL()->setValue(doubleContainer); // azimuth[RL]
 
     // MODES
-    in >> intContainer; m_swamp_status.ngc_status()->ngcEnable()->ref()->setValue(intContainer); // ngcEnable
+    in >> intContainer; m_swamp_status.ngc_status()->ngcEnable()->ref()->setValue(intContainer); // ngcEnable TODO SHOULD BE INT?
     in >> intContainer; m_swamp_status.ngc_status()->refExecutionWorking_mode()->setValue(intContainer); // asvExecutionControl->get_working_mode()
     in >> intContainer; m_swamp_status.ngc_status()->refWorking_mode()->setValue(intContainer); // asvThrustMapping->get_working_mode(),
     in >> intContainer; m_swamp_status.ngc_status()->refManual_mode()->setValue(intContainer); // asvThrustMapping->get_manual_mode()
@@ -194,7 +197,12 @@ void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)
     in >> doubleContainer; singleMinion->minionState()->gpsHDOP()->setValue(doubleContainer);
     in >> doubleContainer; singleMinion->minionState()->gpsAltitude()->setValue(doubleContainer);
     in >> doubleContainer; singleMinion->minionState()->gpsHeightGeoid()->setValue(doubleContainer);
-
+    in >> intContainer; //thrustMotorPower
+    in >> intContainer; // thrustmotorenable
+    in >> doubleContainer; singleMinion->minionCmd()->thrustMotorSetReference()->ref()->setValue(doubleContainer);
+    in >> intContainer; // azimuth power
+    in >> intContainer; // azimuth enable
+    in >> doubleContainer; singleMinion->minionCmd()->azimuthMotorSetReference()->ref()->setValue(doubleContainer);
 }
 
 void DataSourceUdp::handleMessage()
@@ -262,12 +270,12 @@ bool DataSourceUdp::set_cfg(QString filename)
         singleMinion->minionCmd()->reboot()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_REBOOT));
         singleMinion->minionCmd()->thrustMotorPower()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_THRUST_POWER));
         singleMinion->minionCmd()->thrustMotorEnable()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_THRUST_ENABLE));
-        singleMinion->minionCmd()->thrustMotorSetReference()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_THRUST_REFERENCE));
+        singleMinion->minionCmd()->thrustMotorSetReference()->act()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_THRUST_REFERENCE));
         singleMinion->minionCmd()->azimuthMotorPower()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_AZIMUTH_POWER));
         singleMinion->minionCmd()->azimuthMotorEnable()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_AZIMUTH_ENABLE));
         singleMinion->minionCmd()->azimuthSetHome()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_AZIMUTH_SET_HOME));
         singleMinion->minionCmd()->azimuthGoHome()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_AZIMUTH_GO_HOME));
-        singleMinion->minionCmd()->azimuthMotorSetReference()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_AZIMUTH_SET_ANGLE));
+        singleMinion->minionCmd()->azimuthMotorSetReference()->act()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_AZIMUTH_SET_ANGLE));
         singleMinion->minionCmd()->azimuthSetMaxSpeed()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_AZIMUTH_MAX_SPEED));
     }
     //QString tlm_number = QString::number(HciNgiInterface::NgcTelemetryPacket::NGC_TLM);

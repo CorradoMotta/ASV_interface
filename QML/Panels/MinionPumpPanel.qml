@@ -57,6 +57,7 @@ BasicMinionPanelContainer{
                 slider_to: 2000
                 mask_input: "0000"
                 onValueChanged:  minion_view.publish_topic(minion_view.thrust_motor_set_reference_tn, value)
+                ref_value: minion_view.thrust_motor_speed_ref
             }
         }
         Rectangle {

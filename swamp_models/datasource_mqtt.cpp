@@ -247,7 +247,7 @@ bool DataSourceMqtt::read_cfg_minion(QString filename)
 
     if(!set_topic_name("cmd-thrust-power:", singleMinion->minionCmd()->thrustMotorPower(), topic_map, prefix)) return false;
     if(!set_topic_name("cmd-thrust-enable:", singleMinion->minionCmd()->thrustMotorEnable(), topic_map, prefix)) return false;
-    if(!set_topic_name("cmd-thrust-reference:", singleMinion->minionCmd()->thrustMotorSetReference(), topic_map, prefix)) return false;
+    if(!set_topic_name("cmd-thrust-reference:", singleMinion->minionCmd()->thrustMotorSetReference()->act(), topic_map, prefix)) return false; // TODO REF OR ACT
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Azimuth
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -263,7 +263,7 @@ bool DataSourceMqtt::read_cfg_minion(QString filename)
     if(!set_topic_name("cmd-azimuth-enable:", singleMinion->minionCmd()->azimuthMotorEnable(), topic_map, prefix)) return false;
     if(!set_topic_name("cmd-azimuth-set-home:", singleMinion->minionCmd()->azimuthSetHome(), topic_map, prefix)) return false;
     if(!set_topic_name("cmd-azimuth-go-home:", singleMinion->minionCmd()->azimuthGoHome(), topic_map, prefix)) return false;
-    if(!set_topic_name("cmd-azimuth-angle:", singleMinion->minionCmd()->azimuthMotorSetReference(), topic_map, prefix)) return false;
+    if(!set_topic_name("cmd-azimuth-angle:", singleMinion->minionCmd()->azimuthMotorSetReference()->act(), topic_map, prefix)) return false;// TODO REF OR ACT
     if(!set_topic_name("cmd-azimuth-max-speed:",singleMinion->minionCmd()->azimuthSetMaxSpeed(), topic_map, prefix)) return false;
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // IMU

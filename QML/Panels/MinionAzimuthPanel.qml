@@ -78,6 +78,7 @@ BasicMinionPanelContainer{
                 slider_to: 180
                 mask_input: "#000"
                 onValueChanged:  minion_view.publish_topic(minion_view.azimuth_motor_set_reference_tn, value)
+                ref_value: minion_view.azimuth_motor_angle_ref
             }
         }
         Rectangle {
