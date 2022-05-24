@@ -44,7 +44,7 @@ void DataSourceUdp::setConnection()
 
 void DataSourceUdp::publishMessage(const QString &identifier, const QString &message)
 {
-    QString value = identifier + " " + message;
+    QString value = identifier + " " + message + "\r\n";
     qDebug() << "sending : " << value;
     //qDebug() << m_NGCAddr.ip_addr << m_NGCAddr.port_addr;
     m_udpSocket->writeDatagram(value.toUtf8(), m_NGCAddr.ip_addr, m_NGCAddr.port_addr);

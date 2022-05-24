@@ -37,8 +37,8 @@ BasicMinionPanelContainer{
             Layout.topMargin: title_height + 30
             // TODO deactivated for now
             onRebootStateChanged: {
-                    if(rebootState === BasicRebootIcon.RebootStates.Reboot) minion_view.publish_topic(minion_view.reboot_tn, 1)
-                    else if(rebootState === BasicRebootIcon.RebootStates.Shutdown) minion_view.publish_topic(minion_view.shutdown_tn, 1)
+                if(rebootState === BasicRebootIcon.RebootStates.Reboot) minion_view.publish_topic(minion_view.reboot_tn, 1)
+                else if(rebootState === BasicRebootIcon.RebootStates.Shutdown) minion_view.publish_topic(minion_view.shutdown_tn, 1)
             }
         }
 
@@ -58,15 +58,6 @@ BasicMinionPanelContainer{
                 // TODO add loss of scope
                 onNew_text_valueChanged: minion_view.publish_topic(minion_view.changeTlmAddr_tn, new_text_value)
             }
-
-            //            BasicSwitchInverted{
-            //                Layout.alignment: Qt.AlignRight
-            //                switch_text: "SET_DIGITAL"
-            //            }
-            //            BasicSwitchInverted{
-            //                Layout.alignment: Qt.AlignRight
-            //                switch_text: "SET_ANALOG"
-            //            }
         }
     }
     Rectangle {
@@ -104,8 +95,8 @@ BasicMinionPanelContainer{
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
-                title_text: "DATE_TIME"
-                value_text: minion_view.date_and_time
+                title_text: "TIME_MS"
+                value_text: minion_view.time_ms
             }
         }
         ColumnLayout{
@@ -116,16 +107,6 @@ BasicMinionPanelContainer{
                 title_text: "NOP_COUNTER"
                 value_text: minion_view.nop_counter
             }
-            //            BasicTextOutput{
-            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-            //                value_width: 200
-            //                title_text: "DIGITAL_INPUT"
-            //            }
-            //            BasicTextOutput{
-            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-            //                value_width: 200
-            //                title_text: "DIGITAL_OUTPUT"
-            //            }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 value_width: 120

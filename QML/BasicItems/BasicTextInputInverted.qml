@@ -5,7 +5,8 @@ import QtQuick.Layouts 1.15
 Item {
     property alias title_text: title_text_input.text
     property string new_text_value: ""
-
+    property alias value_width : text_input_id.width
+    property alias titleSize: title_text_input.font.pointSize
 
     implicitHeight: rl.implicitHeight
     implicitWidth: rl.implicitWidth

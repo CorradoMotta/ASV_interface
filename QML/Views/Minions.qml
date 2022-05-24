@@ -44,7 +44,7 @@ Item {
                 text: qsTr("Minion RR")
             }
             TabButton {
-                text: qsTr("Bathimetry")
+                text: qsTr("Dashboard")
             }
         }
 
@@ -80,7 +80,6 @@ Item {
                 id: general
                 BathymetryChart{
                     id: btChr
-
                 }
             }
         }

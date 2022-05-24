@@ -25,6 +25,7 @@ Item {
     // GENERIC
     readonly property real   nodeID: prefix.minionState.nodeId.value
     readonly property string date_and_time: prefix.minionState.dateAndTime.value
+    readonly property real time_ms: prefix.minionState.timeMs.value
     readonly property real nop_counter: prefix.minionState.nopCounter.value
     readonly property real   battery_voltage: prefix.minionState.batteryVoltage.value
 

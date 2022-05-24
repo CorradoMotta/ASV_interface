@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 import com.cnr.property 1.0
+import QtQuick.Layouts 1.15
+import "../BasicItems"
 
 MenuBar {
     id: custom_menu_bar
@@ -75,5 +77,66 @@ MenuBar {
         Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("BCKWD_AZIMUTH_ALL"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_BCKWD_AZIMUTH_ALL): ""}
         Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("BCKWD_AZIMUTH_BOW"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_BCKWD_AZIMUTH_BOW): ""}
         Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("BCKWD_AZIMUTH_STERN"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_BCKWD_AZIMUTH_STERN): ""}
+    }
+    Menu {
+        title: qsTr("&SetPosition")
+        Rectangle{
+            width: 200
+            height: 300
+            color: "white"
+            border.color: "black"
+            border.width: 1
+            GridLayout{
+                columns: 2
+                id: grid
+                //spacing: 2
+                //width: parent.width/2
+                anchors.fill: parent
+                Rectangle{
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    BasicTextInputInverted {
+                        anchors.centerIn: parent
+                        id: text1
+                        title_text:  qsTr("SET X")
+                        titleSize: 10
+                        value_width: 50
+                    }
+                }
+                Rectangle{
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    BasicTextOutputInverted {
+                        id: text2
+                        anchors.centerIn: parent
+                        title_text: qsTr("REF X")
+                        titleSize: 10
+                        value_width: 50
+                    }
+                }
+                Rectangle{
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    BasicTextInputInverted {
+                        id: text3
+                        anchors.centerIn: parent
+                        title_text: qsTr("REF X")
+                        titleSize: 10
+                        value_width: 50
+                    }
+                }
+                Rectangle{
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    BasicTextOutputInverted {
+                        id: text4
+                        anchors.centerIn: parent
+                        title_text: qsTr("REF Y")
+                        titleSize: 10
+                        value_width: 50
+                    }
+                }
+            }
+        }
     }
 }

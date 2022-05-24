@@ -12,7 +12,7 @@ Map {
     property real altitude: data_model.data_source.swamp_status.ngc_status.altitude.value
     property real latValue : lat.value
     property real lonValue: lon.value
-    property real v_rotation : root.convertToRadiant(data_model.data_source.swamp_status.ngc_status.psi.value)
+    property real v_rotation : data_model.data_source.swamp_status.ngc_status.psi.value //convertToRadiant
     property bool is_centered: true
     property var initialCoordinates: QtPositioning.coordinate(lat.value, lon.value)
     //property double initialValue : 7.13
