@@ -19,21 +19,23 @@ Rectangle{
     }
     property alias info_text : info_label_text.text
     property int dot_state: FaultDot.DotStates.Dot_off
+    property color off_color: "gray"
+    property bool label_on_side: false
 
     width: 40
     height: 40
     radius: 30
     //border.color: "silver"
     color: dot_state === FaultDot.DotStates.Dot_off?
-               "gray" : dot_state === FaultDot.DotStates.Dot_on?
+               off_color : dot_state === FaultDot.DotStates.Dot_on?
                    "green": "red"
 
     Rectangle{
         id: info_label
         z: 1
-        anchors.bottom: dot.top
-        anchors.bottomMargin: - (info_label_text.height/3)
-        anchors.horizontalCenter: dot.horizontalCenter
+        anchors.bottom: dot.label_on_side? dot.bottom : dot.top
+        anchors.bottomMargin: dot.label_on_side? (info_label_text.height/3) : - (info_label_text.height/3)
+        anchors.right: dot.label_on_side? parent.horizontalCenter : parent.right
         width: info_label_text.implicitWidth + 6
         height: info_label_text.implicitHeight + 6
         color: "white"

@@ -50,6 +50,7 @@ class MinionStatus : public QObject
     Q_PROPERTY(DoubleVariable* thrustMotorSpeed READ thrustMotorSpeed NOTIFY thrustMotorSpeedChanged)
     Q_PROPERTY(DoubleVariable* thrustMotorTemperature READ thrustMotorTemperature NOTIFY thrustMotorTemperatureChanged)
     Q_PROPERTY(IntVariable* timeMs READ timeMs NOTIFY timeMsChanged)
+    Q_PROPERTY(IntVariable* is_alive READ is_alive NOTIFY is_aliveChanged)
 
 public:
     explicit MinionStatus(QObject *parent = nullptr);
@@ -96,6 +97,7 @@ public:
     IntVariable* gpsNSatellite();
     DoubleVariable* nopCounter();
     DoubleVariable* gpsHeightGeoid();
+    IntVariable *is_alive();
 
 signals:
 
@@ -141,6 +143,7 @@ signals:
     void gpsNSatelliteChanged();
     void nopCounterChanged();
     void gpsHeightGeoidChanged();
+    void is_aliveChanged();
 
 private:
     DoubleVariable m_azimuthMotorAngle;
@@ -185,6 +188,7 @@ private:
     IntVariable m_gpsNSatellite;
     DoubleVariable m_nopCounter;
     DoubleVariable m_gpsHeightGeoid;
+    IntVariable m_is_alive;
 };
 
 #endif // MINION_STATUS_H

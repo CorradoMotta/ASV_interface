@@ -10,14 +10,35 @@ DataSourceUdp::DataSourceUdp(QObject *parent)
       m_timer{new QTimer(this)},
       m_count_timer{0},
       isBound{false},
-      m_udpSocket{new QUdpSocket(this)}
+      m_udpSocket{new QUdpSocket(this)},
+      m_lastTime{0,0,0,0}
 { 
-    m_timer->start(10000000000);
+    m_timer->start(250);
 }
 
 void DataSourceUdp::update_ts_from_local(){
     m_count_timer += 1;
-    publishMessage(m_swamp_status.time_status()->hmi_timestamp()->topic_name(), QString::number(m_count_timer));
+    for (int var = 0; var < 4; ++var) {
+        if(m_lastTime[var] > 20)
+        {
+            switch(var){
+            case HciNgiInterface::NgcTelemetryPacket::MINION_FL_TLM:
+                m_swamp_status.minion_fl()->minionState()->is_alive()->setValue(1);
+                break;
+            case HciNgiInterface::NgcTelemetryPacket::MINION_FR_TLM:
+                m_swamp_status.minion_fr()->minionState()->is_alive()->setValue(1);
+                break;
+            case HciNgiInterface::NgcTelemetryPacket::MINION_RL_TLM:
+                m_swamp_status.minion_rl()->minionState()->is_alive()->setValue(1);
+                break;
+            case HciNgiInterface::NgcTelemetryPacket::MINION_RR_TLM:
+                m_swamp_status.minion_rr()->minionState()->is_alive()->setValue(1);
+                break;
+            }
+        }
+        m_lastTime[var] ++;
+        //publishMessage(m_swamp_status.time_status()->hmi_timestamp()->topic_name(), QString::number(m_count_timer));
+    }
 }
 
 void DataSourceUdp::setConnection()
@@ -155,6 +176,7 @@ void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)
         break;
     }
 
+    m_lastTime[MinionId] = 0;
     double doubleContainer;
     int intContainer;
 
@@ -203,6 +225,7 @@ void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)
     in >> intContainer; // azimuth power
     in >> intContainer; // azimuth enable
     in >> doubleContainer; singleMinion->minionCmd()->azimuthMotorSetReference()->ref()->setValue(doubleContainer);
+    singleMinion->minionState()->is_alive()->setValue(2);
 }
 
 void DataSourceUdp::handleMessage()
@@ -292,7 +315,6 @@ bool DataSourceUdp::set_cfg(QString filename)
     m_swamp_status.ngc_status()->yaw()->act()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_YAW));
     m_swamp_status.ngc_status()->heading()->act()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_HEADING));
     m_swamp_status.ngc_status()->setLog()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_LOG));
-
 
     return true;
 }

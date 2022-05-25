@@ -34,9 +34,9 @@ MenuBar {
         title: qsTr("MapType")
         // to add elements to my menu from a list i use the repeater element
         Repeater {
-            model: navigation_map.supportedMapTypes
+            model: navigation_map.mapTypes
             MenuItem {
-                text: navigation_map.plugin.name === "mapboxgl" ? model.description: model.name
+                text: navigation_map.mapName === "mapboxgl" ? model.description: model.name
                 onTriggered: navigation_map.setActiveMap(model.index)
             }
         }

@@ -52,6 +52,7 @@ private:
     QUdpSocket *m_udpSocket;
     Address m_HCIAddr;
     Address m_NGCAddr;
+    QList<int> m_lastTime;
 
 };
 
