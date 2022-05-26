@@ -59,11 +59,13 @@ BasicMinionPanelContainer{
             BasicSwitch{
 
                 switch_text: "SET_HOME"
+                switch_is_active: homing_panel.set_home_is_active
                 onSwitch_is_activeChanged: switch_is_active? minion_view.publish_topic(minion_view.azimuth_motor_set_home_tn, 1)
                                                            : minion_view.publish_topic(minion_view.azimuth_motor_set_home_tn, 0)
             }
             BasicSwitch{
                 switch_text: "GO_HOME"
+                switch_is_active: homing_panel.go_home_is_active
                 onSwitch_is_activeChanged: switch_is_active? minion_view.publish_topic(minion_view.azimuth_motor_go_home_tn, 1)
                                                            : minion_view.publish_topic(minion_view.azimuth_motor_go_home_tn, 0)
             }

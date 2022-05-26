@@ -23,6 +23,7 @@ Item {
     property alias mask_input: slider_value_id.inputMask
     property alias ref_value: slider_out_value_id.text
     property int value: 0
+    property alias slider_width: rect.implicitWidth
 
     RowLayout {
         id: slider_row
@@ -49,7 +50,7 @@ Item {
                 id: rect
                 x: control.leftPadding
                 y: control.topPadding + control.availableHeight / 2 - height / 2
-                implicitWidth: 260
+                //implicitWidth: 260
                 implicitHeight: 4
                 width: control.availableWidth
                 height: implicitHeight

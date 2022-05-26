@@ -73,5 +73,6 @@
         <file>QML/Panels/ControlPanel.qml</file>
         <file>QML/BasicItems/BasicSliderWithRef.qml</file>
         <file>QML/BasicItems/MinionStateRow.qml</file>
+        <file>QML/Panels/HomingPanel.qml</file>
     </qresource>
 </RCC>

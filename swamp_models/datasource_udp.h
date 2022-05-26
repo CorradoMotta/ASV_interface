@@ -53,6 +53,7 @@ private:
     Address m_HCIAddr;
     Address m_NGCAddr;
     QList<int> m_lastTime;
+    QList<int> m_oldTimeMs;
 
 };
 

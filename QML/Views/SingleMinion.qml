@@ -14,7 +14,10 @@ Item {
     id: minion_view
     property int minimumXDim : minion_panel_cln.implicitWidth
     property int minimumYDim: minion_panel_cln.implicitHeight
+
+    // to connect right panel with minion panels
     required property int engineState  //engine_panel.engine_state_fl_prova
+
     required property var prefix
     readonly property var publish_topic: data_model.data_source.publishMessage
 

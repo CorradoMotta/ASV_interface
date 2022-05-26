@@ -11,7 +11,8 @@ DataSourceUdp::DataSourceUdp(QObject *parent)
       m_count_timer{0},
       isBound{false},
       m_udpSocket{new QUdpSocket(this)},
-      m_lastTime{0,0,0,0}
+      m_lastTime{0,0,0,0},
+      m_oldTimeMs{0,0,0,0}
 { 
     m_timer->start(250);
 }
@@ -19,7 +20,7 @@ DataSourceUdp::DataSourceUdp(QObject *parent)
 void DataSourceUdp::update_ts_from_local(){
     m_count_timer += 1;
     for (int var = 0; var < 4; ++var) {
-        if(m_lastTime[var] > 20)
+        if(m_lastTime[var] > 16)
         {
             switch(var){
             case HciNgiInterface::NgcTelemetryPacket::MINION_FL_TLM:
@@ -154,21 +155,25 @@ void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)
     case HciNgiInterface::NgcTelemetryPacket::MINION_FL_TLM:
         //qDebug() << "Receiving a Minion FL packet";
         singleMinion = m_swamp_status.minion_fl();
+        //singleMinion->minionState()->is_alive()->setValue(2);
         //qDebug() << in;
         break;
     case HciNgiInterface::NgcTelemetryPacket::MINION_FR_TLM:
         //qDebug() << "Receiving a Minion FR packet";
         singleMinion = m_swamp_status.minion_fr();
+        //singleMinion->minionState()->is_alive()->setValue(2);
         //qDebug() << in;
         break;
     case HciNgiInterface::NgcTelemetryPacket::MINION_RL_TLM:
         //qDebug() << "Receiving a Minion RL packet";
         singleMinion = m_swamp_status.minion_rl();
+        //singleMinion->minionState()->is_alive()->setValue(2);
         //qDebug() << in;
         break;
     case HciNgiInterface::NgcTelemetryPacket::MINION_RR_TLM:
         //qDebug() << "Receiving a Minion RR packet";
         singleMinion = m_swamp_status.minion_rr();
+        //singleMinion->minionState()->is_alive()->setValue(2);
         //qDebug() << in;
         break;
     default:
@@ -176,7 +181,6 @@ void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)
         break;
     }
 
-    m_lastTime[MinionId] = 0;
     double doubleContainer;
     int intContainer;
 
@@ -225,7 +229,12 @@ void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)
     in >> intContainer; // azimuth power
     in >> intContainer; // azimuth enable
     in >> doubleContainer; singleMinion->minionCmd()->azimuthMotorSetReference()->ref()->setValue(doubleContainer);
-    singleMinion->minionState()->is_alive()->setValue(2);
+    if(singleMinion->minionState()->timeMs()->value() > m_oldTimeMs[MinionId]){
+        // TODO BETTER USE SIGNALS
+        m_oldTimeMs[MinionId] = singleMinion->minionState()->timeMs()->value();
+        m_lastTime[MinionId] = 0;
+        singleMinion->minionState()->is_alive()->setValue(2);
+    }
 }
 
 void DataSourceUdp::handleMessage()
@@ -245,7 +254,7 @@ void DataSourceUdp::handleMessage()
                 in >> packetIndex;
                 // call appropriate function
                 if(packetIndex == HciNgiInterface::NgcTelemetryPacket::NGC_TLM) handleNgcPacket(in); //qDebug() << //"Received NGC packet" << datagram.data(); handleNgcPacket(in);
-                else handleMinionPacket(packetIndex, in);
+                else handleMinionPacket(packetIndex, in); //qDebug() << datagram.data();//handleMinionPacket(packetIndex, in);
             }
         }
     }

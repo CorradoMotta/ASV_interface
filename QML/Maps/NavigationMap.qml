@@ -24,6 +24,7 @@ Rectangle{
     readonly property real hueMax : 0.652
     property alias mapTypes: swamp_map.supportedMapTypes
     property alias mapName: swamp_map.plugin.name
+    property alias zoomLevel: swamp_map.zoomLevel
 
     onLatValueChanged: lon.value !==0 ? root.startUp = false: ""
     onLonValueChanged: lat.value !==0 ? root.startUp = false: ""
@@ -43,10 +44,10 @@ Rectangle{
 
         RowLayout{
 
-            spacing: 15
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: parent.right
-            anchors.rightMargin: 10
+            spacing: 80
+            anchors.centerIn: parent
+            //anchors.rightMargin: 10
+
 
             MinionStateRow{
                 id: minion_fl
