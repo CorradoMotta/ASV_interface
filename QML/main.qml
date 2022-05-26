@@ -14,7 +14,7 @@ ApplicationWindow {
     id: root
 
     minimumWidth: minion_view.minimum_width + main_layout.implicitWidth + 20
-    minimumHeight: minion_view.minimum_height + menu_bar_id.implicitHeight + 110
+    minimumHeight: minion_view.minimum_height + menu_bar_id.implicitHeight + 116
     height: minimumHeight
     width: minimumWidth
     visible: true
@@ -158,9 +158,9 @@ ApplicationWindow {
                     Layout.alignment: Qt.AlignTop
                     slider_width: 200
                     title: "FORCE_TORQUE"
-                    slider1_text: "X"; slider1_from: 0; slider1_to: 1000; slider1_mask: "0000"; slider1_ref: root.xRef
-                    slider2_text: "Y"; slider2_from: 0; slider2_to: 1000; slider2_mask: "0000"; slider2_ref: root.yRef
-                    slider3_text: "N"; slider3_from: 0; slider3_to: 1000; slider3_mask: "0000"; slider3_ref: root.nNRef
+                    slider1_text: "X"; slider1_from: -50; slider1_to: 50; slider1_mask: "#00"; slider1_ref: root.xRef
+                    slider2_text: "Y"; slider2_from: -50; slider2_to: 50; slider2_mask: "#00"; slider2_ref: root.yRef
+                    slider3_text: "N"; slider3_from: -50; slider3_to: 50; slider3_mask: "#00"; slider3_ref: root.nNRef
                     clip: true
                     panel_color: "white"
                     enabled: data_model.data_source.is_connected

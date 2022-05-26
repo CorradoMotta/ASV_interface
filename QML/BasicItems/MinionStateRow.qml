@@ -17,7 +17,7 @@ Item {
         StatusDot{
             id: power_dot
             info_text: info_prefix + "_" + "Engine"
-            dot_state: (prefix.minionState.thrustMotorEnable.value & prefix.minionState.thrustMotorPower.value)
+            dot_state: (prefix.minionState.thrustMotorEnable.value & prefix.minionState.thrustMotorPower.value & prefix.minionState.azimuthMotorEnable.value & prefix.minionState.azimuthMotorPower.value)
             off_color: "lightgray"
             label_on_side: true
             width: dotSize

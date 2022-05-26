@@ -70,6 +70,7 @@ Rectangle{
                     slider_text: "SURGE   "
                     slider_from: 0
                     slider_to: 100
+                    slider_width : 260
                     mask_input: "#000"
                     ref_value: surgeRef
                     onValueChanged: control_panel.publish_topic(control_panel.surgeTn, value)
@@ -81,6 +82,7 @@ Rectangle{
                     slider_text: "SWAY    "
                     slider_from: 0
                     slider_to: 100
+                    slider_width : 260
                     mask_input: "#000"
                     ref_value: swayRef
                     onValueChanged: control_panel.publish_topic(control_panel.swayTn, value)
@@ -91,6 +93,7 @@ Rectangle{
                     Layout.fillWidth: true
                     slider_from: 0
                     slider_to: 100
+                    slider_width : 260
                     slider_text: "YAW      "
                     mask_input: "#000"
                     ref_value: yawRef
@@ -104,6 +107,7 @@ Rectangle{
                     Layout.fillWidth: true
                     slider_from: 0
                     slider_to: 100
+                    slider_width : 260
                     slider_text: "HEADING"
                     mask_input: "#000"
                     ref_value: headingRef
