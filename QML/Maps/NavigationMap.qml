@@ -25,12 +25,13 @@ Rectangle{
     property alias mapTypes: swamp_map.supportedMapTypes
     property alias mapName: swamp_map.plugin.name
     property alias zoomLevel: swamp_map.zoomLevel
+    //property int resetValue: false
 
     onLatValueChanged: lon.value !==0 ? root.startUp = false: ""
     onLonValueChanged: lat.value !==0 ? root.startUp = false: ""
     onMax_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
     onMin_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
-
+    //onResetValueChanged: {}
     Rectangle{
         id: status_bar
         anchors{
@@ -247,4 +248,17 @@ Rectangle{
     function set_center(centerCor){
         swamp_map.center = centerCor
     }
+
+    function resetMarker(){
+        if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
+            mivMarker.model.reset()
+        else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line) {
+            mivLine.model.reset()
+            var n = mapPoly.pathLength()
+            for (var i = 0; i < n; i++)  {
+                mapPoly.removeCoordinate(0)
+            }
+        }
+    }
+
 }
