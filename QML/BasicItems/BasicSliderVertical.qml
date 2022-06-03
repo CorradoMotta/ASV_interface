@@ -18,6 +18,7 @@ Item {
     property alias slider_from: control.from
     property alias slider_to: control.to
     property alias mask_input: slider_value_id.inputMask
+    property alias ref_value: slider_out_value_id.text
     property int value: 0
 
     ColumnLayout{
@@ -166,7 +167,7 @@ Item {
                 Layout.alignment: Qt.AlignLeft
                 Layout.preferredHeight: control.implicitHandleHeight
                 Layout.preferredWidth: control.implicitHandleHeight
-                Layout.rightMargin: 10
+                Layout.rightMargin: 4
                 radius: 15
                 color: "#f08080"
                 Rectangle {
@@ -184,6 +185,24 @@ Item {
                         control.value = 0
                         slider_root.value = control.value
                     }
+                }
+            }
+            Rectangle{
+                id: slider_text_output
+                Layout.preferredWidth: text_input_id.maxWidth
+                Layout.preferredHeight: slider_out_value_id.implicitHeight + 6
+                Layout.alignment: Qt.AlignRight
+                clip: true
+                color: "aliceblue"
+                border.color: "gray"
+                border.width: 2
+                radius: 3
+                Text{
+                    id: slider_out_value_id
+                    anchors.fill: parent
+                    anchors.margins: 4
+                    font.family: "Helvetica"
+                    font.pointSize: 14
                 }
             }
         }

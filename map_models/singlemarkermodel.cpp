@@ -7,32 +7,37 @@ SingleMarkerModel::SingleMarkerModel(QObject *parent) :
 
 int SingleMarkerModel::rowCount( const QModelIndex& parent) const
 {
-    if (parent.isValid())
-        return 0;
-
-    return coords.count();
+    Q_UNUSED(parent)
+    return m_marker.size();
 }
 
 QVariant SingleMarkerModel::data(const QModelIndex &index, int role) const
-{
+{    
     if ( !index.isValid() )
         return QVariant();
+    SingleMarker *marker = m_marker[index.row()];
 
-    const QGeoCoordinate &coordinate = coords.at(index.row());
-
-    if ( role == Coordinates){
-        return QVariant::fromValue(coordinate);
-    }
+    if ( role == CoordinateRole)
+        return QVariant::fromValue(marker->coordinate());
+    if(role == GroupRole)
+        return marker->group();
     else
         return QVariant();
 }
 
 QHash<int, QByteArray> SingleMarkerModel::roleNames() const
 {
-    static QHash<int, QByteArray> mapping {
-        {Coordinates, "coordinate"}
-    };
-    return mapping;
+//    static QHash<int, QByteArray> mapping {
+//        {Coordinates, "coordinate"}
+//    };
+//    return mapping;
+
+    QHash<int, QByteArray> roles;
+    roles[CoordinateRole] = "coordinate";
+    roles[GroupRole] = "group";
+
+    return roles;
+
 }
 
 bool SingleMarkerModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -50,6 +55,36 @@ bool SingleMarkerModel::setData(const QModelIndex &index, const QVariant &value,
     if(somethingChanged)
         return true;
     return false;
+
+//    SingleMarker *marker = m_marker[index.row()];
+//    bool somethingChanged = false;
+
+//    switch(role){
+//    case ColorHueRole:
+//    {
+//        if(depth_point->colorHue()!= value.toDouble()){
+//            depth_point->setColorHue(value.toDouble());
+//            somethingChanged = true;
+//        }
+//    }
+//        break;
+//    case DepthRole:
+//    {
+//        if(depth_point->depth()!= value.toDouble()){
+//            depth_point->setDepth(value.toDouble());
+//            somethingChanged = true;
+//        }
+
+//    }
+//        break;
+//    }
+//    if(somethingChanged){
+//        emit dataChanged(index,index,QVector<int>()<<role);
+//        return true;
+//    }
+//    return false;
+
+
 }
 
 Qt::ItemFlags SingleMarkerModel::flags(const QModelIndex &index) const

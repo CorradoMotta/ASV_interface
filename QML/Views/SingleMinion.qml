@@ -14,7 +14,10 @@ Item {
     id: minion_view
     property int minimumXDim : minion_panel_cln.implicitWidth
     property int minimumYDim: minion_panel_cln.implicitHeight
+
+    // to connect right panel with minion panels
     required property int engineState  //engine_panel.engine_state_fl_prova
+
     required property var prefix
     readonly property var publish_topic: data_model.data_source.publishMessage
 
@@ -25,6 +28,7 @@ Item {
     // GENERIC
     readonly property real   nodeID: prefix.minionState.nodeId.value
     readonly property string date_and_time: prefix.minionState.dateAndTime.value
+    readonly property real time_ms: prefix.minionState.timeMs.value
     readonly property real nop_counter: prefix.minionState.nopCounter.value
     readonly property real   battery_voltage: prefix.minionState.batteryVoltage.value
 
@@ -32,12 +36,14 @@ Item {
     readonly property real thrust_motor_current:  prefix.minionState.thrustMotorCurrent.value
     readonly property int  thrust_motor_temperature:  prefix.minionState.thrustMotorTemperature.value
     readonly property real thrust_motor_speed:  prefix.minionState.thrustMotorSpeed.value
+    readonly property int  thrust_motor_speed_ref:  prefix.minionCmd.thrustMotorSetReference.ref.value
 
     // AZIMUTH
     readonly property int  azimuth_motor_position:  prefix.minionState.azimuthMotorPosition.value
     readonly property real azimuth_motor_angle:  prefix.minionState.azimuthMotorAngle.value
     readonly property int  azimuth_motor_temperature:  prefix.minionState.azimuthMotorTemperature.value
     readonly property int  azimuth_motor_current:  prefix.minionState.azimuthMotorCurrent.value
+    readonly property int  azimuth_motor_angle_ref:  prefix.minionCmd.azimuthMotorSetReference.ref.value
 
     // IMU
     readonly property real imu_yaw:  prefix.minionState.imuYaw.value
@@ -55,6 +61,7 @@ Item {
     readonly property int  gps_fix:  prefix.minionState.gpsFixQuality.value
     readonly property int  gps_ns:  prefix.minionState.gpsNSatellite.value
 
+
     //----------------------------------------------------------------------------------------------
     // from cpp model - command
     //----------------------------------------------------------------------------------------------
@@ -68,12 +75,12 @@ Item {
     // THRUST
     readonly property string thrust_motor_power_tn: prefix.minionCmd.thrustMotorPower.topic_name
     readonly property string thrust_motor_enable_tn: prefix.minionCmd.thrustMotorEnable.topic_name
-    readonly property string thrust_motor_set_reference_tn: prefix.minionCmd.thrustMotorSetReference.topic_name
+    readonly property string thrust_motor_set_reference_tn: prefix.minionCmd.thrustMotorSetReference.act.topic_name
 
     // AZIMUTH
     readonly property string azimuth_motor_power_tn: prefix.minionCmd.azimuthMotorPower.topic_name
     readonly property string azimuth_motor_enable_tn: prefix.minionCmd.azimuthMotorEnable.topic_name
-    readonly property string azimuth_motor_set_reference_tn: prefix.minionCmd.azimuthMotorSetReference.topic_name
+    readonly property string azimuth_motor_set_reference_tn: prefix.minionCmd.azimuthMotorSetReference.act.topic_name
     readonly property string azimuth_motor_set_home_tn: prefix.minionCmd.azimuthSetHome.topic_name
     readonly property string azimuth_motor_go_home_tn: prefix.minionCmd.azimuthGoHome.topic_name
     readonly property string azimuth_motor_set_max_speed_tn: prefix.minionCmd.azimuthSetMaxSpeed.topic_name

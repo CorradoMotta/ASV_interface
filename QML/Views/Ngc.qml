@@ -6,14 +6,15 @@ import "../BasicItems"
 import "../Panels"
 
 BasicMinionPanelContainer{
-    id : root
+    id : ngc_root
+
     implicitHeight: Math.max(cmd_row.implicitHeight , cmd_row_2.implicitHeight) + title_height + 20
     implicitWidth: cmd_row.implicitWidth + cmd_row_2.implicitWidth + bar.width + 200 // TODO WHY SO MUCH
     title: "NGC"
     color: "whitesmoke"
-
+    property int blockSize: 12
     property var prefix: data_model.data_source.swamp_status.ngc_status
-    readonly property string ngcEnableTn: prefix.ngcEnable.topic_name
+    readonly property string ngcEnableTn: prefix.ngcEnable.act.topic_name
     readonly property string rpmAlphaTn: prefix.rpmAlpha.topic_name
     readonly property string forceTorqueTn: prefix.forceTorque.topic_name
     readonly property string setLogTn: prefix.setLog.topic_name
@@ -43,18 +44,14 @@ BasicMinionPanelContainer{
     // ASVREF
     readonly property real asvReflatRef : prefix.asvReflatRef.value
     readonly property real asvReflonRef : prefix.asvReflonRef.value
-    readonly property real asvRefpsiRef : prefix.asvRefpsiRef.value
     readonly property real asvRefxLref  : prefix.asvRefxLref.value
     readonly property real asvRefyLref  : prefix.asvRefyLref.value
     readonly property real asvReflatLref: prefix.asvReflatLref.value
     readonly property real asvReflonLref: prefix.asvReflonLref.value
     readonly property real asvRefgammaLRef : prefix.asvRefgammaLref.value
-    readonly property real asvRefuRef : prefix.asvRefuRef.value
-    readonly property real asvRefvRef : prefix.asvRefvRef.value
-    readonly property real asvRefrRef : prefix.asvRefrRef.value
-    readonly property real asvRefXRef   : prefix.asvRefXref.value
-    readonly property real asvRefYRef   : prefix.asvRefYref.value
-    readonly property real asvRefNref : prefix.asvRefNref.value
+    readonly property real asvRefXRef   : prefix.asvRefxRef.value
+    readonly property real asvRefYRef   : prefix.asvRefyRef.value
+
     // NOT ADDED YET
     //    asvRefnFL();
     //    asvRefnFR();
@@ -68,14 +65,28 @@ BasicMinionPanelContainer{
     readonly property real nRef : prefix.asvRefnRef.value
     readonly property real dnRef : prefix.asvRefdnRef.value
     readonly property real alphaRef : prefix.asvRefalphaRef.value
-    readonly property real xRef : prefix.asvRefxRef.value
-    readonly property real yRef : prefix.asvRefyRef.value
+    readonly property real xRef : prefix.asvRefXref.value
+    readonly property real yRef : prefix.asvRefYref.value
     readonly property real nNRef : prefix.asvRefNref.value
 
     // MODES
-    readonly property int ngcEnableRef : prefix.refNgcEnable.value
+    readonly property int ngcEnableRef : prefix.ngcEnable.ref.value
     readonly property int executionWorking_modeRef : prefix.refExecutionWorking_mode.value
     readonly property int working_modeRef : prefix.refWorking_mode.value
+    readonly property int manual_modeRef : prefix.refManual_mode.value
+    readonly property int autoModeRef    : prefix.refAutoMode.value
+
+    // azimuth ref
+    readonly property real asvRefazimuthFL : prefix.asvRefazimuthFL.value // azimuth[FL]
+    readonly property real asvRefazimuthFR : prefix.asvRefazimuthFR.value // azimuth[FR]
+    readonly property real asvRefazimuthRR : prefix.asvRefazimuthRR.value // azimuth[RR]
+    readonly property real asvRefazimuthRL : prefix.asvRefazimuthRL.value // azimuth[RL]
+
+    // n ref
+    readonly property real asvRefnFL :prefix.asvRefnFL.value // n[FL]
+    readonly property real asvRefnFR :prefix.asvRefnFR.value // n[FR]
+    readonly property real asvRefnRR :prefix.asvRefnRR.value // n[RR]
+    readonly property real asvRefnRL :prefix.asvRefnRL.value // n[RL]
 
     //border.color: "transparent"
     RowLayout{
@@ -107,8 +118,8 @@ BasicMinionPanelContainer{
                 BasicSwitch{
                     switch_text: "NGC_ENABLE"
                     // TODO
-                    onSwitch_is_activeChanged: switch_is_active? root.publish_topic(root.ngcEnableTn, 1)
-                                                               : root.publish_topic(root.ngcEnableTn, 0)
+                    onSwitch_is_activeChanged: switch_is_active? ngc_root.publish_topic(ngc_root.ngcEnableTn, 1)
+                                                               : ngc_root.publish_topic(ngc_root.ngcEnableTn, 0)
                 }
                 Rectangle{
                     Layout.fillWidth: true
@@ -145,11 +156,11 @@ BasicMinionPanelContainer{
                 Layout.rightMargin: 10
                 Layout.alignment: Qt.AlignTop
                 title: "RPM_ALPHA"
-                slider1_text: "N    "; slider1_from: 0; slider1_to: 1800; slider1_mask: "0000"
-                slider2_text: "DN   "; slider2_from: -900; slider2_to: 900; slider2_mask: "#000"
-                slider3_text: "ALPHA"; slider3_from: -180; slider3_to: 180; slider3_mask: "#000"
+                slider1_text: "N    "; slider1_from: 0; slider1_to: 1800; slider1_mask: "0000";   slider1_ref: ngc_root.nRef
+                slider2_text: "DN   "; slider2_from: -900; slider2_to: 900; slider2_mask: "#000"; slider2_ref: ngc_root.dnRef
+                slider3_text: "ALPHA"; slider3_from: -180; slider3_to: 180; slider3_mask: "#000"; slider3_ref: ngc_root.alphaRef
                 clip: true
-                onValueChanged: root.publish_topic(root.rpmAlphaTn, value) //console.log(value)
+                onValueChanged: ngc_root.publish_topic(ngc_root.rpmAlphaTn, value) //console.log(value)
             }
             ThrustMappingPanel{
                 id: force_torque
@@ -157,11 +168,11 @@ BasicMinionPanelContainer{
                 Layout.rightMargin: 10
                 Layout.alignment: Qt.AlignTop
                 title: "FORCE_TORQUE"
-                slider1_text: "X"; slider1_from: 0; slider1_to: 1000; slider1_mask: "0000"
-                slider2_text: "Y"; slider2_from: 0; slider2_to: 1000; slider2_mask: "0000"
-                slider3_text: "N"; slider3_from: 0; slider3_to: 1000; slider3_mask: "0000"
+                slider1_text: "X"; slider1_from: -50; slider1_to: 50; slider1_mask: "#00"; slider1_ref: ngc_root.xRef
+                slider2_text: "Y"; slider2_from: -50; slider2_to: 50; slider2_mask: "#00"; slider2_ref: ngc_root.yRef
+                slider3_text: "N"; slider3_from: -50; slider3_to: 50; slider3_mask: "#00"; slider3_ref: ngc_root.nNRef
                 clip: true
-                onValueChanged: root.publish_topic(root.forceTorqueTn, value)
+                onValueChanged: ngc_root.publish_topic(ngc_root.forceTorqueTn, value)
             }
             ControlPanel{
                 id: control_panel
@@ -192,261 +203,333 @@ BasicMinionPanelContainer{
         spacing: 2
         //width: parent.width/2
         anchors{
-            topMargin: 20
+            topMargin: 40
             leftMargin: 10
-            top: parent.top; right: parent.right; bottom: parent.bottom; left: bar.right
+            top: parent.top; right: parent.right;  left: bar.right
             rightMargin: 10
         }
 
         ColumnLayout{
             Layout.alignment: Qt.AlignLeft
+            Text {
+                id: imu_text_id
+                Layout.alignment: Qt.AlignTop |Qt.AlignLeft
+                Layout.leftMargin: 4
+                text: "IMU"
+                font.family: "Helvetica"
+                font.pointSize: 14
+                font.bold: true
+
+            }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
                 title_text: "IMU_PSI"
-                value_text: root.psi
+                value_text: ngc_root.psi
 
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
                 title_text: "IMU_PHI"
-                value_text: root.phiIMU
+                value_text: ngc_root.phiIMU
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
                 title_text: "IMU_THETA"
-                value_text: root.thetaIMU
+                value_text: ngc_root.thetaIMU
+            }
+
+
+
+            Text {
+                id: asv_text_id
+                Layout.alignment: Qt.AlignTop |Qt.AlignLeft
+                Layout.leftMargin: 4
+                Layout.topMargin: ngc_root.blockSize
+                text: "KINEMATIC STATE"
+                font.family: "Helvetica"
+                font.pointSize: 14
+                font.bold: true
+
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
-                title_text: "IMU_R"
-                value_text: root.rIMU
+                title_text: "ASV_H_X"
+                value_text: ngc_root.asvHatX
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
-                title_text: "IMU_P"
-                value_text: root.pIMU
+                title_text: "ASV_H_Y"
+                value_text: ngc_root.asvHatY
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
-                title_text: "IMU_Q"
-                value_text: root.qIMU
+                title_text: "ASV_H_PSI"
+                value_text: ngc_root.asvHatpsi
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
-                title_text: "A_H_X"
-                value_text: root.asvHatX
+                title_text: "ASV_H_SURGE"
+                value_text: ngc_root.asvHatu
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
-                title_text: "A_H_Y"
-                value_text: root.asvHatY
+                title_text: "ASV_H_SWAY"
+                value_text: ngc_root.asvHatv
+            }
+
+            Text {
+                id: modes_text_id
+                Layout.alignment: Qt.AlignTop |Qt.AlignLeft
+                Layout.leftMargin: 4
+                Layout.topMargin: ngc_root.blockSize
+                text: "MODES"
+                font.family: "Helvetica"
+                font.pointSize: 14
+                font.bold: true
+
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
-                title_text: "A_H_PSI"
-                value_text: root.asvHatpsi
+                title_text: "MAN_M_REF"
+                value_text: ngc_root.manual_modeRef
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
-                title_text: "A_H_U"
-                value_text: root.asvHatu
+                title_text: "AUTO_M_REF"
+                value_text: ngc_root.autoModeRef
+            }
+            Text {
+                id: azimuth_text_id
+                Layout.alignment: Qt.AlignTop |Qt.AlignLeft
+                Layout.leftMargin: 4
+                Layout.topMargin: ngc_root.blockSize
+                text: "AZIMUTH"
+                font.family: "Helvetica"
+                font.pointSize: 14
+                font.bold: true
+
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
-                title_text: "A_H_V"
-                value_text: root.asvHatv
+                title_text: "azimuth[FL]"
+                value_text: ngc_root.asvRefazimuthFL
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
-                title_text: "A_H_R"
-                value_text: root.asvHatr
+                title_text: "azimuth[FR]"
+                value_text: ngc_root.asvRefazimuthFR
+            }
+
+            Text {
+                id: rpm_text_id
+                Layout.alignment: Qt.AlignTop |Qt.AlignLeft
+                Layout.leftMargin: 4
+                Layout.topMargin: ngc_root.blockSize
+                text: "RPM"
+                font.family: "Helvetica"
+                font.pointSize: 14
+                font.bold: true
+
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
-                title_text: "A_H_X_DOT"
-                value_text: root.asvHatxDot
+                title_text: "n[FL]"
+                value_text: ngc_root.asvRefnFL
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
-                title_text: "A_H_Y_DOT"
-                value_text: root.asvHatyDot
+                title_text: "n[FR]"
+                value_text: ngc_root.asvRefnFR
             }
-            BasicTextOutputInverted{
-                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                value_width: 120
-                title_text: "A_H_LAT"
-                value_text: root.asvHatlat
-            }
-            BasicTextOutputInverted{
-                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                value_width: 120
-                title_text: "A_H_LON"
-                value_text: root.asvHatlon
-            }
-            BasicTextOutputInverted{
-                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                value_width: 120
-                title_text: "A_R_X"
-                value_text: root.asvRefXRef
-            }
-            BasicTextOutputInverted{
-                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                value_width: 120
-                title_text: "A_R_Y"
-                value_text: root.asvRefYRef
-            }
-            BasicTextOutputInverted{
-                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                value_width: 120
-                title_text: "A_R_N"
-                value_text: root.asvRefNref
-            }
+
         }
         ColumnLayout{
             Layout.alignment: Qt.AlignRight
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                Layout.topMargin: modes_text_id.implicitHeight
                 value_width: 120
-                title_text: "A_R_n"
-                value_text: root.nRef
+                title_text: "IMU_R"
+                value_text: ngc_root.rIMU
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 value_width: 120
-                title_text: "A_R_dn"
-                value_text: root.dnRef
+                title_text: "IMU_P"
+                value_text: ngc_root.pIMU
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 value_width: 120
-                title_text: "A_R_alpha"
-                value_text: root.alphaRef
+                title_text: "IMU_Q"
+                value_text: ngc_root.qIMU
+            }
+
+
+
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize + 8
+                value_width: 120
+                //Layout.topMargin: ngc_root.blockSize
+                title_text: "ASV_H_YAW"
+                value_text: ngc_root.asvHatr
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 value_width: 120
-                title_text: "A_R_x"
-                value_text: root.xRef
+                title_text: "ASV_XDOT"
+                value_text: ngc_root.asvHatxDot
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 value_width: 120
-                title_text: "A_R_y"
-                value_text: root.yRef
+                title_text: "ASV_YDOT"
+                value_text: ngc_root.asvHatyDot
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 value_width: 120
-                title_text: "A_R_N"
-                value_text: root.nNRef
+                title_text: "ASV_LAT"
+                value_text: ngc_root.asvHatlat
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 value_width: 120
+                title_text: "ASV_LON"
+                value_text: ngc_root.asvHatlon
+            }
+
+//            BasicTextOutput{
+//                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+//                value_width: 120
+//                title_text: "A_R_x"
+//                value_text: ngc_root.xRef
+//            }
+//            BasicTextOutput{
+//                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+//                value_width: 120
+//                title_text: "A_R_y"
+//                value_text: ngc_root.yRef
+//            }
+//            BasicTextOutput{
+//                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+//                value_width: 120
+//                title_text: "A_R_N"
+//                value_text: ngc_root.nNRef
+//            }
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                value_width: 120
+                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize  + 8
                 title_text: "EXE_WORK_M"
-                value_text: root.executionWorking_modeRef
+                value_text: ngc_root.executionWorking_modeRef
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 value_width: 120
                 title_text: "WORK_M_REF"
-                value_text: root.working_modeRef
+                value_text: ngc_root.working_modeRef
+            }
+
+
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                value_width: 120
+                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize  + 8
+                title_text: "azimuth[RR]"
+                value_text: ngc_root.asvRefazimuthRR
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 value_width: 120
-                title_text: "A_R_LAT"
-                value_text: root.asvReflatRef
+                title_text: "azimuth[RL]"
+                value_text: ngc_root.asvRefazimuthRL
+            }
+
+
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                value_width: 120
+                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize  + 8
+                title_text: "n[RR]"
+                value_text: ngc_root.asvRefnRR
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 value_width: 120
-                title_text: "A_R_LON"
-                value_text: root.asvReflonLref
+                title_text: "n[RL]"
+                value_text: ngc_root.asvRefnRL
             }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                value_width: 120
-                title_text: "A_R_PSI"
-                value_text: root.asvRefpsiRef
-            }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                value_width: 120
-                title_text: "A_R_xL"
-                value_text: root.asvRefxLref
-            }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                value_width: 120
-                title_text: "A_R_yL"
-                value_text: root.asvRefyLref
-            }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                value_width: 120
-                title_text: "A_R_GammaL"
-                value_text: root.asvRefgammaLRef
-            }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                value_width: 120
-                title_text: "A_R_LATL"
-                value_text: root.asvReflatLref
-            }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                value_width: 120
-                title_text: "A_R_LONL"
-                value_text: root.asvReflonLref
-            }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                value_width: 120
-                title_text: "A_R_u"
-                value_text: root.asvRefuRef
-            }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                value_width: 120
-                title_text: "A_R_v"
-                value_text: root.asvRefvRef
-            }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                value_width: 120
-                title_text: "A_R_r"
-                value_text: root.asvRefrRef
-            }
+            // SET LINE and POSITION
             //            BasicTextOutput{
             //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
             //                value_width: 120
-            //                title_text: "Y_REF"
-            //                value_text: root.yRef
+            //                title_text: "A_R_LAT"
+            //                value_text: ngc_root.asvReflatRef
             //            }
             //            BasicTextOutput{
             //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
             //                value_width: 120
-            //                title_text: "N_REF"
-            //                value_text: root.nNRef
+            //                title_text: "A_R_LON"
+            //                value_text: ngc_root.asvReflonLref
             //            }
-
-
-
+            //            BasicTextOutput{
+            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            //                value_width: 120
+            //                title_text: "A_R_xL"
+            //                value_text: ngc_root.asvRefxLref
+            //            }
+            //            BasicTextOutput{
+            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            //                value_width: 120
+            //                title_text: "A_R_yL"
+            //                value_text: ngc_root.asvRefyLref
+            //            }
+            //            BasicTextOutput{
+            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            //                value_width: 120
+            //                title_text: "A_R_GammaL"
+            //                value_text: ngc_root.asvRefgammaLRef
+            //            }
+            //            BasicTextOutput{
+            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            //                value_width: 120
+            //                title_text: "A_R_LATL"
+            //                value_text: ngc_root.asvReflatLref
+            //            }
+            //            BasicTextOutput{
+            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            //                value_width: 120
+            //                title_text: "A_R_LONL"
+            //                value_text: ngc_root.asvReflonLref
+            //            }
+            //            BasicTextOutput{
+            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            //                value_width: 120
+            //                title_text: "A_R_LATL"
+            //                value_text: ngc_root.asvRefXRef
+            //            }
+            //            BasicTextOutput{
+            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            //                value_width: 120
+            //                title_text: "A_R_LONL"
+            //                value_text: ngc_root.asvRefYRef
+            //            }
         }
     }
 }

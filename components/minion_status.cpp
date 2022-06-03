@@ -254,3 +254,8 @@ DoubleVariable *MinionStatus::gpsHeightGeoid()
 {
     return &m_gpsHeightGeoid;
 }
+
+IntVariable *MinionStatus::is_alive()
+{
+    return &m_is_alive;
+}

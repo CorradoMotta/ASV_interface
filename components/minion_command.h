@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <data/doublevariable.h>
+#include <data/ngc_variable.h>
 #include <data/intvariable.h>
 
 class MinionCommand : public QObject
@@ -20,13 +21,13 @@ class MinionCommand : public QObject
     Q_PROPERTY(IntVariable* setAnalog READ setAnalog NOTIFY setAnalogChanged)
     Q_PROPERTY(IntVariable* thrustMotorPower READ thrustMotorPower NOTIFY thrustMotorPowerChanged)
     Q_PROPERTY(IntVariable* thrustMotorEnable READ thrustMotorEnable NOTIFY thrustMotorEnableChanged)
-    Q_PROPERTY(DoubleVariable* thrustMotorSetReference READ thrustMotorSetReference NOTIFY thrustMotorSetReferenceChanged)
+    Q_PROPERTY(NGC_variable* thrustMotorSetReference READ thrustMotorSetReference NOTIFY thrustMotorSetReferenceChanged)
     Q_PROPERTY(IntVariable* azimuthMotorPower READ azimuthMotorPower NOTIFY azimuthMotorPowerChanged)
     Q_PROPERTY(IntVariable* azimuthMotorEnable READ azimuthMotorEnable NOTIFY azimuthMotorEnableChanged)
     Q_PROPERTY(IntVariable* azimuthSetMaxSpeed READ azimuthSetMaxSpeed NOTIFY azimuthSetMaxSpeedChanged)
     Q_PROPERTY(IntVariable* azimuthSetHome READ azimuthSetHome NOTIFY azimuthSetHomeChanged)
     Q_PROPERTY(IntVariable* azimuthGoHome READ azimuthGoHome NOTIFY azimuthGoHomeChanged)
-    Q_PROPERTY(DoubleVariable* azimuthMotorSetReference READ azimuthMotorSetReference NOTIFY azimuthMotorSetReferenceChanged)
+    Q_PROPERTY(NGC_variable* azimuthMotorSetReference READ azimuthMotorSetReference NOTIFY azimuthMotorSetReferenceChanged)
     Q_PROPERTY(IntVariable* azimuthMotorSetRefTick READ azimuthMotorSetRefTick NOTIFY azimuthMotorSetRefTickChanged)
     Q_PROPERTY(IntVariable* log READ log NOTIFY logChanged)
 
@@ -45,13 +46,13 @@ public:
     IntVariable *setAnalog();
     IntVariable *thrustMotorPower();
     IntVariable *thrustMotorEnable();
-    DoubleVariable *thrustMotorSetReference();
+    NGC_variable *thrustMotorSetReference();
     IntVariable *azimuthMotorPower();
     IntVariable *azimuthMotorEnable();
     IntVariable *azimuthSetMaxSpeed();
     IntVariable *azimuthSetHome();
     IntVariable *azimuthGoHome();
-    DoubleVariable *azimuthMotorSetReference();
+    NGC_variable *azimuthMotorSetReference();
     IntVariable *azimuthMotorSetRefTick();
     IntVariable *log();
 
@@ -91,13 +92,13 @@ private:
     IntVariable m_setAnalog;
     IntVariable m_thrustMotorPower;
     IntVariable m_thrustMotorEnable;
-    DoubleVariable m_thrustMotorSetReference;
+    NGC_variable m_thrustMotorSetReference;
     IntVariable m_azimuthMotorPower;
     IntVariable m_azimuthMotorEnable;
     IntVariable m_azimuthSetMaxSpeed;
     IntVariable m_azimuthSetHome;
     IntVariable m_azimuthGoHome;
-    DoubleVariable m_azimuthMotorSetReference;
+    NGC_variable m_azimuthMotorSetReference;
     IntVariable m_azimuthMotorSetRefTick;
     IntVariable m_log;
 };

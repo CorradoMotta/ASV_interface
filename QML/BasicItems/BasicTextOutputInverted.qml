@@ -5,6 +5,7 @@ Item {
     property alias title_text: title_text_output.text
     property alias value_text: info_label_text.text
     property alias value_width : info_label.width
+    property alias titleSize: info_label_text.font.pointSize
     implicitHeight: rl.implicitHeight
     implicitWidth: rl.implicitWidth
 

@@ -8,11 +8,16 @@ Rectangle{
 
     property string value : ""
     property var prefix: data_model.data_source.swamp_status.ngc_status
-    readonly property string surgeTn: prefix.surge.topic_name
-    readonly property string swayTn: prefix.sway.topic_name
-    readonly property string yawTn: prefix.yaw.topic_name
-    readonly property string headingTn: prefix.heading.topic_name
+    readonly property string surgeTn: prefix.surge.act.topic_name
+    readonly property string swayTn: prefix.sway.act.topic_name
+    readonly property string yawTn: prefix.yaw.act.topic_name
+    readonly property string headingTn: prefix.heading.act.topic_name
     readonly property var publish_topic: data_model.data_source.publishMessage
+
+    readonly property real surgeRef : prefix.surge.ref.value
+    readonly property real swayRef : prefix.sway.ref.value
+    readonly property real yawRef : prefix.yaw.ref.value
+    readonly property real headingRef : prefix.heading.ref.value
 
     Layout.preferredHeight: cl.implicitHeight
     color: "transparent"
@@ -39,32 +44,6 @@ Rectangle{
             Rectangle{
                 Layout.fillWidth: true
             }
-
-            //            Button {
-            //                id: control
-            //                Layout.alignment: Qt.AlignRight
-            //                width: 200
-            //                onClicked: value = surge.value + " " + sway.value + " " + yaw.value + " " + heading.value
-            //                //Layout.rightMargin: 10
-            //                //onClicked: data_model.data_source.setConnection()
-            //                contentItem: Text {
-            //                    id: testo
-            //                    text: "SEND"
-            //                    font.family: "Helvetica"
-            //                    font.pointSize: 14
-            //                    anchors.horizontalCenter: background_b.horizontalCenter
-            //                    //verticalAlignment: background_b.AlignVCenter
-            //                }
-            //                background: Rectangle{
-            //                    id: background_b
-            //                    height: testo.implicitHeight + 10
-            //                    width: testo.implicitWidth + 10
-            //                    color: control.down? "peachpuff" : "papayawhip"
-            //                    border.width: 1
-            //                    border.color: "black"
-            //                    radius: 4
-            //                }
-            //            }
         }
         Rectangle {
             id: force_slider
@@ -85,45 +64,53 @@ Rectangle{
                 anchors.leftMargin: 10
                 spacing: 2
 
-                BasicSlider {
+                BasicSliderWithRef {
                     id: surge
                     Layout.fillWidth: true
                     slider_text: "SURGE   "
                     slider_from: 0
                     slider_to: 100
+                    slider_width : 260
                     mask_input: "#000"
+                    ref_value: surgeRef
                     onValueChanged: control_panel.publish_topic(control_panel.surgeTn, value)
                 }
-                BasicSlider {
+                BasicSliderWithRef {
 
                     id: sway
                     Layout.fillWidth: true
                     slider_text: "SWAY    "
                     slider_from: 0
                     slider_to: 100
+                    slider_width : 260
                     mask_input: "#000"
+                    ref_value: swayRef
                     onValueChanged: control_panel.publish_topic(control_panel.swayTn, value)
                 }
-                BasicSlider {
+                BasicSliderWithRef {
 
                     id: yaw
                     Layout.fillWidth: true
                     slider_from: 0
                     slider_to: 100
+                    slider_width : 260
                     slider_text: "YAW      "
                     mask_input: "#000"
-                     onValueChanged: control_panel.publish_topic(control_panel.yawTn, value)
+                    ref_value: yawRef
+                    onValueChanged: control_panel.publish_topic(control_panel.yawTn, value)
                     //     rotation_value = value
                     //     data_model.data_source.publish_topicMessage(data_model.data_source.swamp_status.ngc_status.tr.ref.topic_name,value)
                     // }
                 }
-                BasicSlider{
+                BasicSliderWithRef{
                     id: heading
                     Layout.fillWidth: true
                     slider_from: 0
                     slider_to: 100
+                    slider_width : 260
                     slider_text: "HEADING"
                     mask_input: "#000"
+                    ref_value: headingRef
                     onValueChanged: control_panel.publish_topic(control_panel.headingTn, value)
                 }
             }

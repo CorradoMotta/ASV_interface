@@ -40,6 +40,10 @@ public:
     enum Roles {
         Coordinates
     };
+    enum markerRoles {
+        CoordinateRole = Qt::UserRole +1,
+        GroupRole
+    };
 
     explicit SingleMarkerModel(QObject *parent = nullptr);
     virtual int rowCount(const QModelIndex& parent) const override;
@@ -54,7 +58,7 @@ public slots:
 
 private: //members
     QVector<QGeoCoordinate> coords;
-
+    QList<SingleMarker*> m_marker;
     // QAbstractItemModel interface
 };
 

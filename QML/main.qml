@@ -14,7 +14,7 @@ ApplicationWindow {
     id: root
 
     minimumWidth: minion_view.minimum_width + main_layout.implicitWidth + 20
-    minimumHeight: minion_view.minimum_height + menu_bar_id.implicitHeight + 110
+    minimumHeight: minion_view.minimum_height + menu_bar_id.implicitHeight + 116
     height: minimumHeight
     width: minimumWidth
     visible: true
@@ -23,6 +23,18 @@ ApplicationWindow {
     property bool connected: false
     property bool startUp: true
     property double timestamp: 0
+
+    // TODO THIS IS DUPLICATED!
+    property var prefix: data_model.data_source.swamp_status.ngc_status
+    readonly property real nRef : prefix.asvRefnRef.value
+    readonly property real dnRef : prefix.asvRefdnRef.value
+    readonly property real alphaRef : prefix.asvRefalphaRef.value
+    readonly property real xRef : prefix.asvRefXref.value
+    readonly property real yRef : prefix.asvRefYref.value
+    readonly property real nNRef : prefix.asvRefNref.value
+    readonly property string rpmAlphaTn: prefix.rpmAlpha.topic_name
+    readonly property string forceTorqueTn: prefix.forceTorque.topic_name
+    readonly property var publish_topic: data_model.data_source.publishMessage
 
     function messagePrompt(prompt_text){
         message_prompt.message = prompt_text
@@ -36,8 +48,8 @@ ApplicationWindow {
 
     onStartUpChanged:{
         navigation_map.zoomLevel = 18
-        navigation_map.center =
-                QtPositioning.coordinate(navigation_map.lat.value, navigation_map.lon.value)
+        navigation_map.set_center(
+                    QtPositioning.coordinate(navigation_map.lat.value, navigation_map.lon.value))
     }
 
     menuBar: CustomMenuBar {
@@ -83,6 +95,7 @@ ApplicationWindow {
                 spacing: 10
                 EnginePanel {
                     id: engine_panel
+                    //color: "aliceblue"
                     Layout.fillWidth: true
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
@@ -90,20 +103,82 @@ ApplicationWindow {
                     enabled: data_model.data_source.is_connected
                     opacity: data_model.data_source.is_connected? 1 : 0.3
                     //enabled: true
-                    }
-                ForceSliderPanel {
-                    id: force_slider_panel
+                }
+//                RowLayout{
+//                    //TODO move inside the homing panel. Or create ad hoc container for all panels!
+//                    Layout.alignment: Qt.AlignTop
+//                    Layout.fillWidth: true
+//                    //spacing: 100
+
+//                    Text {
+//                        id: text_id
+//                        Layout.alignment: Qt.AlignLeft
+//                        Layout.leftMargin: 4
+//                        text: "HOMING"
+//                        font.family: "Helvetica"
+//                        font.pointSize: 14
+//                        font.bold: true
+//                        enabled: data_model.data_source.is_connected
+//                        opacity: data_model.data_source.is_connected? 1 : 0.3
+
+//                    }
+//                    Rectangle{
+//                        Layout.fillWidth: true
+//                    }
+//                }
+                HomingPanel{
+                    id: homing_panel
+                    //color: "aliceblue"
                     Layout.fillWidth: true
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
-                    clip: true
-                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
-                    //enabled: data_model.data_source.is_connected
-                    opacity: 0.3
-                    enabled: false
-
+                    enabled: data_model.data_source.is_connected
+                    opacity: data_model.data_source.is_connected? 1 : 0.3
                 }
-                BathymetryPanel{
+                ThrustMappingPanel{
+                    id: rpm_alpha
+                    Layout.fillWidth: true
+                    Layout.rightMargin: 10
+                    Layout.alignment: Qt.AlignTop
+                    slider_width: 200
+                    title: "RPM_ALPHA"
+                    slider1_text: "N"; slider1_from: 0; slider1_to: 1800; slider1_mask: "0000";   slider1_ref: root.nRef
+                    slider2_text: "D"; slider2_from: -900; slider2_to: 900; slider2_mask: "#000"; slider2_ref: root.dnRef
+                    slider3_text: "Α"; slider3_from: -180; slider3_to: 180; slider3_mask: "#000"; slider3_ref: root.alphaRef
+                    clip: true
+                    panel_color: "white"
+                    enabled: data_model.data_source.is_connected
+                    opacity: data_model.data_source.is_connected? 1 : 0.3
+                    onValueChanged: root.publish_topic(root.rpmAlphaTn, value) //console.log(value)
+                }
+                ThrustMappingPanel{
+                    id: force_torque
+                    Layout.fillWidth: true
+                    Layout.rightMargin: 10
+                    Layout.alignment: Qt.AlignTop
+                    slider_width: 200
+                    title: "FORCE_TORQUE"
+                    slider1_text: "X"; slider1_from: -50; slider1_to: 50; slider1_mask: "#00"; slider1_ref: root.xRef
+                    slider2_text: "Y"; slider2_from: -50; slider2_to: 50; slider2_mask: "#00"; slider2_ref: root.yRef
+                    slider3_text: "N"; slider3_from: -50; slider3_to: 50; slider3_mask: "#00"; slider3_ref: root.nNRef
+                    clip: true
+                    panel_color: "white"
+                    enabled: data_model.data_source.is_connected
+                    opacity: data_model.data_source.is_connected? 1 : 0.3
+                    onValueChanged: root.publish_topic(root.forceTorqueTn, value)
+                }
+                //                ForceSliderPanel {
+                //                    id: force_slider_panel
+                //                    Layout.fillWidth: true
+                //                    Layout.rightMargin: 10
+                //                    Layout.alignment: Qt.AlignTop
+                //                    clip: true
+                //                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
+                //                    //enabled: data_model.data_source.is_connected
+                //                    opacity: 0.3
+                //                    enabled: false
+                //                }
+                BathymetryPanel {
                     id: bathymetry_panel
                     Layout.fillWidth: true
                     Layout.rightMargin: 10

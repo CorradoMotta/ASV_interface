@@ -61,7 +61,7 @@ IntVariable *MinionCommand::thrustMotorEnable()
     return &m_thrustMotorEnable;
 }
 
-DoubleVariable *MinionCommand::thrustMotorSetReference()
+NGC_variable *MinionCommand::thrustMotorSetReference()
 {
     return &m_thrustMotorSetReference;
 }
@@ -86,7 +86,7 @@ IntVariable *MinionCommand::azimuthGoHome()
     return &m_azimuthGoHome;
 }
 
-DoubleVariable *MinionCommand::azimuthMotorSetReference()
+NGC_variable *MinionCommand::azimuthMotorSetReference()
 {
     return &m_azimuthMotorSetReference;
 }
