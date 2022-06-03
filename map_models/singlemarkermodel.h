@@ -37,9 +37,7 @@ class SingleMarkerModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    enum Roles {
-        Coordinates
-    };
+
     enum markerRoles {
         CoordinateRole = Qt::UserRole +1,
         GroupRole
@@ -51,13 +49,16 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role) override;
     virtual Qt::ItemFlags flags(const QModelIndex &index) const override;
-    Q_INVOKABLE void insertCoordinate(QGeoCoordinate coordinate);
-    Q_INVOKABLE void removeCoordinate(int index);
+
+    void addMarker(SingleMarker* singleMarker);
+    Q_INVOKABLE void insertSingleMarker(QGeoCoordinate coordinate, int group=0);
+    Q_INVOKABLE void removeSingleMarker(int index);
+    Q_INVOKABLE void reset();
 
 public slots:
 
 private: //members
-    QVector<QGeoCoordinate> coords;
+    //QVector<QGeoCoordinate> coords;
     QList<SingleMarker*> m_marker;
     // QAbstractItemModel interface
 };

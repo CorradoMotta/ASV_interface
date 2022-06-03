@@ -109,11 +109,11 @@ Rectangle{
                 // TODO. I should use coordinate member of QuickMapItem element. It looks more accurate.
                 var crd = swamp_map.toCoordinate(Qt.point(mouseX, mouseY))
                 if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
-                    mivMarker.model.insertCoordinate(crd)
+                    mivMarker.model.insertSingleMarker(crd)
                 else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Rectangle)
                     console.log("Not implemented yet!")
                 else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
-                    mivLine.model.insertCoordinate(crd)
+                    mivLine.model.insertSingleMarker(crd)
                     mapPoly.addCoordinate(crd)
                     //console.log("new coordinates: Lon: " + crd.longitude  + " , Lat:" + crd.latitude)
                 }

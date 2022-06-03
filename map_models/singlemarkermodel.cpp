@@ -27,10 +27,6 @@ QVariant SingleMarkerModel::data(const QModelIndex &index, int role) const
 
 QHash<int, QByteArray> SingleMarkerModel::roleNames() const
 {
-//    static QHash<int, QByteArray> mapping {
-//        {Coordinates, "coordinate"}
-//    };
-//    return mapping;
 
     QHash<int, QByteArray> roles;
     roles[CoordinateRole] = "coordinate";
@@ -42,48 +38,32 @@ QHash<int, QByteArray> SingleMarkerModel::roleNames() const
 
 bool SingleMarkerModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    // TODO this is not working yet.
-    const QGeoCoordinate &coordinate = value.value<QGeoCoordinate>();
+    //const QGeoCoordinate &coordinate = value.value<QGeoCoordinate>();
+    SingleMarker *marker = m_marker[index.row()];
     bool somethingChanged = false;
 
-    if(role == Coordinates){
-        qDebug() << "replacing coordinates" << index.row() << ": " << coordinate.longitude() << " , " << coordinate.latitude();
-        coords.replace(index.row(), coordinate);
-        somethingChanged = true;
+    switch(role){
+    case CoordinateRole:{
+        if(marker->coordinate()!= value.value<QGeoCoordinate>()){
+            marker->setCoordinate(value.value<QGeoCoordinate>());
+            somethingChanged = true;
+        }
+    }
+        break;
+    case GroupRole:{
+        if(marker->group()!= value.toInt()){
+            marker->setGroup(value.toDouble());
+            somethingChanged = true;
+        }
+    }
+        break;
     }
 
-    if(somethingChanged)
+    if(somethingChanged){
+        emit dataChanged(index,index,QVector<int>()<<role);
         return true;
+    }
     return false;
-
-//    SingleMarker *marker = m_marker[index.row()];
-//    bool somethingChanged = false;
-
-//    switch(role){
-//    case ColorHueRole:
-//    {
-//        if(depth_point->colorHue()!= value.toDouble()){
-//            depth_point->setColorHue(value.toDouble());
-//            somethingChanged = true;
-//        }
-//    }
-//        break;
-//    case DepthRole:
-//    {
-//        if(depth_point->depth()!= value.toDouble()){
-//            depth_point->setDepth(value.toDouble());
-//            somethingChanged = true;
-//        }
-
-//    }
-//        break;
-//    }
-//    if(somethingChanged){
-//        emit dataChanged(index,index,QVector<int>()<<role);
-//        return true;
-//    }
-//    return false;
-
 
 }
 
@@ -94,17 +74,35 @@ Qt::ItemFlags SingleMarkerModel::flags(const QModelIndex &index) const
     return Qt::ItemIsEditable;
 }
 
-void SingleMarkerModel::insertCoordinate(QGeoCoordinate coordinate){
-    const int index = coords.size();
-    beginInsertRows(QModelIndex(), index, index);
-    coords.insert(index, coordinate);
+void SingleMarkerModel::addMarker(SingleMarker *singleMarker)
+{
+    const int index = m_marker.size();
+    beginInsertRows(QModelIndex(),index,index);
+    m_marker.append(singleMarker);
     endInsertRows();
+//    for (int var = 0; var < m_marker.size(); ++var) {
+//        qDebug() << m_marker[var]->coordinate();
+//    }
 }
 
-void SingleMarkerModel::removeCoordinate(int index)
+void SingleMarkerModel::insertSingleMarker(QGeoCoordinate coordinate, int group)
+{
+    // TODO group is not used yet.
+    SingleMarker *singleMarker = new SingleMarker(coordinate, group);
+    addMarker(singleMarker);
+}
+
+void SingleMarkerModel::removeSingleMarker(int index)
 {
     beginRemoveRows(QModelIndex(),index,index);
-    coords.removeAt(index);
+    m_marker.removeAt(index);
+    endRemoveRows();
+}
+
+void SingleMarkerModel::reset()
+{
+    beginRemoveRows(QModelIndex(), 0 , m_marker.size()-1);
+    m_marker.clear();
     endRemoveRows();
 }
 
