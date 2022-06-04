@@ -9,9 +9,9 @@ MapQuickItem {
     anchorPoint.y: image_marker.height * 0.5
     sourceItem: Image {
         id: image_marker
-        source: "../../Images/circle.png"
-        sourceSize.width: 12
-        sourceSize.height: 12
+        source: "../../Images/circle_dot.png"
+        sourceSize.width: 8
+        sourceSize.height: 8
     }
     MouseArea{
         id: mqi_line_mouse_area

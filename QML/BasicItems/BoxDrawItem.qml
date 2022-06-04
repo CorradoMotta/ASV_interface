@@ -3,6 +3,7 @@
 import QtQuick 2.0
 import "../Panels"
 import QtQuick.Layouts 1.15
+import QtQuick.Dialogs 1.0
 
 Item {
     id: boxRectangle
@@ -15,14 +16,14 @@ Item {
     RowLayout{
         anchors.fill: parent
         layoutDirection : Qt.RightToLeft
-        spacing: 3
+        spacing: -8
 
         Image {
             id: image_box_rectangle
             visible: true
             sourceSize.width: 70
             sourceSize.height: 70
-            opacity: boxRectangle.isActive?  1 : 0.65
+            //opacity: boxRectangle.isActive?  1 : 0.65
             scale: mouseArea_rect.containsMouse ? 1.0 : 0.8
 
             MouseArea {
@@ -48,7 +49,7 @@ Item {
             visible: boxRectangle.isActive? true: false
             sourceSize.width: 70
             sourceSize.height: 70
-            source: image_box_rectangle.source
+            source: "../../Images/remove_box_on.png"
             scale: mouseArea_rect_remove.containsMouse ? 1.0 : 0.8
 
             MouseArea {
@@ -63,7 +64,7 @@ Item {
             visible: boxRectangle.isActive? true: false
             sourceSize.width: 70
             sourceSize.height: 70
-            source: image_box_rectangle.source
+            source: "../../Images/send_box_on.png"
             scale: mouseArea_rect_send.containsMouse ? 1.0 : 0.8
 
             MouseArea {
@@ -72,6 +73,31 @@ Item {
                 hoverEnabled: true
                 onClicked: console.log("not implemented yet")
             }
+        }
+        Image {
+            id: image_box_import
+            visible: boxRectangle.isActive? true: false
+            sourceSize.width: 70
+            sourceSize.height: 70
+            source: "../../Images/upload_box_on.png"
+            scale: mouseArea_rect_import.containsMouse ? 1.0 : 0.8
+
+            MouseArea {
+                id: mouseArea_rect_import
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked: fileDialog.open()
+            }
+        }
+    }
+
+    FileDialog {
+        id: fileDialog
+        title: "Please choose a file"
+        folder: shortcuts.home
+        onAccepted: {
+            var message = navigation_map.uploadFile(fileDialog.fileUrl)
+            root.messagePrompt(message)
         }
     }
 }

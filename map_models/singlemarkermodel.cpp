@@ -80,9 +80,9 @@ void SingleMarkerModel::addMarker(SingleMarker *singleMarker)
     beginInsertRows(QModelIndex(),index,index);
     m_marker.append(singleMarker);
     endInsertRows();
-//    for (int var = 0; var < m_marker.size(); ++var) {
-//        qDebug() << m_marker[var]->coordinate();
-//    }
+    //    for (int var = 0; var < m_marker.size(); ++var) {
+    //        qDebug() << m_marker[var]->coordinate();
+    //    }
 }
 
 void SingleMarkerModel::insertSingleMarker(QGeoCoordinate coordinate, int group)
@@ -104,6 +104,41 @@ void SingleMarkerModel::reset()
     beginRemoveRows(QModelIndex(), 0 , m_marker.size()-1);
     m_marker.clear();
     endRemoveRows();
+}
+
+QString SingleMarkerModel::readDataFromFile(QString filename)
+{
+
+    QFileInfo info(filename);
+    QString ext= info.suffix();
+    if(QString::compare(ext, "gpx", Qt::CaseInsensitive)!=0)
+        return "File extension should be gpx, not: " + ext;
+
+    QUrl url(filename);
+
+    QFile file(url.toLocalFile());
+
+    if (!file.open(QIODevice::ReadOnly)){
+        return "Failed to open file: " + file.fileName() + ". Error: " + file.errorString();
+    }
+
+    QXmlStreamReader inputStream(&file);
+    while (!inputStream.atEnd() && !inputStream.hasError())
+    {
+        inputStream.readNext();
+        if (inputStream.isStartElement()) {
+            QString name = inputStream.name().toString();
+            if (name == "trkpt")
+                insertSingleMarker(QGeoCoordinate(inputStream.attributes().value("lat").toFloat(), inputStream.attributes().value("lon").toFloat()));
+        }
+    }
+
+    return "All values imported!";
+}
+
+QGeoCoordinate SingleMarkerModel::getCoordinate(int index)
+{
+    return m_marker[index]->coordinate();
 }
 
 SingleMarker::SingleMarker(QObject *parent)

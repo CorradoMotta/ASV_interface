@@ -4,6 +4,10 @@
 #include <QObject>
 #include <QAbstractListModel>
 #include <QGeoCoordinate>
+#include <QFile>
+#include <QFileInfo>
+#include <QXmlStreamReader>
+#include <QUrl>
 
 class SingleMarker : public QObject
 {
@@ -54,6 +58,8 @@ public:
     Q_INVOKABLE void insertSingleMarker(QGeoCoordinate coordinate, int group=0);
     Q_INVOKABLE void removeSingleMarker(int index);
     Q_INVOKABLE void reset();
+    Q_INVOKABLE QString readDataFromFile(QString filename);
+    Q_INVOKABLE QGeoCoordinate getCoordinate (int index);
 
 public slots:
 

@@ -260,5 +260,15 @@ Rectangle{
             }
         }
     }
+    function uploadFile(fileName){
+        if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
+            return mivMarker.model.readDataFromFile(fileName)
+        else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
+            var msg = mivLine.model.readDataFromFile(fileName)
+            for (var i = 0; i < mivLine.model.rowCount(); i++)
+                mapPoly.addCoordinate(mivLine.model.getCoordinate(i))
+            return msg
+        }
+    }
 
 }

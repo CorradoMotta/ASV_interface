@@ -21,6 +21,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QApplication app(argc, argv);
+    app.setOrganizationName("CNR");
+    app.setOrganizationDomain("CNR_HCI");
 
 #ifdef Q_OS_WIN
     QString extraImportPath(QStringLiteral("%1/../../../../%2"));
