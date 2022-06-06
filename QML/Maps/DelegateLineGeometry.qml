@@ -1,3 +1,13 @@
+/*************************************************************************
+ *
+ * Delegate for the line model-view implemented in the navigation map.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtPositioning 5.15
 import QtLocation 5.15
@@ -9,9 +19,9 @@ MapQuickItem {
     anchorPoint.y: image_marker.height * 0.5
     sourceItem: Image {
         id: image_marker
-        source: "../../Images/circle.png"
-        sourceSize.width: 12
-        sourceSize.height: 12
+        source: "../../Images/circle_dot.png"
+        sourceSize.width: 10
+        sourceSize.height: 10
     }
     MouseArea{
         id: mqi_line_mouse_area
@@ -19,15 +29,15 @@ MapQuickItem {
         enabled: is_enable
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         drag.target: mqi_line_circle
-//        drag.onActiveChanged:{
-//            if(drag.active === false){
-//                // TODO not implemented yet
-//                console.log("released!")
-//                }
-//        }
+        drag.onActiveChanged:{
+            if(drag.active === false){
+                // in this way it is only called when the mouse is released
+                model.coordinate = mqi_line_circle.coordinate
+            }
+        }
         onClicked: if (mouse.button === Qt.RightButton){
                        mapPoly.removeCoordinate(index)
-                       _line_model.removeCoordinate(index)
+                       _line_model.removeSingleMarker(index)
                    }
         onPositionChanged: mapPoly.replaceCoordinate(index, mqi_line_circle.coordinate)
     }

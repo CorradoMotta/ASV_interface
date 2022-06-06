@@ -1,3 +1,14 @@
+/*************************************************************************
+ *
+ * This class describes a single depth point. Such object is used by the
+ * bathymetrymodel to show a dynamically configurable bathymetry.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 #ifndef DEPTH_POINT_H
 #define DEPTH_POINT_H
 
@@ -22,7 +33,6 @@ public:
     void setColorHue(double newColorHue);
     double depth() const;
     void setDepth(double newDepth);
-
     double timestamp() const;
     void setTimestamp(double newTimestamp);
 

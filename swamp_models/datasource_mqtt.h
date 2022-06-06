@@ -5,6 +5,10 @@
  * DataSource classes that are fetching our data from different sources
  * (which can be a mqtt connection, a UDP or TCP socket, a file etc.
  *
+ * Author: Corrado Motta
+ * Date: 05/2022
+ * Mail: corradomotta92@gmail.com
+ *
  *************************************************************************/
 
 #ifndef DataSource_MQTT_H

@@ -74,5 +74,15 @@
         <file>QML/BasicItems/BasicSliderWithRef.qml</file>
         <file>QML/BasicItems/MinionStateRow.qml</file>
         <file>QML/Panels/HomingPanel.qml</file>
+        <file>Images/line_box_on.png</file>
+        <file>Images/marker_box_on.png</file>
+        <file>Images/Rectangle_box_on.png</file>
+        <file>Images/remove_box_off.png</file>
+        <file>Images/remove_box_on.png</file>
+        <file>Images/send_box_off.png</file>
+        <file>Images/send_box_on.png</file>
+        <file>Images/upload_box_off.png</file>
+        <file>Images/upload_box_on.png</file>
+        <file>Images/circle_dot.png</file>
     </qresource>
 </RCC>

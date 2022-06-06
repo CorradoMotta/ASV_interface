@@ -1,7 +1,18 @@
-// item that stores the boxes used to draw points, lines etc. on the map.
+/*************************************************************************
+ *
+ * Row sets of buttons with icon used by the BoxDrawPanel.
+ *
+ * Author: Corrado Motta
+ * Date: 06/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
 
 import QtQuick 2.0
 import "../Panels"
+import QtQuick.Layouts 1.15
+import QtQuick.Dialogs 1.0
+
 Item {
     id: boxRectangle
     property bool isActive: false
@@ -10,31 +21,91 @@ Item {
     property alias pre_heigth: image_box_rectangle.implicitHeight
     property alias source: image_box_rectangle.source
 
-    Image {
-        id: image_box_rectangle
-        visible: true
-        sourceSize.width: 70
-        sourceSize.height: 70
-        opacity: boxRectangle.isActive?  1 : 0.65
-        scale: mouseArea_rect.containsMouse ? 1.0 : 0.8
+    RowLayout{
+        anchors.fill: parent
+        layoutDirection : Qt.RightToLeft
+        spacing: -8
 
-        MouseArea {
-            id: mouseArea_rect
-            anchors.fill: parent
-            //anchors.margins: parent
-            hoverEnabled: true
+        Image {
+            id: image_box_rectangle
+            visible: true
+            sourceSize.width: 70
+            sourceSize.height: 70
+            //opacity: boxRectangle.isActive?  1 : 0.65
+            scale: mouseArea_rect.containsMouse ? 1.0 : 0.8
 
-            onClicked: {
-                if(!boxRectangle.isImplemented) messagePrompt("This functionality is not implemented yet.")
-                else{
-                    if (!boxRectangle.isActive) {
-                        if(box_draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.None)
-                            boxRectangle.isActive = true
-                    } else
-                        boxRectangle.isActive = false
+            MouseArea {
+                id: mouseArea_rect
+                anchors.fill: parent
+                hoverEnabled: true
+
+                onClicked: {
+                    if(!boxRectangle.isImplemented) messagePrompt("This functionality is not implemented yet.")
+
+                    else{
+                        if (!boxRectangle.isActive) {
+                            if(box_draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.None)
+                                boxRectangle.isActive = true
+                        } else
+                            boxRectangle.isActive = false
+                    }
                 }
             }
         }
+        Image {
+            id: image_box_remove
+            visible: boxRectangle.isActive? true: false
+            sourceSize.width: 70
+            sourceSize.height: 70
+            source: "../../Images/remove_box_on.png"
+            scale: mouseArea_rect_remove.containsMouse ? 1.0 : 0.8
+
+            MouseArea {
+                id: mouseArea_rect_remove
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked:navigation_map.resetMarker()
+            }
+        }
+        Image {
+            id: image_box_send
+            visible: boxRectangle.isActive? true: false
+            sourceSize.width: 70
+            sourceSize.height: 70
+            source: "../../Images/send_box_on.png"
+            scale: mouseArea_rect_send.containsMouse ? 1.0 : 0.8
+
+            MouseArea {
+                id: mouseArea_rect_send
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked: console.log("not implemented yet")
+            }
+        }
+        Image {
+            id: image_box_import
+            visible: boxRectangle.isActive? true: false
+            sourceSize.width: 70
+            sourceSize.height: 70
+            source: "../../Images/upload_box_on.png"
+            scale: mouseArea_rect_import.containsMouse ? 1.0 : 0.8
+
+            MouseArea {
+                id: mouseArea_rect_import
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked: fileDialog.open()
+            }
+        }
+    }
+
+    FileDialog {
+        id: fileDialog
+        title: "Please choose a file"
+        folder: shortcuts.home
+        onAccepted: {
+            var message = navigation_map.uploadFile(fileDialog.fileUrl)
+            root.messagePrompt(message)
+        }
     }
 }
-

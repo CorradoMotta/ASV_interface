@@ -1,3 +1,15 @@
+/*************************************************************************
+ *
+ * Main map element. It contains the map and everything that is included
+ * within the map. It also contains three model-view-delegate patterns.
+ * One for markers, one for lines and one for the bathymetry model.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.15
 import QtPositioning 5.15
 import QtLocation 5.15
@@ -25,12 +37,13 @@ Rectangle{
     property alias mapTypes: swamp_map.supportedMapTypes
     property alias mapName: swamp_map.plugin.name
     property alias zoomLevel: swamp_map.zoomLevel
+    //property int resetValue: false
 
     onLatValueChanged: lon.value !==0 ? root.startUp = false: ""
     onLonValueChanged: lat.value !==0 ? root.startUp = false: ""
     onMax_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
     onMin_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
-
+    //onResetValueChanged: {}
     Rectangle{
         id: status_bar
         anchors{
@@ -109,11 +122,11 @@ Rectangle{
                 // TODO. I should use coordinate member of QuickMapItem element. It looks more accurate.
                 var crd = swamp_map.toCoordinate(Qt.point(mouseX, mouseY))
                 if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
-                    mivMarker.model.insertCoordinate(crd)
+                    mivMarker.model.insertSingleMarker(crd)
                 else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Rectangle)
                     console.log("Not implemented yet!")
                 else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
-                    mivLine.model.insertCoordinate(crd)
+                    mivLine.model.insertSingleMarker(crd)
                     mapPoly.addCoordinate(crd)
                     //console.log("new coordinates: Lon: " + crd.longitude  + " , Lat:" + crd.latitude)
                 }
@@ -247,4 +260,27 @@ Rectangle{
     function set_center(centerCor){
         swamp_map.center = centerCor
     }
+
+    function resetMarker(){
+        if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
+            mivMarker.model.reset()
+        else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line) {
+            mivLine.model.reset()
+            var n = mapPoly.pathLength()
+            for (var i = 0; i < n; i++)  {
+                mapPoly.removeCoordinate(0)
+            }
+        }
+    }
+    function uploadFile(fileName){
+        if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
+            return mivMarker.model.readDataFromFile(fileName)
+        else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
+            var msg = mivLine.model.readDataFromFile(fileName)
+            for (var i = 0; i < mivLine.model.rowCount(); i++)
+                mapPoly.addCoordinate(mivLine.model.getCoordinate(i))
+            return msg
+        }
+    }
+
 }

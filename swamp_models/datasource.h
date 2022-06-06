@@ -1,6 +1,13 @@
-/*
- * This is the base (virtual) class of dataSource, which enables dynamic network binding.
- */
+/*************************************************************************
+ *
+ * Base (virtual) class of dataSource, which enables dynamic network binding.
+ *
+ * Author: Corrado Motta
+ * Date: 05/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 
 #ifndef DATASOURCE_H
 #define DATASOURCE_H

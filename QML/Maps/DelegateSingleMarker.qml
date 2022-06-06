@@ -1,3 +1,14 @@
+/*************************************************************************
+ *
+ * Delegate for the single marker model-view implemented in the
+ * navigation map.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtPositioning 5.15
 import QtLocation 5.15
@@ -19,17 +30,13 @@ MapQuickItem {
         enabled: is_enable
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         drag.target: mqi_marker
-        //        drag.onActiveChanged:{
-        //            if(drag.active === false){
-        //                // TODO not implemented yet!
-        //                //console.log("released!")
-        //                // use coordinate member of MapQuickItem element
-        //                //console.log("new coordinates: Lon: " + mqi_marker.coordinate.longitude  + " , Lat:" + mqi_marker.coordinate.latitude + " , Index:" +index)
-        //                }
-        //        }
-
+        drag.onActiveChanged:{
+            if(drag.active === false){
+                // in this way it is only called when the mouse is released
+                model.coordinate = mqi_marker.coordinate
+            }
+        }
         onClicked: if (mouse.button === Qt.RightButton)
-                       _marker_model.removeCoordinate(index)
-
+                       _marker_model.removeSingleMarker(index)
     }
 }

@@ -1,3 +1,13 @@
+/*************************************************************************
+ *
+ * Delegate for the bathymetry model-view implemented in the navigation map.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtPositioning 5.15
 import QtLocation 5.15

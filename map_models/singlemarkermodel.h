@@ -1,10 +1,29 @@
+/*************************************************************************
+ *
+ * Abstract List model for points and lines drawn on the map. This model
+ * allows to store coordinates (as part of the SingleMarker class), to
+ * upload an existing dataset into the map (in the GPX format),
+ * to remove or modify any stored coordinate and to send them to the
+ * vehicle (TODO: not active yet).
+ *
+ * Author: Corrado Motta
+ * Date: 06/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 #ifndef SINGLEMARKERMODEL_H
 #define SINGLEMARKERMODEL_H
 
 #include <QObject>
 #include <QAbstractListModel>
 #include <QGeoCoordinate>
+#include <QFile>
+#include <QFileInfo>
+#include <QXmlStreamReader>
+#include <QUrl>
 
+// Class that contains information of a single point/marker
 class SingleMarker : public QObject
 {
     Q_OBJECT
@@ -32,14 +51,13 @@ private:
     int m_group;
 };
 
+// Abstract Interface Model
 class SingleMarkerModel : public QAbstractListModel
 {
     Q_OBJECT
 
 public:
-    enum Roles {
-        Coordinates
-    };
+
     enum markerRoles {
         CoordinateRole = Qt::UserRole +1,
         GroupRole
@@ -51,15 +69,56 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role) override;
     virtual Qt::ItemFlags flags(const QModelIndex &index) const override;
-    Q_INVOKABLE void insertCoordinate(QGeoCoordinate coordinate);
-    Q_INVOKABLE void removeCoordinate(int index);
+
+    /**
+     * Add a new marker to the model list.
+     *
+     * @param Pointer to a single marker object.
+     */
+    void addMarker(SingleMarker* singleMarker);
+
+    /**
+     * Allows to insert a new single marker. This method internally creates a singleMarker objects and
+     * adds it to the list using the addMarker method.
+     *
+     * @param The geographical coordinates of the point.
+     * @param The group which it belongs to. Not used yet. Default value is 0.
+     */
+    Q_INVOKABLE void insertSingleMarker(QGeoCoordinate coordinate, int group=0);
+
+    /**
+     * Remove a specific marker from the list.
+     *
+     * @param The index of the marker to remove.
+     */
+    Q_INVOKABLE void removeSingleMarker(int index);
+
+    /**
+     * Empties the list.
+     */
+    Q_INVOKABLE void reset();
+
+    /**
+     * Allows to import data from file. This method only works if the dataset list is empty and with GPX
+     * format.
+     *
+     * @param Full path + filename of the file to be imported.
+     * @return A string with a message to be displayed on the interface.
+     */
+    Q_INVOKABLE QString readDataFromFile(QString filename);
+
+    /**
+     * Returns the coordinate at a specific index.
+     *
+     * @param Full path + filename of the file to be imported.
+     * @return A string with a message to be displayed on the interface.
+     */
+    Q_INVOKABLE QGeoCoordinate getCoordinate (int index);
 
 public slots:
 
 private: //members
-    QVector<QGeoCoordinate> coords;
     QList<SingleMarker*> m_marker;
-    // QAbstractItemModel interface
 };
 
 #endif // SINGLEMARKERMODEL_H

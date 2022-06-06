@@ -21,7 +21,6 @@ SOURCES += \
         main.cpp \
         map_models/bathymetrymodel.cpp \
         map_models/depth_point.cpp \
-        map_models/geometry.cpp \
         map_models/singlemarkermodel.cpp \
         swamp_models/datasource_mqtt.cpp \
         swamp_models/datasource_udp.cpp \
@@ -60,7 +59,6 @@ HEADERS += \
     data/variable.h \
     map_models/bathymetrymodel.h \
     map_models/depth_point.h \
-    map_models/geometry.h \
     map_models/singlemarkermodel.h \
     swamp_models/datasource.h \
     swamp_models/datasource_mqtt.h \
