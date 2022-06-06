@@ -1,6 +1,10 @@
 /*************************************************************************
  *
- * This class contains all different Swamp modules.
+ * This class contains all Swamp modules.
+ *
+ * Author: Corrado Motta
+ * Date: 05/2022
+ * Mail: corradomotta92@gmail.com
  *
  *************************************************************************/
 

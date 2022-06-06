@@ -108,6 +108,7 @@ void SingleMarkerModel::reset()
 
 QString SingleMarkerModel::readDataFromFile(QString filename)
 {
+    if( m_marker.size()!=0) return "Please remove all existing points before uploading";
 
     QFileInfo info(filename);
     QString ext= info.suffix();

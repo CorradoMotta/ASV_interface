@@ -9,6 +9,10 @@
  * (such as SwampStatus). Such data are accessible through the Q_INVOKABLE
  * method getData()
  *
+ * Author: Corrado Motta
+ * Date: 05/2022
+ * Mail: corradomotta92@gmail.com
+ *
  *************************************************************************/
 
 #ifndef SWAMPMODEL_H
@@ -27,6 +31,12 @@ public:
     explicit SwampModel(QObject *parent = nullptr);
 
     DataSource *data_source() const;
+
+    /**
+     * Allows to set a new data source.
+     *
+     * @param pointer to a DataSource object.
+     */
     void set_data_source(DataSource *newData_source);
 
 signals:

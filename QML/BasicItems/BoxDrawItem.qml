@@ -1,4 +1,12 @@
-// item that stores the boxes used to draw points, lines etc. on the map.
+/*************************************************************************
+ *
+ * Row sets of buttons with icon used by the BoxDrawPanel.
+ *
+ * Author: Corrado Motta
+ * Date: 06/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
 
 import QtQuick 2.0
 import "../Panels"

@@ -1,3 +1,16 @@
+/*************************************************************************
+ *
+ * Panel elements to interact with marker and lines on the map.
+ * It allows to add and remove elements, upload from GPX files and send
+ * them to the vehicle.
+ *
+ *
+ * Author: Corrado Motta
+ * Date: 06/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtQuick.Layouts 1.15
 import "../BasicItems"

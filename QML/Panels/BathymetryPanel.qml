@@ -1,3 +1,14 @@
+/*************************************************************************
+ *
+ * Panel elements to interact with the dynamic bathymetry model.
+ * It allows to stop and play, remove all depth points or save them to disk.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15

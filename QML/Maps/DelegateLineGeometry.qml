@@ -1,3 +1,13 @@
+/*************************************************************************
+ *
+ * Delegate for the line model-view implemented in the navigation map.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtPositioning 5.15
 import QtLocation 5.15
@@ -10,8 +20,8 @@ MapQuickItem {
     sourceItem: Image {
         id: image_marker
         source: "../../Images/circle_dot.png"
-        sourceSize.width: 8
-        sourceSize.height: 8
+        sourceSize.width: 10
+        sourceSize.height: 10
     }
     MouseArea{
         id: mqi_line_mouse_area
