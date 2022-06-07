@@ -186,6 +186,6 @@ When clicked, other boxes will appear with a white color. Then it is possible to
 
 ![image](https://user-images.githubusercontent.com/12608893/172140412-d71aac75-2e89-4392-87cd-08282b382c8f.png)
 
-It is also possible to **upload** points or transepts from a file. The only supported format is **gpx** which is available from the QGIS export options. Click on the upload icon on the bottom right. You will be able to select the file from the file system and the points will be imported.
+It is also possible to **upload** points or transepts from a file. The only supported format is **gpx** which is the [standard XML format](https://www.topografix.com/gpx.asp) for exchanging GPS data between applications. It is available as an export option from QGIS. Click on the upload icon on the bottom right. You will be able to select the file from the file system and the points will be imported.
 
 **Note:** This is the very first version and it allows to have only **one** set of markers or one transepts at a time. So multiple separate dataset cannot be imported or drawn at the same time.
