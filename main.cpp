@@ -15,6 +15,36 @@
 #include "swamp_models/swampmodel.h"
 #include "swamp_models/datasource_udp.h"
 
+#include <QPalette>
+#include <QJoysticks.h>
+#include <QStyleFactory>
+
+#ifdef Q_OS_WIN
+#   ifdef main
+#      undef main
+#   endif
+#endif
+
+void configureDarkStyle()
+{
+   qApp->setStyle(QStyleFactory::create("Fusion"));
+   QPalette darkPalette;
+   darkPalette.setColor(QPalette::BrightText, Qt::red);
+   darkPalette.setColor(QPalette::WindowText, Qt::white);
+   darkPalette.setColor(QPalette::ToolTipBase, Qt::white);
+   darkPalette.setColor(QPalette::ToolTipText, Qt::white);
+   darkPalette.setColor(QPalette::Text, Qt::white);
+   darkPalette.setColor(QPalette::ButtonText, Qt::white);
+   darkPalette.setColor(QPalette::HighlightedText, Qt::black);
+   darkPalette.setColor(QPalette::Window, QColor(53, 53, 53));
+   darkPalette.setColor(QPalette::Base, QColor(25, 25, 25));
+   darkPalette.setColor(QPalette::AlternateBase, QColor(53, 53, 53));
+   darkPalette.setColor(QPalette::Button, QColor(53, 53, 53));
+   darkPalette.setColor(QPalette::Link, QColor(42, 130, 218));
+   darkPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
+   qApp->setPalette(darkPalette);
+}
+
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -29,6 +59,17 @@ int main(int argc, char *argv[])
 #else
     QString extraImportPath(QStringLiteral("%1/../../../%2"));
 #endif
+
+    configureDarkStyle();
+    QJoysticks *instance = QJoysticks::getInstance();
+    instance->setVirtualJoystickRange(1);
+    instance->setVirtualJoystickEnabled(true);
+    instance->setVirtualJoystickAxisSensibility(0.7);
+    /*
+     * Register the QJoysticks with the QML engine, so that the QML interface
+     * can easilly use it.
+     */
+
 
     qDebug() << "Network binding:" << argv[1];
     QString networkBinding = "empty";
@@ -67,6 +108,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty(QStringLiteral("_bathymetry_model"), &bath_model);
     engine.rootContext()->setContextProperty(QStringLiteral("_line_model"), &line_model);
     engine.rootContext()->setContextProperty(QStringLiteral("data_model"), &data_model);
+    engine.rootContext()->setContextProperty("QJoysticks", instance);
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {

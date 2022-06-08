@@ -95,3 +95,5 @@ DISTFILES += \
     conf/topics_minion.cfg \
     conf/topics_proteus.cfg \
     conf/udp_address.cfg
+
+include (../QJoysticks/QJoysticks.pri)

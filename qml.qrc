@@ -84,5 +84,6 @@
         <file>Images/upload_box_off.png</file>
         <file>Images/upload_box_on.png</file>
         <file>Images/circle_dot.png</file>
+        <file>QML/main_old.qml</file>
     </qresource>
 </RCC>
