@@ -7,6 +7,8 @@ Rectangle{
     id : rpm_panel
 
     property string value : ""
+    property alias xvalue : fu.value
+    property alias yvalue: fv.value
     property alias title : text_id.text
     property alias slider1_text : fu.slider_text
     property alias slider2_text : fv.slider_text
@@ -30,7 +32,7 @@ Rectangle{
 
     ColumnLayout {
         id: cl
-        spacing: 4
+        spacing: 0
         anchors.fill: parent
 
         RowLayout{

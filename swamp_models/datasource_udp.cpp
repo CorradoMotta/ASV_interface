@@ -323,7 +323,8 @@ bool DataSourceUdp::set_cfg(QString filename)
     m_swamp_status.ngc_status()->sway()->act()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_SWAY));
     m_swamp_status.ngc_status()->yaw()->act()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_YAW));
     m_swamp_status.ngc_status()->heading()->act()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_HEADING));
-    m_swamp_status.ngc_status()->setLog()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_LOG));
+    m_swamp_status.ngc_status()->setLog()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::LOG_RESTART));
+    m_swamp_status.ngc_status()->setRobotHome()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_HOME));
 
     return true;
 }

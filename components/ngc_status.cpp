@@ -350,3 +350,8 @@ IntVariable *NGC_status::setLog()
 {
 return &m_setLog;
 }
+
+IntVariable *NGC_status::setRobotHome()
+{
+    return &m_setRobotHome;
+}

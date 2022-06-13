@@ -39,15 +39,19 @@ public:
         SET_FORCE_TORQUE, // par: double X [N], Y [N], N [N*m]
         SET_SURGE, // par: double uRef [m/s]
         SET_SWAY, // par: double vRef [m/s]
-        SET_YAW, // par: double rRef [deg/s]
-        SET_HEADING, // par: double psiRef [deg]
-        SET_LAT_LON, // par: double latRef [deg.mmmmmmmm], double lonRef [deg.mmmmmmmm]
-        SET_XY, // par: double xRef [m], double yRef [m]
+        SET_YAW, // par: double rRef [deg/s], X [N], Y [N]
+        SET_HEADING, // par: double psiRef [deg], X [N], Y [N]
+        SET_LAT_LON, // par: double latRef [deg.mmmmmmmm], double lonRef [deg.mmmmmmmm], X [N]
+        SET_XY, // par: double xRef [m], double yRef [m], X [N]
         SET_LINE_LAT_LON, // par: double latLref [deg.mmmmmmmm], double lonLRef [deg.mmmmmmmm], double gammaLref [deg]
         SET_LINE_XY, // par: double xLref [m], double yLonLRef [m], double gammaLref [deg]
         // the following commands MUST be used only when TM_DISABLE_MODE
         MINION_CMD, // par: uint8 minionId, <MinionNgcCmd> as specified in "MinionNgcInterface.h"
-        SET_LOG,
+        LOG_RESTART,
+        // commands to set NGC parameters
+        SET_YAW_GS_PAR, // par: double sigma, omega, maxNoise [deg/s], satTorque [N]
+        SET_HEADING_PI_PAR, // par: double g, kI, ySat [deg/s], eISat [deg], eIon [deg], eIoff [deg]
+        SET_HOME, // par: none, the command set as home location the current location of the robot
         CMD_NUMBER
     };
 

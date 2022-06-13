@@ -76,6 +76,9 @@ class NGC_status : public QObject
     Q_PROPERTY(IntVariable* refWorking_mode READ refWorking_mode NOTIFY refWorking_modeChanged)
     Q_PROPERTY(DoubleVariable* thetaIMU READ thetaIMU NOTIFY thetaIMUChanged)
 
+    //TODO MOVE INTO APPROPRIATE CLASS
+    Q_PROPERTY(IntVariable* setRobotHome READ setRobotHome NOTIFY setRobotHomeChanged)
+
 public:
     explicit NGC_status(QObject *parent = nullptr);
 
@@ -141,6 +144,8 @@ public:
     DoubleVariable* thetaIMU();
     IntVariable *setLog();
 
+    IntVariable* setRobotHome();
+
 signals:
 
     void psiChanged();
@@ -204,6 +209,7 @@ signals:
     void refWorking_modeChanged();
     void thetaIMUChanged();
     void setLogChanged();
+    void setRobotHomeChanged();
 
 private:
 
@@ -268,6 +274,8 @@ private:
     IntVariable m_refWorking_mode;
     DoubleVariable m_thetaIMU;
     IntVariable m_setLog;
+
+    IntVariable m_setRobotHome;
 };
 
 #endif // NGC_STATUS_H

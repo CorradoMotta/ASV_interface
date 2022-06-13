@@ -43,6 +43,9 @@ Rectangle{
     onLonValueChanged: lat.value !==0 ? root.startUp = false: ""
     onMax_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
     onMin_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
+
+    readonly property string set_robot_home_tn: data_model.data_source.swamp_status.ngc_status.setRobotHome.topic_name //TODO FIX
+    readonly property var publish_topic: data_model.data_source.publishMessage //todo repetition
     //onResetValueChanged: {}
     Rectangle{
         id: status_bar
@@ -60,7 +63,6 @@ Rectangle{
             spacing: 80
             anchors.centerIn: parent
             //anchors.rightMargin: 10
-
 
             MinionStateRow{
                 id: minion_fl
@@ -238,7 +240,53 @@ Rectangle{
         BoxDrawPanel{
             id: draw_panel
         }
+        // TODO move it into element
+        Rectangle{
+            id: set_robot_home
+            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+            anchors.leftMargin: 20
+            anchors.bottomMargin: 68
 
+            Rectangle{
+                id: info_label_set_home
+                z: 5
+                anchors.bottom: set_robot_home.top
+                anchors.bottomMargin:-(info_label_text_set_home.height/3)
+                anchors.left: set_robot_home.left
+                width: info_label_text_set_home.implicitWidth + 6
+                height: info_label_text_set_home.implicitHeight + 6
+                color: "white"
+                border.color: "black"
+                visible: mouseArea_rect.containsMouse ? true : false
+
+                Text{
+                    id: info_label_text_set_home
+                    text: "set robot home"
+                    anchors.horizontalCenter: info_label_set_home.horizontalCenter
+                    anchors.verticalCenter: info_label_set_home.verticalCenter
+                    font.pointSize: 10
+                }
+            }
+
+
+            Image {
+                id: set_robot_home_image
+                visible: true
+                sourceSize.width: 50
+                sourceSize.height: 50
+                //opacity: boxRectangle.isActive?  1 : 0.65
+                source: "../../Images/home-button.png"
+                scale: mouseArea_rect.containsMouse ? 1.0 : 0.8
+
+                MouseArea {
+                    id: mouseArea_rect
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: publish_topic(set_robot_home_tn, 1)
+                }
+            }
+        }
 
     }
     function setActiveMap(index) {
