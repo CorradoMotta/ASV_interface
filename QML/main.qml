@@ -117,8 +117,10 @@ ApplicationWindow {
                             target: QJoysticks
                             function onAxisChanged(js, axis, value) {
                                 if (currentJoystick === js && index === axis){
-                                    progressbar.value = QJoysticks.getAxis (js, index) * 100
-                                    console.log("js " + js + " - axis: " + axis + " - value" + progressbar.value + " - calculated " + QJoysticks.getAxis (js, index) * 100)
+                                    var curr_value = QJoysticks.getAxis (js, index) * 100
+                                    progressbar.value = curr_value
+                                    if(Math.abs(curr_value) > 5)
+                                    console.log("js " + js + " - axis: " + axis + " - value" + progressbar.value + " - var: "+ curr_value + " - calculated " + QJoysticks.getAxis (js, index) * 100)
                                 }
                             }
                         }
