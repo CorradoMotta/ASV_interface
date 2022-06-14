@@ -14,6 +14,7 @@ BasicMinionPanelContainer{
     color: "whitesmoke"
     property int blockSize: 12
     property var prefix: data_model.data_source.swamp_status.ngc_status
+    property alias xValue : control_panel.xValue
     readonly property string ngcEnableTn: prefix.ngcEnable.act.topic_name
     readonly property string rpmAlphaTn: prefix.rpmAlpha.topic_name
     readonly property string forceTorqueTn: prefix.forceTorque.topic_name
@@ -87,6 +88,8 @@ BasicMinionPanelContainer{
     readonly property real asvRefnFR :prefix.asvRefnFR.value // n[FR]
     readonly property real asvRefnRR :prefix.asvRefnRR.value // n[RR]
     readonly property real asvRefnRL :prefix.asvRefnRL.value // n[RL]
+
+
 
     //border.color: "transparent"
     RowLayout{

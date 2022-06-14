@@ -79,7 +79,10 @@ Item {
                 id: mouseArea_rect_send
                 anchors.fill: parent
                 hoverEnabled: true
-                onClicked: console.log("not implemented yet")
+                onClicked: {
+                    var message = navigation_map.send_point()
+                    root.messagePrompt(message)
+                }
             }
         }
         Image {

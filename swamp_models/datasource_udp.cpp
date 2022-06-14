@@ -69,7 +69,7 @@ void DataSourceUdp::publishMessage(const QString &identifier, const QString &mes
     QString value = identifier + " " + message + "\r\n";
     qDebug() << "sending : " << value;
     //qDebug() << m_NGCAddr.ip_addr << m_NGCAddr.port_addr;
-    m_udpSocket->writeDatagram(value.toUtf8(), m_NGCAddr.ip_addr, m_NGCAddr.port_addr);
+    //m_udpSocket->writeDatagram(value.toUtf8(), m_NGCAddr.ip_addr, m_NGCAddr.port_addr);
 }
 
 void DataSourceUdp::handleNgcPacket(QTextStream &in)
@@ -324,7 +324,14 @@ bool DataSourceUdp::set_cfg(QString filename)
     m_swamp_status.ngc_status()->yaw()->act()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_YAW));
     m_swamp_status.ngc_status()->heading()->act()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::SET_HEADING));
     m_swamp_status.ngc_status()->setLog()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::LOG_RESTART));
+
     m_swamp_status.ngc_status()->setRobotHome()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_HOME));
+    m_swamp_status.ngc_status()->setLatLon()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_LAT_LON));
+    m_swamp_status.ngc_status()->setXY()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_XY));
+    m_swamp_status.ngc_status()->setLineLatLon()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_LINE_LAT_LON));
+    m_swamp_status.ngc_status()->setXYLine()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_LINE_XY));
+    m_swamp_status.ngc_status()->setYawGSPar()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_YAW_GS_PAR));
+    m_swamp_status.ngc_status()->setHeadingPiPar()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_HEADING_PI_PAR));
 
     return true;
 }

@@ -19,14 +19,11 @@ class NGC_status : public QObject
     Q_PROPERTY(IntVariable* thrustMappingManualMode READ thrustMappingManualMode NOTIFY thrustMappingManualModeChanged)
     Q_PROPERTY(IntVariable* thrustMappingAutoMode READ thrustMappingAutoMode NOTIFY thrustMappingAutoModeChanged)
 
-
-
     Q_PROPERTY(NGC_variable* surge READ surge NOTIFY surgeChanged)
     Q_PROPERTY(NGC_variable* sway READ sway NOTIFY swayChanged)
     Q_PROPERTY(NGC_variable* yaw READ yaw NOTIFY yawChanged)
     Q_PROPERTY(NGC_variable* heading READ heading NOTIFY headingChanged)
     Q_PROPERTY(IntVariable* setLog READ setLog NOTIFY setLogChanged)
-
 
     // TODO remake them in an appropriate way!
     Q_PROPERTY(IntVariable* rpmAlpha READ rpmAlpha NOTIFY rpmAlphaChanged)
@@ -76,8 +73,14 @@ class NGC_status : public QObject
     Q_PROPERTY(IntVariable* refWorking_mode READ refWorking_mode NOTIFY refWorking_modeChanged)
     Q_PROPERTY(DoubleVariable* thetaIMU READ thetaIMU NOTIFY thetaIMUChanged)
 
-    //TODO MOVE INTO APPROPRIATE CLASS
+    // TODO MOVE INTO APPROPRIATE CLASS
     Q_PROPERTY(IntVariable* setRobotHome READ setRobotHome NOTIFY setRobotHomeChanged)
+    Q_PROPERTY(DoubleVariable* setLatLon READ setLatLon NOTIFY setLatLonChanged)
+    Q_PROPERTY(DoubleVariable* setXY READ setXY NOTIFY setXYChanged)
+    Q_PROPERTY(DoubleVariable* setLineLatLon READ setLineLatLon NOTIFY setLineLatLonChanged)
+    Q_PROPERTY(DoubleVariable* setXYLine READ setXYLine NOTIFY setXYLineChanged)
+    Q_PROPERTY(DoubleVariable* setYawGSPar READ setYawGSPar NOTIFY setYawGSParChanged)
+    Q_PROPERTY(DoubleVariable* setHeadingPiPar READ setHeadingPiPar NOTIFY setHeadingPiParChanged)
 
 public:
     explicit NGC_status(QObject *parent = nullptr);
@@ -145,6 +148,12 @@ public:
     IntVariable *setLog();
 
     IntVariable* setRobotHome();
+    DoubleVariable* setLatLon();
+    DoubleVariable* setXY();
+    DoubleVariable* setLineLatLon();
+    DoubleVariable* setXYLine();
+    DoubleVariable* setYawGSPar();
+    DoubleVariable* setHeadingPiPar();
 
 signals:
 
@@ -210,6 +219,13 @@ signals:
     void thetaIMUChanged();
     void setLogChanged();
     void setRobotHomeChanged();
+    void setLatLonChanged();
+
+    void setXYChanged();
+    void setLineLatLonChanged();
+    void setXYLineChanged();
+    void setYawGSParChanged();
+    void setHeadingPiParChanged();
 
 private:
 
@@ -276,6 +292,12 @@ private:
     IntVariable m_setLog;
 
     IntVariable m_setRobotHome;
+    DoubleVariable m_setLatLon;
+    DoubleVariable m_setXY;
+    DoubleVariable m_setLineLatLon;
+    DoubleVariable m_setXYLine;
+    DoubleVariable m_setYawGSPar;
+    DoubleVariable m_setHeadingPiPar;
 };
 
 #endif // NGC_STATUS_H

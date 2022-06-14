@@ -18,6 +18,7 @@ Rectangle{
     readonly property real swayRef : prefix.sway.ref.value
     readonly property real yawRef : prefix.yaw.ref.value
     readonly property real headingRef : prefix.heading.ref.value
+    property alias xValue : x.value
 
     Layout.preferredHeight: cl.implicitHeight
     height: cl.implicitHeight

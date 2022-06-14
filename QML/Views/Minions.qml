@@ -19,6 +19,7 @@ Item {
     property alias minimum_height: minion_fl.minimumYDim
     property alias bathymetryPoint : btChr.newPoint
     property alias bathymetryReset: btChr.reset
+    property alias xValue: ngc.xValue
     //property alias maxDepth: btChr.yMAX
 
     Page{

@@ -9,6 +9,9 @@ MenuBar {
     readonly property string gc_working_mode_tn: data_model.data_source.swamp_status.ngc_status.gcWorkingMode.topic_name
     readonly property string thrust_mapping_manual_mode: data_model.data_source.swamp_status.ngc_status.thrustMappingManualMode.topic_name
     readonly property string thrust_mapping_auto_mode: data_model.data_source.swamp_status.ngc_status.thrustMappingAutoMode.topic_name
+
+
+
     readonly property var publish_topic: data_model.data_source.publishMessage
 
     ActionGroup {
@@ -71,69 +74,225 @@ MenuBar {
         Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("HOV_MODE"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_HOV_MODE): ""}
         Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("FRWD_THRUST_ALL"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_FRWD_THRUST_ALL): ""}
         Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("FRWD_AZIMUTH_ALL"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_FRWD_AZIMUTH_ALL): ""}
-//        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("FRWD_AZIMUTH_BOW"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_FRWD_AZIMUTH_BOW): ""}
-//        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("FRWD_AZIMUTH_STERN"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_FRWD_AZIMUTH_STERN): ""}
-//        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("BCKWD_THRUST_ALL"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_BCKWD_THRUST_ALL): ""}
-//        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("BCKWD_AZIMUTH_ALL"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_BCKWD_AZIMUTH_ALL): ""}
-//        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("BCKWD_AZIMUTH_BOW"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_BCKWD_AZIMUTH_BOW): ""}
-//        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("BCKWD_AZIMUTH_STERN"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_BCKWD_AZIMUTH_STERN): ""}
+        //        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("FRWD_AZIMUTH_BOW"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_FRWD_AZIMUTH_BOW): ""}
+        //        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("FRWD_AZIMUTH_STERN"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_FRWD_AZIMUTH_STERN): ""}
+        //        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("BCKWD_THRUST_ALL"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_BCKWD_THRUST_ALL): ""}
+        //        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("BCKWD_AZIMUTH_ALL"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_BCKWD_AZIMUTH_ALL): ""}
+        //        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("BCKWD_AZIMUTH_BOW"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_BCKWD_AZIMUTH_BOW): ""}
+        //        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("BCKWD_AZIMUTH_STERN"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_BCKWD_AZIMUTH_STERN): ""}
     }
+    // TODO MAKE ELEMENTS
     Menu {
         title: qsTr("&SetPosition")
         Rectangle{
             width: 200
-            height: 300
+            height: position_column.implicitHeight + 40
             color: "white"
             border.color: "black"
-            border.width: 1
-            GridLayout{
-                columns: 2
-                id: grid
-                //spacing: 2
-                //width: parent.width/2
+            //border.width:
+            ColumnLayout{
+                id: position_column
                 anchors.fill: parent
-                Rectangle{
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
+                anchors.leftMargin: 6
+                Button {
+                    id: control
+                    Layout.alignment: Qt.AlignTop
+                    Layout.topMargin: 6
+                    onClicked: console.log("todo")//publish_topic(setLogTn, 1)
+                    contentItem: Text {
+                        id: testo
+                        text: "SET POINT"
+                        font.family: "Helvetica"
+                        font.pointSize: 10
+                        anchors.horizontalCenter: background_b.horizontalCenter
+                        //verticalAlignment: background_b.AlignVCenter
+                    }
+                    background: Rectangle{
+                        id: background_b
+                        height: testo.implicitHeight + 10
+                        width: testo.implicitWidth + 10
+                        color: control.down? "peachpuff" : "papayawhip"
+                        border.width: 1
+                        border.color: "black"
+                        radius: 3
+                    }
+                }
+//                Text {
+//                    id: set_point
+//                    Layout.alignment: Qt.AlignTop
+//                    text: qsTr("SET POINT")
+//                    font.family: "Helvetica"
+//                    font.pointSize: 10
+//                    font.bold: true
+//                }
+                RowLayout{
+                    Layout.alignment: Qt.AlignTop
+
+                    // Layout.fillWidth: true
                     BasicTextInputInverted {
-                        anchors.centerIn: parent
+                        //anchors.centerIn: parent
                         id: text1
                         title_text:  qsTr("SET X")
                         titleSize: 10
                         value_width: 50
                     }
-                }
-                Rectangle{
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    BasicTextOutputInverted {
-                        id: text2
-                        anchors.centerIn: parent
-                        title_text: qsTr("REF X")
-                        titleSize: 10
-                        value_width: 50
+                    Rectangle{
+                        id: slider_text_output
+                        Layout.preferredWidth: text1.value_width
+                        Layout.preferredHeight: text1.implicitHeight
+                        Layout.alignment: Qt.AlignRight
+                        Layout.rightMargin: 10
+                        clip: true
+                        color: "whitesmoke"
+                        border.color: "black"
+                        Text{
+                            id: slider_out_value_id
+                            anchors.fill: parent
+                            anchors.margins: 4
+                            font.family: "Helvetica"
+                            font.pointSize: 16
+                        }
                     }
                 }
-                Rectangle{
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
+                RowLayout{
+                    Layout.alignment: Qt.AlignTop
+
+                    // Layout.fillWidth: true
                     BasicTextInputInverted {
-                        id: text3
-                        anchors.centerIn: parent
-                        title_text: qsTr("REF X")
+                        //anchors.centerIn: parent
+                        id: texty
+                        title_text:  qsTr("SET Y")
                         titleSize: 10
                         value_width: 50
                     }
+                    Rectangle{
+                        id: slider_text_output_y
+                        Layout.preferredWidth: texty.value_width
+                        Layout.preferredHeight: texty.implicitHeight
+                        Layout.alignment: Qt.AlignRight
+                        Layout.rightMargin: 10
+                        clip: true
+                        color: "whitesmoke"
+                        border.color: "black"
+                        Text{
+                            id: slider_out_value_id_y
+                            anchors.fill: parent
+                            anchors.margins: 4
+                            font.family: "Helvetica"
+                            font.pointSize: 16
+                        }
+                    }
                 }
-                Rectangle{
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    BasicTextOutputInverted {
-                        id: text4
-                        anchors.centerIn: parent
-                        title_text: qsTr("REF Y")
+
+                // set line
+                Button {
+                    id: control_line
+                    Layout.alignment: Qt.AlignTop
+                    Layout.topMargin: 6
+                    onClicked: console.log("todo")//publish_topic(setLogTn, 1)
+                    contentItem: Text {
+                        id: testo_line
+                        text: "SET LINE"
+                        font.family: "Helvetica"
+                        font.pointSize: 10
+                        anchors.horizontalCenter: background_line.horizontalCenter
+                        //verticalAlignment: background_b.AlignVCenter
+                    }
+                    background: Rectangle{
+                        id: background_line
+                        height: testo_line.implicitHeight + 10
+                        width: testo_line.implicitWidth + 10
+                        color: control_line.down? "peachpuff" : "papayawhip"
+                        border.width: 1
+                        border.color: "black"
+                        radius: 3
+                    }
+                }
+                RowLayout{
+                    Layout.alignment: Qt.AlignTop
+
+                    // Layout.fillWidth: true
+                    BasicTextInputInverted {
+                        //anchors.centerIn: parent
+                        id: textxline
+                        title_text:  qsTr("SET LINE X  ")
                         titleSize: 10
                         value_width: 50
+                    }
+                    Rectangle{
+                        id: slider_xline_output
+                        Layout.preferredWidth: textxline.value_width
+                        Layout.preferredHeight: textxline.implicitHeight
+                        Layout.alignment: Qt.AlignRight
+                        Layout.rightMargin: 10
+                        clip: true
+                        color: "whitesmoke"
+                        border.color: "black"
+                        Text{
+                            id: slider_xline_value_id
+                            anchors.fill: parent
+                            anchors.margins: 4
+                            font.family: "Helvetica"
+                            font.pointSize: 16
+                        }
+                    }
+                }
+                RowLayout{
+                    Layout.alignment: Qt.AlignTop
+
+                    // Layout.fillWidth: true
+                    BasicTextInputInverted {
+                        //anchors.centerIn: parent
+                        id: textliney
+                        title_text:  qsTr("SET LINE Y  ")
+                        titleSize: 10
+                        value_width: 50
+                    }
+                    Rectangle{
+                        id: slider_textline_output_y
+                        Layout.preferredWidth: textliney.value_width
+                        Layout.preferredHeight: textliney.implicitHeight
+                        Layout.alignment: Qt.AlignRight
+                        Layout.rightMargin: 10
+                        clip: true
+                        color: "whitesmoke"
+                        border.color: "black"
+                        Text{
+                            id: slider_outline_value_id_y
+                            anchors.fill: parent
+                            anchors.margins: 4
+                            font.family: "Helvetica"
+                            font.pointSize: 16
+                        }
+                    }
+                }
+                RowLayout{
+                    Layout.alignment: Qt.AlignTop
+
+                    // Layout.fillWidth: true
+                    BasicTextInputInverted {
+                        //anchors.centerIn: parent
+                        id: textlinegamma
+                        title_text:  qsTr("SET GAMMA")
+                        titleSize: 10
+                        value_width: 50
+                    }
+                    Rectangle{
+                        id: slider_textline_output_gamma
+                        Layout.preferredWidth: textlinegamma.value_width
+                        Layout.preferredHeight: textlinegamma.implicitHeight
+                        Layout.alignment: Qt.AlignRight
+                        Layout.rightMargin: 10
+                        clip: true
+                        color: "whitesmoke"
+                        border.color: "black"
+                        Text{
+                            id: slider_outline_value_id_gamma
+                            anchors.fill: parent
+                            anchors.margins: 4
+                            font.family: "Helvetica"
+                            font.pointSize: 16
+                        }
                     }
                 }
             }

@@ -355,3 +355,33 @@ IntVariable *NGC_status::setRobotHome()
 {
     return &m_setRobotHome;
 }
+
+DoubleVariable *NGC_status::setLatLon()
+{
+    return &m_setLatLon;
+}
+
+DoubleVariable *NGC_status::setXY()
+{
+    return &m_setXY;
+}
+
+DoubleVariable *NGC_status::setLineLatLon()
+{
+    return &m_setLineLatLon;
+}
+
+DoubleVariable *NGC_status::setXYLine()
+{
+    return &m_setXYLine;
+}
+
+DoubleVariable *NGC_status::setYawGSPar()
+{
+    return &m_setYawGSPar;
+}
+
+DoubleVariable *NGC_status::setHeadingPiPar()
+{
+    return &m_setHeadingPiPar;
+}

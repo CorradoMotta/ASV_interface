@@ -44,6 +44,8 @@ Rectangle{
     onMax_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
     onMin_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
 
+    readonly property string set_lat_lon_tn: data_model.data_source.swamp_status.ngc_status.setLatLon.topic_name //TODO FIX
+    readonly property string set_line_lat_lon: data_model.data_source.swamp_status.ngc_status.setLineLatLon.topic_name //TODO FIX
     readonly property string set_robot_home_tn: data_model.data_source.swamp_status.ngc_status.setRobotHome.topic_name //TODO FIX
     readonly property var publish_topic: data_model.data_source.publishMessage //todo repetition
     //onResetValueChanged: {}
@@ -248,26 +250,26 @@ Rectangle{
             anchors.leftMargin: 20
             anchors.bottomMargin: 68
 
-            Rectangle{
-                id: info_label_set_home
-                z: 5
-                anchors.bottom: set_robot_home.top
-                anchors.bottomMargin:-(info_label_text_set_home.height/3)
-                anchors.left: set_robot_home.left
-                width: info_label_text_set_home.implicitWidth + 6
-                height: info_label_text_set_home.implicitHeight + 6
-                color: "white"
-                border.color: "black"
-                visible: mouseArea_rect.containsMouse ? true : false
+            //            Rectangle{
+            //                id: info_label_set_home
+            //                z: 5
+            //                anchors.bottom: set_robot_home.top
+            //                anchors.bottomMargin:-(info_label_text_set_home.height/3)
+            //                anchors.left: set_robot_home.left
+            //                width: info_label_text_set_home.implicitWidth + 6
+            //                height: info_label_text_set_home.implicitHeight + 6
+            //                color: "white"
+            //                border.color: "black"
+            //                visible: mouseArea_rect.containsMouse ? true : false
 
-                Text{
-                    id: info_label_text_set_home
-                    text: "set robot home"
-                    anchors.horizontalCenter: info_label_set_home.horizontalCenter
-                    anchors.verticalCenter: info_label_set_home.verticalCenter
-                    font.pointSize: 10
-                }
-            }
+            //                Text{
+            //                    id: info_label_text_set_home
+            //                    text: "set robot home"
+            //                    anchors.horizontalCenter: info_label_set_home.horizontalCenter
+            //                    anchors.verticalCenter: info_label_set_home.verticalCenter
+            //                    font.pointSize: 10
+            //                }
+            //            }
 
 
             Image {
@@ -283,7 +285,11 @@ Rectangle{
                     id: mouseArea_rect
                     anchors.fill: parent
                     hoverEnabled: true
-                    onClicked: publish_topic(set_robot_home_tn, 1)
+                    onClicked:
+                    {
+                        publish_topic(set_robot_home_tn, 1)
+                        root.messagePrompt("Robot's home set in (" + latValue + " " + lonValue +")")
+                    }
                 }
             }
         }
@@ -330,5 +336,27 @@ Rectangle{
             return msg
         }
     }
-
+    function send_point(){
+        if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
+        {
+            if( mivMarker.model.rowCount()!==0){
+                // sending first marker only
+                var lat = mivMarker.model.getCoordinate(0).latitude
+                var lon = mivMarker.model.getCoordinate(0).longitude
+                // todo better way to concatenate (also a function)
+                publish_topic(set_lat_lon_tn, lat + " " + lon + " " + minion_view.xValue)
+                return "Sending point (" + lat +" "+ lon +") X = " + minion_view.xValue
+            }
+            else
+                return "No points available!"
+        }
+        else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
+            if(mivLine.model.rowCount()!==0){
+                publish_topic()
+                return "Not implemented yet"
+            }
+            else
+                return "No points available!"
+        }
+    }
 }
