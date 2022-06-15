@@ -32,6 +32,9 @@ ApplicationWindow {
     readonly property real xRef : prefix.asvRefXref.value
     readonly property real yRef : prefix.asvRefYref.value
     readonly property real nNRef : prefix.asvRefNref.value
+    readonly property real asvRefXhat : prefix.asvRefXhat.value
+    readonly property real asvRefYhat : prefix.asvRefYhat.value
+    readonly property real asvRefNhat : prefix.asvRefNhat.value
     readonly property string rpmAlphaTn: prefix.rpmAlpha.topic_name
     readonly property string forceTorqueTn: prefix.forceTorque.topic_name
     readonly property var publish_topic: data_model.data_source.publishMessage
@@ -87,7 +90,7 @@ ApplicationWindow {
         Rectangle {
             id: control_panel
             Layout.alignment: Qt.AlignTop
-            Layout.preferredWidth: 400
+            Layout.preferredWidth: 460
             Layout.preferredHeight: 800
             Layout.topMargin: 10
             ColumnLayout {
@@ -142,9 +145,9 @@ ApplicationWindow {
                     Layout.alignment: Qt.AlignTop
                     slider_width: 200
                     title: "RPM_ALPHA"
-                    slider1_text: "N"; slider1_from: 0; slider1_to: 1800; slider1_mask: "0000";   slider1_ref: root.nRef
-                    slider2_text: "D"; slider2_from: -900; slider2_to: 900; slider2_mask: "#000"; slider2_ref: root.dnRef
-                    slider3_text: "Α"; slider3_from: -180; slider3_to: 180; slider3_mask: "#000"; slider3_ref: root.alphaRef
+                    slider1_text: "N"; slider1_from: 0; slider1_to: 1800;      slider1_ref: root.nRef   //slider1_mask: "0000";
+                    slider2_text: "D"; slider2_from: -900; slider2_to: 900;  slider2_ref: root.dnRef    //slider2_mask: "#000";
+                    slider3_text: "Α"; slider3_from: -180; slider3_to: 180;  slider3_ref: root.alphaRef //slider3_mask: "#000";
                     clip: true
                     panel_color: "white"
                     enabled: data_model.data_source.is_connected
@@ -158,9 +161,9 @@ ApplicationWindow {
                     Layout.alignment: Qt.AlignTop
                     slider_width: 200
                     title: "FORCE_TORQUE"
-                    slider1_text: "X"; slider1_from: -50; slider1_to: 50; slider1_mask: "#00"; slider1_ref: root.xRef
-                    slider2_text: "Y"; slider2_from: -50; slider2_to: 50; slider2_mask: "#00"; slider2_ref: root.yRef
-                    slider3_text: "N"; slider3_from: -50; slider3_to: 50; slider3_mask: "#00"; slider3_ref: root.nNRef
+                    slider1_text: "X"; slider1_from: -50; slider1_to: 50;  slider1_ref: root.xRef  ; slider1_act: root.asvRefXhat //slider1_mask: "#00";
+                    slider2_text: "Y"; slider2_from: -50; slider2_to: 50;  slider2_ref: root.yRef  ; slider2_act: root.asvRefYhat //slider2_mask: "#00";
+                    slider3_text: "N"; slider3_from: -50; slider3_to: 50;  slider3_ref: root.nNRef ; slider3_act: root.asvRefNhat //slider3_mask: "#00";
                     clip: true
                     panel_color: "white"
                     enabled: data_model.data_source.is_connected

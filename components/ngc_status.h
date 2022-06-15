@@ -44,6 +44,13 @@ class NGC_status : public QObject
     Q_PROPERTY(DoubleVariable* asvRefXref READ asvRefXref NOTIFY asvRefXrefChanged)
     Q_PROPERTY(DoubleVariable* asvRefyRef READ asvRefyRef NOTIFY asvRefyRefChanged)
     Q_PROPERTY(DoubleVariable* asvRefYref READ asvRefYref NOTIFY asvRefYrefChanged)
+//    Xhat
+//    Yhat
+//    Nhat TODO make it ngc variable
+    Q_PROPERTY(DoubleVariable* asvRefXhat READ asvRefXhat NOTIFY asvRefXhatChanged)
+    Q_PROPERTY(DoubleVariable* asvRefYhat READ asvRefYhat NOTIFY asvRefYhatChanged)
+    Q_PROPERTY(DoubleVariable* asvRefNhat READ asvRefNhat NOTIFY asvRefNhatChanged)
+
     Q_PROPERTY(DoubleVariable* asvRefalphaRef READ asvRefalphaRef NOTIFY asvRefalphaRefChanged)
     Q_PROPERTY(DoubleVariable* asvRefazimuthFL READ asvRefazimuthFL NOTIFY asvRefazimuthFLChanged)
     Q_PROPERTY(DoubleVariable* asvRefazimuthFR READ asvRefazimuthFR NOTIFY asvRefazimuthFRChanged)
@@ -155,6 +162,10 @@ public:
     DoubleVariable* setYawGSPar();
     DoubleVariable* setHeadingPiPar();
 
+    DoubleVariable* asvRefXhat();
+    DoubleVariable* asvRefYhat();
+    DoubleVariable* asvRefNhat();
+
 signals:
 
     void psiChanged();
@@ -227,6 +238,10 @@ signals:
     void setYawGSParChanged();
     void setHeadingPiParChanged();
 
+    void asvRefXhatChanged();
+    void asvRefYhatChanged();
+    void asvRefNhatChanged();
+
 private:
 
     DoubleVariable m_psi;
@@ -298,6 +313,9 @@ private:
     DoubleVariable m_setXYLine;
     DoubleVariable m_setYawGSPar;
     DoubleVariable m_setHeadingPiPar;
+    DoubleVariable m_asvRefXhat;
+    DoubleVariable m_asvRefYhat;
+    DoubleVariable m_asvRefNhat;
 };
 
 #endif // NGC_STATUS_H

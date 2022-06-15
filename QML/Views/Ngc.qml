@@ -8,8 +8,10 @@ import "../Panels"
 BasicMinionPanelContainer{
     id : ngc_root
 
-    implicitHeight: Math.max(cmd_row.implicitHeight , cmd_row_2.implicitHeight) + title_height + 20
-    implicitWidth: cmd_row.implicitWidth + cmd_row_2.implicitWidth + bar.width + 200 // TODO WHY SO MUCH
+    implicitHeight: Math.max(cmd_row.implicitHeight , cmd_row_2.implicitHeight) + title_height
+    implicitWidth: cmd_row.implicitWidth + cmd_row_2.implicitWidth + bar.width + 250 // TODO WHY SO MUCH
+    property int minimumXDim : implicitWidth
+    property int minimumYDim: implicitHeight
     title: "NGC"
     color: "whitesmoke"
     property int blockSize: 12
@@ -69,6 +71,10 @@ BasicMinionPanelContainer{
     readonly property real xRef : prefix.asvRefXref.value
     readonly property real yRef : prefix.asvRefYref.value
     readonly property real nNRef : prefix.asvRefNref.value
+    readonly property real asvRefXhat : prefix.asvRefXhat.value
+    readonly property real asvRefYhat : prefix.asvRefYhat.value
+    readonly property real asvRefNhat : prefix.asvRefNhat.value
+
 
     // MODES
     readonly property int ngcEnableRef : prefix.ngcEnable.ref.value
@@ -159,9 +165,9 @@ BasicMinionPanelContainer{
                 Layout.rightMargin: 10
                 Layout.alignment: Qt.AlignTop
                 title: "RPM_ALPHA"
-                slider1_text: "N    "; slider1_from: 0; slider1_to: 1800; slider1_mask: "0000";   slider1_ref: ngc_root.nRef
-                slider2_text: "DN   "; slider2_from: -900; slider2_to: 900; slider2_mask: "#000"; slider2_ref: ngc_root.dnRef
-                slider3_text: "ALPHA"; slider3_from: -180; slider3_to: 180; slider3_mask: "#000"; slider3_ref: ngc_root.alphaRef
+                slider1_text: "N "; slider1_from: 0; slider1_to: 1800;      slider1_ref: ngc_root.nRef   //slider1_mask: "0000";
+                slider2_text: "DN"; slider2_from: -900; slider2_to: 900;  slider2_ref: ngc_root.dnRef    //slider2_mask: "#000";
+                slider3_text: "A "; slider3_from: -180; slider3_to: 180;  slider3_ref: ngc_root.alphaRef //slider3_mask: "#000";
                 clip: true
                 onValueChanged: ngc_root.publish_topic(ngc_root.rpmAlphaTn, value) //console.log(value)
             }
@@ -171,9 +177,9 @@ BasicMinionPanelContainer{
                 Layout.rightMargin: 10
                 Layout.alignment: Qt.AlignTop
                 title: "FORCE_TORQUE"
-                slider1_text: "X"; slider1_from: -50; slider1_to: 50; slider1_mask: "#00"; slider1_ref: ngc_root.xRef
-                slider2_text: "Y"; slider2_from: -50; slider2_to: 50; slider2_mask: "#00"; slider2_ref: ngc_root.yRef
-                slider3_text: "N"; slider3_from: -50; slider3_to: 50; slider3_mask: "#00"; slider3_ref: ngc_root.nNRef
+                slider1_text: "X"; slider1_from: -50.0; slider1_to: 50.0;  slider1_ref: ngc_root.xRef ; slider1_act: ngc_root.asvRefXhat //slider1_mask: "#00";
+                slider2_text: "Y"; slider2_from: -50.0; slider2_to: 50.0;  slider2_ref: ngc_root.yRef ; slider2_act: ngc_root.asvRefYhat //slider2_mask: "#00";
+                slider3_text: "N"; slider3_from: -50.0; slider3_to: 50.0;  slider3_ref: ngc_root.nNRef; slider3_act: ngc_root.asvRefNhat //slider3_mask: "#00";
                 clip: true
                 onValueChanged: ngc_root.publish_topic(ngc_root.forceTorqueTn, value)
             }

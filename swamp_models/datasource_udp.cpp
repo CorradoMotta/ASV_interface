@@ -14,7 +14,7 @@ DataSourceUdp::DataSourceUdp(QObject *parent)
       m_lastTime{0,0,0,0},
       m_oldTimeMs{0,0,0,0}
 { 
-    m_timer->start(250);
+    m_timer->start(250000);
 }
 
 void DataSourceUdp::update_ts_from_local(){
@@ -38,7 +38,7 @@ void DataSourceUdp::update_ts_from_local(){
             }
         }
         m_lastTime[var] ++;
-        //publishMessage(m_swamp_status.time_status()->hmi_timestamp()->topic_name(), QString::number(m_count_timer));
+        publishMessage(m_swamp_status.time_status()->hmi_timestamp()->topic_name(), QString::number(m_count_timer));
     }
 }
 
@@ -69,7 +69,7 @@ void DataSourceUdp::publishMessage(const QString &identifier, const QString &mes
     QString value = identifier + " " + message + "\r\n";
     qDebug() << "sending : " << value;
     //qDebug() << m_NGCAddr.ip_addr << m_NGCAddr.port_addr;
-    //m_udpSocket->writeDatagram(value.toUtf8(), m_NGCAddr.ip_addr, m_NGCAddr.port_addr);
+    m_udpSocket->writeDatagram(value.toUtf8(), m_NGCAddr.ip_addr, m_NGCAddr.port_addr);
 }
 
 void DataSourceUdp::handleNgcPacket(QTextStream &in)
@@ -109,6 +109,7 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefyRef()->setValue(doubleContainer); // yRef Set position
     in >> doubleContainer; m_swamp_status.ngc_status()->asvReflatRef()->setValue(doubleContainer); // latRef Set position in coordinates
     in >> doubleContainer; m_swamp_status.ngc_status()->asvReflonRef()->setValue(doubleContainer); // lonRef Set position in coordinates
+    in >> doubleContainer; m_swamp_status.ngc_status()->heading()->ref()->setValue(doubleContainer); // psiRef CONTROL
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefxLref()->setValue(doubleContainer); // xLref Set line
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefyLref()->setValue(doubleContainer); // yLref Set line
     in >> doubleContainer; m_swamp_status.ngc_status()->asvReflatLref()->setValue(doubleContainer); // latLref Set line in coordinates
@@ -119,15 +120,22 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
     in >> doubleContainer; m_swamp_status.ngc_status()->surge()->ref()->setValue(doubleContainer); // uRef CONTROL
     in >> doubleContainer; m_swamp_status.ngc_status()->sway()->ref()->setValue(doubleContainer); // vRef CONTROL
     in >> doubleContainer; m_swamp_status.ngc_status()->yaw()->ref()->setValue(doubleContainer); // rRef CONTROL
-    in >> doubleContainer; m_swamp_status.ngc_status()->heading()->ref()->setValue(doubleContainer); // psiRef CONTROL
+
 
     // ASVREF FORCE SURGE
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefXref()->setValue(doubleContainer); // XRef
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefYref()->setValue(doubleContainer); // YRef
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefNref()->setValue(doubleContainer); // Nref
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefXhat()->setValue(doubleContainer); //Xhat
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefYhat()->setValue(doubleContainer); //Yhat
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefNhat()->setValue(doubleContainer); //Nhat
+
+
+
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefnRef()->setValue(doubleContainer); // nRef
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefdnRef()->setValue(doubleContainer); // dnRef
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefalphaRef()->setValue(doubleContainer); // alphaRef
+
 
     // ASVREF Minion N and azimuth
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefnFL()->setValue(doubleContainer); // n[FL]

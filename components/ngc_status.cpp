@@ -49,6 +49,10 @@ NGC_status::NGC_status(QObject *parent)
     m_refManual_mode.setSubscribe(true);
     m_refWorking_mode.setSubscribe(true);
     m_thetaIMU.setSubscribe(true);
+    m_asvRefXhat.setSubscribe(true);
+    m_asvRefYhat.setSubscribe(true);
+    m_asvRefNhat.setSubscribe(true);
+
 }
 
 DoubleVariable *NGC_status::psi()
@@ -384,4 +388,19 @@ DoubleVariable *NGC_status::setYawGSPar()
 DoubleVariable *NGC_status::setHeadingPiPar()
 {
     return &m_setHeadingPiPar;
+}
+
+DoubleVariable *NGC_status::asvRefXhat()
+{
+    return &m_asvRefXhat;
+}
+
+DoubleVariable *NGC_status::asvRefYhat()
+{
+    return &m_asvRefYhat;
+}
+
+DoubleVariable *NGC_status::asvRefNhat()
+{
+    return &m_asvRefNhat;
 }

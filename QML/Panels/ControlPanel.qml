@@ -71,10 +71,10 @@ Rectangle{
                     Layout.fillWidth: true
                     slider_width : 260
                     slider_text: "X         "
-                    slider_from: 0
-                    slider_to: 100
+                    slider_from: -50
+                    slider_to: 50
                     ref_value: ngc_root.xRef
-                    mask_input: "#000"
+                   // mask_input: "#00"
                     //onValueChanged:  rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
                 }
                 BasicSliderWithRef {
@@ -83,9 +83,9 @@ Rectangle{
                     Layout.fillWidth: true
                     slider_width : 260
                     slider_text: "Y         "
-                    slider_from: 0
-                    slider_to: 100
-                    mask_input: "#000"
+                    slider_from: -50
+                    slider_to: 50
+                    //mask_input: "#00"
                     ref_value: ngc_root.yRef
                     //onValueChanged: rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
                 }
@@ -97,7 +97,7 @@ Rectangle{
                     slider_from: 0
                     slider_to: 100
                     slider_width : 260
-                    mask_input: "#000"
+                    //mask_input: "#000"
                     ref_value: surgeRef
                     onValueChanged: control_panel.publish_topic(control_panel.surgeTn, value)
                 }
@@ -109,7 +109,7 @@ Rectangle{
                     slider_from: 0
                     slider_to: 100
                     slider_width : 260
-                    mask_input: "#000"
+                   // mask_input: "#000"
                     ref_value: swayRef
                     onValueChanged: control_panel.publish_topic(control_panel.swayTn, value)
                 }
@@ -117,11 +117,11 @@ Rectangle{
 
                     id: yaw
                     Layout.fillWidth: true
-                    slider_from: 0
-                    slider_to: 100
+                    slider_from: -180
+                    slider_to: 180
                     slider_width : 260
                     slider_text: "YAW      "
-                    mask_input: "#000"
+                   // mask_input: "#000"
                     ref_value: yawRef
                     onValueChanged: control_panel.publish_topic(control_panel.yawTn, value + " " + x.value + " " + y.value)
                     //     rotation_value = value
@@ -131,11 +131,11 @@ Rectangle{
                 BasicSliderWithRef{
                     id: heading
                     Layout.fillWidth: true
-                    slider_from: 0
-                    slider_to: 100
+                    slider_from: -180
+                    slider_to: 180
                     slider_width : 260
                     slider_text: "HEADING"
-                    mask_input: "#000"
+                   // mask_input: "#000"
                     ref_value: headingRef
                     onValueChanged: control_panel.publish_topic(control_panel.headingTn, value + " " + x.value + " " + y.value)
                 }

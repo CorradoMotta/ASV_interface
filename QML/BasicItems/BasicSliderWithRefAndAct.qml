@@ -22,6 +22,7 @@ Item {
     property alias slider_to: control.to
     property alias mask_input: slider_value_id.inputMask
     property alias ref_value: slider_out_value_id.text
+    property alias act_value: slider_out_value_act.text
     property double value: 0.0
     property alias slider_width: rect.implicitWidth
 
@@ -98,7 +99,7 @@ Item {
                     font.family: "Helvetica"
                     font.pointSize: 16
                     focus: true
-                    text: control.onMoved ? Math.round(control.valueAt(control.position) * 100) / 100  : 0
+                    text: control.onMoved ? Math.round(control.valueAt(control.position) * 100) / 100 : 0
                     onEditingFinished: {
                         control.value = text * 1
                         slider_root.value = control.value
@@ -145,6 +146,25 @@ Item {
             radius: 3
             Text{
                 id: slider_out_value_id
+                anchors.fill: parent
+                anchors.margins: 4
+                font.family: "Helvetica"
+                font.pointSize: 16
+            }
+        }
+        Rectangle{
+            id: slider_text_output_act
+            Layout.preferredWidth: text_input_id.maxWidth
+            Layout.preferredHeight: slider_out_value_act.implicitHeight + 6
+            Layout.alignment: Qt.AlignRight
+            Layout.rightMargin: 10
+            clip: true
+            color: "papayawhip"
+            border.color: "black"
+            border.width: 2
+            radius: 3
+            Text{
+                id: slider_out_value_act
                 anchors.fill: parent
                 anchors.margins: 4
                 font.family: "Helvetica"
