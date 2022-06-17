@@ -17,12 +17,14 @@ Item {
     implicitHeight: slider_row.implicitHeight
     implicitWidth: slider_row.implicitWidth
 
-    property alias slider_text: slider_text_id.text
+    property alias slider_text: testo.text
     property alias slider_from: control.from
     property alias slider_to: control.to
     property alias mask_input: slider_value_id.inputMask
     property alias ref_value: slider_out_value_id.text
     property double value: 0.0
+    property alias clicked : control_button.down
+    property bool button_enabled : true
     property alias slider_width: rect.implicitWidth
 
     RowLayout {
@@ -30,12 +32,39 @@ Item {
         anchors.fill: parent
         spacing: 3
 
-        Text {
-            id: slider_text_id
+//        Text {
+//            id: slider_text_id
+//            Layout.alignment: Qt.AlignLeft
+//            font.family: "Helvetica"
+//            font.pointSize: 14
+//        }
+        //fix width
+        Button {
+            id: control_button
             Layout.alignment: Qt.AlignLeft
-            font.family: "Helvetica"
-            font.pointSize: 14
+            Layout.rightMargin: 10
+            Layout.topMargin: 4
+            width: 300
+            //onClicked: console.log(testo.implicitWidth)//publish_topic(setLogTn, 1)
+            contentItem: Text {
+                id: testo
+                font.family: "Helvetica"
+                font.pointSize: 14
+                anchors.horizontalCenter: background_b.horizontalCenter
+                //verticalAlignment: background_b.AlignVCenter
+            }
+            background: Rectangle{
+                id: background_b
+                height: testo.implicitHeight + 10
+                width: 84 // TODO should bne automatic
+                color: button_enabled? control_button.down? "peachpuff" : "papayawhip" : "papayawhip"
+                border.width: 1
+                border.color: "black"
+                enabled: button_enabled
+                radius: 6
+            }
         }
+
         Slider {
             id: control
             property bool __pressed: false
@@ -77,7 +106,7 @@ Item {
                 border.color: "#bdbebf"
             }
             snapMode: Slider.SnapOnRelease
-            onPressedChanged: pressed ? "" : slider_root.value = control.value
+            onPressedChanged: pressed ? "" : slider_root.value =  Math.round(control.value * 100) / 100
         }
         FocusScope {
             id: text_input_id

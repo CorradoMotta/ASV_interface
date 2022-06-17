@@ -9,6 +9,7 @@ Rectangle{
     property string value : ""
     property alias xvalue : fu.value
     property alias yvalue: fv.value
+
     property alias title : text_id.text
     property alias slider1_text : fu.slider_text
     property alias slider2_text : fv.slider_text
@@ -111,6 +112,7 @@ Rectangle{
                     slider_to: 100
                     //mask_input: "#000"
                     onValueChanged:  rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
+
                 }
                 BasicSliderWithRefAndAct {
 

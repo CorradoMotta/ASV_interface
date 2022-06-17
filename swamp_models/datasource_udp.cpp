@@ -14,7 +14,7 @@ DataSourceUdp::DataSourceUdp(QObject *parent)
       m_lastTime{0,0,0,0},
       m_oldTimeMs{0,0,0,0}
 { 
-    m_timer->start(250000);
+    m_timer->start(250);
 }
 
 void DataSourceUdp::update_ts_from_local(){
@@ -67,7 +67,7 @@ void DataSourceUdp::setConnection()
 void DataSourceUdp::publishMessage(const QString &identifier, const QString &message)
 {
     QString value = identifier + " " + message + "\r\n";
-    qDebug() << "sending : " << value;
+    if(identifier != m_swamp_status.time_status()->hmi_timestamp()->topic_name()) qDebug() << "sending : " << value;
     //qDebug() << m_NGCAddr.ip_addr << m_NGCAddr.port_addr;
     m_udpSocket->writeDatagram(value.toUtf8(), m_NGCAddr.ip_addr, m_NGCAddr.port_addr);
 }

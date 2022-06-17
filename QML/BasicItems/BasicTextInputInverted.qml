@@ -38,6 +38,7 @@ Item {
                 font.family: "Helvetica"
                 font.pointSize: 14
                 focus: true
+                text: new_text_value
                 onEditingFinished: new_text_value = text
             }
         }

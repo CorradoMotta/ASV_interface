@@ -24,6 +24,8 @@ Item {
     property alias ref_value: slider_out_value_id.text
     property alias act_value: slider_out_value_act.text
     property double value: 0.0
+//    property alias clicked : control_button.down
+//    property bool button_enabled : true
     property alias slider_width: rect.implicitWidth
 
     RowLayout {
@@ -37,6 +39,31 @@ Item {
             font.family: "Helvetica"
             font.pointSize: 14
         }
+//        Button {
+//            id: control_button
+//            Layout.alignment: Qt.AlignLeft
+//            Layout.rightMargin: 10
+//            Layout.topMargin: 4
+//            width: 300
+//            onClicked: console.log(testo.implicitWidth)//publish_topic(setLogTn, 1)
+//            contentItem: Text {
+//                id: testo
+//                font.family: "Helvetica"
+//                font.pointSize: 14
+//                anchors.horizontalCenter: background_b.horizontalCenter
+//                //verticalAlignment: background_b.AlignVCenter
+//            }
+//            background: Rectangle{
+//                id: background_b
+//                height: testo.implicitHeight + 10
+//                width: 30 // TODO should bne automatic
+//                color: button_enabled? control_button.down? "peachpuff" : "papayawhip" : "papayawhip"
+//                border.width: 1
+//                border.color: "black"
+//                enabled: button_enabled
+//                radius: 6
+//            }
+//        }
         Slider {
             id: control
             property bool __pressed: false
@@ -78,7 +105,7 @@ Item {
                 border.color: "#bdbebf"
             }
             snapMode: Slider.SnapOnRelease
-            onPressedChanged: pressed ? "" : slider_root.value = control.value
+            onPressedChanged: pressed ? "" : slider_root.value = Math.round(control.value * 100) / 100
         }
         FocusScope {
             id: text_input_id

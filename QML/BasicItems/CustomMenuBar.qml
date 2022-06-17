@@ -351,6 +351,7 @@ MenuBar {
                         id: sigma
                         title_text:  qsTr("SIGMA        ")
                         titleSize: 10
+                        new_text_value: "0.5"
                         value_width: 50
                     }
                     Rectangle{
@@ -380,6 +381,7 @@ MenuBar {
                         //anchors.centerIn: parent
                         id: omega
                         title_text:  qsTr("OMEGA       ")
+                        new_text_value: "0.05"
                         titleSize: 10
                         value_width: 50
                     }
@@ -409,6 +411,7 @@ MenuBar {
                         //anchors.centerIn: parent
                         id: textmaxNoise
                         title_text:  qsTr("MAX NOISE  ")
+                        new_text_value: "5"
                         titleSize: 10
                         value_width: 50
                     }
@@ -438,6 +441,7 @@ MenuBar {
                         //anchors.centerIn: parent
                         id: textsatTorque
                         title_text:  qsTr("SAT TORQUE")
+                        new_text_value: "10"
                         titleSize: 10
                         value_width: 50
                     }

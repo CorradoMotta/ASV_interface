@@ -69,6 +69,7 @@ Rectangle{
                 BasicSliderWithRef {
                     id: x
                     Layout.fillWidth: true
+                    button_enabled : false
                     slider_width : 260
                     slider_text: "X         "
                     slider_from: -50
@@ -81,6 +82,7 @@ Rectangle{
 
                     id: y
                     Layout.fillWidth: true
+                    button_enabled : false
                     slider_width : 260
                     slider_text: "Y         "
                     slider_from: -50
@@ -100,6 +102,7 @@ Rectangle{
                     //mask_input: "#000"
                     ref_value: surgeRef
                     onValueChanged: control_panel.publish_topic(control_panel.surgeTn, value)
+                    onClickedChanged: clicked ? control_panel.publish_topic(control_panel.surgeTn, value) : ""
                 }
                 BasicSliderWithRef {
 
@@ -112,6 +115,7 @@ Rectangle{
                    // mask_input: "#000"
                     ref_value: swayRef
                     onValueChanged: control_panel.publish_topic(control_panel.swayTn, value)
+                    onClickedChanged: clicked ? control_panel.publish_topic(control_panel.swayTn, value) : ""
                 }
                 BasicSliderWithRef {
 
@@ -124,6 +128,7 @@ Rectangle{
                    // mask_input: "#000"
                     ref_value: yawRef
                     onValueChanged: control_panel.publish_topic(control_panel.yawTn, value + " " + x.value + " " + y.value)
+                    onClickedChanged: clicked ? control_panel.publish_topic(control_panel.yawTn, value + " " + x.value + " " + y.value) : ""
                     //     rotation_value = value
                     //     data_model.data_source.publish_topicMessage(data_model.data_source.swamp_status.ngc_status.tr.ref.topic_name,value)
                     // }
@@ -138,6 +143,7 @@ Rectangle{
                    // mask_input: "#000"
                     ref_value: headingRef
                     onValueChanged: control_panel.publish_topic(control_panel.headingTn, value + " " + x.value + " " + y.value)
+                    onClickedChanged: clicked ? control_panel.publish_topic(control_panel.headingTn, value + " " + x.value + " " + y.value) : ""
                 }
             }
         }

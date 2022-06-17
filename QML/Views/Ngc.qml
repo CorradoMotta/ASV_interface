@@ -133,6 +133,7 @@ BasicMinionPanelContainer{
                 Rectangle{
                     Layout.fillWidth: true
                 }
+                // TODO make it standard
                 Button {
                     id: control
                     Layout.alignment: Qt.AlignRight
@@ -337,9 +338,10 @@ BasicMinionPanelContainer{
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
-                title_text: "azimuth[FR]"
-                value_text: ngc_root.asvRefazimuthFR
+                title_text: "azimuth[RL]"
+                value_text: ngc_root.asvRefazimuthRL
             }
+
 
             Text {
                 id: rpm_text_id
@@ -361,9 +363,10 @@ BasicMinionPanelContainer{
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
-                title_text: "n[FR]"
-                value_text: ngc_root.asvRefnFR
+                title_text: "n[RL]"
+                value_text: ngc_root.asvRefnRL
             }
+
 
         }
         ColumnLayout{
@@ -443,6 +446,7 @@ BasicMinionPanelContainer{
 //            }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
+
                 value_width: 120
                 Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize + 6
                 title_text: "EXE_WORK_M"
@@ -455,33 +459,34 @@ BasicMinionPanelContainer{
                 value_text: ngc_root.working_modeRef
             }
 
-
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 value_width: 120
                 Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize + 6
+                title_text: "azimuth[FR]"
+                value_text: ngc_root.asvRefazimuthFR
+            }
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                value_width: 120
+
                 title_text: "azimuth[RR]"
                 value_text: ngc_root.asvRefazimuthRR
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize + 6
                 value_width: 120
-                title_text: "azimuth[RL]"
-                value_text: ngc_root.asvRefazimuthRL
+                title_text: "n[FR]"
+                value_text: ngc_root.asvRefnFR
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 value_width: 120
-                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize + 6
                 title_text: "n[RR]"
                 value_text: ngc_root.asvRefnRR
             }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                value_width: 120
-                title_text: "n[RL]"
-                value_text: ngc_root.asvRefnRL
-            }
+
             // SET LINE and POSITION
             //            BasicTextOutput{
             //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
