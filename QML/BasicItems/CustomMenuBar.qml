@@ -13,7 +13,10 @@ MenuBar {
     readonly property string setXYLine_tn :  data_model.data_source.swamp_status.ngc_status.setXYLine.topic_name
     readonly property string setYawGSPar_tn :  data_model.data_source.swamp_status.ngc_status.setYawGSPar.topic_name
     readonly property string setHeadingPiPar_tn :  data_model.data_source.swamp_status.ngc_status.setHeadingPiPar.topic_name
+    readonly property real xRef : data_model.data_source.swamp_status.ngc_status.asvRefxRef.value
+    readonly property real yRef : data_model.data_source.swamp_status.ngc_status.asvRefyRef.value
     readonly property var publish_topic: data_model.data_source.publishMessage
+
 
     ActionGroup {
         id: working_modes
@@ -152,6 +155,7 @@ MenuBar {
                             id: slider_out_value_id
                             anchors.fill: parent
                             anchors.margins: 4
+                            text: xRef
                             font.family: "Helvetica"
                             font.pointSize: 16
                         }
@@ -181,6 +185,7 @@ MenuBar {
                             id: slider_out_value_id_y
                             anchors.fill: parent
                             anchors.margins: 4
+                            text: yRef
                             font.family: "Helvetica"
                             font.pointSize: 16
                         }
@@ -590,6 +595,7 @@ MenuBar {
                         title_text:  qsTr("SET eISat")
                         titleSize: 10
                         value_width: 50
+                        //titleWidth: 50
                     }
                     Rectangle{
                         id: slider_texteisat

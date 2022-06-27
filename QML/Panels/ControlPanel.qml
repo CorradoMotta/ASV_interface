@@ -96,7 +96,7 @@ Rectangle{
                     id: surge
                     Layout.fillWidth: true
                     slider_text: "SURGE   "
-                    slider_from: 0
+                    slider_from: -100
                     slider_to: 100
                     slider_width : 260
                     //mask_input: "#000"
@@ -109,7 +109,7 @@ Rectangle{
                     id: sway
                     Layout.fillWidth: true
                     slider_text: "SWAY    "
-                    slider_from: 0
+                    slider_from: -100
                     slider_to: 100
                     slider_width : 260
                    // mask_input: "#000"

@@ -22,6 +22,8 @@ Rectangle{
     property var lat: data_model.data_source.swamp_status.gps_ahrs_status.latitude
     property var lon: data_model.data_source.swamp_status.gps_ahrs_status.longitude
     property real altitude: data_model.data_source.swamp_status.ngc_status.altitude.value
+    property real homeLatRef: data_model.data_source.swamp_status.ngc_status.latHomeRef.value
+    property real homeLonRef: data_model.data_source.swamp_status.ngc_status.lonHomeRef.value
     property real latValue : lat.value
     property real lonValue: lon.value
     property real v_rotation : data_model.data_source.swamp_status.ngc_status.psi.value //convertToRadiant
@@ -43,6 +45,9 @@ Rectangle{
     onLonValueChanged: lat.value !==0 ? root.startUp = false: ""
     onMax_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
     onMin_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
+
+    onHomeLatRefChanged: homeLonRef != 0 ? root.messagePrompt("Robot's home set in (" + homeLatRef + " " + homeLonRef +")") : ""
+    onHomeLonRefChanged: homeLatRef != 0 ? root.messagePrompt("Robot's home set in (" + homeLatRef + " " + homeLonRef +")") : ""
 
     readonly property string set_lat_lon_tn: data_model.data_source.swamp_status.ngc_status.setLatLon.topic_name //TODO FIX
     readonly property string set_line_lat_lon: data_model.data_source.swamp_status.ngc_status.setLineLatLon.topic_name //TODO FIX
@@ -214,6 +219,21 @@ Rectangle{
         // END
         // --------------------------------------------------------
 
+        // SHOWS ROBOT'S HOME
+        MapQuickItem {
+            id: marker
+            coordinate: QtPositioning.coordinate(navigation_map.homeLatRef, navigation_map.homeLonRef)
+            anchorPoint.x: image.width/4
+            anchorPoint.y: image.height
+
+            sourceItem: Image {
+                id: image
+                source: "../../Images/Swamp_home.png"
+                sourceSize.width: 50
+                sourceSize.height: 50
+            }
+        }
+
         // model for lines
         MapPolyline {
             id: mapPoly
@@ -285,11 +305,7 @@ Rectangle{
                     id: mouseArea_rect
                     anchors.fill: parent
                     hoverEnabled: true
-                    onClicked:
-                    {
-                        publish_topic(set_robot_home_tn, 1)
-                        root.messagePrompt("Robot's home set in (" + latValue + " " + lonValue +")")
-                    }
+                    onClicked: publish_topic(set_robot_home_tn, 1)
                 }
             }
         }

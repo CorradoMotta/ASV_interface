@@ -88,6 +88,9 @@ class NGC_status : public QObject
     Q_PROPERTY(DoubleVariable* setXYLine READ setXYLine NOTIFY setXYLineChanged)
     Q_PROPERTY(DoubleVariable* setYawGSPar READ setYawGSPar NOTIFY setYawGSParChanged)
     Q_PROPERTY(DoubleVariable* setHeadingPiPar READ setHeadingPiPar NOTIFY setHeadingPiParChanged)
+    Q_PROPERTY(DoubleVariable* latHomeRef READ latHomeRef NOTIFY latHomeRefChanged)
+    Q_PROPERTY(DoubleVariable* lonHomeRef READ lonHomeRef NOTIFY lonHomeRefChanged)
+
 
 public:
     explicit NGC_status(QObject *parent = nullptr);
@@ -166,6 +169,10 @@ public:
     DoubleVariable* asvRefYhat();
     DoubleVariable* asvRefNhat();
 
+
+    DoubleVariable* latHomeRef();
+    DoubleVariable* lonHomeRef();
+
 signals:
 
     void psiChanged();
@@ -242,6 +249,9 @@ signals:
     void asvRefYhatChanged();
     void asvRefNhatChanged();
 
+    void latHomeRefChanged();
+    void lonHomeRefChanged();
+
 private:
 
     DoubleVariable m_psi;
@@ -316,6 +326,8 @@ private:
     DoubleVariable m_asvRefXhat;
     DoubleVariable m_asvRefYhat;
     DoubleVariable m_asvRefNhat;
+    DoubleVariable m_latHomeRef;
+    DoubleVariable m_lonHomeRef;
 };
 
 #endif // NGC_STATUS_H

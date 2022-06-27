@@ -52,6 +52,8 @@ NGC_status::NGC_status(QObject *parent)
     m_asvRefXhat.setSubscribe(true);
     m_asvRefYhat.setSubscribe(true);
     m_asvRefNhat.setSubscribe(true);
+    m_latHomeRef.setSubscribe(true);
+    m_lonHomeRef.setSubscribe(true);
 
 }
 
@@ -403,4 +405,14 @@ DoubleVariable *NGC_status::asvRefYhat()
 DoubleVariable *NGC_status::asvRefNhat()
 {
     return &m_asvRefNhat;
+}
+
+DoubleVariable *NGC_status::latHomeRef()
+{
+    return &m_latHomeRef;
+}
+
+DoubleVariable *NGC_status::lonHomeRef()
+{
+    return &m_lonHomeRef;
 }

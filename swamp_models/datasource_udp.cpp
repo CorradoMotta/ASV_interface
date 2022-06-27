@@ -14,7 +14,7 @@ DataSourceUdp::DataSourceUdp(QObject *parent)
       m_lastTime{0,0,0,0},
       m_oldTimeMs{0,0,0,0}
 { 
-    m_timer->start(250);
+    m_timer->start(500);
 }
 
 void DataSourceUdp::update_ts_from_local(){
@@ -123,14 +123,16 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
 
 
     // ASVREF FORCE SURGE
+
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefXref()->setValue(doubleContainer); // XRef
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefYref()->setValue(doubleContainer); // YRef
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefNref()->setValue(doubleContainer); // Nref
+    in >> doubleContainer; m_swamp_status.ngc_status()->latHomeRef()->setValue(doubleContainer); // latRef
+    in >> doubleContainer; m_swamp_status.ngc_status()->lonHomeRef()->setValue(doubleContainer); // lonRef
+
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefXhat()->setValue(doubleContainer); //Xhat
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefYhat()->setValue(doubleContainer); //Yhat
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefNhat()->setValue(doubleContainer); //Nhat
-
-
 
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefnRef()->setValue(doubleContainer); // nRef
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefdnRef()->setValue(doubleContainer); // dnRef
