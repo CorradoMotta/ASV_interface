@@ -15,10 +15,12 @@ import "../Views"
 import "../Charts"
 Item {
 
-    property alias minimum_width : minion_fl.minimumXDim
-    property alias minimum_height: minion_fl.minimumYDim
+    //todo put max here
+    property alias minimum_width : ngc.minimumXDim
+    property alias minimum_height: ngc.minimumYDim
     property alias bathymetryPoint : btChr.newPoint
     property alias bathymetryReset: btChr.reset
+    property alias xValue: ngc.xValue
     //property alias maxDepth: btChr.yMAX
 
     Page{

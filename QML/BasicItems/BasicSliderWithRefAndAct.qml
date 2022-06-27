@@ -17,14 +17,15 @@ Item {
     implicitHeight: slider_row.implicitHeight
     implicitWidth: slider_row.implicitWidth
 
-    property alias slider_text: testo.text
+    property alias slider_text: slider_text_id.text
     property alias slider_from: control.from
     property alias slider_to: control.to
     property alias mask_input: slider_value_id.inputMask
     property alias ref_value: slider_out_value_id.text
+    property alias act_value: slider_out_value_act.text
     property double value: 0.0
-    property alias clicked : control_button.down
-    property bool button_enabled : true
+//    property alias clicked : control_button.down
+//    property bool button_enabled : true
     property alias slider_width: rect.implicitWidth
 
     RowLayout {
@@ -32,39 +33,37 @@ Item {
         anchors.fill: parent
         spacing: 3
 
-//        Text {
-//            id: slider_text_id
-//            Layout.alignment: Qt.AlignLeft
-//            font.family: "Helvetica"
-//            font.pointSize: 14
-//        }
-        //fix width
-        Button {
-            id: control_button
+        Text {
+            id: slider_text_id
             Layout.alignment: Qt.AlignLeft
-            Layout.rightMargin: 10
-            Layout.topMargin: 4
-            width: 300
-            //onClicked: console.log(testo.implicitWidth)//publish_topic(setLogTn, 1)
-            contentItem: Text {
-                id: testo
-                font.family: "Helvetica"
-                font.pointSize: 14
-                anchors.horizontalCenter: background_b.horizontalCenter
-                //verticalAlignment: background_b.AlignVCenter
-            }
-            background: Rectangle{
-                id: background_b
-                height: testo.implicitHeight + 10
-                width: 84 // TODO should bne automatic
-                color: button_enabled? control_button.down? "peachpuff" : "papayawhip" : "papayawhip"
-                border.width: 1
-                border.color: "black"
-                enabled: button_enabled
-                radius: 6
-            }
+            font.family: "Helvetica"
+            font.pointSize: 14
         }
-
+//        Button {
+//            id: control_button
+//            Layout.alignment: Qt.AlignLeft
+//            Layout.rightMargin: 10
+//            Layout.topMargin: 4
+//            width: 300
+//            onClicked: console.log(testo.implicitWidth)//publish_topic(setLogTn, 1)
+//            contentItem: Text {
+//                id: testo
+//                font.family: "Helvetica"
+//                font.pointSize: 14
+//                anchors.horizontalCenter: background_b.horizontalCenter
+//                //verticalAlignment: background_b.AlignVCenter
+//            }
+//            background: Rectangle{
+//                id: background_b
+//                height: testo.implicitHeight + 10
+//                width: 30 // TODO should bne automatic
+//                color: button_enabled? control_button.down? "peachpuff" : "papayawhip" : "papayawhip"
+//                border.width: 1
+//                border.color: "black"
+//                enabled: button_enabled
+//                radius: 6
+//            }
+//        }
         Slider {
             id: control
             property bool __pressed: false
@@ -106,7 +105,7 @@ Item {
                 border.color: "#bdbebf"
             }
             snapMode: Slider.SnapOnRelease
-            onPressedChanged: pressed ? "" : slider_root.value =  Math.round(control.value * 100) / 100
+            onPressedChanged: pressed ? "" : slider_root.value = Math.round(control.value * 100) / 100
         }
         FocusScope {
             id: text_input_id
@@ -127,7 +126,7 @@ Item {
                     font.family: "Helvetica"
                     font.pointSize: 16
                     focus: true
-                    text: control.onMoved ? Math.round(control.valueAt(control.position) * 100) / 100  : 0
+                    text: control.onMoved ? Math.round(control.valueAt(control.position) * 100) / 100 : 0
                     onEditingFinished: {
                         control.value = text * 1
                         slider_root.value = control.value
@@ -174,6 +173,25 @@ Item {
             radius: 3
             Text{
                 id: slider_out_value_id
+                anchors.fill: parent
+                anchors.margins: 4
+                font.family: "Helvetica"
+                font.pointSize: 16
+            }
+        }
+        Rectangle{
+            id: slider_text_output_act
+            Layout.preferredWidth: text_input_id.maxWidth
+            Layout.preferredHeight: slider_out_value_act.implicitHeight + 6
+            Layout.alignment: Qt.AlignRight
+            Layout.rightMargin: 10
+            clip: true
+            color: "papayawhip"
+            border.color: "black"
+            border.width: 2
+            radius: 3
+            Text{
+                id: slider_out_value_act
                 anchors.fill: parent
                 anchors.margins: 4
                 font.family: "Helvetica"

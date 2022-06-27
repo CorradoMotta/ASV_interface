@@ -4,9 +4,10 @@ import QtQuick.Layouts 1.15
 
 Item {
     property alias title_text: title_text_input.text
-    property string new_text_value: ""
+    property string new_text_value: "0"
     property alias value_width : text_input_id.width
     property alias titleSize: title_text_input.font.pointSize
+    //property alias titleWidth: title_text_input.width
 
     implicitHeight: rl.implicitHeight
     implicitWidth: rl.implicitWidth
@@ -38,6 +39,7 @@ Item {
                 font.family: "Helvetica"
                 font.pointSize: 14
                 focus: true
+                text: new_text_value
                 onEditingFinished: new_text_value = text
             }
         }

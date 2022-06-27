@@ -19,14 +19,11 @@ class NGC_status : public QObject
     Q_PROPERTY(IntVariable* thrustMappingManualMode READ thrustMappingManualMode NOTIFY thrustMappingManualModeChanged)
     Q_PROPERTY(IntVariable* thrustMappingAutoMode READ thrustMappingAutoMode NOTIFY thrustMappingAutoModeChanged)
 
-
-
     Q_PROPERTY(NGC_variable* surge READ surge NOTIFY surgeChanged)
     Q_PROPERTY(NGC_variable* sway READ sway NOTIFY swayChanged)
     Q_PROPERTY(NGC_variable* yaw READ yaw NOTIFY yawChanged)
     Q_PROPERTY(NGC_variable* heading READ heading NOTIFY headingChanged)
     Q_PROPERTY(IntVariable* setLog READ setLog NOTIFY setLogChanged)
-
 
     // TODO remake them in an appropriate way!
     Q_PROPERTY(IntVariable* rpmAlpha READ rpmAlpha NOTIFY rpmAlphaChanged)
@@ -47,6 +44,13 @@ class NGC_status : public QObject
     Q_PROPERTY(DoubleVariable* asvRefXref READ asvRefXref NOTIFY asvRefXrefChanged)
     Q_PROPERTY(DoubleVariable* asvRefyRef READ asvRefyRef NOTIFY asvRefyRefChanged)
     Q_PROPERTY(DoubleVariable* asvRefYref READ asvRefYref NOTIFY asvRefYrefChanged)
+//    Xhat
+//    Yhat
+//    Nhat TODO make it ngc variable
+    Q_PROPERTY(DoubleVariable* asvRefXhat READ asvRefXhat NOTIFY asvRefXhatChanged)
+    Q_PROPERTY(DoubleVariable* asvRefYhat READ asvRefYhat NOTIFY asvRefYhatChanged)
+    Q_PROPERTY(DoubleVariable* asvRefNhat READ asvRefNhat NOTIFY asvRefNhatChanged)
+
     Q_PROPERTY(DoubleVariable* asvRefalphaRef READ asvRefalphaRef NOTIFY asvRefalphaRefChanged)
     Q_PROPERTY(DoubleVariable* asvRefazimuthFL READ asvRefazimuthFL NOTIFY asvRefazimuthFLChanged)
     Q_PROPERTY(DoubleVariable* asvRefazimuthFR READ asvRefazimuthFR NOTIFY asvRefazimuthFRChanged)
@@ -75,6 +79,18 @@ class NGC_status : public QObject
     Q_PROPERTY(IntVariable* refManual_mode READ refManual_mode NOTIFY refManual_modeChanged)
     Q_PROPERTY(IntVariable* refWorking_mode READ refWorking_mode NOTIFY refWorking_modeChanged)
     Q_PROPERTY(DoubleVariable* thetaIMU READ thetaIMU NOTIFY thetaIMUChanged)
+
+    // TODO MOVE INTO APPROPRIATE CLASS
+    Q_PROPERTY(IntVariable* setRobotHome READ setRobotHome NOTIFY setRobotHomeChanged)
+    Q_PROPERTY(DoubleVariable* setLatLon READ setLatLon NOTIFY setLatLonChanged)
+    Q_PROPERTY(DoubleVariable* setXY READ setXY NOTIFY setXYChanged)
+    Q_PROPERTY(DoubleVariable* setLineLatLon READ setLineLatLon NOTIFY setLineLatLonChanged)
+    Q_PROPERTY(DoubleVariable* setXYLine READ setXYLine NOTIFY setXYLineChanged)
+    Q_PROPERTY(DoubleVariable* setYawGSPar READ setYawGSPar NOTIFY setYawGSParChanged)
+    Q_PROPERTY(DoubleVariable* setHeadingPiPar READ setHeadingPiPar NOTIFY setHeadingPiParChanged)
+    Q_PROPERTY(DoubleVariable* latHomeRef READ latHomeRef NOTIFY latHomeRefChanged)
+    Q_PROPERTY(DoubleVariable* lonHomeRef READ lonHomeRef NOTIFY lonHomeRefChanged)
+
 
 public:
     explicit NGC_status(QObject *parent = nullptr);
@@ -141,6 +157,22 @@ public:
     DoubleVariable* thetaIMU();
     IntVariable *setLog();
 
+    IntVariable* setRobotHome();
+    DoubleVariable* setLatLon();
+    DoubleVariable* setXY();
+    DoubleVariable* setLineLatLon();
+    DoubleVariable* setXYLine();
+    DoubleVariable* setYawGSPar();
+    DoubleVariable* setHeadingPiPar();
+
+    DoubleVariable* asvRefXhat();
+    DoubleVariable* asvRefYhat();
+    DoubleVariable* asvRefNhat();
+
+
+    DoubleVariable* latHomeRef();
+    DoubleVariable* lonHomeRef();
+
 signals:
 
     void psiChanged();
@@ -204,6 +236,21 @@ signals:
     void refWorking_modeChanged();
     void thetaIMUChanged();
     void setLogChanged();
+    void setRobotHomeChanged();
+    void setLatLonChanged();
+
+    void setXYChanged();
+    void setLineLatLonChanged();
+    void setXYLineChanged();
+    void setYawGSParChanged();
+    void setHeadingPiParChanged();
+
+    void asvRefXhatChanged();
+    void asvRefYhatChanged();
+    void asvRefNhatChanged();
+
+    void latHomeRefChanged();
+    void lonHomeRefChanged();
 
 private:
 
@@ -268,6 +315,19 @@ private:
     IntVariable m_refWorking_mode;
     DoubleVariable m_thetaIMU;
     IntVariable m_setLog;
+
+    IntVariable m_setRobotHome;
+    DoubleVariable m_setLatLon;
+    DoubleVariable m_setXY;
+    DoubleVariable m_setLineLatLon;
+    DoubleVariable m_setXYLine;
+    DoubleVariable m_setYawGSPar;
+    DoubleVariable m_setHeadingPiPar;
+    DoubleVariable m_asvRefXhat;
+    DoubleVariable m_asvRefYhat;
+    DoubleVariable m_asvRefNhat;
+    DoubleVariable m_latHomeRef;
+    DoubleVariable m_lonHomeRef;
 };
 
 #endif // NGC_STATUS_H

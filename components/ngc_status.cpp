@@ -49,6 +49,12 @@ NGC_status::NGC_status(QObject *parent)
     m_refManual_mode.setSubscribe(true);
     m_refWorking_mode.setSubscribe(true);
     m_thetaIMU.setSubscribe(true);
+    m_asvRefXhat.setSubscribe(true);
+    m_asvRefYhat.setSubscribe(true);
+    m_asvRefNhat.setSubscribe(true);
+    m_latHomeRef.setSubscribe(true);
+    m_lonHomeRef.setSubscribe(true);
+
 }
 
 DoubleVariable *NGC_status::psi()
@@ -349,4 +355,64 @@ return &m_thetaIMU;
 IntVariable *NGC_status::setLog()
 {
 return &m_setLog;
+}
+
+IntVariable *NGC_status::setRobotHome()
+{
+    return &m_setRobotHome;
+}
+
+DoubleVariable *NGC_status::setLatLon()
+{
+    return &m_setLatLon;
+}
+
+DoubleVariable *NGC_status::setXY()
+{
+    return &m_setXY;
+}
+
+DoubleVariable *NGC_status::setLineLatLon()
+{
+    return &m_setLineLatLon;
+}
+
+DoubleVariable *NGC_status::setXYLine()
+{
+    return &m_setXYLine;
+}
+
+DoubleVariable *NGC_status::setYawGSPar()
+{
+    return &m_setYawGSPar;
+}
+
+DoubleVariable *NGC_status::setHeadingPiPar()
+{
+    return &m_setHeadingPiPar;
+}
+
+DoubleVariable *NGC_status::asvRefXhat()
+{
+    return &m_asvRefXhat;
+}
+
+DoubleVariable *NGC_status::asvRefYhat()
+{
+    return &m_asvRefYhat;
+}
+
+DoubleVariable *NGC_status::asvRefNhat()
+{
+    return &m_asvRefNhat;
+}
+
+DoubleVariable *NGC_status::latHomeRef()
+{
+    return &m_latHomeRef;
+}
+
+DoubleVariable *NGC_status::lonHomeRef()
+{
+    return &m_lonHomeRef;
 }

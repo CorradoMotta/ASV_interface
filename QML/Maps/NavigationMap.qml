@@ -22,6 +22,8 @@ Rectangle{
     property var lat: data_model.data_source.swamp_status.gps_ahrs_status.latitude
     property var lon: data_model.data_source.swamp_status.gps_ahrs_status.longitude
     property real altitude: data_model.data_source.swamp_status.ngc_status.altitude.value
+    property real homeLatRef: data_model.data_source.swamp_status.ngc_status.latHomeRef.value
+    property real homeLonRef: data_model.data_source.swamp_status.ngc_status.lonHomeRef.value
     property real latValue : lat.value
     property real lonValue: lon.value
     property real v_rotation : data_model.data_source.swamp_status.ngc_status.psi.value //convertToRadiant
@@ -43,6 +45,14 @@ Rectangle{
     onLonValueChanged: lat.value !==0 ? root.startUp = false: ""
     onMax_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
     onMin_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
+
+    onHomeLatRefChanged: homeLonRef != 0 ? root.messagePrompt("Robot's home set in (" + homeLatRef + " " + homeLonRef +")") : ""
+    onHomeLonRefChanged: homeLatRef != 0 ? root.messagePrompt("Robot's home set in (" + homeLatRef + " " + homeLonRef +")") : ""
+
+    readonly property string set_lat_lon_tn: data_model.data_source.swamp_status.ngc_status.setLatLon.topic_name //TODO FIX
+    readonly property string set_line_lat_lon: data_model.data_source.swamp_status.ngc_status.setLineLatLon.topic_name //TODO FIX
+    readonly property string set_robot_home_tn: data_model.data_source.swamp_status.ngc_status.setRobotHome.topic_name //TODO FIX
+    readonly property var publish_topic: data_model.data_source.publishMessage //todo repetition
     //onResetValueChanged: {}
     Rectangle{
         id: status_bar
@@ -60,7 +70,6 @@ Rectangle{
             spacing: 80
             anchors.centerIn: parent
             //anchors.rightMargin: 10
-
 
             MinionStateRow{
                 id: minion_fl
@@ -210,6 +219,21 @@ Rectangle{
         // END
         // --------------------------------------------------------
 
+        // SHOWS ROBOT'S HOME
+        MapQuickItem {
+            id: marker
+            coordinate: QtPositioning.coordinate(navigation_map.homeLatRef, navigation_map.homeLonRef)
+            anchorPoint.x: image.width/4
+            anchorPoint.y: image.height
+
+            sourceItem: Image {
+                id: image
+                source: "../../Images/Swamp_home.png"
+                sourceSize.width: 50
+                sourceSize.height: 50
+            }
+        }
+
         // model for lines
         MapPolyline {
             id: mapPoly
@@ -238,7 +262,53 @@ Rectangle{
         BoxDrawPanel{
             id: draw_panel
         }
+        // TODO move it into element
+        Rectangle{
+            id: set_robot_home
+            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+            anchors.leftMargin: 20
+            anchors.bottomMargin: 68
 
+            //            Rectangle{
+            //                id: info_label_set_home
+            //                z: 5
+            //                anchors.bottom: set_robot_home.top
+            //                anchors.bottomMargin:-(info_label_text_set_home.height/3)
+            //                anchors.left: set_robot_home.left
+            //                width: info_label_text_set_home.implicitWidth + 6
+            //                height: info_label_text_set_home.implicitHeight + 6
+            //                color: "white"
+            //                border.color: "black"
+            //                visible: mouseArea_rect.containsMouse ? true : false
+
+            //                Text{
+            //                    id: info_label_text_set_home
+            //                    text: "set robot home"
+            //                    anchors.horizontalCenter: info_label_set_home.horizontalCenter
+            //                    anchors.verticalCenter: info_label_set_home.verticalCenter
+            //                    font.pointSize: 10
+            //                }
+            //            }
+
+
+            Image {
+                id: set_robot_home_image
+                visible: true
+                sourceSize.width: 50
+                sourceSize.height: 50
+                //opacity: boxRectangle.isActive?  1 : 0.65
+                source: "../../Images/home-button.png"
+                scale: mouseArea_rect.containsMouse ? 1.0 : 0.8
+
+                MouseArea {
+                    id: mouseArea_rect
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: publish_topic(set_robot_home_tn, 1)
+                }
+            }
+        }
 
     }
     function setActiveMap(index) {
@@ -282,5 +352,27 @@ Rectangle{
             return msg
         }
     }
-
+    function send_point(){
+        if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
+        {
+            if( mivMarker.model.rowCount()!==0){
+                // sending first marker only
+                var lat = mivMarker.model.getCoordinate(0).latitude
+                var lon = mivMarker.model.getCoordinate(0).longitude
+                // todo better way to concatenate (also a function)
+                publish_topic(set_lat_lon_tn, lat + " " + lon + " " + minion_view.xValue)
+                return "Sending point (" + lat +" "+ lon +") X = " + minion_view.xValue
+            }
+            else
+                return "No points available!"
+        }
+        else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
+            if(mivLine.model.rowCount()!==0){
+                publish_topic()
+                return "Not implemented yet"
+            }
+            else
+                return "No points available!"
+        }
+    }
 }

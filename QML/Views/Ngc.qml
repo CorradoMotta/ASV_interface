@@ -8,12 +8,15 @@ import "../Panels"
 BasicMinionPanelContainer{
     id : ngc_root
 
-    implicitHeight: Math.max(cmd_row.implicitHeight , cmd_row_2.implicitHeight) + title_height + 20
-    implicitWidth: cmd_row.implicitWidth + cmd_row_2.implicitWidth + bar.width + 200 // TODO WHY SO MUCH
+    implicitHeight: Math.max(cmd_row.implicitHeight , cmd_row_2.implicitHeight) + title_height
+    implicitWidth: cmd_row.implicitWidth + cmd_row_2.implicitWidth + bar.width + 250 // TODO WHY SO MUCH
+    property int minimumXDim : implicitWidth
+    property int minimumYDim: implicitHeight
     title: "NGC"
     color: "whitesmoke"
     property int blockSize: 12
     property var prefix: data_model.data_source.swamp_status.ngc_status
+    property alias xValue : control_panel.xValue
     readonly property string ngcEnableTn: prefix.ngcEnable.act.topic_name
     readonly property string rpmAlphaTn: prefix.rpmAlpha.topic_name
     readonly property string forceTorqueTn: prefix.forceTorque.topic_name
@@ -68,6 +71,10 @@ BasicMinionPanelContainer{
     readonly property real xRef : prefix.asvRefXref.value
     readonly property real yRef : prefix.asvRefYref.value
     readonly property real nNRef : prefix.asvRefNref.value
+    readonly property real asvRefXhat : prefix.asvRefXhat.value
+    readonly property real asvRefYhat : prefix.asvRefYhat.value
+    readonly property real asvRefNhat : prefix.asvRefNhat.value
+
 
     // MODES
     readonly property int ngcEnableRef : prefix.ngcEnable.ref.value
@@ -88,6 +95,8 @@ BasicMinionPanelContainer{
     readonly property real asvRefnRR :prefix.asvRefnRR.value // n[RR]
     readonly property real asvRefnRL :prefix.asvRefnRL.value // n[RL]
 
+
+
     //border.color: "transparent"
     RowLayout{
         id: cmd_row
@@ -95,7 +104,7 @@ BasicMinionPanelContainer{
         spacing: 2
         //width: parent.width/2
         anchors{
-            topMargin: 5
+            topMargin: 10
             //fill: parent
             top: parent.top; left: parent.left; bottom: parent.bottom; right: bar.right
             rightMargin: 10
@@ -124,11 +133,12 @@ BasicMinionPanelContainer{
                 Rectangle{
                     Layout.fillWidth: true
                 }
+                // TODO make it standard
                 Button {
                     id: control
                     Layout.alignment: Qt.AlignRight
                     Layout.rightMargin: 10
-                    Layout.topMargin: 10
+                    Layout.topMargin: 4
                     width: 200
                     onClicked: publish_topic(setLogTn, 1)
                     contentItem: Text {
@@ -156,9 +166,9 @@ BasicMinionPanelContainer{
                 Layout.rightMargin: 10
                 Layout.alignment: Qt.AlignTop
                 title: "RPM_ALPHA"
-                slider1_text: "N    "; slider1_from: 0; slider1_to: 1800; slider1_mask: "0000";   slider1_ref: ngc_root.nRef
-                slider2_text: "DN   "; slider2_from: -900; slider2_to: 900; slider2_mask: "#000"; slider2_ref: ngc_root.dnRef
-                slider3_text: "ALPHA"; slider3_from: -180; slider3_to: 180; slider3_mask: "#000"; slider3_ref: ngc_root.alphaRef
+                slider1_text: "N "; slider1_from: 0; slider1_to: 1800;      slider1_ref: ngc_root.nRef   //slider1_mask: "0000";
+                slider2_text: "DN"; slider2_from: -900; slider2_to: 900;  slider2_ref: ngc_root.dnRef    //slider2_mask: "#000";
+                slider3_text: "A "; slider3_from: -180; slider3_to: 180;  slider3_ref: ngc_root.alphaRef //slider3_mask: "#000";
                 clip: true
                 onValueChanged: ngc_root.publish_topic(ngc_root.rpmAlphaTn, value) //console.log(value)
             }
@@ -168,9 +178,9 @@ BasicMinionPanelContainer{
                 Layout.rightMargin: 10
                 Layout.alignment: Qt.AlignTop
                 title: "FORCE_TORQUE"
-                slider1_text: "X"; slider1_from: -50; slider1_to: 50; slider1_mask: "#00"; slider1_ref: ngc_root.xRef
-                slider2_text: "Y"; slider2_from: -50; slider2_to: 50; slider2_mask: "#00"; slider2_ref: ngc_root.yRef
-                slider3_text: "N"; slider3_from: -50; slider3_to: 50; slider3_mask: "#00"; slider3_ref: ngc_root.nNRef
+                slider1_text: "X"; slider1_from: -50.0; slider1_to: 50.0;  slider1_ref: ngc_root.xRef ; slider1_act: ngc_root.asvRefXhat //slider1_mask: "#00";
+                slider2_text: "Y"; slider2_from: -50.0; slider2_to: 50.0;  slider2_ref: ngc_root.yRef ; slider2_act: ngc_root.asvRefYhat //slider2_mask: "#00";
+                slider3_text: "N"; slider3_from: -50.0; slider3_to: 50.0;  slider3_ref: ngc_root.nNRef; slider3_act: ngc_root.asvRefNhat //slider3_mask: "#00";
                 clip: true
                 onValueChanged: ngc_root.publish_topic(ngc_root.forceTorqueTn, value)
             }
@@ -179,7 +189,7 @@ BasicMinionPanelContainer{
                 Layout.fillWidth: true
                 Layout.rightMargin: 10
                 Layout.alignment: Qt.AlignTop
-                clip: true
+                //clip: true
                 //onValueChanged: console.log(value)
             }
         }
@@ -328,9 +338,10 @@ BasicMinionPanelContainer{
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
-                title_text: "azimuth[FR]"
-                value_text: ngc_root.asvRefazimuthFR
+                title_text: "azimuth[RL]"
+                value_text: ngc_root.asvRefazimuthRL
             }
+
 
             Text {
                 id: rpm_text_id
@@ -352,16 +363,17 @@ BasicMinionPanelContainer{
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 value_width: 120
-                title_text: "n[FR]"
-                value_text: ngc_root.asvRefnFR
+                title_text: "n[RL]"
+                value_text: ngc_root.asvRefnRL
             }
+
 
         }
         ColumnLayout{
             Layout.alignment: Qt.AlignRight
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                Layout.topMargin: modes_text_id.implicitHeight
+                Layout.topMargin: imu_text_id.implicitHeight
                 value_width: 120
                 title_text: "IMU_R"
                 value_text: ngc_root.rIMU
@@ -383,7 +395,7 @@ BasicMinionPanelContainer{
 
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize + 8
+                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize
                 value_width: 120
                 //Layout.topMargin: ngc_root.blockSize
                 title_text: "ASV_H_YAW"
@@ -434,8 +446,9 @@ BasicMinionPanelContainer{
 //            }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
+
                 value_width: 120
-                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize  + 8
+                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize + 6
                 title_text: "EXE_WORK_M"
                 value_text: ngc_root.executionWorking_modeRef
             }
@@ -446,35 +459,34 @@ BasicMinionPanelContainer{
                 value_text: ngc_root.working_modeRef
             }
 
-
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 value_width: 120
-                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize  + 8
+                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize + 6
+                title_text: "azimuth[FR]"
+                value_text: ngc_root.asvRefazimuthFR
+            }
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                value_width: 120
+
                 title_text: "azimuth[RR]"
                 value_text: ngc_root.asvRefazimuthRR
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize + 6
                 value_width: 120
-                title_text: "azimuth[RL]"
-                value_text: ngc_root.asvRefazimuthRL
+                title_text: "n[FR]"
+                value_text: ngc_root.asvRefnFR
             }
-
-
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 value_width: 120
-                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize  + 8
                 title_text: "n[RR]"
                 value_text: ngc_root.asvRefnRR
             }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                value_width: 120
-                title_text: "n[RL]"
-                value_text: ngc_root.asvRefnRL
-            }
+
             // SET LINE and POSITION
             //            BasicTextOutput{
             //                Layout.alignment: Qt.AlignTop | Qt.AlignRight

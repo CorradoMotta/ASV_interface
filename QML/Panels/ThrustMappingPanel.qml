@@ -7,6 +7,9 @@ Rectangle{
     id : rpm_panel
 
     property string value : ""
+    property alias xvalue : fu.value
+    property alias yvalue: fv.value
+
     property alias title : text_id.text
     property alias slider1_text : fu.slider_text
     property alias slider2_text : fv.slider_text
@@ -23,6 +26,9 @@ Rectangle{
     property alias slider1_ref : fu.ref_value
     property alias slider2_ref : fv.ref_value
     property alias slider3_ref : tr.ref_value
+    property alias slider1_act : fu.act_value
+    property alias slider2_act : fv.act_value
+    property alias slider3_act : tr.act_value
     property int slider_width : 260
     property alias panel_color: force_slider.color
     Layout.preferredHeight: cl.implicitHeight
@@ -30,7 +36,7 @@ Rectangle{
 
     ColumnLayout {
         id: cl
-        spacing: 4
+        spacing: 0
         anchors.fill: parent
 
         RowLayout{
@@ -97,17 +103,18 @@ Rectangle{
                 anchors.leftMargin: 10
                 spacing: 2
 
-                BasicSliderWithRef {
+                BasicSliderWithRefAndAct {
                     id: fu
                     Layout.fillWidth: true
                     slider_width : rpm_panel.slider_width
                     //slider_text: "NREF     "
                     slider_from: 0
                     slider_to: 100
-                    mask_input: "#000"
+                    //mask_input: "#000"
                     onValueChanged:  rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
+
                 }
-                BasicSliderWithRef {
+                BasicSliderWithRefAndAct {
 
                     id: fv
                     Layout.fillWidth: true
@@ -115,10 +122,10 @@ Rectangle{
                     //slider_text: "DNREF    "
                     slider_from: 0
                     slider_to: 100
-                    mask_input: "#000"
+                    //mask_input: "#000"
                     onValueChanged: rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
                 }
-                BasicSliderWithRef {
+                BasicSliderWithRefAndAct {
 
                     id: tr
                     Layout.fillWidth: true
@@ -126,7 +133,7 @@ Rectangle{
                     slider_from: 0
                     slider_to: 100
                     //slider_text: "ALPHAREF"
-                    mask_input: "#000"
+                    //mask_input: "#000"
                     onValueChanged: rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
                     // onValueChanged: {
                     //     rotation_value = value
