@@ -24,6 +24,7 @@ Item {
     property alias ref_value: slider_out_value_id.text
     property alias act_value: slider_out_value_act.text
     property double value: 0.0
+    property alias controlValue : control.value
 //    property alias clicked : control_button.down
 //    property bool button_enabled : true
     property alias slider_width: rect.implicitWidth

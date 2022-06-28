@@ -1,3 +1,13 @@
+/*************************************************************************
+ *
+ * This element contains the NGC view. Both commands and telemetry are
+ * showed in this panel.
+ *
+ * Joystick integration is also performed here. A timer set to 100 ms is
+ * used to limit the number of packets sent out from the interface.
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import com.cnr.property 1.0
 import QtQuick.Layouts 1.11
@@ -15,6 +25,7 @@ BasicMinionPanelContainer{
     title: "NGC"
     color: "whitesmoke"
     property int blockSize: 12
+    property int currentJoystick: 0
     property var prefix: data_model.data_source.swamp_status.ngc_status
     property alias xValue : control_panel.xValue
     readonly property string ngcEnableTn: prefix.ngcEnable.act.topic_name
@@ -95,7 +106,36 @@ BasicMinionPanelContainer{
     readonly property real asvRefnRR :prefix.asvRefnRR.value // n[RR]
     readonly property real asvRefnRL :prefix.asvRefnRL.value // n[RL]
 
+    // for controller
+    property real x_curr_value : 0
+    property real y_curr_value : 0
+    property real x_index : 1
+    property real y_index : 0
 
+
+    // for controller. Timer gets automatically active when the controller is connected
+    Timer {
+        id: timer
+        interval: 100;
+        repeat: true
+        running: QJoysticks.count > 0? true : false
+
+        onTriggered: {
+            force_torque.xvalue = x_curr_value
+            force_torque.zvalue = y_curr_value
+        }
+    }
+
+    Connections {
+        target: QJoysticks
+
+        function onAxisChanged(js, axis, value) {
+            if (currentJoystick === js && x_index === axis)
+                x_curr_value = - QJoysticks.getAxis (js, x_index) * 100
+            else if (currentJoystick === js && y_index === axis)
+                y_curr_value = QJoysticks.getAxis (js, y_index) * 100
+        }
+    }
 
     //border.color: "transparent"
     RowLayout{
@@ -178,22 +218,20 @@ BasicMinionPanelContainer{
                 Layout.rightMargin: 10
                 Layout.alignment: Qt.AlignTop
                 title: "FORCE_TORQUE"
-                slider1_text: "X"; slider1_from: -50.0; slider1_to: 50.0;  slider1_ref: ngc_root.xRef ; slider1_act: ngc_root.asvRefXhat //slider1_mask: "#00";
+                slider1_text: "X"; slider1_from: -100.0; slider1_to: 100.0;  slider1_ref: ngc_root.xRef ; slider1_act: ngc_root.asvRefXhat //slider1_mask: "#00";
                 slider2_text: "Y"; slider2_from: -50.0; slider2_to: 50.0;  slider2_ref: ngc_root.yRef ; slider2_act: ngc_root.asvRefYhat //slider2_mask: "#00";
-                slider3_text: "N"; slider3_from: -50.0; slider3_to: 50.0;  slider3_ref: ngc_root.nNRef; slider3_act: ngc_root.asvRefNhat //slider3_mask: "#00";
+                slider3_text: "N"; slider3_from: -100.0; slider3_to: 100.0;  slider3_ref: ngc_root.nNRef; slider3_act: ngc_root.asvRefNhat //slider3_mask: "#00";
                 clip: true
                 onValueChanged: ngc_root.publish_topic(ngc_root.forceTorqueTn, value)
             }
+
             ControlPanel{
                 id: control_panel
                 Layout.fillWidth: true
                 Layout.rightMargin: 10
                 Layout.alignment: Qt.AlignTop
-                //clip: true
-                //onValueChanged: console.log(value)
             }
         }
-
     }
     Rectangle {
         id: bar
@@ -426,24 +464,24 @@ BasicMinionPanelContainer{
                 value_text: ngc_root.asvHatlon
             }
 
-//            BasicTextOutput{
-//                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-//                value_width: 120
-//                title_text: "A_R_x"
-//                value_text: ngc_root.xRef
-//            }
-//            BasicTextOutput{
-//                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-//                value_width: 120
-//                title_text: "A_R_y"
-//                value_text: ngc_root.yRef
-//            }
-//            BasicTextOutput{
-//                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-//                value_width: 120
-//                title_text: "A_R_N"
-//                value_text: ngc_root.nNRef
-//            }
+            //            BasicTextOutput{
+            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            //                value_width: 120
+            //                title_text: "A_R_x"
+            //                value_text: ngc_root.xRef
+            //            }
+            //            BasicTextOutput{
+            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            //                value_width: 120
+            //                title_text: "A_R_y"
+            //                value_text: ngc_root.yRef
+            //            }
+            //            BasicTextOutput{
+            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            //                value_width: 120
+            //                title_text: "A_R_N"
+            //                value_text: ngc_root.nNRef
+            //            }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
 

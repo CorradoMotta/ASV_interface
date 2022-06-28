@@ -1,3 +1,10 @@
+/*************************************************************************
+ *
+ * Main qml view. This is the main view and contains the navigation map
+ * and a quick access panel.
+ *
+ *************************************************************************/
+
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtPositioning 5.15
@@ -55,6 +62,20 @@ ApplicationWindow {
                     QtPositioning.coordinate(navigation_map.lat.value, navigation_map.lon.value))
     }
 
+    // button used to switch stack view. It is immediately available when controller is connected.
+    Connections {
+        target: QJoysticks
+        function onButtonChanged(js, button, pressed) {
+            if (button === 0 && pressed === true){
+                if(stack_button.open_minion){
+                    stack_button.push_view()
+                }else{
+                    stack_button.pop_view()
+                }
+            }
+        }
+    }
+
     menuBar: CustomMenuBar {
         id: menu_bar_id
     }
@@ -107,28 +128,6 @@ ApplicationWindow {
                     opacity: data_model.data_source.is_connected? 1 : 0.3
                     //enabled: true
                 }
-//                RowLayout{
-//                    //TODO move inside the homing panel. Or create ad hoc container for all panels!
-//                    Layout.alignment: Qt.AlignTop
-//                    Layout.fillWidth: true
-//                    //spacing: 100
-
-//                    Text {
-//                        id: text_id
-//                        Layout.alignment: Qt.AlignLeft
-//                        Layout.leftMargin: 4
-//                        text: "HOMING"
-//                        font.family: "Helvetica"
-//                        font.pointSize: 14
-//                        font.bold: true
-//                        enabled: data_model.data_source.is_connected
-//                        opacity: data_model.data_source.is_connected? 1 : 0.3
-
-//                    }
-//                    Rectangle{
-//                        Layout.fillWidth: true
-//                    }
-//                }
                 HomingPanel{
                     id: homing_panel
                     //color: "aliceblue"
@@ -170,17 +169,6 @@ ApplicationWindow {
                     opacity: data_model.data_source.is_connected? 1 : 0.3
                     onValueChanged: root.publish_topic(root.forceTorqueTn, value)
                 }
-                //                ForceSliderPanel {
-                //                    id: force_slider_panel
-                //                    Layout.fillWidth: true
-                //                    Layout.rightMargin: 10
-                //                    Layout.alignment: Qt.AlignTop
-                //                    clip: true
-                //                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
-                //                    //enabled: data_model.data_source.is_connected
-                //                    opacity: 0.3
-                //                    enabled: false
-                //                }
                 BathymetryPanel {
                     id: bathymetry_panel
                     Layout.fillWidth: true
@@ -191,7 +179,6 @@ ApplicationWindow {
                     opacity: 0.3
                     enabled: false
                 }
-
                 Button {
                     id: connect_button
                     Layout.alignment: Qt.AlignTop

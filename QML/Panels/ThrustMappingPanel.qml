@@ -9,6 +9,7 @@ Rectangle{
     property string value : ""
     property alias xvalue : fu.value
     property alias yvalue: fv.value
+    property alias zvalue: tr.value
 
     property alias title : text_id.text
     property alias slider1_text : fu.slider_text
@@ -58,31 +59,31 @@ Rectangle{
                 Layout.fillWidth: true
             }
 
-//            Button {
-//                id: control
-//                Layout.alignment: Qt.AlignRight
-//                width: 200
-//                onClicked: value = fu.value + " " + fv.value + " " + tr.value
-//                //Layout.rightMargin: 10
-//                //onClicked: data_model.data_source.setConnection()
-//                contentItem: Text {
-//                    id: testo
-//                    text: "SEND"
-//                    font.family: "Helvetica"
-//                    font.pointSize: 14
-//                    anchors.horizontalCenter: background_b.horizontalCenter
-//                    //verticalAlignment: background_b.AlignVCenter
-//                }
-//                background: Rectangle{
-//                    id: background_b
-//                    height: testo.implicitHeight + 10
-//                    width: testo.implicitWidth + 10
-//                    color: control.down? "peachpuff" : "papayawhip"
-//                    border.width: 1
-//                    border.color: "black"
-//                    radius: 4
-//                }
-//            }
+            //            Button {
+            //                id: control
+            //                Layout.alignment: Qt.AlignRight
+            //                width: 200
+            //                onClicked: value = fu.value + " " + fv.value + " " + tr.value
+            //                //Layout.rightMargin: 10
+            //                //onClicked: data_model.data_source.setConnection()
+            //                contentItem: Text {
+            //                    id: testo
+            //                    text: "SEND"
+            //                    font.family: "Helvetica"
+            //                    font.pointSize: 14
+            //                    anchors.horizontalCenter: background_b.horizontalCenter
+            //                    //verticalAlignment: background_b.AlignVCenter
+            //                }
+            //                background: Rectangle{
+            //                    id: background_b
+            //                    height: testo.implicitHeight + 10
+            //                    width: testo.implicitWidth + 10
+            //                    color: control.down? "peachpuff" : "papayawhip"
+            //                    border.width: 1
+            //                    border.color: "black"
+            //                    radius: 4
+            //                }
+            //            }
         }
         Rectangle {
             id: force_slider
@@ -111,7 +112,10 @@ Rectangle{
                     slider_from: 0
                     slider_to: 100
                     //mask_input: "#000"
-                    onValueChanged:  rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
+                    onValueChanged: {
+                        controlValue = fu.value
+                        rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
+                    }
 
                 }
                 BasicSliderWithRefAndAct {
@@ -134,7 +138,10 @@ Rectangle{
                     slider_to: 100
                     //slider_text: "ALPHAREF"
                     //mask_input: "#000"
-                    onValueChanged: rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
+                    onValueChanged:  {
+                        controlValue = tr.value
+                        rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
+                    }
                     // onValueChanged: {
                     //     rotation_value = value
                     //     data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc_status.tr.ref.topic_name,value)
