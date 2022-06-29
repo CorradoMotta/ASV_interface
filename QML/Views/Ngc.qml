@@ -109,20 +109,37 @@ BasicMinionPanelContainer{
     // for controller
     property real x_curr_value : 0
     property real y_curr_value : 0
-    property real x_index : 1
-    property real y_index : 0
-
+    property real x_index : 0
+    property real y_index : 1
+    property real pi : Math.PI
+    property real nmax : 1600
+    property real rho_thr: 0.2
+    property real alfa_cos : 0
 
     // for controller. Timer gets automatically active when the controller is connected
     Timer {
         id: timer
+
         interval: 100;
         repeat: true
         running: QJoysticks.count > 0? true : false
 
         onTriggered: {
-            force_torque.xvalue = x_curr_value
-            force_torque.zvalue = y_curr_value
+            var alfa = Math.atan2(x_curr_value,y_curr_value)
+
+            // calculate cos alfa for each situation
+            if(alfa >= (-pi/4) && alfa < (pi/4)) alfa_cos = Math.cos(alfa)
+            else if(alfa >= (pi/4) && alfa < (3/4*pi)) alfa_cos = Math.cos(alfa - pi/2)
+            else if(alfa >= (3/4*pi) && alfa < (5/4*pi)) alfa_cos = Math.cos(alfa - pi)
+            else if(alfa >= (5/4*pi) < alfa < (7/4*pi)) alfa_cos = Math.cos(alfa - 3/2*pi)
+
+            // get normalized rho value
+            var rho = (Math.sqrt(Math.pow(x_curr_value,2)+ Math.pow(y_curr_value,2))) * alfa_cos
+
+            // update values in the slider
+            if(rho >= rho_thr) {rpm_alpha.xvalue = nmax * rho; rpm_alpha.zvalue = alfa * 180/pi}
+            else {rpm_alpha.xvalue =0; rpm_alpha.zvalue = 0}
+
         }
     }
 
@@ -131,9 +148,9 @@ BasicMinionPanelContainer{
 
         function onAxisChanged(js, axis, value) {
             if (currentJoystick === js && x_index === axis)
-                x_curr_value = - QJoysticks.getAxis (js, x_index) * 100
+                x_curr_value = QJoysticks.getAxis (js, x_index)
             else if (currentJoystick === js && y_index === axis)
-                y_curr_value = QJoysticks.getAxis (js, y_index) * 100
+                y_curr_value = - QJoysticks.getAxis (js, y_index)
         }
     }
 
