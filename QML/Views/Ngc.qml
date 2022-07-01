@@ -130,8 +130,9 @@ BasicMinionPanelContainer{
             // calculate cos alfa for each situation
             if(alfa >= (-pi/4) && alfa < (pi/4)) alfa_cos = Math.cos(alfa)
             else if(alfa >= (pi/4) && alfa < (3/4*pi)) alfa_cos = Math.cos(alfa - pi/2)
-            else if(alfa >= (3/4*pi) && alfa < (5/4*pi)) alfa_cos = Math.cos(alfa - pi)
-            else if(alfa >= (5/4*pi) < alfa < (7/4*pi)) alfa_cos = Math.cos(alfa - 3/2*pi)
+            else if(alfa >= (-3/4*pi) && alfa < (-pi/4)) alfa_cos = Math.cos(alfa + pi/2)
+            else if(alfa >= (3/4*pi) && alfa < (pi)) alfa_cos = Math.cos(alfa - pi)
+            else if(alfa >= (-pi) && alfa < (-3/4*pi)) alfa_cos = Math.cos(alfa + pi)
 
             // get normalized rho value
             var rho = (Math.sqrt(Math.pow(x_curr_value,2)+ Math.pow(y_curr_value,2))) * alfa_cos
