@@ -72,17 +72,15 @@ BasicMinionPanelContainer{
                     if (homing_panel.set_home_is_active)
                         minion_view.publish_topic(minion_view.azimuth_motor_set_home_tn, 1)
                 }
-
             }
-
             BasicButton{
                 text_on_button: "GO_HOME"
-                button_width: 200
+                button_width: 140
                 onClicked: minion_view.publish_topic(minion_view.azimuth_motor_go_home_tn, 1)
             }
             BasicButton{
                 text_on_button: "SET_HOME"
-                button_width: 200
+                button_width: 140
                 onClicked: minion_view.publish_topic(minion_view.azimuth_motor_set_home_tn, 1)
             }
 
@@ -94,7 +92,7 @@ BasicMinionPanelContainer{
                 slider_to: 180
                 mask_input: "#000"
                 value: 0
-                onValueChanged:  minion_view.publish_topic(minion_view.azimuth_motor_set_reference_tn, value)
+                onValueChanged: minion_view.publish_topic(minion_view.azimuth_motor_set_reference_tn, value)
                 ref_value: minion_view.azimuth_motor_angle_ref
             }
         }

@@ -87,7 +87,6 @@
         <file>Images/home-button.png</file>
         <file>QML/BasicItems/BasicSliderWithRefAndAct.qml</file>
         <file>Images/Swamp_home.png</file>
-        <file>QML/main_controller.qml</file>
         <file>Images/game_control.png</file>
         <file>QML/BasicItems/BasicButton.qml</file>
     </qresource>

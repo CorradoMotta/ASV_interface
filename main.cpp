@@ -52,9 +52,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     DataSource *dataSource;
-    if(networkBinding =="mqtt")  dataSource= new DataSourceMqtt(&data_model);
-    else if(networkBinding =="udp") dataSource = new DataSourceUdp(&data_model);
-    else {qDebug() << "Input network binding not recognized or available : " << networkBinding; exit(-1);}
+    dataSource = new DataSourceUdp(&data_model);
 
     bool sourceIsValid = dataSource->set_cfg("../ASV_interface/conf/conf.ini");
     if(! sourceIsValid) exit(-1);

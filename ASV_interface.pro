@@ -1,4 +1,4 @@
-QT += quick positioning mqtt gui widgets
+QT += quick positioning gui widgets
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -22,7 +22,6 @@ SOURCES += \
         map_models/bathymetrymodel.cpp \
         map_models/depth_point.cpp \
         map_models/singlemarkermodel.cpp \
-        swamp_models/datasource_mqtt.cpp \
         swamp_models/datasource_udp.cpp \
         swamp_models/swampmodel.cpp \
         swamp_models/swampstatus.cpp
@@ -61,7 +60,6 @@ HEADERS += \
     map_models/depth_point.h \
     map_models/singlemarkermodel.h \
     swamp_models/datasource.h \
-    swamp_models/datasource_mqtt.h \
     swamp_models/datasource_udp.h \
     swamp_models/swampmodel.h \
     swamp_models/swampstatus.h

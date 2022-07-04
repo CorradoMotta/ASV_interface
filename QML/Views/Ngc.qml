@@ -191,7 +191,6 @@ BasicMinionPanelContainer{
                 Rectangle{
                     Layout.fillWidth: true
                 }
-                // TODO make it standard
                 BasicButton {
                     id: control
                     Layout.alignment: Qt.AlignRight
@@ -199,7 +198,7 @@ BasicMinionPanelContainer{
                     Layout.topMargin: 4
                     onClicked: publish_topic(setLogTn, 1)
                     text_on_button: "NEW LOG"
-                    button_width: 90
+                    button_width: 100
                 }
             }
             ThrustMappingPanel{
@@ -290,9 +289,6 @@ BasicMinionPanelContainer{
                 title_text: "IMU_THETA"
                 value_text: ngc_root.thetaIMU
             }
-
-
-
             Text {
                 id: asv_text_id
                 Layout.alignment: Qt.AlignTop |Qt.AlignLeft

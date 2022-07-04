@@ -13,13 +13,15 @@ Button {
 
     contentItem: Text {
         id: button_text
+        anchors.centerIn: parent
         font.family: "Helvetica"
         font.pointSize: 14
-        anchors.horizontalCenter: button_background.horizontalCenter
     }
+
     background: Rectangle{
         id: button_background
         height: button_text.implicitHeight + 10
+        implicitWidth: button_width
         color: button_enabled? control.down? "peachpuff" : "papayawhip" : "papayawhip"
         border.width: 1
         border.color: "black"
