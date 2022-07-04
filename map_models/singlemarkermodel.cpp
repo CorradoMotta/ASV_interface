@@ -129,7 +129,7 @@ QString SingleMarkerModel::readDataFromFile(QString filename)
         inputStream.readNext();
         if (inputStream.isStartElement()) {
             QString name = inputStream.name().toString();
-            if (name == "trkpt")
+            if (name == "trkpt" || name == "wpt")
                 insertSingleMarker(QGeoCoordinate(inputStream.attributes().value("lat").toFloat(), inputStream.attributes().value("lon").toFloat()));
         }
     }

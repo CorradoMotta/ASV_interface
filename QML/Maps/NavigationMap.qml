@@ -53,7 +53,7 @@ Rectangle{
     readonly property string set_line_lat_lon: data_model.data_source.swamp_status.ngc_status.setLineLatLon.topic_name //TODO FIX
     readonly property string set_robot_home_tn: data_model.data_source.swamp_status.ngc_status.setRobotHome.topic_name //TODO FIX
     readonly property var publish_topic: data_model.data_source.publishMessage //todo repetition
-    //onResetValueChanged: {}
+
     Rectangle{
         id: status_bar
         anchors{
@@ -69,7 +69,6 @@ Rectangle{
 
             spacing: 80
             anchors.centerIn: parent
-            //anchors.rightMargin: 10
 
             MinionStateRow{
                 id: minion_fl
@@ -306,6 +305,30 @@ Rectangle{
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: publish_topic(set_robot_home_tn, 1)
+                }
+            }
+        }
+
+        // TODO move it into element
+        Rectangle{
+            id: set_controller_presence
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.leftMargin: 20
+            anchors.topMargin: 20
+
+            Image {
+                id: set_controller_presence_image
+                sourceSize.width: 40
+                sourceSize.height: 40
+                visible: QJoysticks.count > 0? true : false
+                source: "../../Images/game_control.png"
+                //scale: mouseArea_rect.containsMouse ? 1.0 : 0.8
+
+                MouseArea {
+                    id: mouseArea_controller
+                    anchors.fill: parent
+                    hoverEnabled: true
                 }
             }
         }

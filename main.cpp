@@ -14,6 +14,16 @@
 #include "swamp_models/datasource.h"
 #include "swamp_models/swampmodel.h"
 #include "swamp_models/datasource_udp.h"
+#include <QPalette>
+#include <QJoysticks.h>
+#include <QStyleFactory>
+#include <QThread>
+
+#ifdef Q_OS_WIN
+#   ifdef main
+#      undef main
+#   endif
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -52,6 +62,9 @@ int main(int argc, char *argv[])
 
     data_model.set_data_source(dataSource);
 
+    // create joystick instance
+    QJoysticks *instance = QJoysticks::getInstance();
+
     // set types to be available in qml
     qmlRegisterUncreatableType<Variable>("com.cnr.property",1,0,"Variable", "Virtual class cannot be instantiated!");
     qmlRegisterUncreatableType<DoubleVariable>("com.cnr.property",1,0,"DoubleVariable", "Virtual class cannot be instantiated!");
@@ -67,6 +80,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty(QStringLiteral("_bathymetry_model"), &bath_model);
     engine.rootContext()->setContextProperty(QStringLiteral("_line_model"), &line_model);
     engine.rootContext()->setContextProperty(QStringLiteral("data_model"), &data_model);
+    engine.rootContext()->setContextProperty("QJoysticks", instance);
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {

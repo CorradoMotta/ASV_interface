@@ -2,12 +2,15 @@
 Repository to store progress on the ASV interface development
 
 ## Info on IDE
-Qt Creator 5.15.2 should be installed with full package and MingW as compiler. You can use the installer available in https://www.qt.io/download. The minimum set of modules that should be selected are:
+Qt Creator 5.15.2 should be installed with full package and MingW as compiler. You can use the online installer available in https://www.qt.io/download in the open source section. After log in with your credentials, go to custom installation. Expand Qt menu, select Qt 5.12.2, the minimum set of modules that should be selected are:
 
 1. MinGW 64bit.
 2. Sources (if you want the source code)
 3. Qt Network Authorization for the use of plugins such as map
-4. In developer and Designer tools > OpenSSL
+4. Qt Charts
+6. Qt Debug information files
+7. In developer and Designer tools > OpenSSL (the whole package)
+
 
 ### OpenSSL
 To be able to use the maps, however, OpenSSL needs to be installed as well on the local machine with the following steps:

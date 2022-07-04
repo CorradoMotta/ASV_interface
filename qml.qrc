@@ -86,7 +86,8 @@
         <file>Images/circle_dot.png</file>
         <file>Images/home-button.png</file>
         <file>QML/BasicItems/BasicSliderWithRefAndAct.qml</file>
-        <file>BasicButton.qml</file>
         <file>Images/Swamp_home.png</file>
+        <file>QML/main_controller.qml</file>
+        <file>Images/game_control.png</file>
     </qresource>
 </RCC>

@@ -31,6 +31,7 @@ Item {
         header: TabBar {
             id: bar
             TabButton {
+                id: ngc_tab
                 text: qsTr("NGC")
             }
             TabButton {
