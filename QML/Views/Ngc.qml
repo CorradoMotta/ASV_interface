@@ -101,10 +101,10 @@ BasicMinionPanelContainer{
     readonly property real asvRefazimuthRL : prefix.asvRefazimuthRL.value // azimuth[RL]
 
     // n ref
-    readonly property real asvRefnFL :prefix.asvRefnFL.value // n[FL]
-    readonly property real asvRefnFR :prefix.asvRefnFR.value // n[FR]
-    readonly property real asvRefnRR :prefix.asvRefnRR.value // n[RR]
-    readonly property real asvRefnRL :prefix.asvRefnRL.value // n[RL]
+    readonly property real asvRefnFL : prefix.asvRefnFL.value // n[FL]
+    readonly property real asvRefnFR : prefix.asvRefnFR.value // n[FR]
+    readonly property real asvRefnRR : prefix.asvRefnRR.value // n[RR]
+    readonly property real asvRefnRL : prefix.asvRefnRL.value // n[RL]
 
     // for controller
     property real x_curr_value : 0
@@ -192,30 +192,14 @@ BasicMinionPanelContainer{
                     Layout.fillWidth: true
                 }
                 // TODO make it standard
-                Button {
+                BasicButton {
                     id: control
                     Layout.alignment: Qt.AlignRight
                     Layout.rightMargin: 10
                     Layout.topMargin: 4
-                    width: 200
                     onClicked: publish_topic(setLogTn, 1)
-                    contentItem: Text {
-                        id: testo
-                        text: "NEW LOG"
-                        font.family: "Helvetica"
-                        font.pointSize: 14
-                        anchors.horizontalCenter: background_b.horizontalCenter
-                        //verticalAlignment: background_b.AlignVCenter
-                    }
-                    background: Rectangle{
-                        id: background_b
-                        height: testo.implicitHeight + 10
-                        width: testo.implicitWidth + 10
-                        color: control.down? "peachpuff" : "papayawhip"
-                        border.width: 1
-                        border.color: "black"
-                        radius: 6
-                    }
+                    text_on_button: "NEW LOG"
+                    button_width: 90
                 }
             }
             ThrustMappingPanel{

@@ -4,9 +4,12 @@ import "../BasicItems"
 
 Rectangle {
     id: set_homing
-    Layout.preferredHeight: cmd_column_id.implicitHeight + 10 //TODO not having numbers here.
-    property alias set_home_is_active : set_home.switch_is_active
-    property alias go_home_is_active: go_home.switch_is_active
+    Layout.preferredHeight: cmd_column_id.implicitHeight
+                         //TODO not having numbers here.
+
+    property alias set_home_is_active : set_home.pressed
+    property alias go_home_is_active: go_home.pressed
+    property alias set_angle_is_active: set_angle.pressed
 
     radius: 5.0
     border {
@@ -17,19 +20,24 @@ Rectangle {
         id: cmd_column_id
         anchors.fill: parent
         anchors.leftMargin: 10
-        //Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-        spacing: 3
-        BasicSwitch{
-            id: set_home
-            switch_text: "SET HOME"
-            //onSwitch_is_activeChanged: switch_is_active? minion_view.publish_topic(minion_view.azimuth_motor_set_home_tn, 1)
-            //                                           : minion_view.publish_topic(minion_view.azimuth_motor_set_home_tn, 0)
-        }
-        BasicSwitch{
+        spacing: 7
+
+        BasicButton{
             id: go_home
-            switch_text: "GO HOME"
-            //onSwitch_is_activeChanged: switch_is_active? minion_view.publish_topic(minion_view.azimuth_motor_go_home_tn, 1)
-            //                                           : minion_view.publish_topic(minion_view.azimuth_motor_go_home_tn, 0)
+            Layout.topMargin: 7
+            text_on_button: "GO HOME"
+            button_width: 200
+        }
+        BasicButton{
+            id: set_angle
+            text_on_button: "SET ANGLE"
+            button_width: 200
+        }
+        BasicButton{
+            id: set_home
+            Layout.bottomMargin: 7
+            text_on_button: "SET HOME"
+            button_width: 200
         }
     }
 }

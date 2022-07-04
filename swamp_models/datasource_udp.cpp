@@ -214,8 +214,8 @@ void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)
     in >> doubleContainer; singleMinion->minionState()->azimuthMotorAngle()->setValue(doubleContainer);
     in >> intContainer; singleMinion->minionState()->azimuthMotorConfigurationStatus()->setValue(intContainer);
     in >> intContainer; singleMinion->minionState()->azimuthMotorOperationStatus()->setValue(intContainer);
-    in >> intContainer; singleMinion->minionState()->azimuthMotorTemperature()->setValue(intContainer); //
-    in >> intContainer; singleMinion->minionState()->azimuthMotorCurrent()->setValue(intContainer);
+    in >> intContainer;    singleMinion->minionState()->azimuthMotorTemperature()->setValue(intContainer); //
+    in >> intContainer;    singleMinion->minionState()->azimuthMotorCurrent()->setValue(intContainer);
     in >> doubleContainer; singleMinion->minionState()->imuYaw()->setValue(doubleContainer);
     in >> doubleContainer; singleMinion->minionState()->imuPitch()->setValue(doubleContainer);
     in >> doubleContainer; singleMinion->minionState()->imuRoll()->setValue(doubleContainer);
@@ -224,12 +224,12 @@ void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)
     in >> doubleContainer; singleMinion->minionState()->imuZGyro()->setValue(doubleContainer);
     in >> doubleContainer; singleMinion->minionState()->imuTemperature()->setValue(doubleContainer);
     in >> doubleContainer; singleMinion->minionState()->imuCalibrationStatus()->setValue(doubleContainer); //unsigned8
-    in >> intContainer; singleMinion->minionState()->gpsDate()->setValue(intContainer);
+    in >> intContainer;    singleMinion->minionState()->gpsDate()->setValue(intContainer);
     in >> doubleContainer; singleMinion->minionState()->gpsTime()->setValue(doubleContainer);
     in >> doubleContainer; singleMinion->minionState()->gpsLatitude()->setValue(doubleContainer);
     in >> doubleContainer; singleMinion->minionState()->gpsLongitude()->setValue(doubleContainer);
-    in >> intContainer; singleMinion->minionState()->gpsFixQuality()->setValue(intContainer);
-    in >> intContainer; singleMinion->minionState()->gpsNSatellite()->setValue(intContainer);
+    in >> intContainer;    singleMinion->minionState()->gpsFixQuality()->setValue(intContainer);
+    in >> intContainer;    singleMinion->minionState()->gpsNSatellite()->setValue(intContainer);
     in >> doubleContainer; singleMinion->minionState()->gpsHDOP()->setValue(doubleContainer);
     in >> doubleContainer; singleMinion->minionState()->gpsAltitude()->setValue(doubleContainer);
     in >> doubleContainer; singleMinion->minionState()->gpsHeightGeoid()->setValue(doubleContainer);
@@ -239,6 +239,10 @@ void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)
     in >> intContainer; // azimuth power
     in >> intContainer; // azimuth enable
     in >> doubleContainer; singleMinion->minionCmd()->azimuthMotorSetReference()->ref()->setValue(doubleContainer);
+
+    //qDebug()
+    // for minion calibration
+
     if(singleMinion->minionState()->timeMs()->value() > m_oldTimeMs[MinionId]){
         // TODO BETTER USE SIGNALS
         m_oldTimeMs[MinionId] = singleMinion->minionState()->timeMs()->value();
@@ -272,7 +276,6 @@ void DataSourceUdp::handleMessage()
 
 bool DataSourceUdp::set_cfg(QString filename)
 {
-    //if(!filename.trimmed().isEmpty()) qDebug() << "Filename " << filename << "is never used";
     QFile file(filename);
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
@@ -280,31 +283,36 @@ bool DataSourceUdp::set_cfg(QString filename)
         return false;
     }
 
-    QMap<QString, QString> address_map;
-    QTextStream in(&file);
+    QSettings settings("../ASV_interface/conf/conf.ini", QSettings::IniFormat);
+
+    // UDP configuration
+    settings.beginGroup("udp_addresses");
+    if(checkConfKey("HCI_address", settings)) m_HCIAddr.ip_addr = QHostAddress(settings.value("HCI_address").toString()); else return false;
+    if(checkConfKey("HCI_port", settings)) m_HCIAddr.port_addr = settings.value("HCI_port").toInt(); else return false;
+    if(checkConfKey("NGC_address", settings)) m_NGCAddr.ip_addr = QHostAddress(settings.value("NGC_address").toString()); else return false;
+    if(checkConfKey("NGC_port", settings)) m_NGCAddr.port_addr = settings.value("NGC_port").toInt(); else return false;
+    settings.endGroup();
+
+    QMap<QString, double> angleMap;
+    // Minions configuration
+    settings.beginGroup("minion_configuration");
+    if(checkConfKey("FR_angle_offset", settings)) angleMap.insert("FR_angle_offset", settings.value("FR_angle_offset").toDouble()); else return false;
+    if(checkConfKey("FL_angle_offset", settings)) angleMap.insert("FL_angle_offset", settings.value("FL_angle_offset").toDouble()); else return false;
+    if(checkConfKey("RR_angle_offset", settings)) angleMap.insert("RR_angle_offset", settings.value("RR_angle_offset").toDouble()); else return false;
+    if(checkConfKey("RL_angle_offset", settings)) angleMap.insert("RL_angle_offset", settings.value("RL_angle_offset").toDouble()); else return false;
+    settings.endGroup();
 
     Minion* singleMinion;
     QString minionId;
+    QString minionName;
     QString minionCmd = QString::number(HciNgiInterface::NgcCommand::MINION_CMD);
-
-    while (!in.atEnd()) {
-        QStringList line = in.readLine().split(QRegExp("\\s+"));
-        if(line.size() == 2){
-            address_map[line[0].trimmed()] = line[1].trimmed();
-        }
-    }
-
-    if(checkConfKey("HCI-address:", address_map)) m_HCIAddr.ip_addr = QHostAddress(address_map["HCI-address:"].trimmed()); else return false;
-    if(checkConfKey("HCI-port:", address_map)) m_HCIAddr.port_addr = address_map["HCI-port:"].trimmed().toInt(); else return false;
-    if(checkConfKey("NGC-address:", address_map)) m_NGCAddr.ip_addr = QHostAddress(address_map["NGC-address:"].trimmed()); else return false;
-    if(checkConfKey("NGC-port:", address_map)) m_NGCAddr.port_addr = address_map["NGC-port:"].trimmed().toInt(); else return false;
 
     for (int var = HciNgiInterface::NgcTelemetryPacket::MINION_FL_TLM; var < HciNgiInterface::NgcTelemetryPacket::MINION_RL_TLM+1; ++var) {
         minionId = QString::number(var);
-        if(minionId == "0") singleMinion = m_swamp_status.minion_fl();
-        else if(minionId == "1") singleMinion = m_swamp_status.minion_fr();
-        else if(minionId == "2") singleMinion = m_swamp_status.minion_rr();
-        else if(minionId == "3") singleMinion = m_swamp_status.minion_rl();
+        if(minionId == "0")      {singleMinion = m_swamp_status.minion_fl(); minionName = "FL_angle_offset"; }
+        else if(minionId == "1") {singleMinion = m_swamp_status.minion_fr(); minionName = "FR_angle_offset"; }
+        else if(minionId == "2") {singleMinion = m_swamp_status.minion_rr(); minionName = "RR_angle_offset"; }
+        else if(minionId == "3") {singleMinion = m_swamp_status.minion_rl(); minionName = "RL_angle_offset"; }
 
         singleMinion->minionCmd()->log()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_LOG));
         singleMinion->minionCmd()->changeTlmAddr()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_SET_TLM_IPADDRESS_PORT));
@@ -319,6 +327,9 @@ bool DataSourceUdp::set_cfg(QString filename)
         singleMinion->minionCmd()->azimuthGoHome()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_AZIMUTH_GO_HOME));
         singleMinion->minionCmd()->azimuthMotorSetReference()->act()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_AZIMUTH_SET_ANGLE));
         singleMinion->minionCmd()->azimuthSetMaxSpeed()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_AZIMUTH_MAX_SPEED));
+
+        // set angle value
+        singleMinion->minionCmd()->azimuthMotorSetReference()->act()->setValue(angleMap.value(minionName));
     }
     //QString tlm_number = QString::number(HciNgiInterface::NgcTelemetryPacket::NGC_TLM);
     //NGC topics
@@ -346,9 +357,9 @@ bool DataSourceUdp::set_cfg(QString filename)
     return true;
 }
 
-bool DataSourceUdp::checkConfKey(QString key, QMap<QString, QString> &address_map)
+bool DataSourceUdp::checkConfKey(QString key, QSettings &settings)
 {
-    if(address_map[key].isEmpty()){
+    if(!settings.contains(key)){
         qDebug() << "Address key named " << key << " is not present in the configuration file or is not spelled properly.";
         return false;
     }

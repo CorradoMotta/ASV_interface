@@ -91,6 +91,7 @@ DISTFILES += \
     Images/rect_box.png \
     Images/stop-button.png \
     Images/stop.png \
+    conf/conf.ini \
     conf/topics.cfg \
     conf/topics_minion.cfg \
     conf/topics_proteus.cfg \

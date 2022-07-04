@@ -56,8 +56,7 @@ int main(int argc, char *argv[])
     else if(networkBinding =="udp") dataSource = new DataSourceUdp(&data_model);
     else {qDebug() << "Input network binding not recognized or available : " << networkBinding; exit(-1);}
 
-    // to do move in a conf file.
-    bool sourceIsValid = dataSource->set_cfg("../ASV_interface/conf/udp_address.cfg");
+    bool sourceIsValid = dataSource->set_cfg("../ASV_interface/conf/conf.ini");
     if(! sourceIsValid) exit(-1);
 
     data_model.set_data_source(dataSource);

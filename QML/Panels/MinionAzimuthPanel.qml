@@ -33,7 +33,7 @@ BasicMinionPanelContainer{
         ColumnLayout{
             id: cmd_column_id
             Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-            spacing: 5
+            spacing: 8
             EngineIcon {
                 id: engine_icon_fl_azm
                 // THIS IS THE LINE NEEDED TO CONNECT ENGINES
@@ -56,29 +56,44 @@ BasicMinionPanelContainer{
                 mask: "0000"
                 onNew_text_valueChanged: minion_view.publish_topic(minion_view.azimuth_motor_set_max_speed_tn, new_text_value)
             }
-            BasicSwitch{
 
-                switch_text: "SET_HOME"
-                switch_is_active: homing_panel.set_home_is_active
-                onSwitch_is_activeChanged: switch_is_active? minion_view.publish_topic(minion_view.azimuth_motor_set_home_tn, 1)
-                                                           : minion_view.publish_topic(minion_view.azimuth_motor_set_home_tn, 0)
-            }
-            BasicSwitch{
-                switch_text: "GO_HOME"
-                switch_is_active: homing_panel.go_home_is_active
-                onSwitch_is_activeChanged: switch_is_active? minion_view.publish_topic(minion_view.azimuth_motor_go_home_tn, 1)
-                                                           : minion_view.publish_topic(minion_view.azimuth_motor_go_home_tn, 0)
+            Connections {
+                target: homing_panel
+                function onSet_angle_is_activeChanged() {
+                    if (homing_panel.set_angle_is_active)
+                        set_reference.value = minion_view.azimuth_motor_angle_act
+                }
+                function onGo_home_is_activeChanged(){
+                    if (homing_panel.go_home_is_active)
+                        minion_view.publish_topic(minion_view.azimuth_motor_go_home_tn, 1)
+                }
+
+                function onSet_home_is_activeChanged(){
+                    if (homing_panel.set_home_is_active)
+                        minion_view.publish_topic(minion_view.azimuth_motor_set_home_tn, 1)
+                }
+
             }
 
+            BasicButton{
+                text_on_button: "GO_HOME"
+                button_width: 200
+                onClicked: minion_view.publish_topic(minion_view.azimuth_motor_go_home_tn, 1)
+            }
+            BasicButton{
+                text_on_button: "SET_HOME"
+                button_width: 200
+                onClicked: minion_view.publish_topic(minion_view.azimuth_motor_set_home_tn, 1)
+            }
 
             BasicSliderVertical {
                 id: set_reference
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                //Layout.fillWidth: true
-                slider_text: "SET_REFERENCE"
+                slider_text: "SET_ANGLE"
                 slider_from: -180
                 slider_to: 180
                 mask_input: "#000"
+                value: 0
                 onValueChanged:  minion_view.publish_topic(minion_view.azimuth_motor_set_reference_tn, value)
                 ref_value: minion_view.azimuth_motor_angle_ref
             }
