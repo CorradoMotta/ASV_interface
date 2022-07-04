@@ -398,4 +398,7 @@ Rectangle{
                 return "No points available!"
         }
     }
+    function add_point(lat, lon){
+        mivMarker.model.insertSingleMarker(QtPositioning.coordinate(lat, lon))
+    }
 }

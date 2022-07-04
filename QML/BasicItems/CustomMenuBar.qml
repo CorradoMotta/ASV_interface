@@ -104,7 +104,8 @@ MenuBar {
                     id: control
                     Layout.alignment: Qt.AlignTop
                     Layout.topMargin: 6
-                    onClicked: publish_topic(setXY_tn, text1.new_text_value + " " + texty.new_text_value + " " + minion_view.xValue )
+                    onClicked: navigation_map.add_point(text1.new_text_value, texty.new_text_value)
+                        //publish_topic(setXY_tn, text1.new_text_value + " " + texty.new_text_value + " " + minion_view.xValue )
                     contentItem: Text {
                         id: testo
                         text: "SET POINT"
@@ -123,14 +124,6 @@ MenuBar {
                         radius: 3
                     }
                 }
-                //                Text {
-                //                    id: set_point
-                //                    Layout.alignment: Qt.AlignTop
-                //                    text: qsTr("SET POINT")
-                //                    font.family: "Helvetica"
-                //                    font.pointSize: 10
-                //                    font.bold: true
-                //                }
                 RowLayout{
                     Layout.alignment: Qt.AlignTop
 
@@ -138,28 +131,28 @@ MenuBar {
                     BasicTextInputInverted {
                         //anchors.centerIn: parent
                         id: text1
-                        title_text:  qsTr("SET X")
+                        title_text:  qsTr("SET LAT")
                         titleSize: 10
-                        value_width: 50
+                        value_width: 100
                     }
-                    Rectangle{
-                        id: slider_text_output
-                        Layout.preferredWidth: text1.value_width
-                        Layout.preferredHeight: text1.implicitHeight
-                        Layout.alignment: Qt.AlignRight
-                        Layout.rightMargin: 10
-                        clip: true
-                        color: "whitesmoke"
-                        border.color: "black"
-                        Text{
-                            id: slider_out_value_id
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            text: xRef
-                            font.family: "Helvetica"
-                            font.pointSize: 16
-                        }
-                    }
+//                    Rectangle{
+//                        id: slider_text_output
+//                        Layout.preferredWidth: text1.value_width
+//                        Layout.preferredHeight: text1.implicitHeight
+//                        Layout.alignment: Qt.AlignRight
+//                        Layout.rightMargin: 10
+//                        clip: true
+//                        color: "whitesmoke"
+//                        border.color: "black"
+//                        Text{
+//                            id: slider_out_value_id
+//                            anchors.fill: parent
+//                            anchors.margins: 4
+//                            text: xRef
+//                            font.family: "Helvetica"
+//                            font.pointSize: 16
+//                        }
+//                    }
                 }
                 RowLayout{
                     Layout.alignment: Qt.AlignTop
@@ -168,28 +161,28 @@ MenuBar {
                     BasicTextInputInverted {
                         //anchors.centerIn: parent
                         id: texty
-                        title_text:  qsTr("SET Y")
+                        title_text:  qsTr("SET LON")
                         titleSize: 10
-                        value_width: 50
+                        value_width: 100
                     }
-                    Rectangle{
-                        id: slider_text_output_y
-                        Layout.preferredWidth: texty.value_width
-                        Layout.preferredHeight: texty.implicitHeight
-                        Layout.alignment: Qt.AlignRight
-                        Layout.rightMargin: 10
-                        clip: true
-                        color: "whitesmoke"
-                        border.color: "black"
-                        Text{
-                            id: slider_out_value_id_y
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            text: yRef
-                            font.family: "Helvetica"
-                            font.pointSize: 16
-                        }
-                    }
+//                    Rectangle{
+//                        id: slider_text_output_y
+//                        Layout.preferredWidth: texty.value_width
+//                        Layout.preferredHeight: texty.implicitHeight
+//                        Layout.alignment: Qt.AlignRight
+//                        Layout.rightMargin: 10
+//                        clip: true
+//                        color: "whitesmoke"
+//                        border.color: "black"
+//                        Text{
+//                            id: slider_out_value_id_y
+//                            anchors.fill: parent
+//                            anchors.margins: 4
+//                            text: yRef
+//                            font.family: "Helvetica"
+//                            font.pointSize: 16
+//                        }
+//                    }
                 }
 
                 // set line
