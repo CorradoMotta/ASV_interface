@@ -4,8 +4,7 @@ Rectangle{
 
     color: "transparent"
     implicitHeight: angle_text.implicitHeight + rpm_text.implicitHeight + 3
-    implicitWidth: 20
-
+    implicitWidth: 60
     property alias angle_text: angle_text.text
     property alias rpm_text: rpm_text.text
     property bool align_right

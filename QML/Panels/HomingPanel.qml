@@ -4,39 +4,37 @@ import "../BasicItems"
 
 Rectangle {
     id: set_homing
-    Layout.preferredHeight: row_id.implicitHeight
-    //TODO not having numbers here.
 
+    // alias property
     property alias set_home_is_active : set_home.pressed
     property alias go_home_is_active: go_home.pressed
     property alias set_angle_is_active: set_angle.pressed
 
+    // azimuth and pump ref values
     property var prefix: data_model.data_source.swamp_status.ngc_status
-    // azimuth ref
     readonly property real asvRefazimuthFL : prefix.asvRefazimuthFL.value // azimuth[FL]
     readonly property real asvRefazimuthFR : prefix.asvRefazimuthFR.value // azimuth[FR]
     readonly property real asvRefazimuthRR : prefix.asvRefazimuthRR.value // azimuth[RR]
     readonly property real asvRefazimuthRL : prefix.asvRefazimuthRL.value // azimuth[RL]
-
     readonly property real asvRefnFL : prefix.asvRefnFL.value // n[FL]
     readonly property real asvRefnFR : prefix.asvRefnFR.value // n[FR]
     readonly property real asvRefnRR : prefix.asvRefnRR.value // n[RR]
     readonly property real asvRefnRL : prefix.asvRefnRL.value // n[RL]
 
+    Layout.preferredHeight: row_id.implicitHeight
     radius: 5.0
     border {
         color: "black"
         width: 2
     }
+
     RowLayout{
         id: row_id
         anchors.fill: parent
         Layout.topMargin: 10
         ColumnLayout{
             id: cmd_column_id
-            //anchors.fill: parent
             Layout.leftMargin: 10
-            //anchors.leftMargin: 10
             spacing: 7
 
             BasicButton{
@@ -58,11 +56,9 @@ Rectangle {
             }
         }
         Rectangle{
-            implicitWidth: image.width + fl_angle.width *2
+            implicitWidth: image.width + fl_angle.implicitWidth *2
             implicitHeight: image.height
             Layout.alignment: Qt.AlignHCenter
-            Layout.leftMargin: 20 //TODO why?
-            //Layout.topMargin: 20
             color: "transparent"
 
             BasicRectangleOutput{
@@ -99,6 +95,7 @@ Rectangle {
             }
             Image {
                 id: image
+                anchors.centerIn: parent
                 source: "../../Images/Swamp.png"
                 sourceSize.width: 100
                 sourceSize.height: 100
