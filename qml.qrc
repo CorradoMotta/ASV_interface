@@ -89,5 +89,6 @@
         <file>Images/Swamp_home.png</file>
         <file>Images/game_control.png</file>
         <file>QML/BasicItems/BasicButton.qml</file>
+        <file>QML/BasicItems/BasicRectangleOutput.qml</file>
     </qresource>
 </RCC>
