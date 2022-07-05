@@ -4,7 +4,7 @@
 
 StringVariable::StringVariable(QObject *parent)
     : Variable{parent},
-      m_value{""}
+      m_value{"-"}
 {
 
 }

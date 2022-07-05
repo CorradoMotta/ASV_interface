@@ -12,6 +12,10 @@ class StringVariable : public Variable
 public:
     explicit StringVariable(QObject *parent = nullptr);
 
+    ~StringVariable() = default;
+    StringVariable(const StringVariable&) = default;
+    StringVariable &operator=(const StringVariable&) = default;
+
     const QString &value() const;
     void setValue(const QString &newValue);
     void fromString(QString s) override;

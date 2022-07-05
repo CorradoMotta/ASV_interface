@@ -193,6 +193,7 @@ void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)
 
     double doubleContainer;
     int intContainer;
+    QString hex;
 
     in >> intContainer; singleMinion->minionState()->nodeId()->setValue(intContainer);
     in >> intContainer; singleMinion->minionState()->dateAndTime()->setValue(intContainer);
@@ -223,7 +224,7 @@ void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)
     in >> doubleContainer; singleMinion->minionState()->imuYGyro()->setValue(doubleContainer);
     in >> doubleContainer; singleMinion->minionState()->imuZGyro()->setValue(doubleContainer);
     in >> doubleContainer; singleMinion->minionState()->imuTemperature()->setValue(doubleContainer);
-    in >> doubleContainer; singleMinion->minionState()->imuCalibrationStatus()->setValue(doubleContainer); //unsigned8
+    in >> intContainer;  hex = QString("%1").arg(intContainer, 0, 16); singleMinion->minionState()->imuCalibrationStatus()->setValue(hex); //unsigned8
     in >> intContainer;    singleMinion->minionState()->gpsDate()->setValue(intContainer);
     in >> doubleContainer; singleMinion->minionState()->gpsTime()->setValue(doubleContainer);
     in >> doubleContainer; singleMinion->minionState()->gpsLatitude()->setValue(doubleContainer);

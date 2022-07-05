@@ -54,6 +54,7 @@ Item {
     readonly property real imu_x_gyro:  prefix.minionState.imuXGyro.value
     readonly property real imu_y_gyro:  prefix.minionState.imuYGyro.value
     readonly property real imu_z_gyro:  prefix.minionState.imuZGyro.value
+    readonly property string imuCalibrationStatus:  prefix.minionState.imuCalibrationStatus.value
 
     // GPS
     readonly property real gps_latitude:  prefix.minionState.gpsLatitude.value

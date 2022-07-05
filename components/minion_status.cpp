@@ -155,7 +155,7 @@ IntVariable *MinionStatus::gpsYear()
     return &m_gpsYear;
 }
 
-DoubleVariable *MinionStatus::imuCalibrationStatus()
+StringVariable *MinionStatus::imuCalibrationStatus()
 {
     return &m_imuCalibrationStatus;
 }
