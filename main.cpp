@@ -18,6 +18,8 @@
 #include <QJoysticks.h>
 #include <QStyleFactory>
 #include <QThread>
+#include <QStandardPaths>
+
 
 #ifdef Q_OS_WIN
 #   ifdef main
@@ -40,7 +42,7 @@ int main(int argc, char *argv[])
     QString extraImportPath(QStringLiteral("%1/../../../%2"));
 #endif
 
-    qDebug() << "Network binding:" << argv[1];
+    //qDebug() << "Network binding:" << argv[1];
     QString networkBinding = "empty";
     if(argc == 2) networkBinding = argv[1];
     networkBinding = networkBinding.toLower().trimmed();
@@ -71,6 +73,7 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<HciNgiInterface>("com.cnr.property",1,0,"HciNgiInterface", "Not creatable as it is an enum type.");
 
     const QUrl url(QStringLiteral("qrc:/QML/main.qml"));
+    qDebug() << "Mapbox cache file stored in:" << QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation);
 
     // set context properties, one for each model
     engine.rootContext()->setContextProperty(QStringLiteral("_marker_model"), &marker_model);

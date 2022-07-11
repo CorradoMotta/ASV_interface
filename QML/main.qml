@@ -32,6 +32,7 @@ ApplicationWindow {
     property double timestamp: 0
 
     // TODO THIS IS DUPLICATED!
+    property alias xValue : ngc_auto.xValue
     property var prefix: data_model.data_source.swamp_status.ngc_status
     readonly property real nRef : prefix.asvRefnRef.value
     readonly property real dnRef : prefix.asvRefdnRef.value
@@ -75,6 +76,46 @@ ApplicationWindow {
             }
         }
     }
+
+    // for controller. Timer gets automatically active when the controller is connected
+    Timer {
+        id: timer
+
+        interval: 100;
+        repeat: true
+        running: QJoysticks.count > 0? true : false
+
+        onTriggered: {
+            var alfa = Math.atan2(x_curr_value,y_curr_value)
+
+            // calculate cos alfa for each situation
+            if(alfa >= (-pi/4) && alfa < (pi/4)) alfa_cos = Math.cos(alfa)
+            else if(alfa >= (pi/4) && alfa < (3/4*pi)) alfa_cos = Math.cos(alfa - pi/2)
+            else if(alfa >= (-3/4*pi) && alfa < (-pi/4)) alfa_cos = Math.cos(alfa + pi/2)
+            else if(alfa >= (3/4*pi) && alfa < (pi)) alfa_cos = Math.cos(alfa - pi)
+            else if(alfa >= (-pi) && alfa < (-3/4*pi)) alfa_cos = Math.cos(alfa + pi)
+
+            // get normalized rho value
+            var rho = (Math.sqrt(Math.pow(x_curr_value,2)+ Math.pow(y_curr_value,2))) * alfa_cos
+
+            // update values in the slider
+            if(rho >= rho_thr) {rpm_alpha.xvalue = nmax * rho; rpm_alpha.zvalue = alfa * 180/pi}
+            else {rpm_alpha.xvalue =0; rpm_alpha.zvalue = 0}
+
+        }
+    }
+
+    Connections {
+        target: QJoysticks
+
+        function onAxisChanged(js, axis, value) {
+            if (currentJoystick === js && x_index === axis)
+                x_curr_value = QJoysticks.getAxis (js, x_index)
+            else if (currentJoystick === js && y_index === axis)
+                y_curr_value = - QJoysticks.getAxis (js, y_index)
+        }
+    }
+
 
     menuBar: CustomMenuBar {
         id: menu_bar_id
@@ -153,22 +194,36 @@ ApplicationWindow {
                     opacity: data_model.data_source.is_connected? 1 : 0.3
                     onValueChanged: root.publish_topic(root.rpmAlphaTn, value) //console.log(value)
                 }
-                ThrustMappingPanel{
-                    id: force_torque
+                //                ThrustMappingPanel{
+                //                    id: force_torque
+                //                    Layout.fillWidth: true
+                //                    Layout.rightMargin: 10
+                //                    Layout.alignment: Qt.AlignTop
+                //                    slider_width: 200
+                //                    title: "FORCE_TORQUE"
+                //                    slider1_text: "X"; slider1_from: -50; slider1_to: 50;  slider1_ref: root.xRef  ; slider1_act: root.asvRefXhat //slider1_mask: "#00";
+                //                    slider2_text: "Y"; slider2_from: -50; slider2_to: 50;  slider2_ref: root.yRef  ; slider2_act: root.asvRefYhat //slider2_mask: "#00";
+                //                    slider3_text: "N"; slider3_from: -50; slider3_to: 50;  slider3_ref: root.nNRef ; slider3_act: root.asvRefNhat //slider3_mask: "#00";
+                //                    clip: true
+                //                    panel_color: "white"
+                //                    enabled: data_model.data_source.is_connected
+                //                    opacity: data_model.data_source.is_connected? 1 : 0.3
+                //                    onValueChanged: root.publish_topic(root.forceTorqueTn, value)
+                //                }
+                NGCPanelSC{
+                    id: ngc_auto
                     Layout.fillWidth: true
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
-                    slider_width: 200
-                    title: "FORCE_TORQUE"
-                    slider1_text: "X"; slider1_from: -50; slider1_to: 50;  slider1_ref: root.xRef  ; slider1_act: root.asvRefXhat //slider1_mask: "#00";
-                    slider2_text: "Y"; slider2_from: -50; slider2_to: 50;  slider2_ref: root.yRef  ; slider2_act: root.asvRefYhat //slider2_mask: "#00";
-                    slider3_text: "N"; slider3_from: -50; slider3_to: 50;  slider3_ref: root.nNRef ; slider3_act: root.asvRefNhat //slider3_mask: "#00";
                     clip: true
                     panel_color: "white"
+                    slider_width: 200
+                    title: "CONTROL"
                     enabled: data_model.data_source.is_connected
                     opacity: data_model.data_source.is_connected? 1 : 0.3
-                    onValueChanged: root.publish_topic(root.forceTorqueTn, value)
+                    slider1_text: "X"; slider1_from: -50.0; slider1_to: 50.0;  slider1_ref: xRef  //slider1_mask: "#00";
                 }
+
                 BathymetryPanel {
                     id: bathymetry_panel
                     Layout.fillWidth: true

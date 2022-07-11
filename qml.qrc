@@ -90,5 +90,6 @@
         <file>Images/game_control.png</file>
         <file>QML/BasicItems/BasicButton.qml</file>
         <file>QML/BasicItems/BasicRectangleOutput.qml</file>
+        <file>QML/Panels/NGCPanelSC.qml</file>
     </qresource>
 </RCC>

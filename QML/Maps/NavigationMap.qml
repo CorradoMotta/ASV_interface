@@ -101,6 +101,7 @@ Rectangle{
 
     Map {
         id: swamp_map
+
         anchors{
             topMargin: 8
             top: status_bar.bottom
@@ -383,8 +384,8 @@ Rectangle{
                 var lat = mivMarker.model.getCoordinate(0).latitude
                 var lon = mivMarker.model.getCoordinate(0).longitude
                 // todo better way to concatenate (also a function)
-                publish_topic(set_lat_lon_tn, lat + " " + lon + " " + minion_view.xValue)
-                return "Sending point (" + lat +" "+ lon +") X = " + minion_view.xValue
+                publish_topic(set_lat_lon_tn, lat + " " + lon + " " + root.xValue)
+                return "Sending point (" + lat +" "+ lon +") X = " + root.xValue
             }
             else
                 return "No points available!"
