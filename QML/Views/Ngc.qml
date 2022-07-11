@@ -25,7 +25,6 @@ BasicMinionPanelContainer{
     title: "NGC"
     color: "whitesmoke"
     property int blockSize: 12
-    property int currentJoystick: 0
     property var prefix: data_model.data_source.swamp_status.ngc_status
     property alias xValue : control_panel.xValue
     readonly property string ngcEnableTn: prefix.ngcEnable.act.topic_name
@@ -106,15 +105,7 @@ BasicMinionPanelContainer{
     readonly property real asvRefnRR : prefix.asvRefnRR.value // n[RR]
     readonly property real asvRefnRL : prefix.asvRefnRL.value // n[RL]
 
-    // for controller
-    property real x_curr_value : 0
-    property real y_curr_value : 0
-    property real x_index : 0
-    property real y_index : 1
-    property real pi : Math.PI
-    property real nmax : 1600
-    property real rho_thr: 0.2
-    property real alfa_cos : 0
+
 
 
     //border.color: "transparent"

@@ -26,10 +26,21 @@ ApplicationWindow {
     width: minimumWidth
     visible: true
     title: qsTr("Swamp interface")
+    property int currentJoystick: 0
     property double pi_value: 3.1415926535
     property bool connected: false
     property bool startUp: true
     property double timestamp: 0
+
+    // for controller
+    property real x_curr_value : 0
+    property real y_curr_value : 0
+    property real x_index : 0
+    property real y_index : 1
+    property real pi : Math.PI
+    property real nmax : 1600
+    property real rho_thr: 0.2
+    property real alfa_cos : 0
 
     // TODO THIS IS DUPLICATED!
     property alias xValue : ngc_auto.xValue
