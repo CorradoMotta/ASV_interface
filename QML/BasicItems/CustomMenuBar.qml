@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.15
 import com.cnr.property 1.0
 import QtQuick.Layouts 1.15
+import QtQml 2.15
 import "../BasicItems"
 // TODO FIX FOR CONNECT
 MenuBar {
@@ -17,6 +18,16 @@ MenuBar {
     readonly property real yRef : data_model.data_source.swamp_status.ngc_status.asvRefyRef.value
     readonly property var publish_topic: data_model.data_source.publishMessage
 
+    // button used to go back to RAW value
+    Connections {
+        target: QJoysticks
+        enabled: data_model.data_source.is_connected
+        function onButtonChanged(js, button, pressed) {
+            if (button === 1 && pressed === true){
+                working_modes.checkedAction = raw_action
+            }
+        }
+    }
 
     ActionGroup {
         id: working_modes
@@ -51,7 +62,7 @@ MenuBar {
     Menu{
         id: gcWorkingMode
         title: qsTr("GcWorkingMode")
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("RAW"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_RAW): ""}
+        Action {id: raw_action; checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("RAW"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_RAW): ""}
         Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("THRUST"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_THRUST): ""}
         Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("MANUAL"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_MANUAL): ""}
         Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("MANUAL_SPEED"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_MANUAL_SPEED): ""}

@@ -75,21 +75,6 @@ ApplicationWindow {
                     QtPositioning.coordinate(navigation_map.lat.value, navigation_map.lon.value))
     }
 
-    // button used to switch stack view. It is immediately available when controller is connected.
-    Connections {
-        target: QJoysticks
-        enabled: data_model.data_source.is_connected
-        function onButtonChanged(js, button, pressed) {
-            if (button === 0 && pressed === true){
-                if(stack_button.open_minion){
-                    stack_button.push_view()
-                }else{
-                    stack_button.pop_view()
-                }
-            }
-        }
-    }
-
     // for controller. Timer gets automatically active when the controller is connected
     Timer {
         id: timer
@@ -129,6 +114,20 @@ ApplicationWindow {
         }
     }
 
+    // button used to switch to NGC and minion views. It is immediately available when controller is connected.
+    Connections {
+        target: QJoysticks
+        enabled: data_model.data_source.is_connected
+        function onButtonChanged(js, button, pressed) {
+            if (button === 0 && pressed === true){
+                if(stack_button.open_minion){
+                    stack_button.push_view()
+                }else{
+                    stack_button.pop_view()
+                }
+            }
+        }
+    }
 
     menuBar: CustomMenuBar {
         id: menu_bar_id
