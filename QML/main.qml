@@ -11,6 +11,7 @@ import QtPositioning 5.15
 import QtLocation 5.15
 import QtQuick.Layouts 1.11
 import QtQuick.Controls 2.15
+import QtQml 2.15
 
 import "BasicItems"
 import "Maps"
@@ -77,6 +78,7 @@ ApplicationWindow {
     // button used to switch stack view. It is immediately available when controller is connected.
     Connections {
         target: QJoysticks
+        enabled: data_model.data_source.is_connected
         function onButtonChanged(js, button, pressed) {
             if (button === 0 && pressed === true){
                 if(stack_button.open_minion){
@@ -118,7 +120,7 @@ ApplicationWindow {
 
     Connections {
         target: QJoysticks
-
+        enabled: data_model.data_source.is_connected
         function onAxisChanged(js, axis, value) {
             if (currentJoystick === js && x_index === axis)
                 x_curr_value = QJoysticks.getAxis (js, x_index)
