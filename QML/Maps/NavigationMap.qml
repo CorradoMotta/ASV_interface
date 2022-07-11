@@ -294,6 +294,8 @@ Rectangle{
 
             Image {
                 id: set_robot_home_image
+                enabled: data_model.data_source.is_connected
+                opacity: data_model.data_source.is_connected? 1: 0.3
                 visible: true
                 sourceSize.width: 50
                 sourceSize.height: 50
@@ -379,7 +381,7 @@ Rectangle{
     function send_point(){
         if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
         {
-            if( mivMarker.model.rowCount()!==0){
+            if( mivMarker.model.rowCount()!==0 && data_model.data_source.is_connected){
                 // sending first marker only
                 var lat = mivMarker.model.getCoordinate(0).latitude
                 var lon = mivMarker.model.getCoordinate(0).longitude
@@ -387,12 +389,14 @@ Rectangle{
                 publish_topic(set_lat_lon_tn, lat + " " + lon + " " + root.xValue)
                 return "Sending point (" + lat +" "+ lon +") X = " + root.xValue
             }
+            else if(!data_model.data_source.is_connected)
+                return "Connection is not established!"
             else
                 return "No points available!"
         }
         else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
             if(mivLine.model.rowCount()!==0){
-                publish_topic()
+                //publish_topic()
                 return "Not implemented yet"
             }
             else
