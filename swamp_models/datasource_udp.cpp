@@ -25,26 +25,30 @@ void DataSourceUdp::update_ts_from_local(){
             switch(var){
             case HciNgiInterface::NgcTelemetryPacket::MINION_FL_TLM:
                 m_swamp_status.minion_fl()->minionState()->is_alive()->setValue(1);
+                m_oldTimeMs[var] = 0;
                 break;
             case HciNgiInterface::NgcTelemetryPacket::MINION_FR_TLM:
                 m_swamp_status.minion_fr()->minionState()->is_alive()->setValue(1);
+                m_oldTimeMs[var] = 0;
                 break;
             case HciNgiInterface::NgcTelemetryPacket::MINION_RL_TLM:
                 m_swamp_status.minion_rl()->minionState()->is_alive()->setValue(1);
+                m_oldTimeMs[var] = 0;
                 break;
             case HciNgiInterface::NgcTelemetryPacket::MINION_RR_TLM:
                 m_swamp_status.minion_rr()->minionState()->is_alive()->setValue(1);
+                m_oldTimeMs[var] = 0;
                 break;
             }
         }
         m_lastTime[var] ++;
-        publishMessage(m_swamp_status.time_status()->hmi_timestamp()->topic_name(), QString::number(m_count_timer));
     }
+    publishMessage(m_swamp_status.time_status()->hmi_timestamp()->topic_name(), QString::number(m_count_timer));
 }
 
 void DataSourceUdp::setConnection()
 {
-    if(!m_is_connected &&!isBound){
+    if(!m_is_connected && !isBound){
         bool isUdpConnected = m_udpSocket->bind(m_HCIAddr.ip_addr, m_HCIAddr.port_addr);
         if (isUdpConnected){
             connect(m_udpSocket, &QUdpSocket::readyRead, this, &DataSourceUdp::handleMessage);
@@ -53,12 +57,19 @@ void DataSourceUdp::setConnection()
             set_is_connected(true);
         }
     }else if(!m_is_connected && isBound){
-        if(!m_timer->isActive()) m_timer->start();
+        bool isUdpConnected = m_udpSocket->bind(m_HCIAddr.ip_addr, m_HCIAddr.port_addr);
+        if (isUdpConnected){
+            connect(m_udpSocket, &QUdpSocket::readyRead, this, &DataSourceUdp::handleMessage);
+            if(!m_timer->isActive()) m_timer->start();
+            isBound = true;
+            set_is_connected(true);
+        }
         set_is_connected(true);
 
     }
     else{
         if(m_timer->isActive()) m_timer->stop();
+        m_udpSocket->disconnectFromHost();
         set_is_connected(false);
         //qDebug() << "Cannot disconnect a UDP connection!";
     }
@@ -67,7 +78,7 @@ void DataSourceUdp::setConnection()
 void DataSourceUdp::publishMessage(const QString &identifier, const QString &message)
 {
     QString value = identifier + " " + message + "\r\n";
-    if(identifier != m_swamp_status.time_status()->hmi_timestamp()->topic_name()) qDebug() << "sending : " << value;
+    //qDebug() << "sending : " << value;
     //qDebug() << m_NGCAddr.ip_addr << m_NGCAddr.port_addr;
     m_udpSocket->writeDatagram(value.toUtf8(), m_NGCAddr.ip_addr, m_NGCAddr.port_addr);
 }
@@ -188,7 +199,7 @@ void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)
         break;
     default:
         qDebug() << "Following packet identifier not recognised: " << MinionId;
-        break;
+        return;
     }
 
     double doubleContainer;
@@ -292,6 +303,7 @@ bool DataSourceUdp::set_cfg(QString filename)
     if(checkConfKey("HCI_port", settings)) m_HCIAddr.port_addr = settings.value("HCI_port").toInt(); else return false;
     if(checkConfKey("NGC_address", settings)) m_NGCAddr.ip_addr = QHostAddress(settings.value("NGC_address").toString()); else return false;
     if(checkConfKey("NGC_port", settings)) m_NGCAddr.port_addr = settings.value("NGC_port").toInt(); else return false;
+    if(checkConfKey("Set_local", settings) && settings.value("Set_local").toBool())  m_HCIAddr.ip_addr =  QHostAddress::LocalHost;
     settings.endGroup();
 
     QMap<QString, double> angleMap;
@@ -314,6 +326,7 @@ bool DataSourceUdp::set_cfg(QString filename)
         else if(minionId == "1") {singleMinion = m_swamp_status.minion_fr(); minionName = "FR_angle_offset"; }
         else if(minionId == "2") {singleMinion = m_swamp_status.minion_rr(); minionName = "RR_angle_offset"; }
         else if(minionId == "3") {singleMinion = m_swamp_status.minion_rl(); minionName = "RL_angle_offset"; }
+        else return false;
 
         singleMinion->minionCmd()->log()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_LOG));
         singleMinion->minionCmd()->changeTlmAddr()->setTopic_name(minionCmd + " " + minionId + " " +QString::number(HciNgiInterface::MinionNgcCmd::MINION_SET_TLM_IPADDRESS_PORT));
