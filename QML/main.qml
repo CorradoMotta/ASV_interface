@@ -39,7 +39,7 @@ ApplicationWindow {
     property real x_index : 0
     property real y_index : 1
     property real pi : Math.PI
-    property real nmax : 1600
+    property real nmax : data_model.data_source.swamp_status.conf.maxControllerSpeed
     property real rho_thr: 0.2
     property real alfa_cos : 0
 
@@ -58,6 +58,7 @@ ApplicationWindow {
     readonly property string rpmAlphaTn: prefix.rpmAlpha.topic_name
     readonly property string forceTorqueTn: prefix.forceTorque.topic_name
     readonly property var publish_topic: data_model.data_source.publishMessage
+    readonly property int maxRPMSpeed: data_model.data_source.swamp_status.conf.maxRPMSpeed
 
     function messagePrompt(prompt_text){
         message_prompt.message = prompt_text
@@ -197,7 +198,7 @@ ApplicationWindow {
                     Layout.alignment: Qt.AlignTop
                     slider_width: 200
                     title: "RPM_ALPHA"
-                    slider1_text: "N"; slider1_from: 0; slider1_to: 1800;      slider1_ref: root.nRef   //slider1_mask: "0000";
+                    slider1_text: "N"; slider1_from: 0; slider1_to: root.maxRPMSpeed;      slider1_ref: root.nRef   //slider1_mask: "0000";
                     slider2_text: "D"; slider2_from: -900; slider2_to: 900;  slider2_ref: root.dnRef    //slider2_mask: "#000";
                     slider3_text: "Α"; slider3_from: -180; slider3_to: 180;  slider3_ref: root.alphaRef //slider3_mask: "#000";
                     clip: true

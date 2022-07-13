@@ -5,6 +5,7 @@ QT += quick positioning gui widgets
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        components/conf.cpp \
         components/gps_ahrs_status.cpp \
         components/minion.cpp \
         components/minion_command.cpp \
@@ -40,6 +41,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    components/conf.h \
     components/gps_ahrs_status.h \
     components/minion.h \
     components/minion_command.h \

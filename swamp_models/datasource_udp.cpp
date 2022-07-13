@@ -315,6 +315,17 @@ bool DataSourceUdp::set_cfg(QString filename)
     if(checkConfKey("RL_angle_offset", settings)) angleMap.insert("RL_angle_offset", settings.value("RL_angle_offset").toDouble()); else return false;
     settings.endGroup();
 
+    // Mapbox configuration
+    settings.beginGroup("mapbox_settings");
+    if(checkConfKey("cache_dir", settings)) m_swamp_status.conf()->setMb_offline(settings.value("cache_dir").toString()); else return false;
+    settings.endGroup();
+
+    // RPM configuration
+    settings.beginGroup("RPM_Settings");
+    if(checkConfKey("max_rpm_speed", settings)) m_swamp_status.conf()->setMaxRPMSpeed(settings.value("max_rpm_speed").toInt()); else return false;
+    if(checkConfKey("max_controller_speed", settings)) m_swamp_status.conf()->setMaxControllerSpeed(settings.value("max_controller_speed").toInt()); else return false;
+    settings.endGroup();
+
     Minion* singleMinion;
     QString minionId;
     QString minionName;

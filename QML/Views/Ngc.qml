@@ -473,7 +473,7 @@ BasicMinionPanelContainer{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 value_width: 120
                 title_text: "n[RR]"
-                value_text: ngc_root.asvRefnRR
+                value_text:  ngc_root.asvRefnRR
             }
 
             // SET LINE and POSITION

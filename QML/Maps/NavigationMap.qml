@@ -121,7 +121,7 @@ Rectangle{
                 navigation_map.is_centered = true
         }
 
-        activeMapType: supportedMapTypes[0]
+        activeMapType: supportedMapTypes[4]
         copyrightsVisible: false
 
         MouseArea {
