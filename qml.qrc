@@ -91,5 +91,6 @@
         <file>QML/BasicItems/BasicButton.qml</file>
         <file>QML/BasicItems/BasicRectangleOutput.qml</file>
         <file>QML/Panels/NGCPanelSC.qml</file>
+        <file>Images/map_style.png</file>
     </qresource>
 </RCC>

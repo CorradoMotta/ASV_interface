@@ -29,6 +29,12 @@ public:
         MINION_AZIMUTH_SET_ANGLE, // par: double angle [deg]
     };
 
+    enum MapboxStyle {
+        MB_STREET=0,
+        MB_SATELLITE,
+        MB_ALL
+    };
+
     enum NgcCommand {
         HCI_NOP=0,
         NGC_ENABLE,
@@ -95,23 +101,24 @@ public:
         TMAM_NUMBER
     };
 
-//    enum ThrustMappingAutoMode {
-//        TMAM_HOV_MODE=0, // ROV-like fixed-azimuth configuration
-//        TMAM_FRWD_THRUST_ALL, // yaw torque given by differential thrust: azimuth[i]=0
-//        TMAM_FRWD_AZIMUTH_ALL, // yaw torque given by azimuth angle
-//        TMAM_FRWD_AZIMUTH_BOW,// yaw torque given by bow azimuth angle
-//        TMAM_FRWD_AZIMUTH_STERN, // yaw torque given by stern azimuth angle
-//        TMAM_BCKWD_THRUST_ALL, // yaw torque given by differential thrust: azimuth[i]=180
-//        TMAM_BCKWD_AZIMUTH_ALL, // yaw torque given by azimuth angle
-//        TMAM_BCKWD_AZIMUTH_BOW,// yaw torque given by bow azimuth angle
-//        TMAM_BCKWD_AZIMUTH_STERN, // yaw torque given by stern azimuth angle
-//        TMAM_NUMBER
-//    };
+    //    enum ThrustMappingAutoMode {
+    //        TMAM_HOV_MODE=0, // ROV-like fixed-azimuth configuration
+    //        TMAM_FRWD_THRUST_ALL, // yaw torque given by differential thrust: azimuth[i]=0
+    //        TMAM_FRWD_AZIMUTH_ALL, // yaw torque given by azimuth angle
+    //        TMAM_FRWD_AZIMUTH_BOW,// yaw torque given by bow azimuth angle
+    //        TMAM_FRWD_AZIMUTH_STERN, // yaw torque given by stern azimuth angle
+    //        TMAM_BCKWD_THRUST_ALL, // yaw torque given by differential thrust: azimuth[i]=180
+    //        TMAM_BCKWD_AZIMUTH_ALL, // yaw torque given by azimuth angle
+    //        TMAM_BCKWD_AZIMUTH_BOW,// yaw torque given by bow azimuth angle
+    //        TMAM_BCKWD_AZIMUTH_STERN, // yaw torque given by stern azimuth angle
+    //        TMAM_NUMBER
+    //    };
     Q_ENUM(MinionNgcCmd)
     Q_ENUM(NgcCommand)
     Q_ENUM(NgcTelemetryPacket)
     Q_ENUM(GCworkingMode)
     Q_ENUM(ThrustMappingManualMode)
     Q_ENUM(ThrustMappingAutoMode)
+    Q_ENUM(MapboxStyle)
 };
 #endif // HCINGIINTERFACE_H

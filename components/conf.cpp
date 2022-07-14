@@ -45,3 +45,16 @@ void Conf::setMb_offline(const QString &newMb_offline_db)
     m_mb_offline_db = newMb_offline_db;
     emit mb_offline_dbChanged();
 }
+
+HciNgiInterface::MapboxStyle Conf::mb_style() const
+{
+    return m_mb_style;
+}
+
+void Conf::setMb_style(HciNgiInterface::MapboxStyle newMb_style)
+{
+    if (m_mb_style == newMb_style)
+        return;
+    m_mb_style = newMb_style;
+    emit mb_styleChanged();
+}

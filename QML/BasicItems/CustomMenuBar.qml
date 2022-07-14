@@ -47,18 +47,19 @@ MenuBar {
         }
     }
 
-    Menu {
-        id: mapTypeMenu
-        title: qsTr("MapType")
-        // to add elements to my menu from a list i use the repeater element
-        Repeater {
-            model: navigation_map.mapTypes
-            MenuItem {
-                text: navigation_map.mapName === "mapboxgl" ? model.description: model.name
-                onTriggered: navigation_map.setActiveMap(model.index)
-            }
-        }
-    }
+// disabled for the moment
+//    Menu {
+//        id: mapTypeMenu
+//        title: qsTr("MapType")
+//        // to add elements to my menu from a list i use the repeater element
+//        Repeater {
+//            model: navigation_map.mapTypes
+//            MenuItem {
+//                text: navigation_map.mapName === "mapboxgl" ? model.description: model.name
+//                onTriggered: navigation_map.setActiveMap(model.index)
+//            }
+//        }
+//    }
     Menu{
         id: gcWorkingMode
         title: qsTr("GcWorkingMode")

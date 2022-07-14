@@ -318,6 +318,16 @@ bool DataSourceUdp::set_cfg(QString filename)
     // Mapbox configuration
     settings.beginGroup("mapbox_settings");
     if(checkConfKey("cache_dir", settings)) m_swamp_status.conf()->setMb_offline(settings.value("cache_dir").toString()); else return false;
+    if(checkConfKey("map_style", settings)){
+        if(settings.value("map_style").toString().compare("satellite")==0) m_swamp_status.conf()->setMb_style(HciNgiInterface::MapboxStyle::MB_SATELLITE);
+        else if(settings.value("map_style").toString().compare("street")==0) m_swamp_status.conf()->setMb_style(HciNgiInterface::MapboxStyle::MB_STREET);
+        else if(settings.value("map_style").toString().compare("all")==0) m_swamp_status.conf()->setMb_style(HciNgiInterface::MapboxStyle::MB_ALL);
+        else {
+            qDebug() << "Failed to find correct map style configuration for:" << settings.value("map_style").toString() << ". Only accepted values are"
+                                                                                                                       "\n<satellite>\n<street>\n<all>";
+            return false;
+        }
+    }
     settings.endGroup();
 
     // RPM configuration

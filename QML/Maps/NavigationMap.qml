@@ -14,6 +14,7 @@ import QtQuick 2.15
 import QtPositioning 5.15
 import QtLocation 5.15
 import QtQuick.Layouts 1.11
+import com.cnr.property 1.0
 import "../BasicItems"
 import "../Panels"
 
@@ -37,6 +38,7 @@ Rectangle{
     readonly property real hueMin : 0.513
     readonly property real hueMax : 0.652
     property alias mapTypes: swamp_map.supportedMapTypes
+    property int activeMap : 0
     property alias mapName: swamp_map.plugin.name
     property alias zoomLevel: swamp_map.zoomLevel
     //property int resetValue: false
@@ -121,7 +123,10 @@ Rectangle{
                 navigation_map.is_centered = true
         }
 
-        activeMapType: supportedMapTypes[4]
+        activeMapType: data_model.data_source.swamp_status.conf.mb_style === HciNgiInterface.MB_SATELLITE? supportedMapTypes[4]:
+                       data_model.data_source.swamp_status.conf.mb_style === HciNgiInterface.MB_STREET? supportedMapTypes[0]:
+                       supportedMapTypes[0]
+
         copyrightsVisible: false
 
         MouseArea {
@@ -270,28 +275,6 @@ Rectangle{
             anchors.leftMargin: 20
             anchors.bottomMargin: 68
 
-            //            Rectangle{
-            //                id: info_label_set_home
-            //                z: 5
-            //                anchors.bottom: set_robot_home.top
-            //                anchors.bottomMargin:-(info_label_text_set_home.height/3)
-            //                anchors.left: set_robot_home.left
-            //                width: info_label_text_set_home.implicitWidth + 6
-            //                height: info_label_text_set_home.implicitHeight + 6
-            //                color: "white"
-            //                border.color: "black"
-            //                visible: mouseArea_rect.containsMouse ? true : false
-
-            //                Text{
-            //                    id: info_label_text_set_home
-            //                    text: "set robot home"
-            //                    anchors.horizontalCenter: info_label_set_home.horizontalCenter
-            //                    anchors.verticalCenter: info_label_set_home.verticalCenter
-            //                    font.pointSize: 10
-            //                }
-            //            }
-
-
             Image {
                 id: set_robot_home_image
                 enabled: data_model.data_source.is_connected
@@ -308,6 +291,33 @@ Rectangle{
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: publish_topic(set_robot_home_tn, 1)
+                }
+            }
+        }
+
+        // TODO move it into element
+        Rectangle{
+            id: set_mapbox_style
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.rightMargin : 80
+            anchors.topMargin: 20
+
+            Image {
+                id: set_mapbox_style_image
+                visible: true
+                sourceSize.width: 60
+                sourceSize.height: 60
+                opacity: 0.8
+                source: "../../Images/map_style.png"
+                scale: mb_style_ma.containsMouse ? 1.0 : 0.8
+
+                MouseArea {
+                    id: mb_style_ma
+                    anchors.fill: parent
+                    enabled: data_model.data_source.swamp_status.conf.mb_style === HciNgiInterface.MB_ALL
+                    hoverEnabled: true
+                    onClicked: navigation_map.activeMap===0? setActiveMap(4) : setActiveMap(0)
                 }
             }
         }
@@ -338,6 +348,8 @@ Rectangle{
 
     }
     function setActiveMap(index) {
+        if(index === 0) navigation_map.activeMap = 0
+        else navigation_map.activeMap = 4
         swamp_map.activeMapType = swamp_map.supportedMapTypes[index]
     }
 

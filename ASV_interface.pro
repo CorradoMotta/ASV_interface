@@ -94,7 +94,6 @@ DISTFILES += \
     conf/conf.ini \
     conf/topics.cfg \
     conf/topics_minion.cfg \
-    conf/topics_proteus.cfg \
-    conf/udp_address.cfg
+    conf/topics_proteus.cfg
 
 include (3rd_parties/QJoysticks/QJoysticks.pri)
