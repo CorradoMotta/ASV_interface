@@ -46,7 +46,7 @@ Item {
             Layout.alignment: Qt.AlignLeft
             Layout.rightMargin: 10
             Layout.topMargin: 4
-            button_width: 90
+            button_width: 100
             button_enabled : button_enabled
         }
 
@@ -82,6 +82,7 @@ Item {
             property bool __pressed: false
             Layout.alignment: Qt.AlignRight
             Layout.preferredWidth: rect.implicitWidth
+            width: rect.implicitWidth
             stepSize: 0.1
             from: -99
             value: 0
@@ -124,10 +125,12 @@ Item {
             id: text_input_id
             property int maxWidth: 48
             Layout.preferredWidth: maxWidth
+            implicitWidth: text_input_id.maxWidth
             Layout.preferredHeight: slider_value_id.implicitHeight + 6
             Layout.alignment: Qt.AlignRight
             Rectangle{
                 id: slider_text_input
+
                 anchors.fill: parent
                 border.color: "gray"
                 border.width: 2
@@ -154,6 +157,7 @@ Item {
             Layout.preferredHeight: control.implicitHandleHeight
             Layout.preferredWidth: control.implicitHandleHeight
             //Layout.rightMargin: 10
+            implicitWidth: reset.width
             radius: 15
             color: "#f08080"
             Rectangle {
@@ -177,6 +181,7 @@ Item {
             id: slider_text_output
             Layout.preferredWidth: text_input_id.maxWidth
             Layout.preferredHeight: slider_out_value_id.implicitHeight + 6
+            implicitWidth: text_input_id.maxWidth
             Layout.alignment: Qt.AlignRight
             Layout.rightMargin: 10
             clip: true

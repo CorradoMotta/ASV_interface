@@ -5,6 +5,7 @@
 
 #include "map_models/singlemarkermodel.h"
 #include "map_models/bathymetrymodel.h"
+#include "map_models/coordinate_model.h"
 #include "data/variable.h"
 #include "data/doublevariable.h"
 #include "data/intvariable.h"
@@ -50,6 +51,7 @@ int main(int argc, char *argv[])
     SingleMarkerModel marker_model;
     SingleMarkerModel line_model;
     BathymetryModel bath_model("Bathymetry");
+    Coordinate_model coors_model;
     SwampModel data_model;
     QQmlApplicationEngine engine;
 
@@ -80,6 +82,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty(QStringLiteral("_bathymetry_model"), &bath_model);
     engine.rootContext()->setContextProperty(QStringLiteral("_line_model"), &line_model);
     engine.rootContext()->setContextProperty(QStringLiteral("data_model"), &data_model);
+    engine.rootContext()->setContextProperty(QStringLiteral("_coor_model"), &coors_model);
     engine.rootContext()->setContextProperty("QJoysticks", instance);
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

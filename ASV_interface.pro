@@ -21,6 +21,7 @@ SOURCES += \
         data/variable.cpp \
         main.cpp \
         map_models/bathymetrymodel.cpp \
+        map_models/coordinate_model.cpp \
         map_models/depth_point.cpp \
         map_models/singlemarkermodel.cpp \
         swamp_models/datasource_udp.cpp \
@@ -59,6 +60,7 @@ HEADERS += \
     data/stringvariable.h \
     data/variable.h \
     map_models/bathymetrymodel.h \
+    map_models/coordinate_model.h \
     map_models/depth_point.h \
     map_models/singlemarkermodel.h \
     swamp_models/datasource.h \
@@ -88,6 +90,7 @@ DISTFILES += \
     Images/pause.png \
     Images/play-button-simple.png \
     Images/play-button.png \
+    Images/plus_resized.png \
     Images/rect_box.png \
     Images/stop-button.png \
     Images/stop.png \

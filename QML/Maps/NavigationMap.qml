@@ -27,26 +27,26 @@ Rectangle{
     property real homeLonRef: data_model.data_source.swamp_status.ngc_status.lonHomeRef.value
     property real latValue : lat.value
     property real lonValue: lon.value
+    property real ngc_timestamp: data_model.data_source.swamp_status.gps_ahrs_status.timestamp.value
     property real v_rotation : data_model.data_source.swamp_status.ngc_status.psi.value //convertToRadiant
     property bool is_centered: true
     property var initialCoordinates: QtPositioning.coordinate(lat.value, lon.value)
     //property double initialValue : 7.13
     property real rando : 0
     property int bath_counter: 0
-    property int max_bathymetry_depth : bathymetry_panel.max_depth
-    property int min_bathymetry_depth : bathymetry_panel.min_depth
+    //property int max_bathymetry_depth : bathymetry_panel.max_depth
+    //property int min_bathymetry_depth : bathymetry_panel.min_depth
     readonly property real hueMin : 0.513
     readonly property real hueMax : 0.652
     property alias mapTypes: swamp_map.supportedMapTypes
     property int activeMap : 0
     property alias mapName: swamp_map.plugin.name
     property alias zoomLevel: swamp_map.zoomLevel
-    //property int resetValue: false
 
     onLatValueChanged: lon.value !==0 ? root.startUp = false: ""
     onLonValueChanged: lat.value !==0 ? root.startUp = false: ""
-    onMax_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
-    onMin_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
+    //onMax_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
+    //onMin_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
 
     onHomeLatRefChanged: homeLonRef != 0 ? root.messagePrompt("Robot's home set in (" + homeLatRef + " " + homeLonRef +")") : ""
     onHomeLonRefChanged: homeLatRef != 0 ? root.messagePrompt("Robot's home set in (" + homeLatRef + " " + homeLonRef +")") : ""
@@ -124,8 +124,8 @@ Rectangle{
         }
 
         activeMapType: data_model.data_source.swamp_status.conf.mb_style === HciNgiInterface.MB_SATELLITE? supportedMapTypes[4]:
-                       data_model.data_source.swamp_status.conf.mb_style === HciNgiInterface.MB_STREET? supportedMapTypes[0]:
-                       supportedMapTypes[0]
+                                                                                                           data_model.data_source.swamp_status.conf.mb_style === HciNgiInterface.MB_STREET? supportedMapTypes[0]:
+                                                                                                                                                                                            supportedMapTypes[0]
 
         copyrightsVisible: false
 
@@ -152,29 +152,30 @@ Rectangle{
             z: 1
             rotation: navigation_map.v_rotation
             coordinate:  QtPositioning.coordinate(navigation_map.lat.value, navigation_map.lon.value)
-            onCoordinateChanged:
-            {
-                if(!root.startUp &( Math.abs(old_lat - navigation_map.roundCoor(lat.value,5)) > 0
-                                   | Math.abs(old_lon - navigation_map.roundCoor(lon.value,5)) > 0))
-                {
-                    if(bathymetry_panel.isPLaying){
-                        bathView.model.addDepthPoint(navigation_map.latValue,
-                                                     lon.value,
-                                                     lat.timeStamp,
-                                                     navigation_map.altitude, // positive value expected
-                                                     navigation_map.max_bathymetry_depth,
-                                                     navigation_map.min_bathymetry_depth
-                                                     )
+            //bathymetry
+            //            onCoordinateChanged:
+            //            {
+            //                if(!root.startUp &( Math.abs(old_lat - navigation_map.roundCoor(lat.value,5)) > 0
+            //                                   | Math.abs(old_lon - navigation_map.roundCoor(lon.value,5)) > 0))
+            //                {
+            //                    if(bathymetry_panel.isPLaying){
+            //                        bathView.model.addDepthPoint(navigation_map.latValue,
+            //                                                     lon.value,
+            //                                                     lat.timeStamp,
+            //                                                     navigation_map.altitude, // positive value expected
+            //                                                     navigation_map.max_bathymetry_depth,
+            //                                                     navigation_map.min_bathymetry_depth
+            //                                                     )
 
-                        navigation_map.bath_counter += 5
-                        var x = navigation_map.bath_counter
-                        var y = - navigation_map.altitude
-                        minion_view.bathymetryPoint = Qt.point(x,y)//navigation_map.initialValue
-                        old_lat = navigation_map.roundCoor(lat.value,5)
-                        old_lon = navigation_map.roundCoor(lon.value,5)
-                    }
-                }
-            }
+            //                        navigation_map.bath_counter += 5
+            //                        var x = navigation_map.bath_counter
+            //                        var y = - navigation_map.altitude
+            //                        minion_view.bathymetryPoint = Qt.point(x,y)//navigation_map.initialValue
+            //                        old_lat = navigation_map.roundCoor(lat.value,5)
+            //                        old_lon = navigation_map.roundCoor(lon.value,5)
+            //                    }
+            //                }
+            //            }
         }
 
         // model for single markers
@@ -193,12 +194,23 @@ Rectangle{
         // --------------------------------------------------------
         // ADDED FOR BATHIMETRY
         // --------------------------------------------------------
+        //        MapItemView {
+        //            id: bathView
+        //            // create a listModel to provide data used for creating the map items defined by the delegate.
+        //            model: _bathymetry_model
+        //            delegate: DelegateBathModel{
+        //                id: my_bath_delegate
+        //                coordinate: QtPositioning.coordinate(model.coordinate.latitude,
+        //                                                     model.coordinate.longitude)
+        //            }
+        //        }
+
         MapItemView {
-            id: bathView
+            id: coorView
             // create a listModel to provide data used for creating the map items defined by the delegate.
-            model: _bathymetry_model
-            delegate: DelegateBathModel{
-                id: my_bath_delegate
+            model: _coor_model
+            delegate: DelegateSingleCoordinate{
+                id: my_coor_delegate
                 coordinate: QtPositioning.coordinate(model.coordinate.latitude,
                                                      model.coordinate.longitude)
             }
@@ -417,5 +429,8 @@ Rectangle{
     }
     function add_point(lat, lon){
         mivMarker.model.insertSingleMarker(QtPositioning.coordinate(lat, lon))
+    }
+    function add_coor(name ="no_name"){
+        coorView.model.insertSingleMarker(QtPositioning.coordinate(navigation_map.lat.value, navigation_map.lon.value), name, navigation_map.ngc_timestamp)
     }
 }

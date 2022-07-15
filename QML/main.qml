@@ -22,7 +22,7 @@ ApplicationWindow {
     id: root
 
     minimumWidth: minion_view.minimum_width + main_layout.implicitWidth + 20
-    minimumHeight: minion_view.minimum_height + menu_bar_id.implicitHeight + 116
+    minimumHeight: Math.max(minion_view.minimum_height + menu_bar_id.implicitHeight + 150, main_layout.implicitHeight + menu_bar_id.implicitHeight + 40) //todo why
     height: minimumHeight
     width: minimumWidth
     visible: true
@@ -59,6 +59,10 @@ ApplicationWindow {
     readonly property string forceTorqueTn: prefix.forceTorque.topic_name
     readonly property var publish_topic: data_model.data_source.publishMessage
     readonly property int maxRPMSpeed: data_model.data_source.swamp_status.conf.maxRPMSpeed
+
+    readonly property string ngcEnableTn: data_model.data_source.swamp_status.ngc_status.ngcEnable.act.topic_name
+    readonly property int ngcEnableRef : data_model.data_source.swamp_status.ngc_status.ngcEnable.ref.value
+    readonly property string setLogTn: data_model.data_source.swamp_status.ngc_status.setLog.topic_name
 
     function messagePrompt(prompt_text){
         message_prompt.message = prompt_text
@@ -164,11 +168,14 @@ ApplicationWindow {
 
         Rectangle {
             id: control_panel
+            implicitHeight: main_cl.implicitHeight
             Layout.alignment: Qt.AlignTop
             Layout.preferredWidth: 460
             Layout.preferredHeight: 800
             Layout.topMargin: 10
+
             ColumnLayout {
+                id: main_cl
                 anchors.fill: parent
                 spacing: 10
                 EnginePanel {
@@ -190,6 +197,53 @@ ApplicationWindow {
                     Layout.alignment: Qt.AlignTop
                     enabled: data_model.data_source.is_connected
                     opacity: data_model.data_source.is_connected? 1 : 0.3
+                }
+                //TODO NGC STUFF. Create a panel
+                Rectangle{
+                    Layout.fillWidth: true
+                    Layout.topMargin: 4
+                    Layout.rightMargin: 10
+                    Layout.alignment: Qt.AlignTop
+                    Layout.preferredHeight: ngc_row.implicitHeight + 10
+                    color: "transparent"
+                    radius: 5.0
+                    border {
+                        color: "black"
+                        width: 2
+                    }
+                    enabled: data_model.data_source.is_connected
+                    opacity: data_model.data_source.is_connected? 1 : 0.3
+                    RowLayout{
+                        id: ngc_row
+                        //Layout.fillWidth: true
+                        anchors.fill: parent
+                        StatusDot{
+                            Layout.alignment: Qt.AlignLeft
+                            Layout.leftMargin: 10
+                            width: 30
+                            height: 30
+                            info_text : "enableRef"
+                            dot_state: ngcEnableRef
+                        }
+                        BasicSwitch{
+                            switch_text: "NGC_ENABLE"
+                            // TODO
+                            onSwitch_is_activeChanged: switch_is_active? publish_topic(ngcEnableTn, 1)
+                                                                       : publish_topic(ngcEnableTn, 0)
+                        }
+                        Rectangle{
+                            Layout.fillWidth: true
+                        }
+                        BasicButton {
+                            id: control
+                            Layout.alignment: Qt.AlignRight
+                            Layout.rightMargin: 10
+                            Layout.topMargin: 4
+                            onClicked: publish_topic(setLogTn, 1)
+                            text_on_button: "NEW LOG"
+                            button_width: 100
+                        }
+                    }
                 }
                 ThrustMappingPanel{
                     id: rpm_alpha
@@ -237,16 +291,37 @@ ApplicationWindow {
                     slider1_text: "X"; slider1_from: -50.0; slider1_to: 50.0;  slider1_ref: xRef  //slider1_mask: "#00";
                 }
 
-                BathymetryPanel {
-                    id: bathymetry_panel
+                //                BathymetryPanel {
+                //                    id: bathymetry_panel
+                //                    Layout.fillWidth: true
+                //                    Layout.rightMargin: 10
+                //                    Layout.alignment: Qt.AlignTop
+                //                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
+                //                    //enabled: data_model.data_source.is_connected
+                //                    opacity: 0.3
+                //                    enabled: false
+                //                }
+                CoordinatePanel{
+                    id: coordinate_panel
+                    title: "COORDINATES"
                     Layout.fillWidth: true
+                    panel_color: "white"
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
-                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
-                    //enabled: data_model.data_source.is_connected
-                    opacity: 0.3
-                    enabled: false
+                    enabled: data_model.data_source.is_connected
+                    opacity: data_model.data_source.is_connected? 1 : 0.3
                 }
+
+                //                BathymetryPanel {
+                //                    id: bathymetry_panel
+                //                    Layout.fillWidth: true
+                //                    Layout.rightMargin: 10
+                //                    Layout.alignment: Qt.AlignTop
+                //                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
+                //                    //enabled: data_model.data_source.is_connected
+                //                    opacity: 0.3
+                //                    enabled: false
+                //                }
                 Button {
                     id: connect_button
                     Layout.alignment: Qt.AlignTop

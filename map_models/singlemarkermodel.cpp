@@ -80,14 +80,10 @@ void SingleMarkerModel::addMarker(SingleMarker *singleMarker)
     beginInsertRows(QModelIndex(),index,index);
     m_marker.append(singleMarker);
     endInsertRows();
-    //    for (int var = 0; var < m_marker.size(); ++var) {
-    //        qDebug() << m_marker[var]->coordinate();
-    //    }
 }
 
 void SingleMarkerModel::insertSingleMarker(QGeoCoordinate coordinate, int group)
 {
-    // TODO group is not used yet.
     SingleMarker *singleMarker = new SingleMarker(coordinate, group);
     addMarker(singleMarker);
 }

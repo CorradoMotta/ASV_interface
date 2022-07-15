@@ -19,7 +19,7 @@ Rectangle{
     readonly property real yawRef : prefix.yaw.ref.value
     readonly property real headingRef : prefix.heading.ref.value
     property alias xValue : x.value
-
+    implicitWidth : cl.implicitWidth
     Layout.preferredHeight: cl.implicitHeight
     height: cl.implicitHeight
     color: "transparent"
@@ -50,7 +50,7 @@ Rectangle{
         Rectangle {
             id: force_slider
             height: (surge.implicitHeight * 6) + 50
-            width: force_slider_panel.implicitWidth + 50
+            width: force_slider_panel.implicitWidth
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignTop
             radius: 5.0
@@ -71,12 +71,10 @@ Rectangle{
                     Layout.fillWidth: true
                     button_enabled : false
                     slider_width : 260
-                    slider_text: "X         "
+                    slider_text: "X"
                     slider_from: -50
                     slider_to: 50
                     ref_value: ngc_root.xRef
-                   // mask_input: "#00"
-                    //onValueChanged:  rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
                 }
                 BasicSliderWithRef {
 
@@ -84,22 +82,19 @@ Rectangle{
                     Layout.fillWidth: true
                     button_enabled : false
                     slider_width : 260
-                    slider_text: "Y         "
+                    slider_text: "Y"
                     slider_from: -50
                     slider_to: 50
-                    //mask_input: "#00"
                     ref_value: ngc_root.yRef
-                    //onValueChanged: rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
                 }
 
                 BasicSliderWithRef {
                     id: surge
                     Layout.fillWidth: true
-                    slider_text: "SURGE   "
+                    slider_text: "SURGE"
                     slider_from: -100
                     slider_to: 100
                     slider_width : 260
-                    //mask_input: "#000"
                     ref_value: surgeRef
                     onValueChanged: control_panel.publish_topic(control_panel.surgeTn, value)
                     onClickedChanged: clicked ? control_panel.publish_topic(control_panel.surgeTn, value) : ""
@@ -108,11 +103,10 @@ Rectangle{
 
                     id: sway
                     Layout.fillWidth: true
-                    slider_text: "SWAY    "
+                    slider_text: "SWAY"
                     slider_from: -100
                     slider_to: 100
                     slider_width : 260
-                   // mask_input: "#000"
                     ref_value: swayRef
                     onValueChanged: control_panel.publish_topic(control_panel.swayTn, value)
                     onClickedChanged: clicked ? control_panel.publish_topic(control_panel.swayTn, value) : ""
@@ -124,14 +118,10 @@ Rectangle{
                     slider_from: -180
                     slider_to: 180
                     slider_width : 260
-                    slider_text: "YAW      "
-                   // mask_input: "#000"
+                    slider_text: "YAW"
                     ref_value: yawRef
                     onValueChanged: control_panel.publish_topic(control_panel.yawTn, value + " " + x.value + " " + y.value)
                     onClickedChanged: clicked ? control_panel.publish_topic(control_panel.yawTn, value + " " + x.value + " " + y.value) : ""
-                    //     rotation_value = value
-                    //     data_model.data_source.publish_topicMessage(data_model.data_source.swamp_status.ngc_status.tr.ref.topic_name,value)
-                    // }
                 }
                 BasicSliderWithRef{
                     id: heading
@@ -140,7 +130,6 @@ Rectangle{
                     slider_to: 180
                     slider_width : 260
                     slider_text: "HEADING"
-                   // mask_input: "#000"
                     ref_value: headingRef
                     onValueChanged: control_panel.publish_topic(control_panel.headingTn, value + " " + x.value + " " + y.value)
                     onClickedChanged: clicked ? control_panel.publish_topic(control_panel.headingTn, value + " " + x.value + " " + y.value) : ""

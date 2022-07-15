@@ -10,6 +10,7 @@ Button {
     property alias button_width: button_background.width
 
     width: button_width
+    implicitWidth: button_width
 
     contentItem: Text {
         id: button_text

@@ -16,10 +16,6 @@ Rectangle{
     property int slider_width : 260
     property alias panel_color: force_slider.color
     property alias xValue : x.value
-    // TODO fix this
-    readonly property string ngcEnableTn: data_model.data_source.swamp_status.ngc_status.ngcEnable.act.topic_name
-    readonly property int ngcEnableRef : data_model.data_source.swamp_status.ngc_status.ngcEnable.ref.value
-    readonly property string setLogTn: data_model.data_source.swamp_status.ngc_status.setLog.topic_name
 
 
     Layout.preferredHeight: cl.implicitHeight
@@ -76,36 +72,6 @@ Rectangle{
                     slider_from: 0
                     slider_to: 100
                 }
-            }
-        }
-        RowLayout{
-            Layout.fillWidth: true
-            Layout.topMargin: 8
-            StatusDot{
-                Layout.alignment: Qt.AlignLeft
-                Layout.leftMargin: 10
-                width: 30
-                height: 30
-                info_text : "enableRef"
-                dot_state: ngcEnableRef
-            }
-            BasicSwitch{
-                switch_text: "NGC_ENABLE"
-                // TODO
-                onSwitch_is_activeChanged: switch_is_active? publish_topic(ngcEnableTn, 1)
-                                                           : publish_topic(ngcEnableTn, 0)
-            }
-            Rectangle{
-                Layout.fillWidth: true
-            }
-            BasicButton {
-                id: control
-                Layout.alignment: Qt.AlignRight
-                Layout.rightMargin: 10
-                Layout.topMargin: 4
-                onClicked: publish_topic(setLogTn, 1)
-                text_on_button: "NEW LOG"
-                button_width: 100
             }
         }
     }

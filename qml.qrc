@@ -92,5 +92,9 @@
         <file>QML/BasicItems/BasicRectangleOutput.qml</file>
         <file>QML/Panels/NGCPanelSC.qml</file>
         <file>Images/map_style.png</file>
+        <file>QML/Panels/CoordinatePanel.qml</file>
+        <file>QML/Maps/DelegateSingleCoordinate.qml</file>
+        <file>Images/marker_coor.png</file>
+        <file>Images/plus_resized.png</file>
     </qresource>
 </RCC>

@@ -89,7 +89,7 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
     int intContainer;
 
     //GPS ASV
-    in >> doubleContainer;// qDebug() << "Timestamp" << doubleContainer;//timestamp singleMinion->minionState()->nopCounter()->setValue(doubleContainer); // should be U64
+    in >> doubleContainer; m_swamp_status.gps_ahrs_status()->timestamp()->setValue(doubleContainer); //Timestamp
     in >> intContainer; //qDebug() << "GPS date" << intContainer;//gpsdate   singleMinion->minionState()->thrustMotorFault()->setValue(intContainer);
     in >> intContainer; //qDebug() << "GPS time" << doubleContainer; //gpstime   singleMinion->minionState()->thrustMotorPower()->setValue(intContainer);
     in >> doubleContainer; m_swamp_status.gps_ahrs_status()->latitude()->setValue(doubleContainer);  //lat
@@ -324,7 +324,7 @@ bool DataSourceUdp::set_cfg(QString filename)
         else if(settings.value("map_style").toString().compare("all")==0) m_swamp_status.conf()->setMb_style(HciNgiInterface::MapboxStyle::MB_ALL);
         else {
             qDebug() << "Failed to find correct map style configuration for:" << settings.value("map_style").toString() << ". Only accepted values are"
-                                                                                                                       "\n<satellite>\n<street>\n<all>";
+                                                                                                                           "\n<satellite>\n<street>\n<all>";
             return false;
         }
     }
@@ -334,6 +334,24 @@ bool DataSourceUdp::set_cfg(QString filename)
     settings.beginGroup("RPM_Settings");
     if(checkConfKey("max_rpm_speed", settings)) m_swamp_status.conf()->setMaxRPMSpeed(settings.value("max_rpm_speed").toInt()); else return false;
     if(checkConfKey("max_controller_speed", settings)) m_swamp_status.conf()->setMaxControllerSpeed(settings.value("max_controller_speed").toInt()); else return false;
+    settings.endGroup();
+
+    settings.beginGroup("coordinate_seetings");
+    if(checkConfKey("coor_file", settings)){
+
+        QFile coor_file(settings.value("coor_file").toString());
+        if(coor_file.exists()) qDebug()<< "file already exists. Do not do anything";
+        else{
+            if (!coor_file.open(QIODevice::WriteOnly | QIODevice::Text)){
+                qDebug() <<  "Problem in creating the file with path" <<  settings.value("coor_file") << "Try again.";
+                return 0;
+            }
+            QTextStream out(&coor_file);
+            out << "Timestamp"<< " " "Name"<< " " << "Latitude" << " " <<"Longitude"<< "\n";
+        }
+        m_swamp_status.conf()->setCoordinatePath(settings.value("coor_file").toString());
+        coor_file.close();
+    }
     settings.endGroup();
 
     Minion* singleMinion;
@@ -389,7 +407,9 @@ bool DataSourceUdp::set_cfg(QString filename)
     m_swamp_status.ngc_status()->setYawGSPar()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_YAW_GS_PAR));
     m_swamp_status.ngc_status()->setHeadingPiPar()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_HEADING_PI_PAR));
 
+    file.close();
     return true;
+
 }
 
 bool DataSourceUdp::checkConfKey(QString key, QSettings &settings)

@@ -58,3 +58,16 @@ void Conf::setMb_style(HciNgiInterface::MapboxStyle newMb_style)
     m_mb_style = newMb_style;
     emit mb_styleChanged();
 }
+
+const QString &Conf::coordinatePath() const
+{
+    return m_coordinatePath;
+}
+
+void Conf::setCoordinatePath(const QString &newCoordinatePath)
+{
+    if (m_coordinatePath == newCoordinatePath)
+        return;
+    m_coordinatePath = newCoordinatePath;
+    emit coordinatePathChanged();
+}
