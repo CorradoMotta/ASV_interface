@@ -96,5 +96,6 @@
         <file>QML/Maps/DelegateSingleCoordinate.qml</file>
         <file>Images/marker_coor.png</file>
         <file>Images/plus_resized.png</file>
+        <file>Images/swamp_arw.png</file>
     </qresource>
 </RCC>
