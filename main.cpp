@@ -5,6 +5,7 @@
 
 #include "map_models/singlemarkermodel.h"
 #include "map_models/bathymetrymodel.h"
+#include "map_models/coordinate_model.h"
 #include "data/variable.h"
 #include "data/doublevariable.h"
 #include "data/intvariable.h"
@@ -18,6 +19,8 @@
 #include <QJoysticks.h>
 #include <QStyleFactory>
 #include <QThread>
+#include <QStandardPaths>
+
 
 #ifdef Q_OS_WIN
 #   ifdef main
@@ -40,7 +43,7 @@ int main(int argc, char *argv[])
     QString extraImportPath(QStringLiteral("%1/../../../%2"));
 #endif
 
-    qDebug() << "Network binding:" << argv[1];
+    //qDebug() << "Network binding:" << argv[1];
     QString networkBinding = "empty";
     if(argc == 2) networkBinding = argv[1];
     networkBinding = networkBinding.toLower().trimmed();
@@ -48,16 +51,14 @@ int main(int argc, char *argv[])
     SingleMarkerModel marker_model;
     SingleMarkerModel line_model;
     BathymetryModel bath_model("Bathymetry");
+    Coordinate_model coors_model;
     SwampModel data_model;
     QQmlApplicationEngine engine;
 
     DataSource *dataSource;
-    if(networkBinding =="mqtt")  dataSource= new DataSourceMqtt(&data_model);
-    else if(networkBinding =="udp") dataSource = new DataSourceUdp(&data_model);
-    else {qDebug() << "Input network binding not recognized or available : " << networkBinding; exit(-1);}
+    dataSource = new DataSourceUdp(&data_model);
 
-    // to do move in a conf file.
-    bool sourceIsValid = dataSource->set_cfg("../ASV_interface/conf/udp_address.cfg");
+    bool sourceIsValid = dataSource->set_cfg("../ASV_interface/conf/conf.ini");
     if(! sourceIsValid) exit(-1);
 
     data_model.set_data_source(dataSource);
@@ -74,12 +75,14 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<HciNgiInterface>("com.cnr.property",1,0,"HciNgiInterface", "Not creatable as it is an enum type.");
 
     const QUrl url(QStringLiteral("qrc:/QML/main.qml"));
+    qDebug() << "Mapbox cache file stored in:" << QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation);
 
     // set context properties, one for each model
     engine.rootContext()->setContextProperty(QStringLiteral("_marker_model"), &marker_model);
     engine.rootContext()->setContextProperty(QStringLiteral("_bathymetry_model"), &bath_model);
     engine.rootContext()->setContextProperty(QStringLiteral("_line_model"), &line_model);
     engine.rootContext()->setContextProperty(QStringLiteral("data_model"), &data_model);
+    engine.rootContext()->setContextProperty(QStringLiteral("_coor_model"), &coors_model);
     engine.rootContext()->setContextProperty("QJoysticks", instance);
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

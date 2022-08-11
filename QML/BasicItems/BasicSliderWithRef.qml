@@ -17,7 +17,7 @@ Item {
     implicitHeight: slider_row.implicitHeight
     implicitWidth: slider_row.implicitWidth
 
-    property alias slider_text: testo.text
+    property alias slider_text: control_button.text_on_button
     property alias slider_from: control.from
     property alias slider_to: control.to
     property alias mask_input: slider_value_id.inputMask
@@ -39,37 +39,50 @@ Item {
 //            font.pointSize: 14
 //        }
         //fix width
-        Button {
+
+
+        BasicButton{
             id: control_button
             Layout.alignment: Qt.AlignLeft
             Layout.rightMargin: 10
             Layout.topMargin: 4
-            width: 300
-            //onClicked: console.log(testo.implicitWidth)//publish_topic(setLogTn, 1)
-            contentItem: Text {
-                id: testo
-                font.family: "Helvetica"
-                font.pointSize: 14
-                anchors.horizontalCenter: background_b.horizontalCenter
-                //verticalAlignment: background_b.AlignVCenter
-            }
-            background: Rectangle{
-                id: background_b
-                height: testo.implicitHeight + 10
-                width: 84 // TODO should bne automatic
-                color: button_enabled? control_button.down? "peachpuff" : "papayawhip" : "papayawhip"
-                border.width: 1
-                border.color: "black"
-                enabled: button_enabled
-                radius: 6
-            }
+            button_width: 100
+            button_enabled : button_enabled
         }
+
+//        Button {
+//            id: control_button
+//            Layout.alignment: Qt.AlignLeft
+//            Layout.rightMargin: 10
+//            Layout.topMargin: 4
+//            button_enabled : button_enabled
+//            width: 300
+//            //onClicked: console.log(testo.implicitWidth)//publish_topic(setLogTn, 1)
+//            contentItem: Text {
+//                id: testo
+//                font.family: "Helvetica"
+//                font.pointSize: 14
+//                anchors.horizontalCenter: background_b.horizontalCenter
+//                //verticalAlignment: background_b.AlignVCenter
+//            }
+//            background: Rectangle{
+//                id: background_b
+//                height: testo.implicitHeight + 10
+//                width: 84 // TODO should bne automatic
+//                color: button_enabled? control_button.down? "peachpuff" : "papayawhip" : "papayawhip"
+//                border.width: 1
+//                border.color: "black"
+//                enabled: button_enabled
+//                radius: 6
+//            }
+//        }
 
         Slider {
             id: control
             property bool __pressed: false
             Layout.alignment: Qt.AlignRight
             Layout.preferredWidth: rect.implicitWidth
+            width: rect.implicitWidth
             stepSize: 0.1
             from: -99
             value: 0
@@ -112,10 +125,12 @@ Item {
             id: text_input_id
             property int maxWidth: 48
             Layout.preferredWidth: maxWidth
+            implicitWidth: text_input_id.maxWidth
             Layout.preferredHeight: slider_value_id.implicitHeight + 6
             Layout.alignment: Qt.AlignRight
             Rectangle{
                 id: slider_text_input
+
                 anchors.fill: parent
                 border.color: "gray"
                 border.width: 2
@@ -142,6 +157,7 @@ Item {
             Layout.preferredHeight: control.implicitHandleHeight
             Layout.preferredWidth: control.implicitHandleHeight
             //Layout.rightMargin: 10
+            implicitWidth: reset.width
             radius: 15
             color: "#f08080"
             Rectangle {
@@ -165,6 +181,7 @@ Item {
             id: slider_text_output
             Layout.preferredWidth: text_input_id.maxWidth
             Layout.preferredHeight: slider_out_value_id.implicitHeight + 6
+            implicitWidth: text_input_id.maxWidth
             Layout.alignment: Qt.AlignRight
             Layout.rightMargin: 10
             clip: true

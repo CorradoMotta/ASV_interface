@@ -19,13 +19,12 @@ BasicMinionPanelContainer{
     id : ngc_root
 
     implicitHeight: Math.max(cmd_row.implicitHeight , cmd_row_2.implicitHeight) + title_height
-    implicitWidth: cmd_row.implicitWidth + cmd_row_2.implicitWidth + bar.width + 250 // TODO WHY SO MUCH
+    implicitWidth: cmd_row.implicitWidth + cmd_row_2.implicitWidth + bar.width + 80 //todo fix
     property int minimumXDim : implicitWidth
     property int minimumYDim: implicitHeight
     title: "NGC"
     color: "whitesmoke"
     property int blockSize: 12
-    property int currentJoystick: 0
     property var prefix: data_model.data_source.swamp_status.ngc_status
     property alias xValue : control_panel.xValue
     readonly property string ngcEnableTn: prefix.ngcEnable.act.topic_name
@@ -101,59 +100,13 @@ BasicMinionPanelContainer{
     readonly property real asvRefazimuthRL : prefix.asvRefazimuthRL.value // azimuth[RL]
 
     // n ref
-    readonly property real asvRefnFL :prefix.asvRefnFL.value // n[FL]
-    readonly property real asvRefnFR :prefix.asvRefnFR.value // n[FR]
-    readonly property real asvRefnRR :prefix.asvRefnRR.value // n[RR]
-    readonly property real asvRefnRL :prefix.asvRefnRL.value // n[RL]
+    readonly property real asvRefnFL : prefix.asvRefnFL.value // n[FL]
+    readonly property real asvRefnFR : prefix.asvRefnFR.value // n[FR]
+    readonly property real asvRefnRR : prefix.asvRefnRR.value // n[RR]
+    readonly property real asvRefnRL : prefix.asvRefnRL.value // n[RL]
 
-    // for controller
-    property real x_curr_value : 0
-    property real y_curr_value : 0
-    property real x_index : 0
-    property real y_index : 1
-    property real pi : Math.PI
-    property real nmax : 1600
-    property real rho_thr: 0.2
-    property real alfa_cos : 0
 
-    // for controller. Timer gets automatically active when the controller is connected
-    Timer {
-        id: timer
 
-        interval: 100;
-        repeat: true
-        running: QJoysticks.count > 0? true : false
-
-        onTriggered: {
-            var alfa = Math.atan2(x_curr_value,y_curr_value)
-
-            // calculate cos alfa for each situation
-            if(alfa >= (-pi/4) && alfa < (pi/4)) alfa_cos = Math.cos(alfa)
-            else if(alfa >= (pi/4) && alfa < (3/4*pi)) alfa_cos = Math.cos(alfa - pi/2)
-            else if(alfa >= (-3/4*pi) && alfa < (-pi/4)) alfa_cos = Math.cos(alfa + pi/2)
-            else if(alfa >= (3/4*pi) && alfa < (pi)) alfa_cos = Math.cos(alfa - pi)
-            else if(alfa >= (-pi) && alfa < (-3/4*pi)) alfa_cos = Math.cos(alfa + pi)
-
-            // get normalized rho value
-            var rho = (Math.sqrt(Math.pow(x_curr_value,2)+ Math.pow(y_curr_value,2))) * alfa_cos
-
-            // update values in the slider
-            if(rho >= rho_thr) {rpm_alpha.xvalue = nmax * rho; rpm_alpha.zvalue = alfa * 180/pi}
-            else {rpm_alpha.xvalue =0; rpm_alpha.zvalue = 0}
-
-        }
-    }
-
-    Connections {
-        target: QJoysticks
-
-        function onAxisChanged(js, axis, value) {
-            if (currentJoystick === js && x_index === axis)
-                x_curr_value = QJoysticks.getAxis (js, x_index)
-            else if (currentJoystick === js && y_index === axis)
-                y_curr_value = - QJoysticks.getAxis (js, y_index)
-        }
-    }
 
     //border.color: "transparent"
     RowLayout{
@@ -172,57 +125,43 @@ BasicMinionPanelContainer{
             Layout.alignment: Qt.AlignLeft
             Layout.leftMargin: 10
             spacing: 15
-            RowLayout{
-                Layout.fillWidth: true
-                StatusDot{
-                    Layout.alignment: Qt.AlignLeft
-                    Layout.leftMargin: 10
-                    width: 30
-                    height: 30
-                    info_text : "enableRef"
-                    dot_state: ngcEnableRef
-                }
-                BasicSwitch{
-                    switch_text: "NGC_ENABLE"
-                    // TODO
-                    onSwitch_is_activeChanged: switch_is_active? ngc_root.publish_topic(ngc_root.ngcEnableTn, 1)
-                                                               : ngc_root.publish_topic(ngc_root.ngcEnableTn, 0)
-                }
-                Rectangle{
-                    Layout.fillWidth: true
-                }
-                // TODO make it standard
-                Button {
-                    id: control
-                    Layout.alignment: Qt.AlignRight
-                    Layout.rightMargin: 10
-                    Layout.topMargin: 4
-                    width: 200
-                    onClicked: publish_topic(setLogTn, 1)
-                    contentItem: Text {
-                        id: testo
-                        text: "NEW LOG"
-                        font.family: "Helvetica"
-                        font.pointSize: 14
-                        anchors.horizontalCenter: background_b.horizontalCenter
-                        //verticalAlignment: background_b.AlignVCenter
-                    }
-                    background: Rectangle{
-                        id: background_b
-                        height: testo.implicitHeight + 10
-                        width: testo.implicitWidth + 10
-                        color: control.down? "peachpuff" : "papayawhip"
-                        border.width: 1
-                        border.color: "black"
-                        radius: 6
-                    }
-                }
-            }
+            //moved to main
+//            RowLayout{
+//                Layout.fillWidth: true
+//                StatusDot{
+//                    Layout.alignment: Qt.AlignLeft
+//                    Layout.leftMargin: 10
+//                    width: 30
+//                    height: 30
+//                    info_text : "enableRef"
+//                    dot_state: ngcEnableRef
+//                }
+//                BasicSwitch{
+//                    switch_text: "NGC_ENABLE"
+//                    // TODO
+//                    onSwitch_is_activeChanged: switch_is_active? ngc_root.publish_topic(ngc_root.ngcEnableTn, 1)
+//                                                               : ngc_root.publish_topic(ngc_root.ngcEnableTn, 0)
+//                }
+//                Rectangle{
+//                    Layout.fillWidth: true
+//                }
+//                BasicButton {
+//                    id: control
+//                    Layout.alignment: Qt.AlignRight
+//                    Layout.rightMargin: 10
+//                    Layout.topMargin: 4
+//                    onClicked: publish_topic(setLogTn, 1)
+//                    text_on_button: "NEW LOG"
+//                    button_width: 100
+//                }
+//            }
             ThrustMappingPanel{
                 id: rpm_alpha
                 Layout.fillWidth: true
                 Layout.rightMargin: 10
                 Layout.alignment: Qt.AlignTop
+                enabled: false
+                opacity: 0.3
                 title: "RPM_ALPHA"
                 slider1_text: "N "; slider1_from: 0; slider1_to: 1800;      slider1_ref: ngc_root.nRef   //slider1_mask: "0000";
                 slider2_text: "DN"; slider2_from: -900; slider2_to: 900;  slider2_ref: ngc_root.dnRef    //slider2_mask: "#000";
@@ -265,14 +204,18 @@ BasicMinionPanelContainer{
     }
     RowLayout{
         id: cmd_row_2
-        Layout.alignment: Qt.AlignTop
+       // Layout.alignment: Qt.AlignVCenter
         spacing: 2
         //width: parent.width/2
+        //anchors.centerIn:
         anchors{
-            topMargin: 40
+            //topMargin: 40
             leftMargin: 10
-            top: parent.top; right: parent.right;  left: bar.right
+            //top: parent.top;
+            right: parent.right;
+            left: bar.right
             rightMargin: 10
+            verticalCenter: parent.verticalCenter
         }
 
         ColumnLayout{
@@ -306,9 +249,6 @@ BasicMinionPanelContainer{
                 title_text: "IMU_THETA"
                 value_text: ngc_root.thetaIMU
             }
-
-
-
             Text {
                 id: asv_text_id
                 Layout.alignment: Qt.AlignTop |Qt.AlignLeft
@@ -374,54 +314,55 @@ BasicMinionPanelContainer{
                 title_text: "AUTO_M_REF"
                 value_text: ngc_root.autoModeRef
             }
-            Text {
-                id: azimuth_text_id
-                Layout.alignment: Qt.AlignTop |Qt.AlignLeft
-                Layout.leftMargin: 4
-                Layout.topMargin: ngc_root.blockSize
-                text: "AZIMUTH"
-                font.family: "Helvetica"
-                font.pointSize: 14
-                font.bold: true
+//            Text {
+//                id: azimuth_text_id
+//                Layout.alignment: Qt.AlignTop |Qt.AlignLeft
+//                Layout.leftMargin: 4
+//                Layout.topMargin: ngc_root.blockSize
+//                text: "AZIMUTH"
+//                font.family: "Helvetica"
+//                font.pointSize: 14
+//                font.bold: true
 
-            }
-            BasicTextOutputInverted{
-                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                value_width: 120
-                title_text: "azimuth[FL]"
-                value_text: ngc_root.asvRefazimuthFL
-            }
-            BasicTextOutputInverted{
-                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                value_width: 120
-                title_text: "azimuth[RL]"
-                value_text: ngc_root.asvRefazimuthRL
-            }
+//            }
+//                  moved to main
+//            BasicTextOutputInverted{
+//                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+//                value_width: 120
+//                title_text: "azimuth[FL]"
+//                value_text: ngc_root.asvRefazimuthFL
+//            }
+//            BasicTextOutputInverted{
+//                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+//                value_width: 120
+//                title_text: "azimuth[RL]"
+//                value_text: ngc_root.asvRefazimuthRL
+//            }
 
 
-            Text {
-                id: rpm_text_id
-                Layout.alignment: Qt.AlignTop |Qt.AlignLeft
-                Layout.leftMargin: 4
-                Layout.topMargin: ngc_root.blockSize
-                text: "RPM"
-                font.family: "Helvetica"
-                font.pointSize: 14
-                font.bold: true
+//            Text {
+//                id: rpm_text_id
+//                Layout.alignment: Qt.AlignTop |Qt.AlignLeft
+//                Layout.leftMargin: 4
+//                Layout.topMargin: ngc_root.blockSize
+//                text: "RPM"
+//                font.family: "Helvetica"
+//                font.pointSize: 14
+//                font.bold: true
 
-            }
-            BasicTextOutputInverted{
-                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                value_width: 120
-                title_text: "n[FL]"
-                value_text: ngc_root.asvRefnFL
-            }
-            BasicTextOutputInverted{
-                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                value_width: 120
-                title_text: "n[RL]"
-                value_text: ngc_root.asvRefnRL
-            }
+//            }
+//            BasicTextOutputInverted{
+//                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+//                value_width: 120
+//                title_text: "n[FL]"
+//                value_text: ngc_root.asvRefnFL
+//            }
+//            BasicTextOutputInverted{
+//                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+//                value_width: 120
+//                title_text: "n[RL]"
+//                value_text: ngc_root.asvRefnRL
+//            }
 
 
         }
@@ -515,33 +456,33 @@ BasicMinionPanelContainer{
                 value_text: ngc_root.working_modeRef
             }
 
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                value_width: 120
-                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize + 6
-                title_text: "azimuth[FR]"
-                value_text: ngc_root.asvRefazimuthFR
-            }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                value_width: 120
+//            BasicTextOutput{
+//                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+//                value_width: 120
+//                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize + 6
+//                title_text: "azimuth[FR]"
+//                value_text: ngc_root.asvRefazimuthFR
+//            }
+//            BasicTextOutput{
+//                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+//                value_width: 120
 
-                title_text: "azimuth[RR]"
-                value_text: ngc_root.asvRefazimuthRR
-            }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize + 6
-                value_width: 120
-                title_text: "n[FR]"
-                value_text: ngc_root.asvRefnFR
-            }
-            BasicTextOutput{
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                value_width: 120
-                title_text: "n[RR]"
-                value_text: ngc_root.asvRefnRR
-            }
+//                title_text: "azimuth[RR]"
+//                value_text: ngc_root.asvRefazimuthRR
+//            }
+//            BasicTextOutput{
+//                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+//                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize + 6
+//                value_width: 120
+//                title_text: "n[FR]"
+//                value_text: ngc_root.asvRefnFR
+//            }
+//            BasicTextOutput{
+//                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+//                value_width: 120
+//                title_text: "n[RR]"
+//                value_text:  ngc_root.asvRefnRR
+//            }
 
             // SET LINE and POSITION
             //            BasicTextOutput{

@@ -87,7 +87,15 @@
         <file>Images/home-button.png</file>
         <file>QML/BasicItems/BasicSliderWithRefAndAct.qml</file>
         <file>Images/Swamp_home.png</file>
-        <file>QML/main_controller.qml</file>
         <file>Images/game_control.png</file>
+        <file>QML/BasicItems/BasicButton.qml</file>
+        <file>QML/BasicItems/BasicRectangleOutput.qml</file>
+        <file>QML/Panels/NGCPanelSC.qml</file>
+        <file>Images/map_style.png</file>
+        <file>QML/Panels/CoordinatePanel.qml</file>
+        <file>QML/Maps/DelegateSingleCoordinate.qml</file>
+        <file>Images/marker_coor.png</file>
+        <file>Images/plus_resized.png</file>
+        <file>Images/swamp_arw.png</file>
     </qresource>
 </RCC>

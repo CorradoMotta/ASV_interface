@@ -1,10 +1,11 @@
-QT += quick positioning mqtt gui widgets
+QT += quick positioning gui widgets
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        components/conf.cpp \
         components/gps_ahrs_status.cpp \
         components/minion.cpp \
         components/minion_command.cpp \
@@ -20,9 +21,9 @@ SOURCES += \
         data/variable.cpp \
         main.cpp \
         map_models/bathymetrymodel.cpp \
+        map_models/coordinate_model.cpp \
         map_models/depth_point.cpp \
         map_models/singlemarkermodel.cpp \
-        swamp_models/datasource_mqtt.cpp \
         swamp_models/datasource_udp.cpp \
         swamp_models/swampmodel.cpp \
         swamp_models/swampstatus.cpp
@@ -41,6 +42,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    components/conf.h \
     components/gps_ahrs_status.h \
     components/minion.h \
     components/minion_command.h \
@@ -58,10 +60,10 @@ HEADERS += \
     data/stringvariable.h \
     data/variable.h \
     map_models/bathymetrymodel.h \
+    map_models/coordinate_model.h \
     map_models/depth_point.h \
     map_models/singlemarkermodel.h \
     swamp_models/datasource.h \
-    swamp_models/datasource_mqtt.h \
     swamp_models/datasource_udp.h \
     swamp_models/swampmodel.h \
     swamp_models/swampstatus.h
@@ -88,12 +90,13 @@ DISTFILES += \
     Images/pause.png \
     Images/play-button-simple.png \
     Images/play-button.png \
+    Images/plus_resized.png \
     Images/rect_box.png \
     Images/stop-button.png \
     Images/stop.png \
+    conf/conf.ini \
     conf/topics.cfg \
     conf/topics_minion.cfg \
-    conf/topics_proteus.cfg \
-    conf/udp_address.cfg
+    conf/topics_proteus.cfg
 
 include (3rd_parties/QJoysticks/QJoysticks.pri)

@@ -41,6 +41,7 @@ Item {
     // AZIMUTH
     readonly property int  azimuth_motor_position:  prefix.minionState.azimuthMotorPosition.value
     readonly property real azimuth_motor_angle:  prefix.minionState.azimuthMotorAngle.value
+    readonly property real azimuth_motor_angle_act:  prefix.minionCmd.azimuthMotorSetReference.act.value
     readonly property int  azimuth_motor_temperature:  prefix.minionState.azimuthMotorTemperature.value
     readonly property int  azimuth_motor_current:  prefix.minionState.azimuthMotorCurrent.value
     readonly property int  azimuth_motor_angle_ref:  prefix.minionCmd.azimuthMotorSetReference.ref.value
@@ -53,6 +54,7 @@ Item {
     readonly property real imu_x_gyro:  prefix.minionState.imuXGyro.value
     readonly property real imu_y_gyro:  prefix.minionState.imuYGyro.value
     readonly property real imu_z_gyro:  prefix.minionState.imuZGyro.value
+    readonly property string imuCalibrationStatus:  prefix.minionState.imuCalibrationStatus.value
 
     // GPS
     readonly property real gps_latitude:  prefix.minionState.gpsLatitude.value
@@ -141,6 +143,7 @@ Item {
             }
             MinionGPSPanel{
                 id: gps_panel
+
                 Layout.minimumHeight: Math.max(imu_panel.implicitHeight, gps_panel.implicitHeight)
                 Layout.minimumWidth: gps_panel.implicitWidth
                 //Layout.preferredHeight: gps_panel.minimumHeight

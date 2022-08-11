@@ -62,8 +62,7 @@ public:
     /**
      * Q_PROPERTY write method. Set the status of the connection.
      *
-     * @param filename path to the configuration file. Default is empty.
-     * @return true if configuration is completed properly, false otherwise.
+     * @param bool value with connection status
      */
     void set_is_connected(bool newIs_connected);
 

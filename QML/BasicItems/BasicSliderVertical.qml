@@ -19,7 +19,7 @@ Item {
     property alias slider_to: control.to
     property alias mask_input: slider_value_id.inputMask
     property alias ref_value: slider_out_value_id.text
-    property int value: 0
+    required property int value
 
     ColumnLayout{
         id: column_stack
@@ -62,7 +62,7 @@ Item {
                 Layout.preferredWidth: rect.implicitWidth
                 stepSize: 1
                 from: -99
-                value: 0
+                value: slider_root.value
                 to: 99
 
                 background: Rectangle {

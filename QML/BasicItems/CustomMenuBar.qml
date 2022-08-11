@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.15
 import com.cnr.property 1.0
 import QtQuick.Layouts 1.15
+import QtQml 2.15
 import "../BasicItems"
 // TODO FIX FOR CONNECT
 MenuBar {
@@ -17,6 +18,16 @@ MenuBar {
     readonly property real yRef : data_model.data_source.swamp_status.ngc_status.asvRefyRef.value
     readonly property var publish_topic: data_model.data_source.publishMessage
 
+    // button used to go back to RAW value
+    Connections {
+        target: QJoysticks
+        enabled: data_model.data_source.is_connected
+        function onButtonChanged(js, button, pressed) {
+            if (button === 1 && pressed === true){
+                working_modes.checkedAction = raw_action
+            }
+        }
+    }
 
     ActionGroup {
         id: working_modes
@@ -36,22 +47,23 @@ MenuBar {
         }
     }
 
-    Menu {
-        id: mapTypeMenu
-        title: qsTr("MapType")
-        // to add elements to my menu from a list i use the repeater element
-        Repeater {
-            model: navigation_map.mapTypes
-            MenuItem {
-                text: navigation_map.mapName === "mapboxgl" ? model.description: model.name
-                onTriggered: navigation_map.setActiveMap(model.index)
-            }
-        }
-    }
+// disabled for the moment
+//    Menu {
+//        id: mapTypeMenu
+//        title: qsTr("MapType")
+//        // to add elements to my menu from a list i use the repeater element
+//        Repeater {
+//            model: navigation_map.mapTypes
+//            MenuItem {
+//                text: navigation_map.mapName === "mapboxgl" ? model.description: model.name
+//                onTriggered: navigation_map.setActiveMap(model.index)
+//            }
+//        }
+//    }
     Menu{
         id: gcWorkingMode
         title: qsTr("GcWorkingMode")
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("RAW"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_RAW): ""}
+        Action {id: raw_action; checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("RAW"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_RAW): ""}
         Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("THRUST"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_THRUST): ""}
         Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("MANUAL"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_MANUAL): ""}
         Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("MANUAL_SPEED"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_MANUAL_SPEED): ""}
@@ -104,7 +116,8 @@ MenuBar {
                     id: control
                     Layout.alignment: Qt.AlignTop
                     Layout.topMargin: 6
-                    onClicked: publish_topic(setXY_tn, text1.new_text_value + " " + texty.new_text_value + " " + minion_view.xValue )
+                    onClicked: navigation_map.add_point(text1.new_text_value, texty.new_text_value)
+                        //publish_topic(setXY_tn, text1.new_text_value + " " + texty.new_text_value + " " + minion_view.xValue )
                     contentItem: Text {
                         id: testo
                         text: "SET POINT"
@@ -123,14 +136,6 @@ MenuBar {
                         radius: 3
                     }
                 }
-                //                Text {
-                //                    id: set_point
-                //                    Layout.alignment: Qt.AlignTop
-                //                    text: qsTr("SET POINT")
-                //                    font.family: "Helvetica"
-                //                    font.pointSize: 10
-                //                    font.bold: true
-                //                }
                 RowLayout{
                     Layout.alignment: Qt.AlignTop
 
@@ -138,28 +143,28 @@ MenuBar {
                     BasicTextInputInverted {
                         //anchors.centerIn: parent
                         id: text1
-                        title_text:  qsTr("SET X")
+                        title_text:  qsTr("SET LAT")
                         titleSize: 10
-                        value_width: 50
+                        value_width: 100
                     }
-                    Rectangle{
-                        id: slider_text_output
-                        Layout.preferredWidth: text1.value_width
-                        Layout.preferredHeight: text1.implicitHeight
-                        Layout.alignment: Qt.AlignRight
-                        Layout.rightMargin: 10
-                        clip: true
-                        color: "whitesmoke"
-                        border.color: "black"
-                        Text{
-                            id: slider_out_value_id
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            text: xRef
-                            font.family: "Helvetica"
-                            font.pointSize: 16
-                        }
-                    }
+//                    Rectangle{
+//                        id: slider_text_output
+//                        Layout.preferredWidth: text1.value_width
+//                        Layout.preferredHeight: text1.implicitHeight
+//                        Layout.alignment: Qt.AlignRight
+//                        Layout.rightMargin: 10
+//                        clip: true
+//                        color: "whitesmoke"
+//                        border.color: "black"
+//                        Text{
+//                            id: slider_out_value_id
+//                            anchors.fill: parent
+//                            anchors.margins: 4
+//                            text: xRef
+//                            font.family: "Helvetica"
+//                            font.pointSize: 16
+//                        }
+//                    }
                 }
                 RowLayout{
                     Layout.alignment: Qt.AlignTop
@@ -168,28 +173,28 @@ MenuBar {
                     BasicTextInputInverted {
                         //anchors.centerIn: parent
                         id: texty
-                        title_text:  qsTr("SET Y")
+                        title_text:  qsTr("SET LON")
                         titleSize: 10
-                        value_width: 50
+                        value_width: 100
                     }
-                    Rectangle{
-                        id: slider_text_output_y
-                        Layout.preferredWidth: texty.value_width
-                        Layout.preferredHeight: texty.implicitHeight
-                        Layout.alignment: Qt.AlignRight
-                        Layout.rightMargin: 10
-                        clip: true
-                        color: "whitesmoke"
-                        border.color: "black"
-                        Text{
-                            id: slider_out_value_id_y
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            text: yRef
-                            font.family: "Helvetica"
-                            font.pointSize: 16
-                        }
-                    }
+//                    Rectangle{
+//                        id: slider_text_output_y
+//                        Layout.preferredWidth: texty.value_width
+//                        Layout.preferredHeight: texty.implicitHeight
+//                        Layout.alignment: Qt.AlignRight
+//                        Layout.rightMargin: 10
+//                        clip: true
+//                        color: "whitesmoke"
+//                        border.color: "black"
+//                        Text{
+//                            id: slider_out_value_id_y
+//                            anchors.fill: parent
+//                            anchors.margins: 4
+//                            text: yRef
+//                            font.family: "Helvetica"
+//                            font.pointSize: 16
+//                        }
+//                    }
                 }
 
                 // set line

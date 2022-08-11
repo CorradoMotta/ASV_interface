@@ -17,6 +17,7 @@
 #include <components/swamp_motor_status.h>
 #include <components/time_status.h>
 #include <components/minion.h>
+#include <components/conf.h>
 
 class SwampStatus : public QObject
 {
@@ -27,6 +28,7 @@ class SwampStatus : public QObject
     Q_PROPERTY(NGC_status* ngc_status READ ngc_status NOTIFY ngc_statusChanged)
     Q_PROPERTY(Swamp_motor_status* motor_status READ motor_status NOTIFY motor_statusChanged)
     Q_PROPERTY(Time_status* time_status READ time_status NOTIFY time_statusChanged)
+    Q_PROPERTY(Conf* conf READ conf NOTIFY confChanged)
     Q_PROPERTY(Minion* minion_fl READ minion_fl NOTIFY minion_fl_Changed)
     Q_PROPERTY(Minion* minion_fr READ minion_fr NOTIFY minion_fr_Changed)
     Q_PROPERTY(Minion* minion_rl READ minion_rl NOTIFY minion_rl_Changed)
@@ -43,6 +45,7 @@ public:
     Minion *minion_fr();
     Minion *minion_rl();
     Minion *minion_rr();
+    Conf *conf();
 
 signals:
 
@@ -54,6 +57,7 @@ signals:
     void minion_fr_Changed();
     void minion_rl_Changed();
     void minion_rr_Changed();
+    void confChanged();
 
 private:
 
@@ -65,6 +69,7 @@ private:
     Minion m_minion_fr;
     Minion m_minion_rl;
     Minion m_minion_rr;
+    Conf m_conf;
 };
 
 #endif // SWAMPSTATUS_H

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <data/doublevariable.h>
 #include <data/intvariable.h>
+#include <data/stringvariable.h>
 
 class MinionStatus : public QObject
 {
@@ -33,7 +34,7 @@ class MinionStatus : public QObject
     Q_PROPERTY(IntVariable* gpsNSatellite READ gpsNSatellite NOTIFY gpsNSatelliteChanged)
     Q_PROPERTY(IntVariable* gpsYear READ gpsYear NOTIFY gpsYearChanged)
     Q_PROPERTY(DoubleVariable* gpsHeightGeoid READ gpsHeightGeoid NOTIFY gpsHeightGeoidChanged)
-    Q_PROPERTY(DoubleVariable* imuCalibrationStatus READ imuCalibrationStatus NOTIFY imuCalibrationStatusChanged)
+    Q_PROPERTY(StringVariable* imuCalibrationStatus READ imuCalibrationStatus NOTIFY imuCalibrationStatusChanged)
     Q_PROPERTY(DoubleVariable* imuPitch READ imuPitch NOTIFY imuPitchChanged)
     Q_PROPERTY(DoubleVariable* imuRoll READ imuRoll NOTIFY imuRollChanged)
     Q_PROPERTY(DoubleVariable* imuTemperature READ imuTemperature NOTIFY imuTemperatureChanged)
@@ -77,7 +78,7 @@ public:
     IntVariable* gpsMonth();
     DoubleVariable* gpsTime();
     IntVariable* gpsYear();
-    DoubleVariable* imuCalibrationStatus();
+    StringVariable* imuCalibrationStatus();
     DoubleVariable* imuPitch();
     DoubleVariable* imuRoll();
     DoubleVariable* imuTemperature();
@@ -168,7 +169,7 @@ private:
     IntVariable m_gpsMonth;
     DoubleVariable m_gpsTime;
     IntVariable m_gpsYear;
-    DoubleVariable m_imuCalibrationStatus;
+    StringVariable m_imuCalibrationStatus;
     DoubleVariable m_imuPitch;
     DoubleVariable m_imuRoll;
     DoubleVariable m_imuTemperature;

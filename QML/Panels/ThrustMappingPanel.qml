@@ -33,6 +33,8 @@ Rectangle{
     property int slider_width : 260
     property alias panel_color: force_slider.color
     Layout.preferredHeight: cl.implicitHeight
+    Layout.preferredWidth: cl.implicitWidth
+    implicitWidth: cl.implicitWidth
     color: "transparent"
 
     ColumnLayout {
@@ -55,9 +57,9 @@ Rectangle{
                 font.bold: true
 
             }
-            Rectangle{
-                Layout.fillWidth: true
-            }
+//            Rectangle{
+//                Layout.fillWidth: true
+//            }
 
             //            Button {
             //                id: control
@@ -88,7 +90,7 @@ Rectangle{
         Rectangle {
             id: force_slider
             height: (fu.implicitHeight * 3) + 50
-            width: force_slider_panel.implicitWidth + 50
+            width: force_slider_panel.implicitWidth
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignTop
             radius: 5.0
@@ -108,10 +110,8 @@ Rectangle{
                     id: fu
                     Layout.fillWidth: true
                     slider_width : rpm_panel.slider_width
-                    //slider_text: "NREF     "
                     slider_from: 0
                     slider_to: 100
-                    //mask_input: "#000"
                     onValueChanged: {
                         controlValue = fu.value
                         rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
@@ -123,10 +123,8 @@ Rectangle{
                     id: fv
                     Layout.fillWidth: true
                     slider_width : rpm_panel.slider_width
-                    //slider_text: "DNREF    "
                     slider_from: 0
                     slider_to: 100
-                    //mask_input: "#000"
                     onValueChanged: rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
                 }
                 BasicSliderWithRefAndAct {
@@ -136,16 +134,10 @@ Rectangle{
                     slider_width : rpm_panel.slider_width
                     slider_from: 0
                     slider_to: 100
-                    //slider_text: "ALPHAREF"
-                    //mask_input: "#000"
                     onValueChanged:  {
                         controlValue = tr.value
                         rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
                     }
-                    // onValueChanged: {
-                    //     rotation_value = value
-                    //     data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc_status.tr.ref.topic_name,value)
-                    // }
                 }
             }
         }

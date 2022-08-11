@@ -44,3 +44,8 @@ Minion *SwampStatus::minion_rr()
 {
     return &m_minion_rr;
 }
+
+Conf *SwampStatus::conf()
+{
+    return &m_conf;
+}

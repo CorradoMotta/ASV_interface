@@ -47,6 +47,7 @@ signals:
     void groupChanged();
 
 private:
+
     QGeoCoordinate m_coordinate;
     int m_group;
 };

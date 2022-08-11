@@ -75,6 +75,11 @@ BasicMinionPanelContainer{
                 title_text: "Z_GYRO"
                 value_text: minion_view.imu_z_gyro
             }
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                title_text: "CALIB"
+                value_text: minion_view.imuCalibrationStatus
+            }
         }
     }
 }

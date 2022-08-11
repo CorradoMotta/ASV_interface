@@ -17,6 +17,7 @@
 #include <QUdpSocket>
 #include <data/HciNgiInterface.h>
 #include <swamp_models/datasource.h>
+#include <QSettings>
 
 typedef HciNgiInterface::NgcTelemetryPacket hciEnum;
 
@@ -40,7 +41,7 @@ public:
     // class methods
     void handleNgcPacket(QTextStream& in);
     void handleMinionPacket(int MinionId, QTextStream &in);
-    bool checkConfKey(QString key, QMap<QString, QString> &address_map);
+    bool checkConfKey(QString key, QSettings &settings);
 
 private slots:
 

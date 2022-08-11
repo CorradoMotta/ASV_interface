@@ -10,6 +10,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
+import QtQml 2.15
 import "../Panels"
 import "../Views"
 import "../Charts"
@@ -18,10 +19,23 @@ Item {
     //todo put max here
     property alias minimum_width : ngc.minimumXDim
     property alias minimum_height: ngc.minimumYDim
-    property alias bathymetryPoint : btChr.newPoint
-    property alias bathymetryReset: btChr.reset
+//    property alias bathymetryPoint : btChr.newPoint
+//    property alias bathymetryReset: btChr.reset
     property alias xValue: ngc.xValue
+
+    readonly property int tabLen: 3
     //property alias maxDepth: btChr.yMAX
+
+    // button used to switch between minion's tab
+    Connections {
+        target: QJoysticks
+        enabled: data_model.data_source.is_connected
+        function onButtonChanged(js, button, pressed) {
+            if (button === 2 && pressed === true){
+                bar.currentIndex = bar.currentIndex > tabLen? 0 : bar.currentIndex+1
+            }
+        }
+    }
 
     Page{
         id: minion_page
@@ -45,10 +59,10 @@ Item {
             }
             TabButton {
                 text: qsTr("Minion RR")
-            }
+            }/*
             TabButton {
                 text: qsTr("Dashboard")
-            }
+            }*/
         }
 
         StackLayout {
@@ -79,12 +93,12 @@ Item {
                 engineState: engine_panel.engine_state_rr
                 prefix: data_model.data_source.swamp_status.minion_rr
             }
-            Rectangle {
-                id: general
-                BathymetryChart{
-                    id: btChr
-                }
-            }
+//            Rectangle {
+//                id: general
+//                BathymetryChart{
+//                    id: btChr
+//                }
+//            }
         }
     }
 }
