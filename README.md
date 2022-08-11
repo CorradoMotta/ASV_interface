@@ -42,7 +42,27 @@ int main(int argc, char *argv[])
     return app.exec();
 }
 ``` 
+
+### Controller
+Another way to control the vehicle in RAW mode is by using a game controller. At the
+time of writing the supported controller is the Thrustmaster USB Joystick for PC. 
+The module to control the joystick is build-in but you need to manually install the dll. To do so, follow these steps:
+
+1. Download SWDL2 mingw x64 library from: https://www.libsdl.org/download-2.0.php
+2. Add it to the directory ASV_interface\3rd_parties\QJoysticks\lib\SDL\bin\windows\mingw
+3. Restart the app.
+
+
+This controller has 3 available axis and 4 buttons. Two of the four buttons are used to switch between the
+views and the tabs and a third button is used to turn on RAW mode immediately. The two axes are mapped to the RPM control slider of the NGC 
+and allow the user to control both the speed and the direction.
+They also allow driving backward in any direction. To enable
+the controller simply plug the joystick into the PC. If the interface correctly recognizes the
+controller, a small icon will appear on the top left of the navigation map,
+
 ### QtMqtt
+
+**NOTE**: this is currently not needed as MQTT is disabled.
 
 **NOTE**: this is tested only with mingw compilers!
 
