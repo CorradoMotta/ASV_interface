@@ -212,3 +212,22 @@ When clicked, other boxes will appear with a white color. Then it is possible to
 It is also possible to **upload** points or transepts from a file. The only supported format is **gpx** which is the [standard XML format](https://www.topografix.com/gpx.asp) for exchanging GPS data between applications. It is available as an export option from QGIS. Click on the upload icon on the bottom right. You will be able to select the file from the file system and the points will be imported.
 
 **Note:** This is the very first version and it allows to have only **one** set of markers or one transepts at a time. So multiple separate dataset cannot be imported or drawn at the same time.
+
+ ### Adding points of interest
+Points of interest that come from e.g. sampling spots, can be saved on the map and
+exported to a file. The filename and path can be set in the conf.ini file. If already existing,
+the interface will simply append the new data. Otherwise, it will create the file. The data
+stored in the file are the following:
+
+1. Timestamp, received by the vehicle.
+2. Name, given by the user or UNNAMED as default.
+3. Latitude of the point.
+4. Longitude of the point
+
+![samplingPoints](https://user-images.githubusercontent.com/12608893/184177663-d2349523-337f-4739-913d-2407877af43f.PNG)
+
+The figure shows the points in purple. In the bottom right, a new point is being added with
+the name svalbard_first_sampling. By clicking the plus button the marker will be added to
+the map, at the vehicle’s current position. By clicking on the download button, all points
+will be saved to a file. The red button can be used to remove all points. Points interaction
+on the map works in the exact same way as the marker and lines explained previously.
