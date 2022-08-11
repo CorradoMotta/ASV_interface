@@ -213,7 +213,8 @@ It is also possible to **upload** points or transepts from a file. The only supp
 
 **Note:** This is the very first version and it allows to have only **one** set of markers or one transepts at a time. So multiple separate dataset cannot be imported or drawn at the same time.
 
- ### Adding points of interest
+### Adding points of interest
+ 
 Points of interest that come from e.g. sampling spots, can be saved on the map and
 exported to a file. The filename and path can be set in the conf.ini file. If already existing,
 the interface will simply append the new data. Otherwise, it will create the file. The data
@@ -231,3 +232,58 @@ the name svalbard_first_sampling. By clicking the plus button the marker will be
 the map, at the vehicle’s current position. By clicking on the download button, all points
 will be saved to a file. The red button can be used to remove all points. Points interaction
 on the map works in the exact same way as the marker and lines explained previously.
+
+### Offline maps
+
+Mapbox was selected as the map provider. Mapbox allows accessing vector and satellite
+maps, with several zoom levels and good resolution. Furthermore, it provides the possibility
+to manually download and store map tiles in a custom cache directory with database format
+(.db). This is very useful as the interface can be also used when an online connection is
+not available. To download the tiles, a C++ tool is available __only for linux OS__. At the
+moment, the maximum amount of tiles that can be downloaded offline is set to 6000 and 50
+MB as cache size. Mapbox term of service should be consulted to check if the size can be
+incremented. As a workaround, it is possible to create multiple databases (all of them shall
+have the name mapboxgl.db to work) and store them in different directories. Then, in the
+conf.ini file, you can set the path to the database you are interested in for that specific area.
+
+The following steps are required to download offline maps:
+
+1. Download the [offline](https://github.com/mapbox/mapbox-gl-native/blob/master/bin/offline.cpp) tool from [mapbox ](https://doc.qt.io/qt-5/location-plugin-mapboxgl.html) plug in. The offline tool is not targeting the windows platform and therefore you need a Linux system.
+2. Open a cmd line and move to the offline tool build folder: `$ cd Documents/mapbox/mapbox-gl-native/build/bin`
+3. The program is called mbgl-offline. It takes several input parameters. Down here is a summary of the main args, taken from the parser in their code:
+
+``` cpp
+// LatLngBounds
+args::ValueFlag<std::string> styleValue(argumentParser, "URL", "Map stylesheet", {'s', "style"});
+args::ValueFlag<std::string> outputValue(argumentParser, "file", "Output database file name", {'o', "output"});
+args::ValueFlag<std::string> apiBaseValue(argumentParser, "URL", "API Base URL", {'a', "apiBaseURL"});
+
+args::Group latLngBoundsGroup(argumentParser, "LatLng bounds:", args::Group::Validators::AllOrNone);
+args::ValueFlag<double> northValue(latLngBoundsGroup, "degrees", "North latitude", {"north"});
+args::ValueFlag<double> westValue(latLngBoundsGroup, "degrees", "West longitude", {"west"});
+args::ValueFlag<double> southValue(latLngBoundsGroup, "degrees", "South latitude", {"south"});
+args::ValueFlag<double> eastValue(latLngBoundsGroup, "degrees", "East longitude", {"east"});
+
+args::ValueFlag<double> minZoomValue(argumentParser, "number", "Min zoom level", {"minZoom"});
+args::ValueFlag<double> maxZoomValue(argumentParser, "number", "Max zoom level", {"maxZoom"});
+args::ValueFlag<double> pixelRatioValue(argumentParser, "number", "Pixel ratio", {"pixelRatio"});
+args::ValueFlag<bool> includeIdeographsValue(argumentParser, "boolean", "Include CJK glyphs", {"includeIdeographs"});
+```
+
+4. Besides these parameters, you also need to set the access token. The access token is retrieved from the [mapbox ](https://www.mapbox.com/) account. The access token is set before calling the script.
+5. Finally, you can set your Area Of Interest, using e.g., QGIS, decide which style you are aiming for, which max zoom, and download the tiles. Following is an example to download tiles for Venice:
+
+`$ MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoibWFzc2ltb2NhY2NpYSIsImEiOiJjbDF5c2w2cDQwZndqM2RucnZ3Y3NjMDdjIn0.qBzdHy57FexjF3Aj-qps4g ./mbgl-offline --north 45.4522 --west 12.3209 --south 45.3853 --east 12.3785 --maxZoom 17 --output mapboxgl.db --style mapbox://styles/mapbox/satellite-v9`
+
+This will create a database file named mapboxgl.db. **Note** that this shall always be the name used. Copy the file and move to windows or where the app is installed.
+
+6. As sometimes the file might be corrupted, you might check that the DB file is working properly using SQL libraries or browsers app such as [sqllitebrowser](https://sqlitebrowser.org/dl/)
+7. You should now paste the file into the correct directory where Mapbox stores by default the cached tiles. Such location can be found by adding the following line to your main.cpp in the Qt app, which will print in the console the path:
+
+`qDebug() << "Mapbox cache file stored in:" << QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation);`
+
+From there go to QtLocation/mapboxgl and replace the DB file with your customized one.
+
+**Further options:** 
+* You do not have to save the dB file in the default location. You can create your own directory and save the file there. Then go to the .ini file and add the absolute path in the `cache_dir` parameter.
+* You also need to update the `map_style` parameter according to the type of tiles you downloaded ("street", "satellite", "all")
