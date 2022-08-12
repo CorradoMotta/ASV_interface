@@ -30,7 +30,7 @@ Rectangle{
     property alias slider1_act : fu.act_value
     property alias slider2_act : fv.act_value
     property alias slider3_act : tr.act_value
-    property int slider_width : 260
+    property int slider_width : 180
     property alias panel_color: force_slider.color
     Layout.preferredHeight: cl.implicitHeight
     Layout.preferredWidth: cl.implicitWidth

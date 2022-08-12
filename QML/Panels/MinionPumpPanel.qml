@@ -73,7 +73,7 @@ BasicMinionPanelContainer{
             Layout.alignment: Qt.AlignTop | Qt.AlignRight
             RowLayout{
 
-                spacing:10
+                spacing: 5
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 //                anchors.right: parent.right
                 //                anchors.top: parent.top
@@ -100,17 +100,20 @@ BasicMinionPanelContainer{
             }
             BasicTextOutput{
                 Layout.topMargin: 30
+                value_width: text_value_width
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 title_text: "CURRENT"
                 value_text: minion_view.thrust_motor_current
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                value_width: text_value_width
                 title_text: "TEMPERATURE"
                 value_text: minion_view.thrust_motor_temperature
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                value_width: text_value_width
                 title_text: "SPEED"
                 value_text: minion_view.thrust_motor_speed
             }

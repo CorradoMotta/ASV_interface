@@ -70,7 +70,7 @@ Rectangle{
                     id: x
                     Layout.fillWidth: true
                     button_enabled : false
-                    slider_width : 260
+                    slider_width : 180
                     slider_text: "X"
                     slider_from: -50
                     slider_to: 50
@@ -81,7 +81,7 @@ Rectangle{
                     id: y
                     Layout.fillWidth: true
                     button_enabled : false
-                    slider_width : 260
+                    slider_width : 180
                     slider_text: "Y"
                     slider_from: -50
                     slider_to: 50
@@ -94,7 +94,7 @@ Rectangle{
                     slider_text: "SURGE"
                     slider_from: -100
                     slider_to: 100
-                    slider_width : 260
+                    slider_width : 180
                     ref_value: surgeRef
                     onValueChanged: control_panel.publish_topic(control_panel.surgeTn, value)
                     onClickedChanged: clicked ? control_panel.publish_topic(control_panel.surgeTn, value) : ""
@@ -106,7 +106,7 @@ Rectangle{
                     slider_text: "SWAY"
                     slider_from: -100
                     slider_to: 100
-                    slider_width : 260
+                    slider_width : 180
                     ref_value: swayRef
                     onValueChanged: control_panel.publish_topic(control_panel.swayTn, value)
                     onClickedChanged: clicked ? control_panel.publish_topic(control_panel.swayTn, value) : ""
@@ -117,7 +117,7 @@ Rectangle{
                     Layout.fillWidth: true
                     slider_from: -180
                     slider_to: 180
-                    slider_width : 260
+                    slider_width : 180
                     slider_text: "YAW"
                     ref_value: yawRef
                     onValueChanged: control_panel.publish_topic(control_panel.yawTn, value + " " + x.value + " " + y.value)
@@ -128,7 +128,7 @@ Rectangle{
                     Layout.fillWidth: true
                     slider_from: -180
                     slider_to: 180
-                    slider_width : 260
+                    slider_width : 180
                     slider_text: "HEADING"
                     ref_value: headingRef
                     onValueChanged: control_panel.publish_topic(control_panel.headingTn, value + " " + x.value + " " + y.value)

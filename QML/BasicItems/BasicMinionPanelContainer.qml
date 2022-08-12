@@ -5,6 +5,7 @@ Rectangle{
 
     property alias title : title_text.text
     property int title_height : title_text.implicitHeight
+    property int text_value_width: 80
 
     border.color: "gray"
     border.width: 2

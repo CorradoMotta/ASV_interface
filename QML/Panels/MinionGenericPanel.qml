@@ -53,6 +53,7 @@ BasicMinionPanelContainer{
             }
             BasicTextInputInverted{
                 id: tlm_ddr
+                value_width: 80
                 //Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
                 title_text: "TLM_ADDR"
                 // TODO add loss of scope
@@ -87,14 +88,14 @@ BasicMinionPanelContainer{
             Layout.alignment: Qt.AlignLeft
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                value_width: 120
+                value_width: text_value_width
                 title_text: "NODE_ID"
                 value_text: minion_view.nodeID
 
             }
             BasicTextOutputInverted{
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                value_width: 120
+                value_width: text_value_width
                 title_text: "TIME_MS"
                 value_text: minion_view.time_ms
             }
@@ -103,13 +104,13 @@ BasicMinionPanelContainer{
             Layout.alignment: Qt.AlignRight
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                value_width: 120
+                value_width: text_value_width
                 title_text: "NOP_COUNTER"
                 value_text: minion_view.nop_counter
             }
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                value_width: 120
+                value_width: text_value_width
                 title_text: "VOLTAGE"
                 value_text: minion_view.battery_voltage
             }
