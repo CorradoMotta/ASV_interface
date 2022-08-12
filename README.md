@@ -1,7 +1,7 @@
 # ASV_interface
 Repository to store progress on the ASV interface development
 
-## Info on IDE
+## Info on IDE and dependencies
 Qt Creator 5.15.2 should be installed with full package and MingW as compiler. You can use the online installer available in https://www.qt.io/download in the open source section. After log in with your credentials, go to custom installation. Expand Qt menu, select Qt 5.12.2, the minimum set of modules that should be selected are:
 
 1. MinGW 64bit.
@@ -11,8 +11,8 @@ Qt Creator 5.15.2 should be installed with full package and MingW as compiler. Y
 6. Qt Debug information files
 7. In developer and Designer tools > OpenSSL (the whole package)
 
-
 ### OpenSSL
+
 To be able to use the maps, however, OpenSSL needs to be installed as well on the local machine with the following steps:
 
 1. Run the MaintenanceTool and install the OpenSSL package in "Developer and Designer tools >  OpenSSL 1.1.x"
@@ -52,7 +52,6 @@ The module to control the joystick is build-in but you need to manually install 
 2. Add it to the directory ASV_interface\3rd_parties\QJoysticks\lib\SDL\bin\windows\mingw
 3. Restart the app.
 
-
 This controller has 3 available axis and 4 buttons. Two of the four buttons are used to switch between the
 views and the tabs and a third button is used to turn on RAW mode immediately. The two axes are mapped to the RPM control slider of the NGC 
 and allow the user to control both the speed and the direction.
@@ -83,9 +82,23 @@ The following steps are required for windows in order to install qtmqtt which is
 __Source:__ https://forum.qt.io/topic/91877/where-do-i-find-qt-for-automation/7
 
 ## Info on implementation
+
+__Note:__ For more info regarding the technical details refer to: https://intranet.cnr.it/servizi/people/prodotto/scheda/i/469797
+
 The HCI interface is developed using QML for the "front end" and C++ for the "back end". Communication between C++ and QML is implemented in the standard QT way, using `setContextProperty` method and `Q_OBJECT`. For interaction with the navigation map, the model-view-delegate architecture is used (https://doc.qt.io/qt-5/model-view-programming.html), where the model part is coded in C++. Such classes are contained in the folder map_models.
 
+### Configuration file
+
+In the "conf" folder several files for configuration are available. The only one used at the moment is `conf.ini`. There all configuration parameters are listed and described. When you change any of these parameters, you need to restart the application in order to make them effective. The .ini file has 5 sections:
+
+* udp_addresses: here you set all IP addresses and ports. Note that the first parameter, `Set_local` should be set to false when working with the vehicle. A `true` value is set to connect to the local network, for testing purposes only.
+* minion_configuration: here you can set the initial offset for the initial angle of each minion' azimuth motor.
+* mapbox_settings: These are used for offline maps. Check the section below for details.
+* RPM_Settings: here you can set the RPM values both for the slider dimensions and for the maximum possible value of the game controller.
+* coordinate_seetings: here you can specify a path and a filename for the points of interest. See section below for details.
+
 ### Network Binding
+
 The front-end of the application is fully detached from the underlying communication protocol. In the backend, the class `swampmodel` contains a pointer to a `dataSource` object. `dataSource` is a virtual class which offers a basic set of methods that can be implemented by different communication protocol:
 
 ``` cpp
