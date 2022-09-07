@@ -42,9 +42,17 @@ MenuBar {
     Menu {
         title: qsTr("&File")
         Action {
+            text: qsTr("&Metadata")
+            enabled: ! data_model.data_source.is_connected
+            onTriggered:{
+                mainLoader.source = "../Views/Metadata.qml"
+            }
+        }
+        Action {
             text: qsTr("&Quit")
             onTriggered: Qt.quit()
         }
+
     }
 
 // disabled for the moment
