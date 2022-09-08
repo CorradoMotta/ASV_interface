@@ -99,5 +99,6 @@
         <file>Images/swamp_arw.png</file>
         <file>QML/Views/Metadata.qml</file>
         <file>QML/Views/MainView.qml</file>
+        <file>QML/BasicItems/BasicMetadataInput.qml</file>
     </qresource>
 </RCC>

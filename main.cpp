@@ -15,6 +15,7 @@
 #include "swamp_models/datasource.h"
 #include "swamp_models/swampmodel.h"
 #include "swamp_models/datasource_udp.h"
+#include "metadata/globalmetadata.h"
 #include <QPalette>
 #include <QJoysticks.h>
 #include <QStyleFactory>
@@ -54,6 +55,7 @@ int main(int argc, char *argv[])
     Coordinate_model coors_model;
     SwampModel data_model;
     QQmlApplicationEngine engine;
+    GlobalMetadata metadata;
 
     DataSource *dataSource;
     dataSource = new DataSourceUdp(&data_model);
@@ -78,6 +80,8 @@ int main(int argc, char *argv[])
     qDebug() << "Mapbox cache file stored in:" << QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation);
 
     // set context properties, one for each model
+
+    engine.rootContext()->setContextProperty(QStringLiteral("_metadata"), &metadata);
     engine.rootContext()->setContextProperty(QStringLiteral("_marker_model"), &marker_model);
     engine.rootContext()->setContextProperty(QStringLiteral("_bathymetry_model"), &bath_model);
     engine.rootContext()->setContextProperty(QStringLiteral("_line_model"), &line_model);
