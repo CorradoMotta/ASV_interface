@@ -102,38 +102,39 @@ void GlobalMetadata::readJson(QString filename)
 
     // open file
     file.setFileName(filename);
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    val = file.readAll();
-    file.close();
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        val = file.readAll();
+        file.close();
 
-    // set JSON reader
-    QJsonDocument d = QJsonDocument::fromJson(val.toUtf8());
-    QJsonObject values = d.object().value("data").toObject();
+        // set JSON reader
+        QJsonDocument d = QJsonDocument::fromJson(val.toUtf8());
+        QJsonObject values = d.object().value("data").toObject();
 
-    // Append metadata to the model (for the moment only if not auto)
-    foreach(const QString& key, values.keys()) {
-        QJsonObject sett4 = values.value(key).toObject();
-        if(!sett4.value("auto").toBool() && sett4.value("required").toBool())
-            m_metadata.append(new Metadata(sett4.value("name").toString(), // name
-                                           sett4.value("ACDD").toString(), // ACDD convention
-                                           "", // value
-                                           sett4.value("default").toString(), // default value
-                                           sett4.value("required").toBool(), // if mandatory
-                                           sett4.value("auto").toBool(), // if auto generated
-                                           sett4.value("description").toString() // description
-                                           ));
-        else if(!sett4.value("auto").toBool() && !sett4.value("required").toBool())
-            o_metadata.append(new Metadata(sett4.value("name").toString(), // name
-                                           sett4.value("ACDD").toString(), // ACDD convention
-                                           "", // value
-                                           sett4.value("default").toString(), // default value
-                                           sett4.value("required").toBool(), // if mandatory
-                                           sett4.value("auto").toBool(), // if auto generated
-                                           sett4.value("description").toString() // description
-                                           ));
+        // Append metadata to the model (for the moment only if not auto)
+        foreach(const QString& key, values.keys()) {
+            QJsonObject sett4 = values.value(key).toObject();
+            if(!sett4.value("auto").toBool() && sett4.value("required").toBool())
+                m_metadata.append(new Metadata(sett4.value("name").toString(), // name
+                                               sett4.value("ACDD").toString(), // ACDD convention
+                                               "", // value
+                                               sett4.value("default").toString(), // default value
+                                               sett4.value("required").toBool(), // if mandatory
+                                               sett4.value("auto").toBool(), // if auto generated
+                                               sett4.value("description").toString() // description
+                                               ));
+            else if(!sett4.value("auto").toBool() && !sett4.value("required").toBool())
+                o_metadata.append(new Metadata(sett4.value("name").toString(), // name
+                                               sett4.value("ACDD").toString(), // ACDD convention
+                                               "", // value
+                                               sett4.value("default").toString(), // default value
+                                               sett4.value("required").toBool(), // if mandatory
+                                               sett4.value("auto").toBool(), // if auto generated
+                                               sett4.value("description").toString() // description
+                                               ));
 
+        }
+        m_metadata.append(o_metadata); // better to sort instead
     }
-    m_metadata.append(o_metadata); // better to sort instead
 }
 
 void GlobalMetadata::reset()

@@ -361,7 +361,6 @@ bool DataSourceUdp::set_cfg(QString filename)
         QFile json_file(settings.value("jsonDB_file").toString());
         if(!json_file.exists()) {
             qDebug() <<  "JSON file not found. Input path" <<  settings.value("jsonDB_file").toString();
-            return 0;
         }
         m_swamp_status.conf()->setJsonPath(settings.value("jsonDB_file").toString());
         json_file.close();
