@@ -1,7 +1,16 @@
+/*************************************************************************
+ *
+ * Metadata qml view. This is the global metadata view. It loads all the
+ * elements from the cpp model which in turn is generated from JSON
+ * database.
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.15
 import "../BasicItems"
+
 Rectangle {
 
     color: "whitesmoke"
@@ -43,6 +52,7 @@ Rectangle {
             id: gridLayout3
             rowSpacing: 10
             columns: 2
+            columnSpacing: 10
             anchors.fill: parent
 
             Repeater {
@@ -50,9 +60,10 @@ Rectangle {
                 BasicMetadataInput{
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignRight
-                    title_color: isMandatory ? "green" : ""
+                    title_color: isMandatory ? "darkorange" : ""
                     title_text: name
                     value_text: value
+                    hovering_text: description
                     onCurrentValueChanged: value = currentValue
                 }
             }
@@ -64,7 +75,6 @@ Rectangle {
         anchors.right: parent.right
         anchors.rightMargin: 20
         anchors.topMargin: 10
-
 
         Button {
             id: defaultButton
@@ -82,8 +92,7 @@ Rectangle {
             id: goButton
             text: qsTr("Generate INI")
             onClicked:{
-
-                var message = _metadata.saveToDisk("C:\\Users\\massi\\Documents\\Corrado\\Swamp\\metadata")//
+                var message = _metadata.saveToDisk(data_model.data_source.swamp_status.conf.metadataIniPath)
                 root.messagePrompt(message)
             }
         }

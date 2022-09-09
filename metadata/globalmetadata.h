@@ -1,3 +1,16 @@
+/*************************************************************************
+ *
+ * This class is used to integrate in the interface the global metadata
+ * attributes defined by CNR-INM and saved in a JSON light database.
+ * Such data are loaded in the interface automatically from JSON,
+ * following the model view delegate pattern
+ *
+ * Author: Corrado Motta
+ * Date: 09/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 #ifndef GLOBALMETADATA_H
 #define GLOBALMETADATA_H
 
@@ -76,6 +89,7 @@ class GlobalMetadata : public QAbstractListModel
 
 public:
     explicit GlobalMetadata(QObject *parent = nullptr);
+    GlobalMetadata(const QString &jsonPath, QObject *parent = nullptr);
 
     enum metadataRoles{
         nameRole = Qt::UserRole +1,

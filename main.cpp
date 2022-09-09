@@ -55,16 +55,17 @@ int main(int argc, char *argv[])
     Coordinate_model coors_model;
     SwampModel data_model;
     QQmlApplicationEngine engine;
-    GlobalMetadata metadata;
 
     DataSource *dataSource;
     dataSource = new DataSourceUdp(&data_model);
+
 
     bool sourceIsValid = dataSource->set_cfg("../ASV_interface/conf/conf.ini");
     if(! sourceIsValid) exit(-1);
 
     data_model.set_data_source(dataSource);
-
+    GlobalMetadata metadata(dataSource->swamp_status()->conf()->jsonPath());
+    //qDebug() << "here " << dataSource->swamp_status()->conf()->();
     // create joystick instance
     QJoysticks *instance = QJoysticks::getInstance();
 

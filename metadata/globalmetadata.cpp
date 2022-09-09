@@ -3,25 +3,13 @@
 GlobalMetadata::GlobalMetadata(QObject *parent)
     : QAbstractListModel{parent}
 {
-    readJson("C:\\Users\\massi\\Documents\\Corrado\\CNR\\4. Code\\metadata\\database\\global_metadata.json");
-    //    m_metadata.append(new Metadata("Title","title","","",true));
-    //    m_metadata.append(new Metadata("Abstract","summary","","",true));
-    //    m_metadata.append(new Metadata("keywords","keywords","","unmanned marine vehicles,marine robotics,autonomous systems",true));
-    //    m_metadata.append(new Metadata("Conventions","Conventions","","ACDD-1.3,CF-1.6",true));
-    //    m_metadata.append(new Metadata("PI name","creator_name","","",true));
-    //    m_metadata.append(new Metadata("PI email","creator_email","","",true));
-    //    m_metadata.append(new Metadata("PI institution","institution","","CNR-INM",true));
-    //    m_metadata.append(new Metadata("Date created","date_created","",QDateTime::currentDateTime().toString(Qt::ISODate),true));
-    //    m_metadata.append(new Metadata("Platform","platform","","",true));
-    //    m_metadata.append(new Metadata("License","license","","Creative Commons",true));
-    //    m_metadata.append(new Metadata("Dataset version","product_version","","1.0",true));
+}
 
-    //    m_metadata.append(new Metadata("ID","id","","",false));
-    //    m_metadata.append(new Metadata("Processing level","processing_level","","",false));
-    //    m_metadata.append(new Metadata("Vertical max","geospatial_vertical_max","","",false));
-    //    m_metadata.append(new Metadata("Vertical min","geospatial_vertical_min","","",false));
-    //    m_metadata.append(new Metadata("Vertical unit","geospatial_vertical_unit","","meters",false));
-    //    m_metadata.append(new Metadata("Vertical resolution","geospatial_vertical_resolution","","1",false));
+GlobalMetadata::GlobalMetadata(const QString &jsonPath, QObject *parent):
+    QAbstractListModel{parent}
+{
+    // populate the list model from json
+    readJson(jsonPath);
 }
 
 int GlobalMetadata::rowCount(const QModelIndex &parent) const
@@ -126,23 +114,23 @@ void GlobalMetadata::readJson(QString filename)
     foreach(const QString& key, values.keys()) {
         QJsonObject sett4 = values.value(key).toObject();
         if(!sett4.value("auto").toBool() && sett4.value("required").toBool())
-                m_metadata.append(new Metadata(sett4.value("name").toString(), // name
-                                               sett4.value("ACDD").toString(), // ACDD convention
-                                               "", // value
-                                               sett4.value("default").toString(), // default value
-                                               sett4.value("required").toBool(), // if mandatory
-                                               sett4.value("auto").toBool(), // if auto generated
-                                               sett4.value("description").toString() // description
-                                               ));
-            else if(!sett4.value("auto").toBool() && !sett4.value("required").toBool())
-                o_metadata.append(new Metadata(sett4.value("name").toString(), // name
-                                               sett4.value("ACDD").toString(), // ACDD convention
-                                               "", // value
-                                               sett4.value("default").toString(), // default value
-                                               sett4.value("required").toBool(), // if mandatory
-                                               sett4.value("auto").toBool(), // if auto generated
-                                               sett4.value("description").toString() // description
-                                               ));
+            m_metadata.append(new Metadata(sett4.value("name").toString(), // name
+                                           sett4.value("ACDD").toString(), // ACDD convention
+                                           "", // value
+                                           sett4.value("default").toString(), // default value
+                                           sett4.value("required").toBool(), // if mandatory
+                                           sett4.value("auto").toBool(), // if auto generated
+                                           sett4.value("description").toString() // description
+                                           ));
+        else if(!sett4.value("auto").toBool() && !sett4.value("required").toBool())
+            o_metadata.append(new Metadata(sett4.value("name").toString(), // name
+                                           sett4.value("ACDD").toString(), // ACDD convention
+                                           "", // value
+                                           sett4.value("default").toString(), // default value
+                                           sett4.value("required").toBool(), // if mandatory
+                                           sett4.value("auto").toBool(), // if auto generated
+                                           sett4.value("description").toString() // description
+                                           ));
 
     }
     m_metadata.append(o_metadata); // better to sort instead
@@ -171,7 +159,7 @@ void GlobalMetadata::default_values()
 QString GlobalMetadata::saveToDisk(QString filename)
 {
     //QFile file(filename);
-    QString filepath =filename + "\\conf.ini";
+    QString filepath =filename;
     QSettings* settings = new QSettings(filepath, QSettings::IniFormat); //QDir::currentPath()
     QList<Metadata*>::iterator metadata;
 

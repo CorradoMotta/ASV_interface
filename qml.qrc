@@ -100,5 +100,6 @@
         <file>QML/Views/Metadata.qml</file>
         <file>QML/Views/MainView.qml</file>
         <file>QML/BasicItems/BasicMetadataInput.qml</file>
+        <file>Images/info.png</file>
     </qresource>
 </RCC>

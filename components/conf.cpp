@@ -71,3 +71,29 @@ void Conf::setCoordinatePath(const QString &newCoordinatePath)
     m_coordinatePath = newCoordinatePath;
     emit coordinatePathChanged();
 }
+
+const QString &Conf::jsonPath() const
+{
+    return m_jsonPath;
+}
+
+void Conf::setJsonPath(const QString &newJsonPath)
+{
+    if (m_jsonPath == newJsonPath)
+        return;
+    m_jsonPath = newJsonPath;
+    emit jsonPathChanged();
+}
+
+const QString &Conf::metadataIniPath() const
+{
+    return m_metadataIniPath;
+}
+
+void Conf::setMetadataIniPath(const QString &newMetadataIniPath)
+{
+    if (m_metadataIniPath == newMetadataIniPath)
+        return;
+    m_metadataIniPath = newMetadataIniPath;
+    emit metadataIniPathChanged();
+}
