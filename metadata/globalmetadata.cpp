@@ -3,22 +3,25 @@
 GlobalMetadata::GlobalMetadata(QObject *parent)
     : QAbstractListModel{parent}
 {
-    m_metadata.append(new Metadata("Title","","",true));
-    m_metadata.append(new Metadata("Abstract","","",true));
-    m_metadata.append(new Metadata("keywords","","unmanned marine vehicles,marine robotics,autonomous systems",true));
-    m_metadata.append(new Metadata("Conventions","","ACDD-1.3,CF-1.6",true));
-    m_metadata.append(new Metadata("PI name","","",true));
-    m_metadata.append(new Metadata("PI email","","",true));
-    m_metadata.append(new Metadata("PI institution","","CNR-INM",true));
-    m_metadata.append(new Metadata("Date created","",QDateTime::currentDateTime().toString(Qt::ISODate),true));
-    m_metadata.append(new Metadata("Platform","","",true));
-    m_metadata.append(new Metadata("License","","Creative Commons",true));
-    m_metadata.append(new Metadata("Dataset version","","1.0",true));
+    readJson("C:\\Users\\massi\\Documents\\Corrado\\CNR\\4. Code\\metadata\\database\\global_metadata.json");
+    //    m_metadata.append(new Metadata("Title","title","","",true));
+    //    m_metadata.append(new Metadata("Abstract","summary","","",true));
+    //    m_metadata.append(new Metadata("keywords","keywords","","unmanned marine vehicles,marine robotics,autonomous systems",true));
+    //    m_metadata.append(new Metadata("Conventions","Conventions","","ACDD-1.3,CF-1.6",true));
+    //    m_metadata.append(new Metadata("PI name","creator_name","","",true));
+    //    m_metadata.append(new Metadata("PI email","creator_email","","",true));
+    //    m_metadata.append(new Metadata("PI institution","institution","","CNR-INM",true));
+    //    m_metadata.append(new Metadata("Date created","date_created","",QDateTime::currentDateTime().toString(Qt::ISODate),true));
+    //    m_metadata.append(new Metadata("Platform","platform","","",true));
+    //    m_metadata.append(new Metadata("License","license","","Creative Commons",true));
+    //    m_metadata.append(new Metadata("Dataset version","product_version","","1.0",true));
 
-    m_metadata.append(new Metadata("ID","","",false));
-    m_metadata.append(new Metadata("Processing level","","",false));
-    m_metadata.append(new Metadata("Vertical max","","",false));
-    m_metadata.append(new Metadata("Vertical min","","",false));
+    //    m_metadata.append(new Metadata("ID","id","","",false));
+    //    m_metadata.append(new Metadata("Processing level","processing_level","","",false));
+    //    m_metadata.append(new Metadata("Vertical max","geospatial_vertical_max","","",false));
+    //    m_metadata.append(new Metadata("Vertical min","geospatial_vertical_min","","",false));
+    //    m_metadata.append(new Metadata("Vertical unit","geospatial_vertical_unit","","meters",false));
+    //    m_metadata.append(new Metadata("Vertical resolution","geospatial_vertical_resolution","","1",false));
 }
 
 int GlobalMetadata::rowCount(const QModelIndex &parent) const
@@ -35,12 +38,16 @@ QVariant GlobalMetadata::data(const QModelIndex &index, int role) const
 
     if ( role == nameRole)
         return g_metadata->name();
+    if ( role == acddNameRole)
+        return g_metadata->acdd_name();
     if (role == valueRole)
         return g_metadata->value();
-    if (role == DefaultValueRole)
+    if (role == defaultValueRole)
         return g_metadata->defaultValue();
     if (role == levelRole)
         return g_metadata->isMandatory();
+    if (role == autoRole)
+        return g_metadata->isAuto();
     if (role == descriptionRole)
         return g_metadata->description();
     return QVariant();
@@ -89,12 +96,56 @@ QHash<int, QByteArray> GlobalMetadata::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[nameRole] = "name";
+    roles[acddNameRole] = "acdd_name";
     roles[valueRole] = "value";
-    roles[DefaultValueRole] = "defaultValue";
+    roles[defaultValueRole] = "defaultValue";
     roles[levelRole] = "isMandatory";
+    roles[autoRole] = "isAuto";
     roles[descriptionRole] = "description";
 
     return roles;
+}
+
+void GlobalMetadata::readJson(QString filename)
+{
+    QString val;
+    QFile file;
+    QList<Metadata*> o_metadata;
+
+    // open file
+    file.setFileName(filename);
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    val = file.readAll();
+    file.close();
+
+    // set JSON reader
+    QJsonDocument d = QJsonDocument::fromJson(val.toUtf8());
+    QJsonObject values = d.object().value("data").toObject();
+
+    // Append metadata to the model (for the moment only if not auto)
+    foreach(const QString& key, values.keys()) {
+        QJsonObject sett4 = values.value(key).toObject();
+        if(!sett4.value("auto").toBool() && sett4.value("required").toBool())
+                m_metadata.append(new Metadata(sett4.value("name").toString(), // name
+                                               sett4.value("ACDD").toString(), // ACDD convention
+                                               "", // value
+                                               sett4.value("default").toString(), // default value
+                                               sett4.value("required").toBool(), // if mandatory
+                                               sett4.value("auto").toBool(), // if auto generated
+                                               sett4.value("description").toString() // description
+                                               ));
+            else if(!sett4.value("auto").toBool() && !sett4.value("required").toBool())
+                o_metadata.append(new Metadata(sett4.value("name").toString(), // name
+                                               sett4.value("ACDD").toString(), // ACDD convention
+                                               "", // value
+                                               sett4.value("default").toString(), // default value
+                                               sett4.value("required").toBool(), // if mandatory
+                                               sett4.value("auto").toBool(), // if auto generated
+                                               sett4.value("description").toString() // description
+                                               ));
+
+    }
+    m_metadata.append(o_metadata); // better to sort instead
 }
 
 void GlobalMetadata::reset()
@@ -119,20 +170,43 @@ void GlobalMetadata::default_values()
 
 QString GlobalMetadata::saveToDisk(QString filename)
 {
-    qDebug() << "Not implemented yet!";
-}
+    //QFile file(filename);
+    QString filepath =filename + "\\conf.ini";
+    QSettings* settings = new QSettings(filepath, QSettings::IniFormat); //QDir::currentPath()
+    QList<Metadata*>::iterator metadata;
 
+    settings->beginGroup("mandatory_global_attributes");
+    for (metadata = m_metadata.begin(); metadata != m_metadata.end(); ++metadata){
+        if((*metadata)->isMandatory()){
+            if((*metadata)->value().isEmpty()) qDebug() <<(*metadata)->name() << " should be mandatory but is empty!";
+            settings->setValue((*metadata)->acdd_name(),(*metadata)->value());
+        }
+    }
+    settings->endGroup();
+
+    settings->beginGroup("optional_global_attributes");
+    for (metadata = m_metadata.begin(); metadata != m_metadata.end(); ++metadata){
+        if(! (*metadata)->isMandatory()) settings->setValue((*metadata)->acdd_name(),(*metadata)->value());
+
+    }
+    settings->endGroup();
+
+    settings->sync();
+    return "Coordinates saved in file location: " + filepath;;
+}
 
 // --------------
 // Metadata class
 // --------------
 
-Metadata::Metadata(const QString &name, const QString &value, const QString &defaultValue, const bool &isMandatory, const QString &description, QObject *parent):
+Metadata::Metadata(const QString &name, const QString &acdd_name, const QString &value, const QString &defaultValue, const bool &isMandatory, const bool &isAuto, const QString &description, QObject *parent):
     QObject{parent},
     m_name(name),
+    m_acdd_name(acdd_name),
     m_value(value),
     m_defaultValue(defaultValue),
     m_isMandatory(isMandatory),
+    m_isAuto(isAuto),
     m_description(description)
 {
 
@@ -201,4 +275,30 @@ void Metadata::setDescription(const QString &newDescription)
         return;
     m_description = newDescription;
     emit descriptionChanged();
+}
+
+const QString &Metadata::acdd_name() const
+{
+    return m_acdd_name;
+}
+
+void Metadata::setAcdd_name(const QString &newAcdd_name)
+{
+    if (m_acdd_name == newAcdd_name)
+        return;
+    m_acdd_name = newAcdd_name;
+    emit acdd_nameChanged();
+}
+
+bool Metadata::isAuto() const
+{
+    return m_isAuto;
+}
+
+void Metadata::setIsAuto(bool newIsAuto)
+{
+    if (m_isAuto == newIsAuto)
+        return;
+    m_isAuto = newIsAuto;
+    emit isAutoChanged();
 }

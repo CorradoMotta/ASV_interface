@@ -53,6 +53,7 @@ Rectangle {
                     title_color: isMandatory ? "green" : ""
                     title_text: name
                     value_text: value
+                    onCurrentValueChanged: value = currentValue
                 }
             }
         }
@@ -64,11 +65,6 @@ Rectangle {
         anchors.rightMargin: 20
         anchors.topMargin: 10
 
-        Button {
-            id: goButton
-            text: qsTr("Proceed")
-            onClicked: root.messagePrompt("Still have to be implemented!")
-        }
 
         Button {
             id: defaultButton
@@ -80,6 +76,16 @@ Rectangle {
             id: clearButton
             text: qsTr("Clear")
             onClicked: _metadata.reset()
+        }
+
+        Button {
+            id: goButton
+            text: qsTr("Generate INI")
+            onClicked:{
+
+                var message = _metadata.saveToDisk("C:\\Users\\massi\\Documents\\Corrado\\Swamp\\metadata")//
+                root.messagePrompt(message)
+            }
         }
 
         Button {
