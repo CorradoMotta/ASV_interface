@@ -16,6 +16,8 @@ class Conf : public QObject
     Q_PROPERTY(QString mb_offline_db READ mb_offline_db WRITE setMb_offline NOTIFY mb_offline_dbChanged)
     Q_PROPERTY(HciNgiInterface::MapboxStyle mb_style READ mb_style WRITE setMb_style NOTIFY mb_styleChanged)
     Q_PROPERTY(QString coordinatePath READ coordinatePath WRITE setCoordinatePath NOTIFY coordinatePathChanged)
+    Q_PROPERTY(QString jsonPath READ jsonPath WRITE setJsonPath NOTIFY jsonPathChanged)
+    Q_PROPERTY(QString metadataIniPath READ metadataIniPath WRITE setMetadataIniPath NOTIFY metadataIniPathChanged)
 
 public:
     explicit Conf(QObject *parent = nullptr);
@@ -34,15 +36,21 @@ public:
     const QString &coordinatePath() const;
     void setCoordinatePath(const QString &newCoordinatePath);
 
+    const QString &jsonPath() const;
+    void setJsonPath(const QString &newJsonPath);
+
+    const QString &metadataIniPath() const;
+    void setMetadataIniPath(const QString &newMetadataIniPath);
+
 signals:
 
     void maxRPMSpeedChanged();
     void maxControllerSpeedChanged();
     void mb_offline_dbChanged();
-
     void mb_styleChanged();
-
     void coordinatePathChanged();
+    void jsonPathChanged();
+    void metadataIniPathChanged();
 
 private:
     int m_maxRPMSpeed;
@@ -50,6 +58,8 @@ private:
     QString m_mb_offline_db;
     HciNgiInterface::MapboxStyle m_mb_style;
     QString m_coordinatePath;
+    QString m_jsonPath;
+    QString m_metadataIniPath;
 };
 
 #endif // CONF_H

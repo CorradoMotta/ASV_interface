@@ -354,6 +354,32 @@ bool DataSourceUdp::set_cfg(QString filename)
     }
     settings.endGroup();
 
+    settings.beginGroup("metadata_settings");
+
+    if(checkConfKey("jsonDB_file", settings)){
+
+        QFile json_file(settings.value("jsonDB_file").toString());
+        if(!json_file.exists()) {
+            qDebug() <<  "JSON file not found. Input path" <<  settings.value("jsonDB_file").toString();
+            return 0;
+        }
+        m_swamp_status.conf()->setJsonPath(settings.value("jsonDB_file").toString());
+        json_file.close();
+    }
+
+    if(checkConfKey("metadata_file", settings)){
+
+        QFile metadataFile(settings.value("metadata_file").toString());
+        if (!metadataFile.open(QIODevice::WriteOnly | QIODevice::Text)){
+            qDebug() <<  "Problem in creating the file with path" <<  settings.value("metadata_file") << "Try again.";
+            return 0;
+        }
+        m_swamp_status.conf()->setMetadataIniPath(settings.value("metadata_file").toString());
+        metadataFile.close();
+    }
+
+    settings.endGroup();
+
     Minion* singleMinion;
     QString minionId;
     QString minionName;

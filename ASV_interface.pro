@@ -24,6 +24,7 @@ SOURCES += \
         map_models/coordinate_model.cpp \
         map_models/depth_point.cpp \
         map_models/singlemarkermodel.cpp \
+        metadata/globalmetadata.cpp \
         swamp_models/datasource_udp.cpp \
         swamp_models/swampmodel.cpp \
         swamp_models/swampstatus.cpp
@@ -63,6 +64,7 @@ HEADERS += \
     map_models/coordinate_model.h \
     map_models/depth_point.h \
     map_models/singlemarkermodel.h \
+    metadata/globalmetadata.h \
     swamp_models/datasource.h \
     swamp_models/datasource_udp.h \
     swamp_models/swampmodel.h \

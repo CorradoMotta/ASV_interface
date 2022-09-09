@@ -90,7 +90,7 @@ public:
     Q_INVOKABLE void reset();
 
     /**
-     * Allows to save the bathymetry to list as a plain txt file.
+     * Allows to save the coordinate to list as a plain txt file.
      *
      * @param The filename to be used.
      */
