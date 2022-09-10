@@ -93,7 +93,7 @@ Rectangle {
             text: qsTr("Generate INI")
             onClicked:{
                 var message = _metadata.saveToDisk(data_model.data_source.swamp_status.conf.metadataIniPath)
-                root.messagePrompt(message)
+                app_root.messagePrompt(message)
             }
         }
 

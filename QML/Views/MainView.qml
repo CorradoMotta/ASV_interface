@@ -326,4 +326,7 @@ Item {
             }
         }
     }
+    function messagePrompt(prompt_text){
+        app_root.messagePrompt(prompt_text)
+    }
 }

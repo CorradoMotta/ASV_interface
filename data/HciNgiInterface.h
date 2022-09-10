@@ -58,6 +58,9 @@ public:
         SET_YAW_GS_PAR, // par: double sigma, omega, maxNoise [deg/s], satTorque [N]
         SET_HEADING_PI_PAR, // par: double g, kI, ySat [deg/s], eISat [deg], eIon [deg], eIoff [deg]
         SET_HOME, // par: none, the command set as home location the current location of the robot
+        STOP_FILE_CMD, // used to go back to remote control from command file execution or emergency go home
+        START_FILE_CMD, // used to start the execution of a preloaded file of commands
+        RESUME_FILE_CMD, // used to recover the execution of a preloaded file of commands
         CMD_NUMBER
     };
 
