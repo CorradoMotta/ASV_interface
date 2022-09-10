@@ -101,5 +101,7 @@
         <file>QML/Views/MainView.qml</file>
         <file>QML/BasicItems/BasicMetadataInput.qml</file>
         <file>Images/info.png</file>
+        <file>QML/Panels/ManeuversPanel.qml</file>
+        <file>Images/resume.png</file>
     </qresource>
 </RCC>

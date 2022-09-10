@@ -284,9 +284,9 @@ Item {
                 //                    opacity: 0.3
                 //                    enabled: false
                 //                }
-                CoordinatePanel{
+                ManeuversPanel{
                     id: coordinate_panel
-                    title: "COORDINATES"
+                    title: "MANEUVERS"
                     Layout.fillWidth: true
                     panel_color: "white"
                     Layout.rightMargin: 10
@@ -325,5 +325,8 @@ Item {
                 }
             }
         }
+    }
+    function messagePrompt(prompt_text){
+        app_root.messagePrompt(prompt_text)
     }
 }

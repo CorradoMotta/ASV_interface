@@ -416,3 +416,18 @@ DoubleVariable *NGC_status::lonHomeRef()
 {
     return &m_lonHomeRef;
 }
+
+IntVariable *NGC_status::stopFileCmd()
+{
+    return &m_stopFileCmd;
+}
+
+IntVariable *NGC_status::startFileCmd()
+{
+    return &m_startFileCmd;
+}
+
+IntVariable *NGC_status::resumeFileCmd()
+{
+    return &m_resumeFileCmd;
+}

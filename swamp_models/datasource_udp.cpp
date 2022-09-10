@@ -78,7 +78,8 @@ void DataSourceUdp::setConnection()
 void DataSourceUdp::publishMessage(const QString &identifier, const QString &message)
 {
     QString value = identifier + " " + message + "\r\n";
-    //qDebug() << "sending : " << value;
+//    if(identifier.toInt()!=0)
+//        qDebug() << "sending : " << value;
     //qDebug() << m_NGCAddr.ip_addr << m_NGCAddr.port_addr;
     m_udpSocket->writeDatagram(value.toUtf8(), m_NGCAddr.ip_addr, m_NGCAddr.port_addr);
 }
@@ -361,7 +362,6 @@ bool DataSourceUdp::set_cfg(QString filename)
         QFile json_file(settings.value("jsonDB_file").toString());
         if(!json_file.exists()) {
             qDebug() <<  "JSON file not found. Input path" <<  settings.value("jsonDB_file").toString();
-            return 0;
         }
         m_swamp_status.conf()->setJsonPath(settings.value("jsonDB_file").toString());
         json_file.close();
@@ -426,6 +426,9 @@ bool DataSourceUdp::set_cfg(QString filename)
     m_swamp_status.ngc_status()->setLog()->setTopic_name( QString::number(HciNgiInterface::NgcCommand::LOG_RESTART));
 
     m_swamp_status.ngc_status()->setRobotHome()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_HOME));
+    m_swamp_status.ngc_status()->stopFileCmd()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::STOP_FILE_CMD));
+    m_swamp_status.ngc_status()->startFileCmd()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::START_FILE_CMD));
+    m_swamp_status.ngc_status()->resumeFileCmd()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::RESUME_FILE_CMD));
     m_swamp_status.ngc_status()->setLatLon()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_LAT_LON));
     m_swamp_status.ngc_status()->setXY()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_XY));
     m_swamp_status.ngc_status()->setLineLatLon()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_LINE_LAT_LON));

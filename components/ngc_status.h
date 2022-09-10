@@ -82,6 +82,9 @@ class NGC_status : public QObject
 
     // TODO MOVE INTO APPROPRIATE CLASS
     Q_PROPERTY(IntVariable* setRobotHome READ setRobotHome NOTIFY setRobotHomeChanged)
+    Q_PROPERTY(IntVariable* stopFileCmd READ stopFileCmd NOTIFY stopFileCmdChanged)
+    Q_PROPERTY(IntVariable* startFileCmd READ startFileCmd NOTIFY startFileCmdChanged)
+    Q_PROPERTY(IntVariable* resumeFileCmd READ resumeFileCmd NOTIFY resumeFileCmdChanged)
     Q_PROPERTY(DoubleVariable* setLatLon READ setLatLon NOTIFY setLatLonChanged)
     Q_PROPERTY(DoubleVariable* setXY READ setXY NOTIFY setXYChanged)
     Q_PROPERTY(DoubleVariable* setLineLatLon READ setLineLatLon NOTIFY setLineLatLonChanged)
@@ -173,6 +176,10 @@ public:
     DoubleVariable* latHomeRef();
     DoubleVariable* lonHomeRef();
 
+    IntVariable* stopFileCmd();
+    IntVariable* startFileCmd();
+    IntVariable* resumeFileCmd();
+
 signals:
 
     void psiChanged();
@@ -252,6 +259,10 @@ signals:
     void latHomeRefChanged();
     void lonHomeRefChanged();
 
+    void stopFileCmdChanged();
+    void startFileCmdChanged();
+    void resumeFileCmdChanged();
+
 private:
 
     DoubleVariable m_psi;
@@ -328,6 +339,9 @@ private:
     DoubleVariable m_asvRefNhat;
     DoubleVariable m_latHomeRef;
     DoubleVariable m_lonHomeRef;
+    IntVariable m_stopFileCmd;
+    IntVariable m_startFileCmd;
+    IntVariable m_resumeFileCmd;
 };
 
 #endif // NGC_STATUS_H

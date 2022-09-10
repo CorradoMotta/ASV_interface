@@ -16,7 +16,7 @@ import "Panels"
 import "Views"
 
 ApplicationWindow {
-    id: root
+    id: app_root
 
     visible: true
     title: qsTr("Swamp interface")
@@ -42,10 +42,10 @@ ApplicationWindow {
         // setting window size automatically
         onLoaded: {
             if(item.isMainView){
-                root.minimumWidth = item.myWidth
-                root.minimumHeight = item.myHeight + menu_bar_id.implicitHeight
-                root.height = minimumHeight
-                root.width = minimumWidth
+                app_root.minimumWidth = item.myWidth
+                app_root.minimumHeight = item.myHeight + menu_bar_id.implicitHeight
+                app_root.height = minimumHeight
+                app_root.width = minimumWidth
             }
         }
 
