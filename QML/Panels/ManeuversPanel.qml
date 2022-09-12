@@ -73,8 +73,8 @@ Rectangle {
                     property bool play : false
                     visible: true
                     source: "../../Images/play-button_resized.png"
-                    opacity: isPLaying? 0.2: isStopped ? 0.2 : 1
-                    enabled: isPLaying? false: isStopped ? false : true
+                    opacity: isPLaying? 0.2: isStopped ? 1 : 1
+                    enabled: isPLaying? false : isStopped? true : true
                     MouseArea{
                         id: add_ma
                         anchors.fill: parent
