@@ -427,6 +427,11 @@ Rectangle{
                 return "No points available!"
         }
     }
+//    Connections {
+//        target: custom_menu_bar
+//        onSetPoint: ivMarker.model.insertSingleMarker(QtPositioning.coordinate(lat, lon))
+//    }
+
     function add_point(lat, lon){
         mivMarker.model.insertSingleMarker(QtPositioning.coordinate(lat, lon))
     }

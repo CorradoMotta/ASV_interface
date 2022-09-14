@@ -1,5 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
+import QtPositioning 5.15
+import QtLocation 5.15
 import com.cnr.property 1.0
 import QtQuick.Layouts 1.15
 import QtQml 2.15
@@ -7,6 +9,7 @@ import "../BasicItems"
 // TODO FIX FOR CONNECT
 MenuBar {
     id: custom_menu_bar
+    signal setPoint(real lat, real lon)
     readonly property string gc_working_mode_tn: data_model.data_source.swamp_status.ngc_status.gcWorkingMode.topic_name
     readonly property string thrust_mapping_manual_mode: data_model.data_source.swamp_status.ngc_status.thrustMappingManualMode.topic_name
     readonly property string thrust_mapping_auto_mode: data_model.data_source.swamp_status.ngc_status.thrustMappingAutoMode.topic_name
@@ -124,7 +127,9 @@ MenuBar {
                     id: control
                     Layout.alignment: Qt.AlignTop
                     Layout.topMargin: 6
-                    onClicked: navigation_map.add_point(text1.new_text_value, texty.new_text_value)
+                    onClicked: _marker_model.insertSingleMarker(QtPositioning.coordinate(text1.new_text_value, texty.new_text_value))
+                        //setPoint(text1.new_text_value, texty.new_text_value)
+                        //root.add_point(text1.new_text_value, texty.new_text_value)
                         //publish_topic(setXY_tn, text1.new_text_value + " " + texty.new_text_value + " " + minion_view.xValue )
                     contentItem: Text {
                         id: testo

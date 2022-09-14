@@ -8,6 +8,8 @@ GPS_AHRS_status::GPS_AHRS_status(QObject *parent)
     m_timestamp.setSubscribe(true);
     m_longitude.setSubscribe(true);
     m_latitude.setSubscribe(true);
+    m_date.setSubscribe(true);
+    m_time.setSubscribe(true);
     m_xGps.setSubscribe(true);
     m_yGps.setSubscribe(true);
 }
@@ -35,4 +37,14 @@ DoubleVariable *GPS_AHRS_status::yGps()
 DoubleVariable *GPS_AHRS_status::timestamp()
 {
     return &m_timestamp;
+}
+
+DoubleVariable *GPS_AHRS_status::date()
+{
+    return &m_date;
+}
+
+DoubleVariable *GPS_AHRS_status::time()
+{
+    return &m_time;
 }

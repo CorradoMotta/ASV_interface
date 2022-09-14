@@ -285,7 +285,7 @@ Item {
                 //                    enabled: false
                 //                }
                 ManeuversPanel{
-                    id: coordinate_panel
+                    id: man_panel
                     title: "MANEUVERS"
                     Layout.fillWidth: true
                     panel_color: "white"
@@ -294,6 +294,16 @@ Item {
                     enabled: data_model.data_source.is_connected
                     opacity: data_model.data_source.is_connected? 1 : 0.3
                 }
+//                CoordinatePanel{
+//                    id: coordinate_panel
+//                    title: "COORDINATES"
+//                    Layout.fillWidth: true
+//                    panel_color: "white"
+//                    Layout.rightMargin: 10
+//                    Layout.alignment: Qt.AlignTop
+//                    enabled: data_model.data_source.is_connected
+//                    opacity: data_model.data_source.is_connected? 1 : 0.3
+//                }
 
                 //                BathymetryPanel {
                 //                    id: bathymetry_panel
@@ -328,5 +338,9 @@ Item {
     }
     function messagePrompt(prompt_text){
         app_root.messagePrompt(prompt_text)
+    }
+    function add_point(lat, lon){
+        navigation_map.add_point(lat, lon)
+        //mivMarker.model.insertSingleMarker(QtPositioning.coordinate(lat, lon))
     }
 }

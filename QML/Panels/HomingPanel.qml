@@ -12,14 +12,14 @@ Rectangle {
 
     // azimuth and pump ref values
     property var prefix: data_model.data_source.swamp_status.ngc_status
-    readonly property real asvRefazimuthFL : prefix.asvRefazimuthFL.value // azimuth[FL]
-    readonly property real asvRefazimuthFR : prefix.asvRefazimuthFR.value // azimuth[FR]
-    readonly property real asvRefazimuthRR : prefix.asvRefazimuthRR.value // azimuth[RR]
-    readonly property real asvRefazimuthRL : prefix.asvRefazimuthRL.value // azimuth[RL]
-    readonly property real asvRefnFL : prefix.asvRefnFL.value // n[FL]
-    readonly property real asvRefnFR : prefix.asvRefnFR.value // n[FR]
-    readonly property real asvRefnRR : prefix.asvRefnRR.value // n[RR]
-    readonly property real asvRefnRL : prefix.asvRefnRL.value // n[RL]
+    readonly property real asvRefazimuthFL : data_model.data_source.swamp_status.minion_fl.minionState.azimuthMotorAngle.value //prefix.asvRefazimuthFL.value // azimuth[FL]
+    readonly property real asvRefazimuthFR : data_model.data_source.swamp_status.minion_fr.minionState.azimuthMotorAngle.value //prefix.asvRefazimuthFR.value // azimuth[FR]
+    readonly property real asvRefazimuthRR : data_model.data_source.swamp_status.minion_rr.minionState.azimuthMotorAngle.value //prefix.asvRefazimuthRR.value // azimuth[RR]
+    readonly property real asvRefazimuthRL : data_model.data_source.swamp_status.minion_rl.minionState.azimuthMotorAngle.value //prefix.asvRefazimuthRL.value // azimuth[RL]
+    readonly property real asvRefnFL :data_model.data_source.swamp_status.minion_fl.minionState.thrustMotorSpeed.value // prefix.asvRefnFL.value // n[FL]
+    readonly property real asvRefnFR :data_model.data_source.swamp_status.minion_fr.minionState.thrustMotorSpeed.value // prefix.asvRefnFR.value // n[FR]
+    readonly property real asvRefnRR :data_model.data_source.swamp_status.minion_rr.minionState.thrustMotorSpeed.value // prefix.asvRefnRR.value // n[RR]
+    readonly property real asvRefnRL :data_model.data_source.swamp_status.minion_rl.minionState.thrustMotorSpeed.value // prefix.asvRefnRL.value // n[RL]
 
     Layout.preferredHeight: row_id.implicitHeight
     radius: 5.0

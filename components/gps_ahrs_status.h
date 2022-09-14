@@ -21,6 +21,8 @@ class GPS_AHRS_status : public QObject
     Q_PROPERTY(DoubleVariable* timestamp READ timestamp NOTIFY timestampChanged)
     Q_PROPERTY(DoubleVariable* longitude READ longitude NOTIFY longitudeChanged)
     Q_PROPERTY(DoubleVariable* latitude READ latitude NOTIFY latitudeChanged)
+    Q_PROPERTY(DoubleVariable* date READ date NOTIFY dateChanged)
+    Q_PROPERTY(DoubleVariable* time READ time NOTIFY timeChanged)
     Q_PROPERTY(DoubleVariable* xGps READ xGps NOTIFY xGpsChanged)
     Q_PROPERTY(DoubleVariable* yGps READ yGps NOTIFY yGpsChanged)
 
@@ -33,6 +35,8 @@ public:
     DoubleVariable *xGps();
     DoubleVariable *yGps();
     DoubleVariable *timestamp();
+    DoubleVariable *date();
+    DoubleVariable *time();
 
 signals:
 
@@ -42,6 +46,9 @@ signals:
     void yGpsChanged();
     void timestampChanged();
 
+    void dateChanged();
+    void timeChanged();
+
 private:
 
     DoubleVariable m_longitude;
@@ -49,6 +56,8 @@ private:
     DoubleVariable m_xGps;
     DoubleVariable m_yGps;
     DoubleVariable m_timestamp;
+    DoubleVariable m_date;
+    DoubleVariable m_time;
 };
 
 #endif // GPS_AHRS_STATUS_H

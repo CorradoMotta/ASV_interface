@@ -34,6 +34,16 @@ BasicMinionPanelContainer{
     readonly property var publish_topic: data_model.data_source.publishMessage
 
     // STATUS
+    // GPS
+    //    in >> doubleContainer; m_swamp_status.gps_ahrs_status()->date()->setValue(doubleContainer);//qDebug() << "GPS date" << intContainer;//gpsdate   singleMinion->minionState()->thrustMotorFault()->setValue(intContainer);
+    //    in >> doubleContainer; m_swamp_status.gps_ahrs_status()->time()->setValue(doubleContainer);//qDebug() << "GPS time" << doubleContainer; //gpstime   singleMinion->minionState()->thrustMotorPower()->setValue(intContainer);
+    //    in >> doubleContainer; m_swamp_status.gps_ahrs_status()->latitude()->setValue(doubleContainer);  //lat
+    //    in >> doubleContainer; m_swamp_status.gps_ahrs_status()->longitude()->setValue(doubleContainer);
+    readonly property real gps_date : data_model.data_source.swamp_status.gps_ahrs_status.date.value
+    readonly property real gps_time : data_model.data_source.swamp_status.gps_ahrs_status.time.value
+    readonly property real gps_latitude : data_model.data_source.swamp_status.gps_ahrs_status.latitude.value
+    readonly property real gps_longitude: data_model.data_source.swamp_status.gps_ahrs_status.longitude.value
+
     // IMU
     readonly property real psi :     prefix.psi.value
     readonly property real phiIMU :  prefix.phiIMU.value
@@ -126,35 +136,35 @@ BasicMinionPanelContainer{
             Layout.leftMargin: 10
             spacing: 15
             //moved to main
-//            RowLayout{
-//                Layout.fillWidth: true
-//                StatusDot{
-//                    Layout.alignment: Qt.AlignLeft
-//                    Layout.leftMargin: 10
-//                    width: 30
-//                    height: 30
-//                    info_text : "enableRef"
-//                    dot_state: ngcEnableRef
-//                }
-//                BasicSwitch{
-//                    switch_text: "NGC_ENABLE"
-//                    // TODO
-//                    onSwitch_is_activeChanged: switch_is_active? ngc_root.publish_topic(ngc_root.ngcEnableTn, 1)
-//                                                               : ngc_root.publish_topic(ngc_root.ngcEnableTn, 0)
-//                }
-//                Rectangle{
-//                    Layout.fillWidth: true
-//                }
-//                BasicButton {
-//                    id: control
-//                    Layout.alignment: Qt.AlignRight
-//                    Layout.rightMargin: 10
-//                    Layout.topMargin: 4
-//                    onClicked: publish_topic(setLogTn, 1)
-//                    text_on_button: "NEW LOG"
-//                    button_width: 100
-//                }
-//            }
+            //            RowLayout{
+            //                Layout.fillWidth: true
+            //                StatusDot{
+            //                    Layout.alignment: Qt.AlignLeft
+            //                    Layout.leftMargin: 10
+            //                    width: 30
+            //                    height: 30
+            //                    info_text : "enableRef"
+            //                    dot_state: ngcEnableRef
+            //                }
+            //                BasicSwitch{
+            //                    switch_text: "NGC_ENABLE"
+            //                    // TODO
+            //                    onSwitch_is_activeChanged: switch_is_active? ngc_root.publish_topic(ngc_root.ngcEnableTn, 1)
+            //                                                               : ngc_root.publish_topic(ngc_root.ngcEnableTn, 0)
+            //                }
+            //                Rectangle{
+            //                    Layout.fillWidth: true
+            //                }
+            //                BasicButton {
+            //                    id: control
+            //                    Layout.alignment: Qt.AlignRight
+            //                    Layout.rightMargin: 10
+            //                    Layout.topMargin: 4
+            //                    onClicked: publish_topic(setLogTn, 1)
+            //                    text_on_button: "NEW LOG"
+            //                    button_width: 100
+            //                }
+            //            }
             ThrustMappingPanel{
                 id: rpm_alpha
                 Layout.fillWidth: true
@@ -204,7 +214,7 @@ BasicMinionPanelContainer{
     }
     RowLayout{
         id: cmd_row_2
-       // Layout.alignment: Qt.AlignVCenter
+        // Layout.alignment: Qt.AlignVCenter
         spacing: 2
         //width: parent.width/2
         //anchors.centerIn:
@@ -221,9 +231,34 @@ BasicMinionPanelContainer{
         ColumnLayout{
             Layout.alignment: Qt.AlignLeft
             Text {
+                id: gps_text_id
+                Layout.alignment: Qt.AlignTop |Qt.AlignLeft
+                Layout.leftMargin: 4
+                text: "GPS"
+                font.family: "Helvetica"
+                font.pointSize: 14
+                font.bold: true
+
+            }
+            BasicTextOutputInverted{
+                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                value_width: 120
+                title_text: "GPS_DATE"
+                value_text: ngc_root.gps_date
+
+            }
+            BasicTextOutputInverted{
+                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                value_width: 120
+                title_text: "GPS_TIME"
+                value_text: ngc_root.gps_time
+
+            }
+            Text {
                 id: imu_text_id
                 Layout.alignment: Qt.AlignTop |Qt.AlignLeft
                 Layout.leftMargin: 4
+                Layout.topMargin: ngc_root.blockSize
                 text: "IMU"
                 font.family: "Helvetica"
                 font.pointSize: 14
@@ -314,55 +349,7 @@ BasicMinionPanelContainer{
                 title_text: "AUTO_M_REF"
                 value_text: ngc_root.autoModeRef
             }
-//            Text {
-//                id: azimuth_text_id
-//                Layout.alignment: Qt.AlignTop |Qt.AlignLeft
-//                Layout.leftMargin: 4
-//                Layout.topMargin: ngc_root.blockSize
-//                text: "AZIMUTH"
-//                font.family: "Helvetica"
-//                font.pointSize: 14
-//                font.bold: true
 
-//            }
-//                  moved to main
-//            BasicTextOutputInverted{
-//                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-//                value_width: 120
-//                title_text: "azimuth[FL]"
-//                value_text: ngc_root.asvRefazimuthFL
-//            }
-//            BasicTextOutputInverted{
-//                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-//                value_width: 120
-//                title_text: "azimuth[RL]"
-//                value_text: ngc_root.asvRefazimuthRL
-//            }
-
-
-//            Text {
-//                id: rpm_text_id
-//                Layout.alignment: Qt.AlignTop |Qt.AlignLeft
-//                Layout.leftMargin: 4
-//                Layout.topMargin: ngc_root.blockSize
-//                text: "RPM"
-//                font.family: "Helvetica"
-//                font.pointSize: 14
-//                font.bold: true
-
-//            }
-//            BasicTextOutputInverted{
-//                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-//                value_width: 120
-//                title_text: "n[FL]"
-//                value_text: ngc_root.asvRefnFL
-//            }
-//            BasicTextOutputInverted{
-//                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-//                value_width: 120
-//                title_text: "n[RL]"
-//                value_text: ngc_root.asvRefnRL
-//            }
 
 
         }
@@ -370,7 +357,20 @@ BasicMinionPanelContainer{
             Layout.alignment: Qt.AlignRight
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                Layout.topMargin: imu_text_id.implicitHeight
+                Layout.topMargin: gps_text_id.implicitHeight
+                value_width: 120
+                title_text: "GPS_LAT"
+                value_text: ngc_root.gps_latitude
+            }
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                value_width: 120
+                title_text: "GPS_LON"
+                value_text: ngc_root.gps_longitude
+            }
+            BasicTextOutput{
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                Layout.topMargin: imu_text_id.implicitHeight + ngc_root.blockSize
                 value_width: 120
                 title_text: "IMU_R"
                 value_text: ngc_root.rIMU
@@ -387,8 +387,6 @@ BasicMinionPanelContainer{
                 title_text: "IMU_Q"
                 value_text: ngc_root.qIMU
             }
-
-
 
             BasicTextOutput{
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
@@ -456,33 +454,33 @@ BasicMinionPanelContainer{
                 value_text: ngc_root.working_modeRef
             }
 
-//            BasicTextOutput{
-//                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-//                value_width: 120
-//                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize + 6
-//                title_text: "azimuth[FR]"
-//                value_text: ngc_root.asvRefazimuthFR
-//            }
-//            BasicTextOutput{
-//                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-//                value_width: 120
+            //            BasicTextOutput{
+            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            //                value_width: 120
+            //                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize + 6
+            //                title_text: "azimuth[FR]"
+            //                value_text: ngc_root.asvRefazimuthFR
+            //            }
+            //            BasicTextOutput{
+            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            //                value_width: 120
 
-//                title_text: "azimuth[RR]"
-//                value_text: ngc_root.asvRefazimuthRR
-//            }
-//            BasicTextOutput{
-//                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-//                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize + 6
-//                value_width: 120
-//                title_text: "n[FR]"
-//                value_text: ngc_root.asvRefnFR
-//            }
-//            BasicTextOutput{
-//                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-//                value_width: 120
-//                title_text: "n[RR]"
-//                value_text:  ngc_root.asvRefnRR
-//            }
+            //                title_text: "azimuth[RR]"
+            //                value_text: ngc_root.asvRefazimuthRR
+            //            }
+            //            BasicTextOutput{
+            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            //                Layout.topMargin: modes_text_id.implicitHeight + ngc_root.blockSize + 6
+            //                value_width: 120
+            //                title_text: "n[FR]"
+            //                value_text: ngc_root.asvRefnFR
+            //            }
+            //            BasicTextOutput{
+            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+            //                value_width: 120
+            //                title_text: "n[RR]"
+            //                value_text:  ngc_root.asvRefnRR
+            //            }
 
             // SET LINE and POSITION
             //            BasicTextOutput{

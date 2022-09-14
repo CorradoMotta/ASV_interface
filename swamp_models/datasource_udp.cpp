@@ -91,8 +91,8 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
 
     //GPS ASV
     in >> doubleContainer; m_swamp_status.gps_ahrs_status()->timestamp()->setValue(doubleContainer); //Timestamp
-    in >> doubleContainer; //qDebug() << "GPS date" << intContainer;//gpsdate   singleMinion->minionState()->thrustMotorFault()->setValue(intContainer);
-    in >> doubleContainer; //qDebug() << "GPS time" << doubleContainer; //gpstime   singleMinion->minionState()->thrustMotorPower()->setValue(intContainer);
+    in >> doubleContainer; m_swamp_status.gps_ahrs_status()->date()->setValue(doubleContainer);//qDebug() << "GPS date" << intContainer;//gpsdate   singleMinion->minionState()->thrustMotorFault()->setValue(intContainer);
+    in >> doubleContainer; m_swamp_status.gps_ahrs_status()->time()->setValue(doubleContainer);//qDebug() << "GPS time" << doubleContainer; //gpstime   singleMinion->minionState()->thrustMotorPower()->setValue(intContainer);
     in >> doubleContainer; m_swamp_status.gps_ahrs_status()->latitude()->setValue(doubleContainer);  //lat
     in >> doubleContainer; m_swamp_status.gps_ahrs_status()->longitude()->setValue(doubleContainer); //lon
     in >> doubleContainer; m_swamp_status.gps_ahrs_status()->xGps()->setValue(doubleContainer); // xgps TODO NOT SHOWN
