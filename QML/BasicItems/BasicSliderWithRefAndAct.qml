@@ -23,6 +23,7 @@ Item {
     property alias mask_input: slider_value_id.inputMask
     property alias ref_value: slider_out_value_id.text
     property alias act_value: slider_out_value_act.text
+    property alias step_size: control.stepSize
     property double value: 0.0
     property alias controlValue : control.value
 //    property alias clicked : control_button.down

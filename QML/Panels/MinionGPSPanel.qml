@@ -1,7 +1,12 @@
 /*************************************************************************
  *
  * This element contains the Minion GPS panel. It is intended to be
- * shown in the SingleMinion view
+ * shown in the SingleMinion view. It displays the telemetry received from
+ * the minion GPS.
+ *
+ * Author: Corrado Motta
+ * Date: 03/2022
+ * Mail: corradomotta92@gmail.com
  *
  *************************************************************************/
 
@@ -11,6 +16,8 @@ import "../BasicItems"
 
 BasicMinionPanelContainer{
     title: "GPS"
+
+    // properties
     implicitHeight: pump_row_id.implicitHeight + title_height + 20
     implicitWidth: pump_row_id.implicitWidth + 20
 
@@ -27,7 +34,6 @@ BasicMinionPanelContainer{
             id: cmd_column_id
             Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
             BasicTextOutputInverted{
-                //Layout.topMargin: 30
                 value_width: 200
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 title_text: "LATITUDE"
@@ -45,7 +51,6 @@ BasicMinionPanelContainer{
                 title_text: "ALTITUDE"
                 value_text: minion_view.gps_altitude
             }
-
         }
         Rectangle {
             Layout.fillHeight: true
@@ -58,7 +63,6 @@ BasicMinionPanelContainer{
             id: status_column_id
             Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
             BasicTextOutput{
-                //Layout.topMargin: 30
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 title_text: "FIX"
                 value_text: minion_view.gps_fix
@@ -68,10 +72,6 @@ BasicMinionPanelContainer{
                 title_text: "NS"
                 value_text: minion_view.gps_ns
             }
-//            BasicTextOutput{
-//                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-//                title_text: "HEIGHT"
-//            }
         }
     }
 }

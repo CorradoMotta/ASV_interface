@@ -1,7 +1,13 @@
 /*************************************************************************
  *
  * This element contains the Minion pump panel. It is intended to be
- * shown in the SingleMinion view
+ * shown in the SingleMinion view. The pump panel contains all the
+ * needed elements to control the thrust engine. It also displays the
+ * thrust telemetry.
+ *
+ * Author: Corrado Motta
+ * Date: 03/2022
+ * Mail: corradomotta92@gmail.com
  *
  *************************************************************************/
 
@@ -13,12 +19,14 @@ import "../BasicItems"
 BasicMinionPanelContainer{
     title: "PUMP"
 
+    // properties
+    implicitHeight: pump_row_id.implicitHeight + title_height + 20
+    implicitWidth: pump_row_id.implicitWidth + 20
+
+    // Cpp members
     required property int pump_motor_enable
     required property int pump_motor_fault
     required property int pump_motor_power
-
-    implicitHeight: pump_row_id.implicitHeight + title_height + 20
-    implicitWidth: pump_row_id.implicitWidth + 20
 
     RowLayout{
         id: pump_row_id
@@ -34,8 +42,6 @@ BasicMinionPanelContainer{
             spacing: 30
             EngineIcon {
                 id: engine_icon_fl
-                // THIS IS THE LINE NEEDED TO CONNECT ENGINES
-                //engineState : engine_panel.engine_state_fl_prova
                 engineState : minion_view.engineState
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 image_size: 60
@@ -46,12 +52,10 @@ BasicMinionPanelContainer{
                     else if (engineState === EngineIcon.EngineStates.Engine_off) minion_view.publish_topic(minion_view.thrust_motor_power_tn,0)
                     else if (engineState === EngineIcon.EngineStates.Engine_backToInter) minion_view.publish_topic(minion_view.thrust_motor_enable_tn,0)
                 }
-
             }
             BasicSliderVertical {
                 id: set_reference
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                //Layout.fillWidth: true
                 slider_text: "SET_RPM"
                 slider_from: 0
                 slider_to: 2000
@@ -72,29 +76,21 @@ BasicMinionPanelContainer{
             Layout.rightMargin: 10
             Layout.alignment: Qt.AlignTop | Qt.AlignRight
             RowLayout{
-
                 spacing:10
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                //                anchors.right: parent.right
-                //                anchors.top: parent.top
-                //                anchors.topMargin: 20
-                //                anchors.rightMargin: 10
                 StatusDot{
                     id: power_dot
                     info_text: "POWER"
-                    //color: "gray"
                     dot_state: pump_motor_power
                 }
                 StatusDot{
                     id: enable_dot
                     info_text: "ENABLE"
-                    //color: "gray"
                     dot_state: pump_motor_enable
                 }
                 FaultDot{
                     id: fault_dot
                     info_text: "FAULT"
-                    //color: "gray"
                     dot_state: pump_motor_fault
                 }
             }
@@ -116,5 +112,4 @@ BasicMinionPanelContainer{
             }
         }
     }
-
 }

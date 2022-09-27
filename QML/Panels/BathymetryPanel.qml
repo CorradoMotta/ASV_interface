@@ -16,16 +16,23 @@ import "../BasicItems"
 
 Rectangle {
     id: root_bath_panel
+
+    // properties
     Layout.preferredHeight: slider_depth.implicitHeight + icon_row.implicitHeight + 33 //TODO not having numbers here.
-    property string dateTime: data_model.data_source.swamp_status.time_status.dateTime.value
     radius: 5.0
-    property alias max_depth : slider_depth.max_value //slider_value_id.text
-    property alias min_depth: slider_depth.min_value
-    property bool isPLaying: false
     border {
         color: "black"
         width: 2
     }
+
+    // custom properties
+    property bool isPLaying: false
+    property string dateTime: data_model.data_source.swamp_status.time_status.dateTime.value
+
+    // alias
+    property alias max_depth : slider_depth.max_value
+    property alias min_depth: slider_depth.min_value
+
     BasicRangeSlider{
         id: slider_depth
         slider_text: "Bathymetry"
@@ -47,9 +54,9 @@ Rectangle {
         }
         Image {
             id: play_and_pause
-            property bool play : false
             visible: true
             source: root_bath_panel.isPLaying? "../../Images/pause_resized.png" : "../../Images/play-button_resized.png"
+            property bool play : false
             MouseArea{
                 anchors.fill: parent
                 onClicked:

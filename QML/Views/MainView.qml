@@ -25,6 +25,7 @@ Item {
 
     // TODO THIS IS DUPLICATED!
     property alias xValue : ngc_auto.xValue // this should be a signal
+    property alias gammaValue : ngc_auto.gammaValue
     property var prefix: data_model.data_source.swamp_status.ngc_status
     readonly property real nRef : prefix.asvRefnRef.value
     readonly property real dnRef : prefix.asvRefdnRef.value
@@ -32,6 +33,7 @@ Item {
     readonly property real xRef : prefix.asvRefXref.value
     readonly property real yRef : prefix.asvRefYref.value
     readonly property real nNRef : prefix.asvRefNref.value
+    readonly property real gammaRef : prefix.asvRefgammaLref.value
     readonly property real asvRefXhat : prefix.asvRefXhat.value
     readonly property real asvRefYhat : prefix.asvRefYhat.value
     readonly property real asvRefNhat : prefix.asvRefNhat.value
@@ -39,12 +41,12 @@ Item {
     readonly property string forceTorqueTn: prefix.forceTorque.topic_name
     readonly property var publish_topic: data_model.data_source.publishMessage
     readonly property int maxRPMSpeed: data_model.data_source.swamp_status.conf.maxRPMSpeed
-
+    property alias last_lat_value: navigation_map.lastLatValue
+    property alias last_lon_value: navigation_map.lastLonValue
 
     readonly property string ngcEnableTn: data_model.data_source.swamp_status.ngc_status.ngcEnable.act.topic_name
     readonly property int ngcEnableRef : data_model.data_source.swamp_status.ngc_status.ngcEnable.ref.value
     readonly property string setLogTn: data_model.data_source.swamp_status.ngc_status.setLog.topic_name
-
 
     // for controller
     property real x_curr_value : 0
@@ -235,7 +237,7 @@ Item {
                     Layout.alignment: Qt.AlignTop
                     slider_width: 200
                     title: "RPM_ALPHA"
-                    slider1_text: "N"; slider1_from: 0; slider1_to: root.maxRPMSpeed;      slider1_ref: root.nRef   //slider1_mask: "0000";
+                    slider1_text: "N"; slider1_from: 0; slider1_to: root.maxRPMSpeed;  slider1_ref: root.nRef;   //slider1_mask: "#000";
                     slider2_text: "D"; slider2_from: -900; slider2_to: 900;  slider2_ref: root.dnRef    //slider2_mask: "#000";
                     slider3_text: "Α"; slider3_from: -180; slider3_to: 180;  slider3_ref: root.alphaRef //slider3_mask: "#000";
                     clip: true
@@ -272,6 +274,7 @@ Item {
                     enabled: data_model.data_source.is_connected
                     opacity: data_model.data_source.is_connected? 1 : 0.3
                     slider1_text: "X"; slider1_from: -50.0; slider1_to: 50.0;  slider1_ref: xRef  //slider1_mask: "#00";
+                    slider2_text: "G"; slider2_from: -180; slider2_to: 360;    slider2_ref: gammaRef  //slider1_mask: "#00";
                 }
 
                 //                BathymetryPanel {
@@ -294,16 +297,16 @@ Item {
                     enabled: data_model.data_source.is_connected
                     opacity: data_model.data_source.is_connected? 1 : 0.3
                 }
-//                CoordinatePanel{
-//                    id: coordinate_panel
-//                    title: "COORDINATES"
-//                    Layout.fillWidth: true
-//                    panel_color: "white"
-//                    Layout.rightMargin: 10
-//                    Layout.alignment: Qt.AlignTop
-//                    enabled: data_model.data_source.is_connected
-//                    opacity: data_model.data_source.is_connected? 1 : 0.3
-//                }
+                //                CoordinatePanel{
+                //                    id: coordinate_panel
+                //                    title: "COORDINATES"
+                //                    Layout.fillWidth: true
+                //                    panel_color: "white"
+                //                    Layout.rightMargin: 10
+                //                    Layout.alignment: Qt.AlignTop
+                //                    enabled: data_model.data_source.is_connected
+                //                    opacity: data_model.data_source.is_connected? 1 : 0.3
+                //                }
 
                 //                BathymetryPanel {
                 //                    id: bathymetry_panel

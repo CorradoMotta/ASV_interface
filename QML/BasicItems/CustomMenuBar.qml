@@ -10,11 +10,14 @@ import "../BasicItems"
 MenuBar {
     id: custom_menu_bar
     signal setPoint(real lat, real lon)
+    property alias latValue : textlinelat.new_text_value
+    property alias lonValue : textlinelon.new_text_value
     readonly property string gc_working_mode_tn: data_model.data_source.swamp_status.ngc_status.gcWorkingMode.topic_name
     readonly property string thrust_mapping_manual_mode: data_model.data_source.swamp_status.ngc_status.thrustMappingManualMode.topic_name
     readonly property string thrust_mapping_auto_mode: data_model.data_source.swamp_status.ngc_status.thrustMappingAutoMode.topic_name
     readonly property string setXY_tn : data_model.data_source.swamp_status.ngc_status.setXY.topic_name
     readonly property string setXYLine_tn :  data_model.data_source.swamp_status.ngc_status.setXYLine.topic_name
+    readonly property string setLineLatLon_tn :  data_model.data_source.swamp_status.ngc_status.setLineLatLon.topic_name
     readonly property string setYawGSPar_tn :  data_model.data_source.swamp_status.ngc_status.setYawGSPar.topic_name
     readonly property string setHeadingPiPar_tn :  data_model.data_source.swamp_status.ngc_status.setHeadingPiPar.topic_name
     readonly property real xRef : data_model.data_source.swamp_status.ngc_status.asvRefxRef.value
@@ -58,19 +61,19 @@ MenuBar {
 
     }
 
-// disabled for the moment
-//    Menu {
-//        id: mapTypeMenu
-//        title: qsTr("MapType")
-//        // to add elements to my menu from a list i use the repeater element
-//        Repeater {
-//            model: navigation_map.mapTypes
-//            MenuItem {
-//                text: navigation_map.mapName === "mapboxgl" ? model.description: model.name
-//                onTriggered: navigation_map.setActiveMap(model.index)
-//            }
-//        }
-//    }
+    // disabled for the moment
+    //    Menu {
+    //        id: mapTypeMenu
+    //        title: qsTr("MapType")
+    //        // to add elements to my menu from a list i use the repeater element
+    //        Repeater {
+    //            model: navigation_map.mapTypes
+    //            MenuItem {
+    //                text: navigation_map.mapName === "mapboxgl" ? model.description: model.name
+    //                onTriggered: navigation_map.setActiveMap(model.index)
+    //            }
+    //        }
+    //    }
     Menu{
         id: gcWorkingMode
         title: qsTr("GcWorkingMode")
@@ -102,7 +105,7 @@ MenuBar {
         Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("FRWD_THRUST_ALL"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_FRWD_THRUST_ALL): ""}
         Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("FRWD_AZIMUTH_ALL"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_FRWD_AZIMUTH_ALL): ""}
         //        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("FRWD_AZIMUTH_BOW"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_FRWD_AZIMUTH_BOW): ""}
-        //        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("FRWD_AZIMUTH_STERN"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_FRWD_AZIMUTH_STERN): ""}
+        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("FRWD_AZIMUTH_STERN"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_FRWD_AZIMUTH_STERN): ""}
         //        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("BCKWD_THRUST_ALL"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_BCKWD_THRUST_ALL): ""}
         //        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("BCKWD_AZIMUTH_ALL"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_BCKWD_AZIMUTH_ALL): ""}
         //        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("BCKWD_AZIMUTH_BOW"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_BCKWD_AZIMUTH_BOW): ""}
@@ -110,6 +113,7 @@ MenuBar {
     }
     // TODO MAKE ELEMENTS
     Menu {
+        id: setPosition
         title: qsTr("&SetPosition")
         Rectangle{
             enabled: data_model.data_source.is_connected
@@ -128,9 +132,9 @@ MenuBar {
                     Layout.alignment: Qt.AlignTop
                     Layout.topMargin: 6
                     onClicked: _marker_model.insertSingleMarker(QtPositioning.coordinate(text1.new_text_value, texty.new_text_value))
-                        //setPoint(text1.new_text_value, texty.new_text_value)
-                        //root.add_point(text1.new_text_value, texty.new_text_value)
-                        //publish_topic(setXY_tn, text1.new_text_value + " " + texty.new_text_value + " " + minion_view.xValue )
+                    //setPoint(text1.new_text_value, texty.new_text_value)
+                    //root.add_point(text1.new_text_value, texty.new_text_value)
+                    //publish_topic(setXY_tn, text1.new_text_value + " " + texty.new_text_value + " " + minion_view.xValue )
                     contentItem: Text {
                         id: testo
                         text: "SET POINT"
@@ -160,24 +164,24 @@ MenuBar {
                         titleSize: 10
                         value_width: 100
                     }
-//                    Rectangle{
-//                        id: slider_text_output
-//                        Layout.preferredWidth: text1.value_width
-//                        Layout.preferredHeight: text1.implicitHeight
-//                        Layout.alignment: Qt.AlignRight
-//                        Layout.rightMargin: 10
-//                        clip: true
-//                        color: "whitesmoke"
-//                        border.color: "black"
-//                        Text{
-//                            id: slider_out_value_id
-//                            anchors.fill: parent
-//                            anchors.margins: 4
-//                            text: xRef
-//                            font.family: "Helvetica"
-//                            font.pointSize: 16
-//                        }
-//                    }
+                    //                    Rectangle{
+                    //                        id: slider_text_output
+                    //                        Layout.preferredWidth: text1.value_width
+                    //                        Layout.preferredHeight: text1.implicitHeight
+                    //                        Layout.alignment: Qt.AlignRight
+                    //                        Layout.rightMargin: 10
+                    //                        clip: true
+                    //                        color: "whitesmoke"
+                    //                        border.color: "black"
+                    //                        Text{
+                    //                            id: slider_out_value_id
+                    //                            anchors.fill: parent
+                    //                            anchors.margins: 4
+                    //                            text: xRef
+                    //                            font.family: "Helvetica"
+                    //                            font.pointSize: 16
+                    //                        }
+                    //                    }
                 }
                 RowLayout{
                     Layout.alignment: Qt.AlignTop
@@ -190,39 +194,82 @@ MenuBar {
                         titleSize: 10
                         value_width: 100
                     }
-//                    Rectangle{
-//                        id: slider_text_output_y
-//                        Layout.preferredWidth: texty.value_width
-//                        Layout.preferredHeight: texty.implicitHeight
-//                        Layout.alignment: Qt.AlignRight
-//                        Layout.rightMargin: 10
-//                        clip: true
-//                        color: "whitesmoke"
-//                        border.color: "black"
-//                        Text{
-//                            id: slider_out_value_id_y
-//                            anchors.fill: parent
-//                            anchors.margins: 4
-//                            text: yRef
-//                            font.family: "Helvetica"
-//                            font.pointSize: 16
-//                        }
-//                    }
+                    //                    Rectangle{
+                    //                        id: slider_text_output_y
+                    //                        Layout.preferredWidth: texty.value_width
+                    //                        Layout.preferredHeight: texty.implicitHeight
+                    //                        Layout.alignment: Qt.AlignRight
+                    //                        Layout.rightMargin: 10
+                    //                        clip: true
+                    //                        color: "whitesmoke"
+                    //                        border.color: "black"
+                    //                        Text{
+                    //                            id: slider_out_value_id_y
+                    //                            anchors.fill: parent
+                    //                            anchors.margins: 4
+                    //                            text: yRef
+                    //                            font.family: "Helvetica"
+                    //                            font.pointSize: 16
+                    //                        }
+                    //                    }
                 }
+            }
+        }
+    }
 
+    Menu {
+        id: setLine
+        title: qsTr("&SetLine")
+        Rectangle{
+            enabled: data_model.data_source.is_connected
+            opacity: data_model.data_source.is_connected ? 1 : 0.4
+            width: 200
+            height: position_column_2.implicitHeight + 40
+            color: "white"
+            border.color: "black"
+            //border.width:
+            ColumnLayout{
+                id: position_column_2
+                anchors.fill: parent
+                anchors.leftMargin: 6
+                RowLayout{
+                    Layout.alignment: Qt.AlignTop
+                    Layout.topMargin: 15
+                    // Layout.fillWidth: true
+                    BasicTextInputInverted {
+                        //anchors.centerIn: parent
+                        id: textlinespinta
+                        title_text:  qsTr("SET X         ")
+                        //make_bold: true
+                        titleSize: 10
+                        value_width: 100
+                    }
+                }
+                RowLayout{
+                    Layout.alignment: Qt.AlignTop
+
+                    // Layout.fillWidth: true
+                    BasicTextInputInverted {
+                        //anchors.centerIn: parent
+                        id: textlinegamma
+                        title_text:  qsTr("SET GAMMA")
+                        //make_bold: true
+                        titleSize: 10
+                        value_width: 100
+                    }
+                }
                 // set line
                 Button {
                     id: control_line
                     Layout.alignment: Qt.AlignTop
                     Layout.topMargin: 6
-                    onClicked: publish_topic(setXYLine_tn, textxline.new_text_value + " " + textliney.new_text_value + " " + textlinegamma.new_text_value + " " + minion_view.xValue )
+                    onClicked: publish_topic(setXYLine_tn, textxline.new_text_value + " " + textliney.new_text_value + " " + textlinegamma.new_text_value + " " + textlinespinta.new_text_value )
                     contentItem: Text {
                         id: testo_line
-                        text: "SET LINE"
+                        text: "SET LINE X Y"
                         font.family: "Helvetica"
                         font.pointSize: 10
                         anchors.horizontalCenter: background_line.horizontalCenter
-                        //verticalAlignment: background_b.AlignVCenter
                     }
                     background: Rectangle{
                         id: background_line
@@ -236,32 +283,30 @@ MenuBar {
                 }
                 RowLayout{
                     Layout.alignment: Qt.AlignTop
-
-                    // Layout.fillWidth: true
                     BasicTextInputInverted {
-                        //anchors.centerIn: parent
                         id: textxline
                         title_text:  qsTr("SET LINE X  ")
                         titleSize: 10
-                        value_width: 50
+                        value_width: 100
+                        //new_text_value: main_view.pi_value
                     }
-                    Rectangle{
-                        id: slider_xline_output
-                        Layout.preferredWidth: textxline.value_width
-                        Layout.preferredHeight: textxline.implicitHeight
-                        Layout.alignment: Qt.AlignRight
-                        Layout.rightMargin: 10
-                        clip: true
-                        color: "whitesmoke"
-                        border.color: "black"
-                        Text{
-                            id: slider_xline_value_id
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            font.family: "Helvetica"
-                            font.pointSize: 16
-                        }
-                    }
+                    //                    Rectangle{
+                    //                        id: slider_xline_output
+                    //                        Layout.preferredWidth: textxline.value_width
+                    //                        Layout.preferredHeight: textxline.implicitHeight
+                    //                        Layout.alignment: Qt.AlignRight
+                    //                        Layout.rightMargin: 10
+                    //                        clip: true
+                    //                        color: "whitesmoke"
+                    //                        border.color: "black"
+                    //                        Text{
+                    //                            id: slider_xline_value_id
+                    //                            anchors.fill: parent
+                    //                            anchors.margins: 4
+                    //                            font.family: "Helvetica"
+                    //                            font.pointSize: 16
+                    //                        }
+                    //                    }
                 }
                 RowLayout{
                     Layout.alignment: Qt.AlignTop
@@ -272,24 +317,78 @@ MenuBar {
                         id: textliney
                         title_text:  qsTr("SET LINE Y  ")
                         titleSize: 10
-                        value_width: 50
+                        value_width: 100
                     }
-                    Rectangle{
-                        id: slider_textline_output_y
-                        Layout.preferredWidth: textliney.value_width
-                        Layout.preferredHeight: textliney.implicitHeight
-                        Layout.alignment: Qt.AlignRight
-                        Layout.rightMargin: 10
-                        clip: true
-                        color: "whitesmoke"
+                    //                    Rectangle{
+                    //                        id: slider_textline_output_y
+                    //                        Layout.preferredWidth: textliney.value_width
+                    //                        Layout.preferredHeight: textliney.implicitHeight
+                    //                        Layout.alignment: Qt.AlignRight
+                    //                        Layout.rightMargin: 10
+                    //                        clip: true
+                    //                        color: "whitesmoke"
+                    //                        border.color: "black"
+                    //                        Text{
+                    //                            id: slider_outline_value_id_y
+                    //                            anchors.fill: parent
+                    //                            anchors.margins: 4
+                    //                            font.family: "Helvetica"
+                    //                            font.pointSize: 16
+                    //                        }
+                    //                    }
+                }
+                //                RowLayout{
+                //                    Layout.alignment: Qt.AlignTop
+
+                //                    // Layout.fillWidth: true
+                //                    BasicTextInputInverted {
+                //                        //anchors.centerIn: parent
+                //                        id: textlinegamma
+                //                        title_text:  qsTr("SET GAMMA")
+                //                        titleSize: 10
+                //                        value_width: 100
+                //                    }
+                //                    Rectangle{
+                //                        id: slider_textline_output_gamma
+                //                        Layout.preferredWidth: textlinegamma.value_width
+                //                        Layout.preferredHeight: textlinegamma.implicitHeight
+                //                        Layout.alignment: Qt.AlignRight
+                //                        Layout.rightMargin: 10
+                //                        clip: true
+                //                        color: "whitesmoke"
+                //                        border.color: "black"
+                //                        Text{
+                //                            id: slider_outline_value_id_gamma
+                //                            anchors.fill: parent
+                //                            anchors.margins: 4
+                //                            font.family: "Helvetica"
+                //                            font.pointSize: 16
+                //                        }
+                //                    }
+                //                }
+
+                // set line
+                Button {
+                    id: control_line_2
+                    Layout.alignment: Qt.AlignTop
+                    Layout.topMargin: 6
+                    onClicked: publish_topic(setLineLatLon_tn, textlinelat.new_text_value + " " + textlinelon.new_text_value + " " + textlinegamma.new_text_value + " " + textlinespinta.new_text_value )
+                    contentItem: Text {
+                        id: testo_line_2
+                        text: "SET LINE LAT LON"
+                        font.family: "Helvetica"
+                        font.pointSize: 10
+                        anchors.horizontalCenter: background_line_2.horizontalCenter
+                        //verticalAlignment: background_b.AlignVCenter
+                    }
+                    background: Rectangle{
+                        id: background_line_2
+                        height: testo_line_2.implicitHeight + 10
+                        width: testo_line_2.implicitWidth + 10
+                        color: control_line_2.down? "peachpuff" : "papayawhip"
+                        border.width: 1
                         border.color: "black"
-                        Text{
-                            id: slider_outline_value_id_y
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            font.family: "Helvetica"
-                            font.pointSize: 16
-                        }
+                        radius: 3
                     }
                 }
                 RowLayout{
@@ -298,44 +397,104 @@ MenuBar {
                     // Layout.fillWidth: true
                     BasicTextInputInverted {
                         //anchors.centerIn: parent
-                        id: textlinegamma
-                        title_text:  qsTr("SET GAMMA")
+                        id: textlinelat
+                        title_text:  qsTr("SET LAT  ")
                         titleSize: 10
-                        value_width: 50
+                        value_width: 120
                     }
-                    Rectangle{
-                        id: slider_textline_output_gamma
-                        Layout.preferredWidth: textlinegamma.value_width
-                        Layout.preferredHeight: textlinegamma.implicitHeight
-                        Layout.alignment: Qt.AlignRight
-                        Layout.rightMargin: 10
-                        clip: true
-                        color: "whitesmoke"
-                        border.color: "black"
-                        Text{
-                            id: slider_outline_value_id_gamma
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            font.family: "Helvetica"
-                            font.pointSize: 16
-                        }
-                    }
+                    //                    Rectangle{
+                    //                        id: slider_xline_output_2
+                    //                        Layout.preferredWidth: textlinegamma_2.value_width
+                    //                        Layout.preferredHeight: textxline_2.implicitHeight
+                    //                        Layout.alignment: Qt.AlignRight
+                    //                        Layout.rightMargin: 10
+                    //                        clip: true
+                    //                        color: "whitesmoke"
+                    //                        border.color: "black"
+                    //                        Text{
+                    //                            id: slider_xline_value_id_2
+                    //                            anchors.fill: parent
+                    //                            anchors.margins: 4
+                    //                            font.family: "Helvetica"
+                    //                            font.pointSize: 16
+                    //                        }
+                    //                    }
                 }
+                RowLayout{
+                    Layout.alignment: Qt.AlignTop
+
+                    // Layout.fillWidth: true
+                    BasicTextInputInverted {
+                        //anchors.centerIn: parent
+                        id: textlinelon
+                        title_text:  qsTr("SET LON  ")
+                        titleSize: 10
+                        value_width: 120
+                    }
+                    //                    Rectangle{
+                    //                        id: slider_textline_output_y_2
+                    //                        Layout.preferredWidth: textlinegamma_2.value_width
+                    //                        Layout.preferredHeight: textliney_2.implicitHeight
+                    //                        Layout.alignment: Qt.AlignRight
+                    //                        Layout.rightMargin: 10
+                    //                        clip: true
+                    //                        color: "whitesmoke"
+                    //                        border.color: "black"
+                    //                        Text{
+                    //                            id: slider_outline_value_id_y_2
+                    //                            anchors.fill: parent
+                    //                            anchors.margins: 4
+                    //                            font.family: "Helvetica"
+                    //                            font.pointSize: 16
+                    //                        }
+                    //                    }
+                }
+                //                RowLayout{
+                //                    Layout.alignment: Qt.AlignTop
+
+                // Layout.fillWidth: true
+                //                    BasicTextInputInverted {
+                //                        //anchors.centerIn: parent
+                //                        id: textlinegamma_2
+                //                        title_text:  qsTr("SET GAMMA")
+                //                        titleSize: 10
+                //                        value_width: 100
+                //                    }
+                //                    Rectangle{
+                //                        id: slider_textline_output_gamma_2
+                //                        Layout.preferredWidth: textlinegamma_2.value_width
+                //                        Layout.preferredHeight: textlinegamma_2.implicitHeight
+                //                        Layout.alignment: Qt.AlignRight
+                //                        Layout.rightMargin: 10
+                //                        clip: true
+                //                        color: "whitesmoke"
+                //                        border.color: "black"
+                //                        Text{
+                //                            id: slider_outline_value_id_gamma_2
+                //                            anchors.fill: parent
+                //                            anchors.margins: 4
+                //                            font.family: "Helvetica"
+                //                            font.pointSize: 16
+                //                        }
+                //                    }
+                //                }
             }
         }
     }
+
+
     Menu {
         title: qsTr("&SetPar")
         Rectangle{
             enabled: data_model.data_source.is_connected
             opacity: data_model.data_source.is_connected ? 1 : 0.4
             width: 200
-            height: position_column.height + 200
+            height: position_column_3.implicitHeight + 200
             color: "white"
             border.color: "black"
             //border.width:
             ColumnLayout{
-                id: position_column2
+                id: position_column_3
                 anchors.fill: parent
                 anchors.leftMargin: 6
                 Button {
@@ -343,9 +502,9 @@ MenuBar {
                     Layout.alignment: Qt.AlignTop
                     Layout.topMargin: 6
                     onClicked: publish_topic(setYawGSPar_tn, sigma.new_text_value + " " +
-                                                             omega.new_text_value + " " +
-                                                             textmaxNoise.new_text_value + " " +
-                                                             textsatTorque.new_text_value)
+                                             omega.new_text_value + " " +
+                                             textmaxNoise.new_text_value + " " +
+                                             textsatTorque.new_text_value)
 
                     contentItem: Text {
                         id: testo2
@@ -368,7 +527,7 @@ MenuBar {
                 RowLayout{
                     Layout.alignment: Qt.AlignTop
 
-                     Layout.fillWidth: true
+                    Layout.fillWidth: true
                     BasicTextInputInverted {
                         //anchors.centerIn: parent
                         id: sigma
@@ -458,8 +617,6 @@ MenuBar {
                 }
                 RowLayout{
                     Layout.alignment: Qt.AlignTop
-
-                    // Layout.fillWidth: true
                     BasicTextInputInverted {
                         //anchors.centerIn: parent
                         id: textsatTorque
@@ -613,7 +770,6 @@ MenuBar {
                         title_text:  qsTr("SET eISat")
                         titleSize: 10
                         value_width: 50
-                        //titleWidth: 50
                     }
                     Rectangle{
                         id: slider_texteisat
@@ -691,7 +847,6 @@ MenuBar {
                         }
                     }
                 }
-
             }
         }
     }

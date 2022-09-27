@@ -1,7 +1,14 @@
 /*************************************************************************
  *
  * This element contains the Minion generic panel. It is intended to be
- * shown in the SingleMinion view
+ * shown in the SingleMinion view. It contains generic telemetry to be
+ * displayed.
+ * NOTE: The elements on the left side of the panel, contained in cmd_row
+ * are currently disabled.
+ *
+ * Author: Corrado Motta
+ * Date: 03/2022
+ * Mail: corradomotta92@gmail.com
  *
  *************************************************************************/
 
@@ -12,36 +19,32 @@ import "../BasicItems"
 
 BasicMinionPanelContainer{
     id : root
+
+    // properties
     implicitHeight: Math.max(cmd_row.implicitHeight , cmd_row_2.implicitHeight) + title_height + 20
     implicitWidth: cmd_row.implicitWidth + cmd_row_2.implicitWidth + bar.width + 200 // TODO WHY SO MUCH
     title: "GENERIC"
     color: "aliceblue"
-    //border.color: "transparent"
+
     RowLayout{
         id: cmd_row
         spacing: 2
-        //width: parent.width/2
         anchors{
             topMargin: 5
-            //fill: parent
             top: parent.top; left: parent.left; bottom: parent.bottom; right: bar.right
             rightMargin: 10
             leftMargin: 10
         }
         BasicRebootIcon {
             id: reboot_icon_fl
-            // THIS IS THE LINE NEEDED TO CONNECT ENGINES
-            //engineState : engine_panel.engine_state_fl_prova
             Layout.alignment: Qt.AlignTop | Qt.AlignLeft
             Layout.leftMargin: 10
             Layout.topMargin: title_height + 30
-            // TODO deactivated for now
             onRebootStateChanged: {
                 if(rebootState === BasicRebootIcon.RebootStates.Reboot) minion_view.publish_topic(minion_view.reboot_tn, 1)
                 else if(rebootState === BasicRebootIcon.RebootStates.Shutdown) minion_view.publish_topic(minion_view.shutdown_tn, 1)
             }
         }
-
         ColumnLayout{
             Layout.alignment: Qt.AlignRight
             Layout.rightMargin: 10
@@ -53,9 +56,7 @@ BasicMinionPanelContainer{
             }
             BasicTextInputInverted{
                 id: tlm_ddr
-                //Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
                 title_text: "TLM_ADDR"
-                // TODO add loss of scope
                 onNew_text_valueChanged: minion_view.publish_topic(minion_view.changeTlmAddr_tn, new_text_value)
             }
         }
@@ -75,14 +76,12 @@ BasicMinionPanelContainer{
     RowLayout{
         id: cmd_row_2
         spacing: 2
-        //width: parent.width/2
         anchors{
             topMargin: 20
             leftMargin: 10
             top: parent.top; right: parent.right; bottom: parent.bottom; left: bar.right
             rightMargin: 10
         }
-
         ColumnLayout{
             Layout.alignment: Qt.AlignLeft
             BasicTextOutputInverted{
@@ -116,4 +115,3 @@ BasicMinionPanelContainer{
         }
     }
 }
-

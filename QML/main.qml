@@ -49,11 +49,19 @@ ApplicationWindow {
             }
         }
 
+
         // set main component
         sourceComponent: MainView{
             id: main_view
+
         }
     }
+
+    Connections {
+            target: mainLoader.item
+            function onLast_lat_valueChanged() {  menu_bar_id.latValue = mainLoader.item.last_lat_value }
+            function onLast_lon_valueChanged() {  menu_bar_id.lonValue = mainLoader.item.last_lon_value }
+        }
 
     Rectangle{
         id: message_prompt

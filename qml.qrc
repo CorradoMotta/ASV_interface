@@ -103,5 +103,6 @@
         <file>Images/info.png</file>
         <file>QML/Panels/ManeuversPanel.qml</file>
         <file>Images/resume.png</file>
+        <file>Images/send_line_box_on.png</file>
     </qresource>
 </RCC>

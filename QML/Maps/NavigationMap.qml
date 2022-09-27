@@ -20,41 +20,50 @@ import "../Panels"
 
 Rectangle{
     id: navigation_map
+
+    // custom properties
+    readonly property real hueMin : 0.513
+    readonly property real hueMax : 0.652
+    property int activeMap : 0
+    property real latValue : lat.value
+    property real lonValue: lon.value
+    property real lastLatValue : 0
+    property real lastLonValue : 0
+    property bool is_centered: true
+    property var initialCoordinates: QtPositioning.coordinate(lat.value, lon.value)
+    property real rando : 0
+    property int bath_counter: 0
+
+    // bathymetry (disabled)
+    //property double initialValue : 7.13
+    //property int max_bathymetry_depth : bathymetry_panel.max_depth
+    //property int min_bathymetry_depth : bathymetry_panel.min_depth
+    //onMax_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
+    //onMin_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
+
+    // alias
+    property alias mapTypes: swamp_map.supportedMapTypes
+    property alias mapName: swamp_map.plugin.name
+    property alias zoomLevel: swamp_map.zoomLevel
+
+    // Cpp members
+    property real ngc_timestamp: data_model.data_source.swamp_status.gps_ahrs_status.timestamp.value
+    property real v_rotation : data_model.data_source.swamp_status.ngc_status.psi.value //convertToRadiant
     property var lat: data_model.data_source.swamp_status.gps_ahrs_status.latitude
     property var lon: data_model.data_source.swamp_status.gps_ahrs_status.longitude
     property real altitude: data_model.data_source.swamp_status.ngc_status.altitude.value
     property real homeLatRef: data_model.data_source.swamp_status.ngc_status.latHomeRef.value
     property real homeLonRef: data_model.data_source.swamp_status.ngc_status.lonHomeRef.value
-    property real latValue : lat.value
-    property real lonValue: lon.value
-    property real ngc_timestamp: data_model.data_source.swamp_status.gps_ahrs_status.timestamp.value
-    property real v_rotation : data_model.data_source.swamp_status.ngc_status.psi.value //convertToRadiant
-    property bool is_centered: true
-    property var initialCoordinates: QtPositioning.coordinate(lat.value, lon.value)
-    //property double initialValue : 7.13
-    property real rando : 0
-    property int bath_counter: 0
-    //property int max_bathymetry_depth : bathymetry_panel.max_depth
-    //property int min_bathymetry_depth : bathymetry_panel.min_depth
-    readonly property real hueMin : 0.513
-    readonly property real hueMax : 0.652
-    property alias mapTypes: swamp_map.supportedMapTypes
-    property int activeMap : 0
-    property alias mapName: swamp_map.plugin.name
-    property alias zoomLevel: swamp_map.zoomLevel
-
-    onLatValueChanged: lon.value !==0 ? root.startUp = false: ""
-    onLonValueChanged: lat.value !==0 ? root.startUp = false: ""
-    //onMax_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
-    //onMin_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
-
-    onHomeLatRefChanged: homeLonRef != 0 ? root.messagePrompt("Robot's home set in (" + homeLatRef + " " + homeLonRef +")") : ""
-    onHomeLonRefChanged: homeLatRef != 0 ? root.messagePrompt("Robot's home set in (" + homeLatRef + " " + homeLonRef +")") : ""
-
     readonly property string set_lat_lon_tn: data_model.data_source.swamp_status.ngc_status.setLatLon.topic_name //TODO FIX
     readonly property string set_line_lat_lon: data_model.data_source.swamp_status.ngc_status.setLineLatLon.topic_name //TODO FIX
     readonly property string set_robot_home_tn: data_model.data_source.swamp_status.ngc_status.setRobotHome.topic_name //TODO FIX
     readonly property var publish_topic: data_model.data_source.publishMessage //todo repetition
+
+    // signals
+    onLatValueChanged: lon.value !==0 ? root.startUp = false: ""
+    onLonValueChanged: lat.value !==0 ? root.startUp = false: ""
+    onHomeLatRefChanged: homeLonRef != 0 ? root.messagePrompt("Robot's home set in (" + homeLatRef + " " + homeLonRef +")") : ""
+    onHomeLonRefChanged: homeLatRef != 0 ? root.messagePrompt("Robot's home set in (" + homeLatRef + " " + homeLonRef +")") : ""
 
     Rectangle{
         id: status_bar
@@ -66,18 +75,14 @@ Rectangle{
         height: 34
         color: "aliceblue"
         property int dotSize: 25
-
         RowLayout{
-
             spacing: 80
             anchors.centerIn: parent
-
             MinionStateRow{
                 id: minion_fl
                 dotSize: status_bar.dotSize
                 prefix: data_model.data_source.swamp_status.minion_fl
                 info_prefix: "FL"
-
             }
             MinionStateRow{
                 id: minion_fr
@@ -90,7 +95,6 @@ Rectangle{
                 dotSize: status_bar.dotSize
                 prefix: data_model.data_source.swamp_status.minion_rl
                 info_prefix: "RL"
-
             }
             MinionStateRow{
                 id: minion_rr
@@ -103,7 +107,6 @@ Rectangle{
 
     Map {
         id: swamp_map
-
         anchors{
             topMargin: 8
             top: status_bar.bottom
@@ -113,7 +116,7 @@ Rectangle{
         }
 
         plugin: MapBoxPlugin {}
-
+        copyrightsVisible: false
         gesture.enabled: true
         gesture.acceptedGestures: MapGestureArea.PanGesture | MapGestureArea.PinchGesture
         gesture.onPanFinished: {
@@ -122,27 +125,24 @@ Rectangle{
             else if(navigation_map.is_centered)
                 navigation_map.is_centered = true
         }
-
         activeMapType: data_model.data_source.swamp_status.conf.mb_style === HciNgiInterface.MB_SATELLITE? supportedMapTypes[4]:
                                                                                                            data_model.data_source.swamp_status.conf.mb_style === HciNgiInterface.MB_STREET? supportedMapTypes[0]:
                                                                                                                                                                                             supportedMapTypes[0]
-
-        copyrightsVisible: false
-
         MouseArea {
             id: navigation_mouse_area
             anchors.fill: parent
             onClicked: {
-                // TODO. I should use coordinate member of QuickMapItem element. It looks more accurate.
                 var crd = swamp_map.toCoordinate(Qt.point(mouseX, mouseY))
-                if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
+                if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker){
                     mivMarker.model.insertSingleMarker(crd)
+                    lastLatValue = roundCoor(crd.latitude,8)
+                    lastLonValue = roundCoor(crd.longitude,8)
+                }
                 else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Rectangle)
                     console.log("Not implemented yet!")
                 else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
                     mivLine.model.insertSingleMarker(crd)
                     mapPoly.addCoordinate(crd)
-                    //console.log("new coordinates: Lon: " + crd.longitude  + " , Lat:" + crd.latitude)
                 }
             }
         }
@@ -152,7 +152,7 @@ Rectangle{
             z: 1
             rotation: navigation_map.v_rotation
             coordinate:  QtPositioning.coordinate(navigation_map.lat.value, navigation_map.lon.value)
-            //bathymetry
+            // bathymetry, currently disabled
             //            onCoordinateChanged:
             //            {
             //                if(!root.startUp &( Math.abs(old_lat - navigation_map.roundCoor(lat.value,5)) > 0
@@ -205,9 +205,10 @@ Rectangle{
         //            }
         //        }
 
+        // create a listModel to provide data used for creating the map items defined by the delegate.
         MapItemView {
             id: coorView
-            // create a listModel to provide data used for creating the map items defined by the delegate.
+
             model: _coor_model
             delegate: DelegateSingleCoordinate{
                 id: my_coor_delegate
@@ -263,7 +264,7 @@ Rectangle{
 
         MapItemView {
             id: mivLine
-            model: _line_model // defined in c++
+            model: _line_model
             delegate: DelegateLineGeometry {
                 id: my_line_delegate
                 coordinate: QtPositioning.coordinate(model.coordinate.latitude,
@@ -420,17 +421,36 @@ Rectangle{
         }
         else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
             if(mivLine.model.rowCount()!==0){
-                //publish_topic()
                 return "Not implemented yet"
             }
             else
                 return "No points available!"
         }
     }
-//    Connections {
-//        target: custom_menu_bar
-//        onSetPoint: ivMarker.model.insertSingleMarker(QtPositioning.coordinate(lat, lon))
-//    }
+
+    function send_line(){
+        if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
+        {
+            if( mivMarker.model.rowCount()!==0 && data_model.data_source.is_connected){
+                // sending first marker only
+                var lat = mivMarker.model.getCoordinate(0).latitude
+                var lon = mivMarker.model.getCoordinate(0).longitude
+                publish_topic(set_line_lat_lon, lat + " " + lon + " " + root.gammaValue + " " + root.xValue)
+                return "Sending point (" + lat +" "+ lon +") X = " + root.xValue  +" GAMMA = " + root.gammaValue
+            }
+            else if(!data_model.data_source.is_connected)
+                return "Connection is not established!"
+            else
+                return "No points available!"
+        }
+        else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
+            if(mivLine.model.rowCount()!==0){
+                return "Not implemented yet"
+            }
+            else
+                return "No points available!"
+        }
+    }
 
     function add_point(lat, lon){
         mivMarker.model.insertSingleMarker(QtPositioning.coordinate(lat, lon))

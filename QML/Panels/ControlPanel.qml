@@ -1,3 +1,15 @@
+/*************************************************************************
+ *
+ * Panel elements to control surge, sway, yaw and heading of the vehicle.
+ * Each element is composed by a BasicSliderWithRef, the text of the slider
+ * is clickable to send the data individually to the vehicle.
+ *
+ * Author: Corrado Motta
+ * Date: 06/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtQuick.Layouts 1.15
 import "../BasicItems"
@@ -6,23 +18,29 @@ import QtQuick.Controls 2.15
 Rectangle{
     id : control_panel
 
+    // properties
+    implicitWidth : cl.implicitWidth
+    Layout.preferredHeight: cl.implicitHeight
+    height: cl.implicitHeight
+    color: "transparent"
+
+    // custom properties
     property string value : ""
     property var prefix: data_model.data_source.swamp_status.ngc_status
+
+    // Cpp members
     readonly property string surgeTn: prefix.surge.act.topic_name
     readonly property string swayTn: prefix.sway.act.topic_name
     readonly property string yawTn: prefix.yaw.act.topic_name
     readonly property string headingTn: prefix.heading.act.topic_name
     readonly property var publish_topic: data_model.data_source.publishMessage
-
     readonly property real surgeRef : prefix.surge.ref.value
     readonly property real swayRef : prefix.sway.ref.value
     readonly property real yawRef : prefix.yaw.ref.value
     readonly property real headingRef : prefix.heading.ref.value
+
+    // alias
     property alias xValue : x.value
-    implicitWidth : cl.implicitWidth
-    Layout.preferredHeight: cl.implicitHeight
-    height: cl.implicitHeight
-    color: "transparent"
 
     ColumnLayout {
         id: cl

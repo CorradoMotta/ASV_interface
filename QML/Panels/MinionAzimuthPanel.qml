@@ -1,7 +1,13 @@
 /*************************************************************************
  *
  * This element contains the Minion azimuth panel. It is intended to be
- * shown in the SingleMinion view
+ * shown in the SingleMinion view. The azimuth panel contains all the
+ * needed elements to control the azimuth engine. It also displays the
+ * azimuth telemetry.
+ *
+ * Author: Corrado Motta
+ * Date: 03/2022
+ * Mail: corradomotta92@gmail.com
  *
  *************************************************************************/
 
@@ -11,16 +17,17 @@ import "../BasicItems"
 
 BasicMinionPanelContainer{
     id: azimuth
-    title: "AZIMUTH"
 
+    // properties
+    title: "AZIMUTH"
+    implicitHeight: pump_row_id.implicitHeight + title_height + 20
+    implicitWidth: pump_row_id.implicitWidth + 20
+
+    // custom properties
     required property int azimuth_motor_enable
     required property int azimuth_motor_fault
     required property int azimuth_motor_power
-
     property int engineState
-
-    implicitHeight: pump_row_id.implicitHeight + title_height + 20
-    implicitWidth: pump_row_id.implicitWidth + 20
 
     RowLayout{
         id: pump_row_id
@@ -36,8 +43,7 @@ BasicMinionPanelContainer{
             spacing: 8
             EngineIcon {
                 id: engine_icon_fl_azm
-                // THIS IS THE LINE NEEDED TO CONNECT ENGINES
-                engineState : minion_view.engineState //engine_panel.engine_state_fl_prova
+                engineState : minion_view.engineState
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 image_size: 60
                 set_border: true
@@ -51,7 +57,6 @@ BasicMinionPanelContainer{
             BasicTextInput{
                 Layout.topMargin: 15
                 id: set_speed
-                //Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
                 title_text: "SET_SPEED"
                 mask: "0000"
                 onNew_text_valueChanged: minion_view.publish_topic(minion_view.azimuth_motor_set_max_speed_tn, new_text_value)
@@ -67,7 +72,6 @@ BasicMinionPanelContainer{
                     if (homing_panel.go_home_is_active)
                         minion_view.publish_topic(minion_view.azimuth_motor_go_home_tn, 1)
                 }
-
                 function onSet_home_is_activeChanged(){
                     if (homing_panel.set_home_is_active)
                         minion_view.publish_topic(minion_view.azimuth_motor_set_home_tn, 1)
@@ -128,15 +132,6 @@ BasicMinionPanelContainer{
                     dot_state: azimuth_motor_fault
                 }
             }
-            //            BasicTextOutput{
-            //                Layout.topMargin: 30
-            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-            //                title_text: "OP_STATUS"
-            //            }
-            //            BasicTextOutput{
-            //                Layout.alignment: Qt.AlignTop | Qt.AlignRight
-            //                title_text: "CONF_STATUS"
-            //            }
             BasicTextOutput{
                 Layout.topMargin: 30
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
@@ -161,4 +156,3 @@ BasicMinionPanelContainer{
         }
     }
 }
-

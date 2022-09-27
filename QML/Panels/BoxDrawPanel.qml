@@ -17,12 +17,16 @@ import "../BasicItems"
 
 Item {
     id : box_draw_panel
+
+    // properties
     anchors.right: parent.right
     anchors.bottom: parent.bottom
     anchors.rightMargin: 20
     anchors.bottomMargin: 20
     implicitHeight: cl.implicitHeight
     implicitWidth: cl.implicitWidth
+
+    // custom properties
     property int draw_item_is_active : BoxDrawPanel.ActiveBox.None
 
     enum ActiveBox {

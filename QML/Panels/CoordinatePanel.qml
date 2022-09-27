@@ -2,6 +2,9 @@
  *
  * Panel elements to interact with the dynamic bathymetry model.
  * It allows to stop and play, remove all depth points or save them to disk.
+ * It interacts directly with the model which is made in C++.
+ * NOTE: some values are commented or deactivated as this feature is not
+ * used at the moment.
  *
  * Author: Corrado Motta
  * Date: 04/2022
@@ -17,16 +20,21 @@ import "../BasicItems"
 Rectangle {
     id: root_bath_panel
 
+    // properties
+    Layout.preferredHeight: cl.implicitHeight
+    color: "transparent"
+
+    // alias
     property alias title : text_id.text
     property alias panel_color: rect.color
-    //Layout.preferredHeight: slider_depth.implicitHeight + icon_row.implicitHeight + 33 //TODO not having numbers here.
+
+
+
     //property string dateTime: data_model.data_source.swamp_status.time_status.dateTime.value
     //radius: 5.0
     //property alias max_depth : slider_depth.max_value //slider_value_id.text
     //property alias min_depth: slider_depth.min_value
     //property bool isPLaying: false
-    Layout.preferredHeight: cl.implicitHeight
-    color: "transparent"
 
     ColumnLayout {
         id: cl

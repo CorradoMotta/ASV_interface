@@ -1,7 +1,12 @@
 /*************************************************************************
  *
  * This element contains the Minion IMU panel. It is intended to be
- * shown in the SingleMinion view
+ * shown in the SingleMinion view. It displays the telemetry received from
+ * the minion IMU.
+ *
+ * Author: Corrado Motta
+ * Date: 03/2022
+ * Mail: corradomotta92@gmail.com
  *
  *************************************************************************/
 
@@ -12,6 +17,8 @@ import "../BasicItems"
 
 BasicMinionPanelContainer{
     title: "IMU"
+
+    // properties
     implicitHeight: pump_row_id.implicitHeight + title_height + 20
     implicitWidth: pump_row_id.implicitWidth + 20
 
@@ -28,7 +35,6 @@ BasicMinionPanelContainer{
             id: cmd_column_id
             Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
             BasicTextOutputInverted{
-                //Layout.topMargin: 30
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 title_text: "YAW"
                 value_text: minion_view.imu_yaw
@@ -48,7 +54,6 @@ BasicMinionPanelContainer{
                 title_text: "TEMPERATURE"
                 value_text: minion_view.imu_temperature
             }
-
         }
         Rectangle {
             Layout.fillHeight: true

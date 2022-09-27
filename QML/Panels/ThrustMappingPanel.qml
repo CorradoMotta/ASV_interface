@@ -1,3 +1,16 @@
+/*************************************************************************
+ *
+ * Panel for thrust mapping (raw mode). This panel is composed by 3 fixed
+ * sliders of BasicSliderWithRefAndAct type where each value of each
+ * slider can be customized. It also shows a rectangle with a text label
+ * on top.
+ *
+ * Author: Corrado Motta
+ * Date: 08/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtQuick.Layouts 1.15
 import "../BasicItems"
@@ -6,11 +19,20 @@ import QtQuick.Controls 2.15
 Rectangle{
     id : rpm_panel
 
+    // properties
+    Layout.preferredHeight: cl.implicitHeight
+    Layout.preferredWidth: cl.implicitWidth
+    implicitWidth: cl.implicitWidth
+    color: "transparent"
+
+    // custom properties
     property string value : ""
+    property int slider_width : 260
+
+    // alias values
     property alias xvalue : fu.value
     property alias yvalue: fv.value
     property alias zvalue: tr.value
-
     property alias title : text_id.text
     property alias slider1_text : fu.slider_text
     property alias slider2_text : fv.slider_text
@@ -21,21 +43,13 @@ Rectangle{
     property alias slider1_to : fu.slider_to
     property alias slider2_to : fv.slider_to
     property alias slider3_to : tr.slider_to
-    property alias slider1_mask : fu.mask_input
-    property alias slider2_mask : fv.mask_input
-    property alias slider3_mask : tr.mask_input
     property alias slider1_ref : fu.ref_value
     property alias slider2_ref : fv.ref_value
     property alias slider3_ref : tr.ref_value
     property alias slider1_act : fu.act_value
     property alias slider2_act : fv.act_value
     property alias slider3_act : tr.act_value
-    property int slider_width : 260
     property alias panel_color: force_slider.color
-    Layout.preferredHeight: cl.implicitHeight
-    Layout.preferredWidth: cl.implicitWidth
-    implicitWidth: cl.implicitWidth
-    color: "transparent"
 
     ColumnLayout {
         id: cl
@@ -45,47 +59,15 @@ Rectangle{
         RowLayout{
             Layout.alignment: Qt.AlignTop
             Layout.fillWidth: true
-            //spacing: 100
 
             Text {
                 id: text_id
                 Layout.alignment: Qt.AlignLeft
                 Layout.leftMargin: 4
-                //text: "RPM_ALPHA"
                 font.family: "Helvetica"
                 font.pointSize: 14
                 font.bold: true
-
             }
-//            Rectangle{
-//                Layout.fillWidth: true
-//            }
-
-            //            Button {
-            //                id: control
-            //                Layout.alignment: Qt.AlignRight
-            //                width: 200
-            //                onClicked: value = fu.value + " " + fv.value + " " + tr.value
-            //                //Layout.rightMargin: 10
-            //                //onClicked: data_model.data_source.setConnection()
-            //                contentItem: Text {
-            //                    id: testo
-            //                    text: "SEND"
-            //                    font.family: "Helvetica"
-            //                    font.pointSize: 14
-            //                    anchors.horizontalCenter: background_b.horizontalCenter
-            //                    //verticalAlignment: background_b.AlignVCenter
-            //                }
-            //                background: Rectangle{
-            //                    id: background_b
-            //                    height: testo.implicitHeight + 10
-            //                    width: testo.implicitWidth + 10
-            //                    color: control.down? "peachpuff" : "papayawhip"
-            //                    border.width: 1
-            //                    border.color: "black"
-            //                    radius: 4
-            //                }
-            //            }
         }
         Rectangle {
             id: force_slider
@@ -112,28 +94,29 @@ Rectangle{
                     slider_width : rpm_panel.slider_width
                     slider_from: 0
                     slider_to: 100
+                    step_size: 1
                     onValueChanged: {
                         controlValue = fu.value
                         rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
                     }
-
                 }
-                BasicSliderWithRefAndAct {
 
+                BasicSliderWithRefAndAct {
                     id: fv
                     Layout.fillWidth: true
                     slider_width : rpm_panel.slider_width
                     slider_from: 0
                     slider_to: 100
+                    step_size: 1
                     onValueChanged: rpm_panel.value = fu.value + " " + fv.value + " " + tr.value
                 }
                 BasicSliderWithRefAndAct {
-
                     id: tr
                     Layout.fillWidth: true
                     slider_width : rpm_panel.slider_width
                     slider_from: 0
                     slider_to: 100
+                    step_size: 1
                     onValueChanged:  {
                         controlValue = tr.value
                         rpm_panel.value = fu.value + " " + fv.value + " " + tr.value

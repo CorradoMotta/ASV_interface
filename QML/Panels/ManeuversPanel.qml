@@ -1,6 +1,7 @@
 /*************************************************************************
  *
- * Panel elements to control naval maneuvers.
+ * Panel elements to control naval maneuvers. It allows to launch, stop
+ * and resume the maneuvers.
  *
  * Author: Corrado Motta
  * Date: 09/2022
@@ -16,15 +17,20 @@ import "../BasicItems"
 Rectangle {
     id: root_bath_panel
 
+    // properties
     Layout.preferredHeight: cl.implicitHeight
     radius: 5.0
     color: "transparent"
 
-    property alias title : text_id.text
-    property alias panel_color: rect.color
+    // custom properties
     property bool isPLaying: false
     property bool isStopped: false
 
+    // alias
+    property alias title : text_id.text
+    property alias panel_color: rect.color
+
+    // Cpp members
     readonly property string stop_file_cmd_tn: data_model.data_source.swamp_status.ngc_status.stopFileCmd.topic_name
     readonly property string start_file_cmd_tn: data_model.data_source.swamp_status.ngc_status.startFileCmd.topic_name
     readonly property string resume_file_cmd_tn: data_model.data_source.swamp_status.ngc_status.resumeFileCmd.topic_name
@@ -60,7 +66,6 @@ Rectangle {
                 color: "black"
                 width: 2
             }
-
             RowLayout{
                 id: icon_row
                 anchors.centerIn: parent
@@ -70,11 +75,11 @@ Rectangle {
 
                 Image {
                     id: play_icon
-                    property bool play : false
                     visible: true
                     source: "../../Images/play-button_resized.png"
                     opacity: isPLaying? 0.2: isStopped ? 1 : 1
                     enabled: isPLaying? false : isStopped? true : true
+                    property bool play : false
                     MouseArea{
                         id: add_ma
                         anchors.fill: parent

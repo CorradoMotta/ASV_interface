@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.15
 Item {
     property alias title_text: title_text_input.text
     property string new_text_value: "0"
+    property alias make_bold : title_text_input.font.bold
     property alias value_width : text_input_id.width
     property alias titleSize: title_text_input.font.pointSize
     property alias text_value: text_value_id.text
@@ -22,6 +23,7 @@ Item {
             id: title_text_input
             font.family: "Helvetica"
             font.pointSize: 14
+
         }
         FocusScope {
             id: text_input_id

@@ -101,6 +101,7 @@ public:
         TMAM_HOV_MODE=0, // ROV-like fixed-azimuth configuration
         TMAM_FRWD_THRUST_ALL, // yaw torque given by differential thrust: azimuth[i]=0
         TMAM_FRWD_AZIMUTH_ALL, // yaw torque given by azimuth angle
+        TMAM_FRWD_AZIMUTH_STERN,
         TMAM_NUMBER
     };
 
