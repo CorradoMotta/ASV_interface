@@ -850,4 +850,142 @@ MenuBar {
             }
         }
     }
+
+    Menu {
+        title: qsTr("&SetLFPar")
+        Rectangle{
+            enabled: data_model.data_source.is_connected
+            opacity: data_model.data_source.is_connected ? 1 : 0.4
+            width: 200
+            height: position_column_4.implicitHeight + 200
+            color: "white"
+            border.color: "black"
+            //border.width:
+            ColumnLayout{
+                id: position_column_4
+                anchors.fill: parent
+                anchors.leftMargin: 6
+                Button {
+                    id: control3
+                    Layout.alignment: Qt.AlignTop
+                    Layout.topMargin: 6
+                    onClicked: publish_topic(23, maxAngle.new_text_value + " " +
+                                             gamma.new_text_value + " " +
+                                             r.new_text_value)
+
+                    contentItem: Text {
+                        id: testo3
+                        text: "LF PAR"
+                        font.family: "Helvetica"
+                        font.pointSize: 10
+                        anchors.horizontalCenter: background_b3.horizontalCenter
+                        //verticalAlignment: background_b.AlignVCenter
+                    }
+                    background: Rectangle{
+                        id: background_b3
+                        height: testo3.implicitHeight + 10
+                        width: testo3.implicitWidth + 10
+                        color: control3.down? "peachpuff" : "papayawhip"
+                        border.width: 1
+                        border.color: "black"
+                        radius: 3
+                    }
+                }
+                RowLayout{
+                    Layout.alignment: Qt.AlignTop
+
+                    Layout.fillWidth: true
+                    BasicTextInputInverted {
+                        //anchors.centerIn: parent
+                        id: maxAngle
+                        title_text:  qsTr("MAX ANGLE")
+                        titleSize: 10
+                        new_text_value: "60"
+                        value_width: 50
+                    }
+                    Rectangle{
+                        id: slider_text_output3
+                        Layout.preferredWidth: maxAngle.value_width
+                        Layout.preferredHeight: maxAngle.implicitHeight
+                        Layout.alignment: Qt.AlignRight
+                        Layout.rightMargin: 10
+                        clip: true
+                        color: "whitesmoke"
+                        border.color: "black"
+                        Text{
+                            id: slider_out_value_id3
+                            anchors.fill: parent
+                            anchors.margins: 4
+                            font.family: "Helvetica"
+                            font.pointSize: 16
+                        }
+                    }
+                }
+                RowLayout{
+                    Layout.alignment: Qt.AlignTop
+
+                    Layout.fillWidth: true
+                    BasicTextInputInverted {
+                        //anchors.centerIn: parent
+                        id: gamma
+                        title_text:  qsTr("KGAMMA   ")
+                        titleSize: 10
+                        new_text_value: "0.3"
+                        value_width: 50
+                    }
+                    Rectangle{
+                        id: slider_text_output4
+                        Layout.preferredWidth: gamma.value_width
+                        Layout.preferredHeight: gamma.implicitHeight
+                        Layout.alignment: Qt.AlignRight
+                        Layout.rightMargin: 10
+                        clip: true
+                        color: "whitesmoke"
+                        border.color: "black"
+                        Text{
+                            id: slider_out_value_id4
+                            anchors.fill: parent
+                            anchors.margins: 4
+                            font.family: "Helvetica"
+                            font.pointSize: 16
+                        }
+                    }
+                }
+                // TODO remove space in title and set a fix length
+                RowLayout{
+                    Layout.alignment: Qt.AlignTop
+
+                    // Layout.fillWidth: true
+                    BasicTextInputInverted {
+                        //anchors.centerIn: parent
+                        id: r
+                        title_text:  qsTr("K R         ")
+                        new_text_value: "0.1"
+                        titleSize: 10
+                        value_width: 50
+                    }
+                    Rectangle{
+                        id: slider_text_output_y3
+                        Layout.preferredWidth: r.value_width
+                        Layout.preferredHeight: r.implicitHeight
+                        Layout.alignment: Qt.AlignRight
+                        Layout.rightMargin: 10
+                        clip: true
+                        color: "whitesmoke"
+                        border.color: "black"
+                        Text{
+                            id: slider_out_value_id_y3
+                            anchors.fill: parent
+                            anchors.margins: 4
+                            font.family: "Helvetica"
+                            font.pointSize: 16
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
+
+// LOG  20220927 16:50:21

@@ -78,8 +78,8 @@ void DataSourceUdp::setConnection()
 void DataSourceUdp::publishMessage(const QString &identifier, const QString &message)
 {
     QString value = identifier + " " + message + "\r\n";
-//    if(identifier.toInt()!=0)
-//        qDebug() << "sending : " << value;
+    if(identifier.toInt()!=0)
+        qDebug() << "sending : " << value;
     //qDebug() << m_NGCAddr.ip_addr << m_NGCAddr.port_addr;
     m_udpSocket->writeDatagram(value.toUtf8(), m_NGCAddr.ip_addr, m_NGCAddr.port_addr);
 }
@@ -167,6 +167,7 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
     in >> intContainer; m_swamp_status.ngc_status()->refWorking_mode()->setValue(intContainer); // asvThrustMapping->get_working_mode(),
     in >> intContainer; m_swamp_status.ngc_status()->refManual_mode()->setValue(intContainer); // asvThrustMapping->get_manual_mode()
     in >> intContainer; m_swamp_status.ngc_status()->refAutoMode()->setValue(intContainer); // asvThrustMapping->get_autoMode()
+    in >> doubleContainer; m_swamp_status.ngc_status()->altitude()->setValue(doubleContainer); //
 }
 
 void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)

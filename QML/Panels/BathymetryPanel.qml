@@ -18,7 +18,7 @@ Rectangle {
     id: root_bath_panel
 
     // properties
-    Layout.preferredHeight: slider_depth.implicitHeight + icon_row.implicitHeight + 33 //TODO not having numbers here.
+    Layout.preferredHeight: slider_depth.implicitHeight + icon_row.implicitHeight + 22 //TODO not having numbers here.
     radius: 5.0
     border {
         color: "black"
@@ -35,11 +35,13 @@ Rectangle {
 
     BasicRangeSlider{
         id: slider_depth
-        slider_text: "Bathymetry"
+        slider_text: "BATHYMETRY"
+        font: 14
+        isBold: true
         anchors{
             left: parent.left
             top: parent.top
-            topMargin: 8
+            topMargin: 4
             leftMargin: 10
         }
     }
@@ -49,7 +51,7 @@ Rectangle {
         anchors{
             horizontalCenter: parent.horizontalCenter
             top: slider_depth.bottom
-            topMargin: 12
+            topMargin: 8
             leftMargin: 10
         }
         Image {

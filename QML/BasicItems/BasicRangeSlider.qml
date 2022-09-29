@@ -17,6 +17,8 @@ Item {
     property alias slider_text: slider_text_id.text
     property alias slider_from: control.from
     property alias slider_to: control.to
+    property alias font :  slider_text_id.font.pointSize
+    property bool isBold: false
     //property alias mask_input: slider_value_id.inputMask
     property int max_value: -10
     property int min_value: 0
@@ -28,6 +30,7 @@ Item {
         anchors.top: parent.top
         anchors.margins: slider_row_layout.spacing
         font.family: "Helvetica"
+        font.bold: isBold
         font.pointSize: 18
     }
     RowLayout {

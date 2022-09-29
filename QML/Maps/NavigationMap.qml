@@ -35,11 +35,11 @@ Rectangle{
     property int bath_counter: 0
 
     // bathymetry (disabled)
-    //property double initialValue : 7.13
-    //property int max_bathymetry_depth : bathymetry_panel.max_depth
-    //property int min_bathymetry_depth : bathymetry_panel.min_depth
-    //onMax_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
-    //onMin_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
+    property double initialValue : 7.13
+    property int max_bathymetry_depth : bathymetry_panel.max_depth
+    property int min_bathymetry_depth : bathymetry_panel.min_depth
+    onMax_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
+    onMin_bathymetry_depthChanged: bathView.model.newDepthRange(max_bathymetry_depth, min_bathymetry_depth)
 
     // alias
     property alias mapTypes: swamp_map.supportedMapTypes
@@ -54,6 +54,8 @@ Rectangle{
     property real altitude: data_model.data_source.swamp_status.ngc_status.altitude.value
     property real homeLatRef: data_model.data_source.swamp_status.ngc_status.latHomeRef.value
     property real homeLonRef: data_model.data_source.swamp_status.ngc_status.lonHomeRef.value
+    property real asvReflatRef: data_model.data_source.swamp_status.ngc_status.asvReflatRef.value
+    property real asvReflonRef: data_model.data_source.swamp_status.ngc_status.asvReflonRef.value
     readonly property string set_lat_lon_tn: data_model.data_source.swamp_status.ngc_status.setLatLon.topic_name //TODO FIX
     readonly property string set_line_lat_lon: data_model.data_source.swamp_status.ngc_status.setLineLatLon.topic_name //TODO FIX
     readonly property string set_robot_home_tn: data_model.data_source.swamp_status.ngc_status.setRobotHome.topic_name //TODO FIX
@@ -152,30 +154,30 @@ Rectangle{
             z: 1
             rotation: navigation_map.v_rotation
             coordinate:  QtPositioning.coordinate(navigation_map.lat.value, navigation_map.lon.value)
-            // bathymetry, currently disabled
-            //            onCoordinateChanged:
-            //            {
-            //                if(!root.startUp &( Math.abs(old_lat - navigation_map.roundCoor(lat.value,5)) > 0
-            //                                   | Math.abs(old_lon - navigation_map.roundCoor(lon.value,5)) > 0))
-            //                {
-            //                    if(bathymetry_panel.isPLaying){
-            //                        bathView.model.addDepthPoint(navigation_map.latValue,
-            //                                                     lon.value,
-            //                                                     lat.timeStamp,
-            //                                                     navigation_map.altitude, // positive value expected
-            //                                                     navigation_map.max_bathymetry_depth,
-            //                                                     navigation_map.min_bathymetry_depth
-            //                                                     )
+            // bathymetry (disabled)
+            onCoordinateChanged:
+            {
+                if(!root.startUp &( Math.abs(old_lat - navigation_map.roundCoor(lat.value,5)) > 0
+                                   | Math.abs(old_lon - navigation_map.roundCoor(lon.value,5)) > 0))
+                {
+                    if(bathymetry_panel.isPLaying){
+                        bathView.model.addDepthPoint(navigation_map.latValue,
+                                                     lon.value,
+                                                     lat.timeStamp,
+                                                     navigation_map.altitude, // positive value expected
+                                                     navigation_map.max_bathymetry_depth,
+                                                     navigation_map.min_bathymetry_depth
+                                                     )
 
-            //                        navigation_map.bath_counter += 5
-            //                        var x = navigation_map.bath_counter
-            //                        var y = - navigation_map.altitude
-            //                        minion_view.bathymetryPoint = Qt.point(x,y)//navigation_map.initialValue
-            //                        old_lat = navigation_map.roundCoor(lat.value,5)
-            //                        old_lon = navigation_map.roundCoor(lon.value,5)
-            //                    }
-            //                }
-            //            }
+                        navigation_map.bath_counter += 5
+                        var x = navigation_map.bath_counter
+                        var y = - navigation_map.altitude
+                        minion_view.bathymetryPoint = Qt.point(x,y)//navigation_map.initialValue
+                        old_lat = navigation_map.roundCoor(lat.value,5)
+                        old_lon = navigation_map.roundCoor(lon.value,5)
+                    }
+                }
+            }
         }
 
         // model for single markers
@@ -191,19 +193,20 @@ Rectangle{
             }
         }
 
+        // bathymetry (disabled)
         // --------------------------------------------------------
         // ADDED FOR BATHIMETRY
         // --------------------------------------------------------
-        //        MapItemView {
-        //            id: bathView
-        //            // create a listModel to provide data used for creating the map items defined by the delegate.
-        //            model: _bathymetry_model
-        //            delegate: DelegateBathModel{
-        //                id: my_bath_delegate
-        //                coordinate: QtPositioning.coordinate(model.coordinate.latitude,
-        //                                                     model.coordinate.longitude)
-        //            }
-        //        }
+        MapItemView {
+            id: bathView
+            // create a listModel to provide data used for creating the map items defined by the delegate.
+            model: _bathymetry_model
+            delegate: DelegateBathModel{
+                id: my_bath_delegate
+                coordinate: QtPositioning.coordinate(model.coordinate.latitude,
+                                                     model.coordinate.longitude)
+            }
+        }
 
         // create a listModel to provide data used for creating the map items defined by the delegate.
         MapItemView {
@@ -249,6 +252,48 @@ Rectangle{
                 source: "../../Images/Swamp_home.png"
                 sourceSize.width: 50
                 sourceSize.height: 50
+            }
+        }
+
+        // SHOW MARKER REF TODO move to a separate element
+        MapQuickItem {
+            id: marker_ref
+            coordinate: QtPositioning.coordinate(navigation_map.asvReflatRef, navigation_map.asvReflonRef)
+            anchorPoint.x: image_coor_ref.width / 2
+            anchorPoint.y: image_coor_ref.height
+
+            sourceItem: Image {
+                id: image_coor_ref
+                source: "../../Images/marker_ref.png"
+                sourceSize.width: 40
+                sourceSize.height: 40
+
+                Rectangle{
+                    id: info_label_coor_ref
+                    z: 3
+                    anchors.bottom: image_coor_ref.top
+                    anchors.bottomMargin: - (info_label_coor_text.height/3)
+                    anchors.horizontalCenter: image_coor_ref.horizontalCenter
+                    width: info_label_coor_text.implicitWidth + 6
+                    height: info_label_coor_text.implicitHeight + 6
+                    color: "white"
+                    border.color: "black"
+                    visible: false
+
+                    Text{
+                        id: info_label_coor_text
+                        anchors.horizontalCenter: info_label_coor_ref.horizontalCenter
+                        anchors.verticalCenter: info_label_coor_ref.verticalCenter
+                        font.pointSize: 10
+                        text: navigation_map.asvReflatRef + "-" + navigation_map.asvReflonRef
+                    }
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled : true
+                    onEntered: info_label_coor_ref.visible = true
+                    onExited: info_label_coor_ref.visible = false
+                }
             }
         }
 
@@ -309,28 +354,57 @@ Rectangle{
         }
 
         // TODO move it into element
-        Rectangle{
-            id: set_mapbox_style
+        ColumnLayout{
+            id: cl
             anchors.right: parent.right
             anchors.top: parent.top
-            anchors.rightMargin : 80
+            anchors.rightMargin : 20
             anchors.topMargin: 20
+            spacing: 20
+            Rectangle{
+                id: set_north_arrow
+                implicitWidth: set_north_image.implicitWidth
+                implicitHeight: set_north_image.implicitHeight
+                color: "transparent"
+                //            anchors.right: parent.right
+                //            anchors.top: parent.top
+                //            anchors.rightMargin : 80
+                //            anchors.topMargin: 20
 
-            Image {
-                id: set_mapbox_style_image
-                visible: true
-                sourceSize.width: 60
-                sourceSize.height: 60
-                opacity: 0.8
-                source: "../../Images/map_style.png"
-                scale: mb_style_ma.containsMouse ? 1.0 : 0.8
+                Image {
+                    id: set_north_image
+                    visible: true
+                    opacity: 0.8
+                    source: "../../Images/compass.png"
+                    //scale: mb_style_ma.containsMouse ? 1.0 : 0.8
+                }
+            }
+            Rectangle{
+                id: set_mapbox_style
+                implicitWidth: set_mapbox_style_image.implicitWidth
+                implicitHeight: set_mapbox_style_image.implicitHeight
+                color: "transparent"
+                //            anchors.right: parent.right
+                //            anchors.top: set_north_arrow.bottom
+                //            anchors.rightMargin : 80
+                //            anchors.topMargin: 20
 
-                MouseArea {
-                    id: mb_style_ma
-                    anchors.fill: parent
-                    enabled: data_model.data_source.swamp_status.conf.mb_style === HciNgiInterface.MB_ALL
-                    hoverEnabled: true
-                    onClicked: navigation_map.activeMap===0? setActiveMap(4) : setActiveMap(0)
+                Image {
+                    id: set_mapbox_style_image
+                    visible: true
+                    sourceSize.width: 60
+                    sourceSize.height: 60
+                    opacity: 0.8
+                    source: "../../Images/map_style.png"
+                    scale: mb_style_ma.containsMouse ? 1.0 : 0.8
+
+                    MouseArea {
+                        id: mb_style_ma
+                        anchors.fill: parent
+                        enabled: data_model.data_source.swamp_status.conf.mb_style === HciNgiInterface.MB_ALL
+                        hoverEnabled: true
+                        onClicked: navigation_map.activeMap===0? setActiveMap(4) : setActiveMap(0)
+                    }
                 }
             }
         }

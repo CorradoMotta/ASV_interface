@@ -277,26 +277,26 @@ Item {
                     slider2_text: "G"; slider2_from: -180; slider2_to: 360;    slider2_ref: gammaRef  //slider1_mask: "#00";
                 }
 
-                //                BathymetryPanel {
-                //                    id: bathymetry_panel
+                //                                BathymetryPanel {
+                //                                    id: bathymetry_panel
+                //                                    Layout.fillWidth: true
+                //                                    Layout.rightMargin: 10
+                //                                    Layout.alignment: Qt.AlignTop
+                //                                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
+                //                                    //enabled: data_model.data_source.is_connected
+                //                                    opacity: 0.3
+                //                                    enabled: false
+                //                                }
+                //                ManeuversPanel{
+                //                    id: man_panel
+                //                    title: "MANEUVERS"
                 //                    Layout.fillWidth: true
+                //                    panel_color: "white"
                 //                    Layout.rightMargin: 10
                 //                    Layout.alignment: Qt.AlignTop
-                //                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
-                //                    //enabled: data_model.data_source.is_connected
-                //                    opacity: 0.3
-                //                    enabled: false
+                //                    enabled: data_model.data_source.is_connected
+                //                    opacity: data_model.data_source.is_connected? 1 : 0.3
                 //                }
-                ManeuversPanel{
-                    id: man_panel
-                    title: "MANEUVERS"
-                    Layout.fillWidth: true
-                    panel_color: "white"
-                    Layout.rightMargin: 10
-                    Layout.alignment: Qt.AlignTop
-                    enabled: data_model.data_source.is_connected
-                    opacity: data_model.data_source.is_connected? 1 : 0.3
-                }
                 //                CoordinatePanel{
                 //                    id: coordinate_panel
                 //                    title: "COORDINATES"
@@ -308,16 +308,16 @@ Item {
                 //                    opacity: data_model.data_source.is_connected? 1 : 0.3
                 //                }
 
-                //                BathymetryPanel {
-                //                    id: bathymetry_panel
-                //                    Layout.fillWidth: true
-                //                    Layout.rightMargin: 10
-                //                    Layout.alignment: Qt.AlignTop
-                //                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
-                //                    //enabled: data_model.data_source.is_connected
-                //                    opacity: 0.3
-                //                    enabled: false
-                //                }
+                BathymetryPanel {
+                    id: bathymetry_panel
+                    Layout.fillWidth: true
+                    Layout.rightMargin: 10
+                    Layout.alignment: Qt.AlignTop
+                    opacity: data_model.data_source.is_connected ? 1 : 0.3
+                    enabled: data_model.data_source.is_connected
+//                    opacity: 0.3
+//                    enabled: false
+                }
                 Button {
                     id: connect_button
                     Layout.alignment: Qt.AlignTop

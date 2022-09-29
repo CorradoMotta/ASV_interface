@@ -19,12 +19,15 @@ Item {
     //todo put max here
     property alias minimum_width : ngc.minimumXDim
     property alias minimum_height: ngc.minimumYDim
-//    property alias bathymetryPoint : btChr.newPoint
-//    property alias bathymetryReset: btChr.reset
+    // bathymetry (disabled)
+    property alias bathymetryPoint : btChr.newPoint
+    property alias bathymetryReset: btChr.reset
+    property alias maxDepth: btChr.yMAX
+
     property alias xValue: ngc.xValue
 
     readonly property int tabLen: 3
-    //property alias maxDepth: btChr.yMAX
+
 
     // button used to switch between minion's tab
     Connections {
@@ -59,10 +62,11 @@ Item {
             }
             TabButton {
                 text: qsTr("Minion RR")
-            }/*
+            }
+            // bathymetry (disabled)
             TabButton {
                 text: qsTr("Dashboard")
-            }*/
+            }
         }
 
         StackLayout {
@@ -93,12 +97,13 @@ Item {
                 engineState: engine_panel.engine_state_rr
                 prefix: data_model.data_source.swamp_status.minion_rr
             }
-//            Rectangle {
-//                id: general
-//                BathymetryChart{
-//                    id: btChr
-//                }
-//            }
+            // bathymetry (disabled)
+            Rectangle {
+                id: general
+                BathymetryChart{
+                    id: btChr
+                }
+            }
         }
     }
 }

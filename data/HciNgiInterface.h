@@ -61,6 +61,7 @@ public:
         STOP_FILE_CMD, // used to go back to remote control from command file execution or emergency go home
         START_FILE_CMD, // used to start the execution of a preloaded file of commands
         RESUME_FILE_CMD, // used to recover the execution of a preloaded file of commands
+        SET_LF_PAR, // LF par just added
         CMD_NUMBER
     };
 
