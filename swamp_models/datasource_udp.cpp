@@ -168,6 +168,8 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
     in >> intContainer; m_swamp_status.ngc_status()->refManual_mode()->setValue(intContainer); // asvThrustMapping->get_manual_mode()
     in >> intContainer; m_swamp_status.ngc_status()->refAutoMode()->setValue(intContainer); // asvThrustMapping->get_autoMode()
     in >> doubleContainer; m_swamp_status.ngc_status()->altitude()->setValue(doubleContainer); //
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvReflatL2ref()->setValue(doubleContainer); // latLref Set line in coordinates
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvReflonL2ref()->setValue(doubleContainer); // lonLref Set line in coordinates TODO make them act and ref
 }
 
 void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)

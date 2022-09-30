@@ -41,6 +41,7 @@ Item {
     readonly property string forceTorqueTn: prefix.forceTorque.topic_name
     readonly property var publish_topic: data_model.data_source.publishMessage
     readonly property int maxRPMSpeed: data_model.data_source.swamp_status.conf.maxRPMSpeed
+    readonly property bool hciIsConnected: data_model.data_source.is_connected
     property alias last_lat_value: navigation_map.lastLatValue
     property alias last_lon_value: navigation_map.lastLonValue
 
@@ -68,6 +69,7 @@ Item {
         navigation_map.set_center(
                     QtPositioning.coordinate(navigation_map.lat.value, navigation_map.lon.value))
     }
+
 
     // for controller. Timer gets automatically active when the controller is connected
     Timer {
@@ -99,7 +101,7 @@ Item {
 
     Connections {
         target: QJoysticks
-        enabled: data_model.data_source.is_connected
+        enabled: hciIsConnected
         function onAxisChanged(js, axis, value) {
             if (currentJoystick === js && x_index === axis)
                 x_curr_value = QJoysticks.getAxis (js, x_index)
@@ -111,7 +113,7 @@ Item {
     // button used to switch to NGC and minion views. It is immediately available when controller is connected.
     Connections {
         target: QJoysticks
-        enabled: data_model.data_source.is_connected
+        enabled: hciIsConnected
         function onButtonChanged(js, button, pressed) {
             if (button === 0 && pressed === true){
                 if(stack_button.open_minion){
@@ -170,8 +172,8 @@ Item {
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
                     // TODO i cannot access enum?
-                    enabled: data_model.data_source.is_connected
-                    opacity: data_model.data_source.is_connected? 1 : 0.3
+                    enabled: hciIsConnected
+                    opacity: hciIsConnected? 1 : 0.3
                     //enabled: true
                 }
                 HomingPanel{
@@ -180,8 +182,8 @@ Item {
                     Layout.fillWidth: true
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
-                    enabled: data_model.data_source.is_connected
-                    opacity: data_model.data_source.is_connected? 1 : 0.3
+                    enabled: hciIsConnected
+                    opacity: hciIsConnected? 1 : 0.3
                 }
                 //TODO NGC STUFF. Create a panel
                 Rectangle{
@@ -196,8 +198,8 @@ Item {
                         color: "black"
                         width: 2
                     }
-                    enabled: data_model.data_source.is_connected
-                    opacity: data_model.data_source.is_connected? 1 : 0.3
+                    enabled: hciIsConnected
+                    opacity: hciIsConnected? 1 : 0.3
                     RowLayout{
                         id: ngc_row
                         //Layout.fillWidth: true
@@ -242,8 +244,8 @@ Item {
                     slider3_text: "Α"; slider3_from: -180; slider3_to: 180;  slider3_ref: root.alphaRef //slider3_mask: "#000";
                     clip: true
                     panel_color: "white"
-                    enabled: data_model.data_source.is_connected
-                    opacity: data_model.data_source.is_connected? 1 : 0.3
+                    enabled: hciIsConnected
+                    opacity: hciIsConnected? 1 : 0.3
                     onValueChanged: root.publish_topic(root.rpmAlphaTn, value) //console.log(value)
                 }
                 //                ThrustMappingPanel{
@@ -271,8 +273,8 @@ Item {
                     panel_color: "white"
                     slider_width: 200
                     title: "CONTROL"
-                    enabled: data_model.data_source.is_connected
-                    opacity: data_model.data_source.is_connected? 1 : 0.3
+                    enabled: hciIsConnected
+                    opacity: hciIsConnected? 1 : 0.3
                     slider1_text: "X"; slider1_from: -50.0; slider1_to: 50.0;  slider1_ref: xRef  //slider1_mask: "#00";
                     slider2_text: "G"; slider2_from: -180; slider2_to: 360;    slider2_ref: gammaRef  //slider1_mask: "#00";
                 }
@@ -313,8 +315,8 @@ Item {
                     Layout.fillWidth: true
                     Layout.rightMargin: 10
                     Layout.alignment: Qt.AlignTop
-                    opacity: data_model.data_source.is_connected ? 1 : 0.3
-                    enabled: data_model.data_source.is_connected
+                    opacity: hciIsConnected ? 1 : 0.3
+                    enabled: hciIsConnected
 //                    opacity: 0.3
 //                    enabled: false
                 }
@@ -325,7 +327,7 @@ Item {
                     Layout.rightMargin: 10
                     onClicked: data_model.data_source.setConnection()
                     contentItem: Text {
-                        text: data_model.data_source.is_connected ? "disconnect" : "connect"
+                        text: hciIsConnected ? "disconnect" : "connect"
                         font.family: "Helvetica"
                         font.pointSize: 18
                         horizontalAlignment: Text.AlignHCenter

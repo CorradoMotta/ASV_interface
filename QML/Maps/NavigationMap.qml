@@ -60,12 +60,24 @@ Rectangle{
     readonly property string set_line_lat_lon: data_model.data_source.swamp_status.ngc_status.setLineLatLon.topic_name //TODO FIX
     readonly property string set_robot_home_tn: data_model.data_source.swamp_status.ngc_status.setRobotHome.topic_name //TODO FIX
     readonly property var publish_topic: data_model.data_source.publishMessage //todo repetition
+    readonly property real asvReflatLRef: data_model.data_source.swamp_status.ngc_status.asvReflatLref.value
+    readonly property real asvReflonLRef: data_model.data_source.swamp_status.ngc_status.asvReflonLref.value
+    readonly property real asvReflatL2ref : data_model.data_source.swamp_status.ngc_status.asvReflatL2ref.value
+    readonly property real asvReflonL2ref : data_model.data_source.swamp_status.ngc_status.asvReflonL2ref.value
+    readonly property var coorL : QtPositioning.coordinate(asvReflatLRef, asvReflonLRef)
+    readonly property var coorL2 : QtPositioning.coordinate(asvReflatL2ref, asvReflonL2ref)
 
     // signals
     onLatValueChanged: lon.value !==0 ? root.startUp = false: ""
     onLonValueChanged: lat.value !==0 ? root.startUp = false: ""
     onHomeLatRefChanged: homeLonRef != 0 ? root.messagePrompt("Robot's home set in (" + homeLatRef + " " + homeLonRef +")") : ""
     onHomeLonRefChanged: homeLatRef != 0 ? root.messagePrompt("Robot's home set in (" + homeLatRef + " " + homeLonRef +")") : ""
+
+    // to display line following
+    onAsvReflatLRefChanged:   mapPolyLF.replaceCoordinate(0,QtPositioning.coordinate(asvReflatLRef,asvReflonLRef))
+    onAsvReflonLRefChanged:   mapPolyLF.replaceCoordinate(0,QtPositioning.coordinate(asvReflatLRef,asvReflonLRef))
+    onAsvReflatL2refChanged:  mapPolyLF.replaceCoordinate(1,QtPositioning.coordinate(asvReflatL2ref, asvReflonL2ref))
+    onAsvReflonL2refChanged:  mapPolyLF.replaceCoordinate(1,QtPositioning.coordinate(asvReflatL2ref, asvReflonL2ref))
 
     Rectangle{
         id: status_bar
@@ -136,7 +148,7 @@ Rectangle{
             onClicked: {
                 var crd = swamp_map.toCoordinate(Qt.point(mouseX, mouseY))
                 if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker){
-                    mivMarker.model.insertSingleMarker(crd)
+                    mivMarker.model.insertSingleMarker(crd,0,0)
                     lastLatValue = roundCoor(crd.latitude,8)
                     lastLonValue = roundCoor(crd.longitude,8)
                 }
@@ -306,7 +318,16 @@ Rectangle{
                 drag.target: mapPoly
             }
         }
+        // model for line following
+        MapPolyline {
+            id: mapPolyLF
+            line.width: 3
+            line.color: 'purple'
+            path: [
+                QtPositioning.coordinate(0,0),
+                QtPositioning.coordinate(0,0)]
 
+        }
         MapItemView {
             id: mivLine
             model: _line_model
@@ -366,10 +387,6 @@ Rectangle{
                 implicitWidth: set_north_image.implicitWidth
                 implicitHeight: set_north_image.implicitHeight
                 color: "transparent"
-                //            anchors.right: parent.right
-                //            anchors.top: parent.top
-                //            anchors.rightMargin : 80
-                //            anchors.topMargin: 20
 
                 Image {
                     id: set_north_image
@@ -506,7 +523,6 @@ Rectangle{
         if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
         {
             if( mivMarker.model.rowCount()!==0 && data_model.data_source.is_connected){
-                // sending first marker only
                 var lat = mivMarker.model.getCoordinate(0).latitude
                 var lon = mivMarker.model.getCoordinate(0).longitude
                 publish_topic(set_line_lat_lon, lat + " " + lon + " " + root.gammaValue + " " + root.xValue)
@@ -514,12 +530,13 @@ Rectangle{
             }
             else if(!data_model.data_source.is_connected)
                 return "Connection is not established!"
+
             else
                 return "No points available!"
         }
         else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
-            if(mivLine.model.rowCount()!==0){
-                return "Not implemented yet"
+            if(mivLine.model.rowCount()!==0  && data_model.data_source.is_connected){
+                return "Use a single point from the marker box for line following"
             }
             else
                 return "No points available!"
@@ -527,7 +544,7 @@ Rectangle{
     }
 
     function add_point(lat, lon){
-        mivMarker.model.insertSingleMarker(QtPositioning.coordinate(lat, lon))
+        mivMarker.model.insertSingleMarker(QtPositioning.coordinate(lat, lon),0,0)
     }
     function add_coor(name ="no_name"){
         coorView.model.insertSingleMarker(QtPositioning.coordinate(navigation_map.lat.value, navigation_map.lon.value), name, navigation_map.ngc_timestamp)

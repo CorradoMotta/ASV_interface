@@ -44,9 +44,9 @@ class NGC_status : public QObject
     Q_PROPERTY(DoubleVariable* asvRefXref READ asvRefXref NOTIFY asvRefXrefChanged)
     Q_PROPERTY(DoubleVariable* asvRefyRef READ asvRefyRef NOTIFY asvRefyRefChanged)
     Q_PROPERTY(DoubleVariable* asvRefYref READ asvRefYref NOTIFY asvRefYrefChanged)
-//    Xhat
-//    Yhat
-//    Nhat TODO make it ngc variable
+    //    Xhat
+    //    Yhat
+    //    Nhat TODO make it ngc variable
     Q_PROPERTY(DoubleVariable* asvRefXhat READ asvRefXhat NOTIFY asvRefXhatChanged)
     Q_PROPERTY(DoubleVariable* asvRefYhat READ asvRefYhat NOTIFY asvRefYhatChanged)
     Q_PROPERTY(DoubleVariable* asvRefNhat READ asvRefNhat NOTIFY asvRefNhatChanged)
@@ -59,8 +59,10 @@ class NGC_status : public QObject
     Q_PROPERTY(DoubleVariable* asvRefdnRef READ asvRefdnRef NOTIFY asvRefdnRefChanged)
     Q_PROPERTY(DoubleVariable* asvRefgammaLref READ asvRefgammaLref NOTIFY asvRefgammaLrefChanged)
     Q_PROPERTY(DoubleVariable* asvReflatLref READ asvReflatLref NOTIFY asvReflatLrefChanged)
+    Q_PROPERTY(DoubleVariable* asvReflatL2ref READ asvReflatL2ref NOTIFY asvReflatL2refChanged)
     Q_PROPERTY(DoubleVariable* asvReflatRef READ asvReflatRef NOTIFY asvReflatRefChanged)
     Q_PROPERTY(DoubleVariable* asvReflonLref READ asvReflonLref NOTIFY asvReflonLrefChanged)
+    Q_PROPERTY(DoubleVariable* asvReflonL2ref READ asvReflonL2ref NOTIFY asvReflonL2refChanged)
     Q_PROPERTY(DoubleVariable* asvReflonRef READ asvReflonRef NOTIFY asvReflonRefChanged)
     Q_PROPERTY(DoubleVariable* asvRefnFL READ asvRefnFL NOTIFY asvRefnFLChanged)
     Q_PROPERTY(DoubleVariable* asvRefnFR READ asvRefnFR NOTIFY asvRefnFRChanged)
@@ -180,6 +182,9 @@ public:
     IntVariable* startFileCmd();
     IntVariable* resumeFileCmd();
 
+    DoubleVariable* asvReflatL2ref();
+    DoubleVariable* asvReflonL2ref();
+
 signals:
 
     void psiChanged();
@@ -263,6 +268,9 @@ signals:
     void startFileCmdChanged();
     void resumeFileCmdChanged();
 
+    void asvReflatL2refChanged();
+    void asvReflonL2refChanged();
+
 private:
 
     DoubleVariable m_psi;
@@ -342,6 +350,8 @@ private:
     IntVariable m_stopFileCmd;
     IntVariable m_startFileCmd;
     IntVariable m_resumeFileCmd;
+    DoubleVariable m_asvReflatL2ref;
+    DoubleVariable m_asvReflonL2ref;
 };
 
 #endif // NGC_STATUS_H

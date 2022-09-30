@@ -23,11 +23,42 @@ MapQuickItem {
         source: "../../Images/marker.png"
         sourceSize.width: 40
         sourceSize.height: 40
+
+        Rectangle{
+            // TODO this should be an element
+            id: info_label
+            z: 3
+            anchors.bottom: image_marker.top
+            anchors.bottomMargin: - (info_label_text.height/3)
+            anchors.horizontalCenter: image_marker.horizontalCenter
+            width: info_label_text.implicitWidth + 6
+            height: info_label_text.implicitHeight + 6
+            color: "white"
+            border.color: "black"
+            visible: false
+            radius: 10
+
+            Text{
+                id: info_label_text
+                anchors.horizontalCenter: info_label.horizontalCenter
+                anchors.verticalCenter: info_label.verticalCenter
+                font.pointSize: 10
+                font.bold: true
+                text: navigation_map.roundCoor(coordinate.latitude,8) + " " + navigation_map.roundCoor(coordinate.longitude,8)
+            }
+        }
     }
     MouseArea{
         id: mqi_marker_mouse_area
         anchors.fill: parent
         enabled: is_enable
+        hoverEnabled : true
+        onEntered: {
+            info_label.visible = true
+        }
+        onExited: {
+            info_label.visible = false
+        }
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         drag.target: mqi_marker
         drag.onActiveChanged:{

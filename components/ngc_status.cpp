@@ -54,6 +54,8 @@ NGC_status::NGC_status(QObject *parent)
     m_asvRefNhat.setSubscribe(true);
     m_latHomeRef.setSubscribe(true);
     m_lonHomeRef.setSubscribe(true);
+    m_asvReflatL2ref.setSubscribe(true);
+    m_asvReflonL2ref.setSubscribe(true);
 
 }
 
@@ -430,4 +432,14 @@ IntVariable *NGC_status::startFileCmd()
 IntVariable *NGC_status::resumeFileCmd()
 {
     return &m_resumeFileCmd;
+}
+
+DoubleVariable *NGC_status::asvReflatL2ref()
+{
+    return &m_asvReflatL2ref;
+}
+
+DoubleVariable *NGC_status::asvReflonL2ref()
+{
+    return &m_asvReflonL2ref;
 }

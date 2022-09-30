@@ -76,16 +76,24 @@ Qt::ItemFlags SingleMarkerModel::flags(const QModelIndex &index) const
 
 void SingleMarkerModel::addMarker(SingleMarker *singleMarker)
 {
-    const int index = m_marker.size();
+    int index = m_marker.size();
     beginInsertRows(QModelIndex(),index,index);
     m_marker.append(singleMarker);
     endInsertRows();
 }
 
-void SingleMarkerModel::insertSingleMarker(QGeoCoordinate coordinate, int group)
+void SingleMarkerModel::insertSingleMarker(QGeoCoordinate coordinate, int group, int index)
 {
     SingleMarker *singleMarker = new SingleMarker(coordinate, group);
-    addMarker(singleMarker);
+    if (index!=-99 && index < m_marker.size()) {
+
+        //addMarker(singleMarker,index);//QAbstractListModel::setData(index, coordinate, CoordinateRole);
+        SingleMarker *marker = m_marker[index];
+        marker->setCoordinate(coordinate);
+        emit dataChanged(QAbstractItemModel::createIndex(index,0),QAbstractItemModel::createIndex(index,0),
+                         QVector<int>()<<CoordinateRole);
+    }
+    else addMarker(singleMarker);
 }
 
 void SingleMarkerModel::removeSingleMarker(int index)
@@ -93,6 +101,11 @@ void SingleMarkerModel::removeSingleMarker(int index)
     beginRemoveRows(QModelIndex(),index,index);
     m_marker.removeAt(index);
     endRemoveRows();
+}
+
+void SingleMarkerModel::updateCoordinates(QGeoCoordinate coordinate, int index)
+{
+    //TODO
 }
 
 void SingleMarkerModel::reset()

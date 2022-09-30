@@ -84,8 +84,9 @@ public:
      *
      * @param The geographical coordinates of the point.
      * @param The group which it belongs to. Not used yet. Default value is 0.
+     * @param The index where you want to insert the marker (leave it empty to append a new value).
      */
-    Q_INVOKABLE void insertSingleMarker(QGeoCoordinate coordinate, int group=0);
+    Q_INVOKABLE void insertSingleMarker(QGeoCoordinate coordinate, int group = 0, int index = -99);
 
     /**
      * Remove a specific marker from the list.
@@ -93,6 +94,14 @@ public:
      * @param The index of the marker to remove.
      */
     Q_INVOKABLE void removeSingleMarker(int index);
+
+    /**
+     * Allows to update the coordinates manually to a single marker.
+     *
+     * @param The geographical coordinates of the point.
+     * @param The index of the marker that you want to update.
+     */
+    Q_INVOKABLE void updateCoordinates(QGeoCoordinate coordinate, int index);
 
     /**
      * Empties the list.
