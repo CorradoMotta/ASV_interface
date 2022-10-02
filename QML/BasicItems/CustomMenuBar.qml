@@ -277,9 +277,9 @@ MenuBar {
                     Layout.alignment: Qt.AlignTop
                     Layout.topMargin: 6
                     onClicked: publish_topic(setYawGSPar_tn, sigma.text_value + " " +
-                                             omega.new_text_value + " " +
-                                             textmaxNoise.new_text_value + " " +
-                                             textsatTorque.new_text_value)
+                                             omega.text_value + " " +
+                                             textmaxNoise.text_value + " " +
+                                             textsatTorque.text_value)
                     row_title: "SET YAW GS PAR"
                 }
                 BasicTextInputInvertedWithRef{
@@ -290,297 +290,81 @@ MenuBar {
                     text_value: "0.5"
                 }
                 // TODO remove space in title and set a fix length
-                RowLayout{
+                BasicTextInputInvertedWithRef{
+                    id: omega
                     Layout.alignment: Qt.AlignTop
-
-                    // Layout.fillWidth: true
-                    BasicTextInputInverted {
-                        //anchors.centerIn: parent
-                        id: omega
-                        title_text:  qsTr("OMEGA       ")
-                        new_text_value: "0.05"
-                        titleSize: 10
-                        value_width: 50
-                    }
-                    Rectangle{
-                        id: slider_text_output_y2
-                        Layout.preferredWidth: omega.value_width
-                        Layout.preferredHeight: omega.implicitHeight
-                        Layout.alignment: Qt.AlignRight
-                        Layout.rightMargin: 10
-                        clip: true
-                        color: "whitesmoke"
-                        border.color: "black"
-                        Text{
-                            id: slider_out_value_id_y2
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            font.family: "Helvetica"
-                            font.pointSize: 16
-                        }
-                    }
+                    Layout.fillWidth: true
+                    text_input: qsTr("OMEGA       ")
+                    text_value: "0.05"
                 }
-                RowLayout{
+                BasicTextInputInvertedWithRef{
+                    id: textmaxNoise
                     Layout.alignment: Qt.AlignTop
-
-                    // Layout.fillWidth: true
-                    BasicTextInputInverted {
-                        //anchors.centerIn: parent
-                        id: textmaxNoise
-                        title_text:  qsTr("MAX NOISE  ")
-                        new_text_value: "5"
-                        titleSize: 10
-                        value_width: 50
-                    }
-                    Rectangle{
-                        id: slider_textmaxNoise
-                        Layout.preferredWidth: textmaxNoise.value_width
-                        Layout.preferredHeight: textmaxNoise.implicitHeight
-                        Layout.alignment: Qt.AlignRight
-                        Layout.rightMargin: 10
-                        clip: true
-                        color: "whitesmoke"
-                        border.color: "black"
-                        Text{
-                            id: slider_out_maxNoise
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            font.family: "Helvetica"
-                            font.pointSize: 16
-                        }
-                    }
+                    Layout.fillWidth: true
+                    text_input: qsTr("MAX NOISE  ")
+                    text_value: "5"
                 }
-                RowLayout{
+                BasicTextInputInvertedWithRef{
+                    id: textsatTorque
                     Layout.alignment: Qt.AlignTop
-                    BasicTextInputInverted {
-                        //anchors.centerIn: parent
-                        id: textsatTorque
-                        title_text:  qsTr("SAT TORQUE")
-                        new_text_value: "10"
-                        titleSize: 10
-                        value_width: 50
-                    }
-                    Rectangle{
-                        id: slider_textsatTorque
-                        Layout.preferredWidth: textsatTorque.value_width
-                        Layout.preferredHeight: textsatTorque.implicitHeight
-                        Layout.alignment: Qt.AlignRight
-                        Layout.rightMargin: 10
-                        clip: true
-                        color: "whitesmoke"
-                        border.color: "black"
-                        Text{
-                            id: slider_out_satTorque
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            font.family: "Helvetica"
-                            font.pointSize: 16
-                        }
-                    }
+                    Layout.fillWidth: true
+                    text_input: qsTr("SAT TORQUE")
+                    text_value: "10"
                 }
-
                 // set line
-                Button {
+                BasicMenuButton{
                     id: control_line2
                     Layout.alignment: Qt.AlignTop
                     Layout.topMargin: 6
-                    onClicked: publish_topic(setHeadingPiPar_tn, setG.new_text_value + " " +
-                                             setKi.new_text_value + " " +
-                                             setYSat.new_text_value + " " +
-                                             texteisat.new_text_value + " " +
-                                             texteIon.new_text_value + " " +
-                                             texteIoff.new_text_value)
-                    contentItem: Text {
-                        id: testo_line2
-                        text: "SET HEADING PI PAR"
-                        font.family: "Helvetica"
-                        font.pointSize: 10
-                        anchors.horizontalCenter: background_line2.horizontalCenter
-                        //verticalAlignment: background_b.AlignVCenter
-                    }
-                    background: Rectangle{
-                        id: background_line2
-                        height: testo_line2.implicitHeight + 10
-                        width: testo_line2.implicitWidth + 10
-                        color: control_line2.down? "peachpuff" : "papayawhip"
-                        border.width: 1
-                        border.color: "black"
-                        radius: 3
-                    }
+                    onClicked: publish_topic(setHeadingPiPar_tn, setG.text_value + " " +
+                                             setKi.text_value + " " +
+                                             setYSat.text_value + " " +
+                                             texteisat.text_value + " " +
+                                             texteIon.text_value + " " +
+                                             texteIoff.text_value)
+                    row_title: "SET HEADING PI PAR"
                 }
-                RowLayout{
+                BasicTextInputInvertedWithRef{
+                    id: setG
                     Layout.alignment: Qt.AlignTop
-
-                    // Layout.fillWidth: true
-                    BasicTextInputInverted {
-                        //anchors.centerIn: parent
-                        id: setG
-                        title_text:  qsTr("SET G     ")
-                        titleSize: 10
-                        value_width: 50
-                    }
-                    Rectangle{
-                        id: slider_xline_output2
-                        Layout.preferredWidth: setG.value_width
-                        Layout.preferredHeight: setG.implicitHeight
-                        Layout.alignment: Qt.AlignRight
-                        Layout.rightMargin: 10
-                        clip: true
-                        color: "whitesmoke"
-                        border.color: "black"
-                        Text{
-                            id: slider_xline_value_id2
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            font.family: "Helvetica"
-                            font.pointSize: 16
-                        }
-                    }
+                    Layout.fillWidth: true
+                    text_input: qsTr("SET G     ")
+                    text_value: "0"
                 }
-                RowLayout{
+                BasicTextInputInvertedWithRef{
+                    id: setKi
                     Layout.alignment: Qt.AlignTop
-
-                    // Layout.fillWidth: true
-                    BasicTextInputInverted {
-                        //anchors.centerIn: parent
-                        id: setKi
-                        title_text:  qsTr("SET kI     ")
-                        titleSize: 10
-                        value_width: 50
-                    }
-                    Rectangle{
-                        id: slider_textline_output_y2
-                        Layout.preferredWidth: setKi.value_width
-                        Layout.preferredHeight: setKi.implicitHeight
-                        Layout.alignment: Qt.AlignRight
-                        Layout.rightMargin: 10
-                        clip: true
-                        color: "whitesmoke"
-                        border.color: "black"
-                        Text{
-                            id: slider_outline_value_id_y2
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            font.family: "Helvetica"
-                            font.pointSize: 16
-                        }
-                    }
+                    Layout.fillWidth: true
+                    text_input: qsTr("SET kI     ")
+                    text_value: "0"
                 }
-                RowLayout{
+                BasicTextInputInvertedWithRef{
+                    id: setYSat
                     Layout.alignment: Qt.AlignTop
-
-                    // Layout.fillWidth: true
-                    BasicTextInputInverted {
-                        //anchors.centerIn: parent
-                        id: setYSat
-                        title_text:  qsTr("SET ySat ")
-                        titleSize: 10
-                        value_width: 50
-                    }
-                    Rectangle{
-                        id: slider_textline_output_gamma2
-                        Layout.preferredWidth: setYSat.value_width
-                        Layout.preferredHeight: setYSat.implicitHeight
-                        Layout.alignment: Qt.AlignRight
-                        Layout.rightMargin: 10
-                        clip: true
-                        color: "whitesmoke"
-                        border.color: "black"
-                        Text{
-                            id: slider_outline_value_id_gamma2
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            font.family: "Helvetica"
-                            font.pointSize: 16
-                        }
-                    }
+                    Layout.fillWidth: true
+                    text_input: qsTr("SET ySat ")
+                    text_value: "0"
                 }
-                RowLayout{
+                BasicTextInputInvertedWithRef{
+                    id: texteisat
                     Layout.alignment: Qt.AlignTop
-
-                    // Layout.fillWidth: true
-                    BasicTextInputInverted {
-                        //anchors.centerIn: parent
-                        id: texteisat
-                        title_text:  qsTr("SET eISat")
-                        titleSize: 10
-                        value_width: 50
-                    }
-                    Rectangle{
-                        id: slider_texteisat
-                        Layout.preferredWidth: texteisat.value_width
-                        Layout.preferredHeight: texteisat.implicitHeight
-                        Layout.alignment: Qt.AlignRight
-                        Layout.rightMargin: 10
-                        clip: true
-                        color: "whitesmoke"
-                        border.color: "black"
-                        Text{
-                            id: slider_outline_texteisat
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            font.family: "Helvetica"
-                            font.pointSize: 16
-                        }
-                    }
+                    Layout.fillWidth: true
+                    text_input: qsTr("SET eISat")
+                    text_value: "0"
                 }
-                RowLayout{
+                BasicTextInputInvertedWithRef{
+                    id: texteIon
                     Layout.alignment: Qt.AlignTop
-
-                    // Layout.fillWidth: true
-                    BasicTextInputInverted {
-                        //anchors.centerIn: parent
-                        id: texteIon
-                        title_text:  qsTr("SET eIon ")
-                        titleSize: 10
-                        value_width: 50
-                    }
-                    Rectangle{
-                        id: slider_texteIon
-                        Layout.preferredWidth: texteIon.value_width
-                        Layout.preferredHeight: texteIon.implicitHeight
-                        Layout.alignment: Qt.AlignRight
-                        Layout.rightMargin: 10
-                        clip: true
-                        color: "whitesmoke"
-                        border.color: "black"
-                        Text{
-                            id: slider_outline_texteIon
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            font.family: "Helvetica"
-                            font.pointSize: 16
-                        }
-                    }
+                    Layout.fillWidth: true
+                    text_input: qsTr("SET eIon ")
+                    text_value: "0"
                 }
-                RowLayout{
+                BasicTextInputInvertedWithRef{
+                    id: texteIoff
                     Layout.alignment: Qt.AlignTop
-
-                    // Layout.fillWidth: true
-                    BasicTextInputInverted {
-                        //anchors.centerIn: parent
-                        id: texteIoff
-                        title_text:  qsTr("SET eIoff")
-                        titleSize: 10
-                        value_width: 50
-                    }
-                    Rectangle{
-                        id: slider_texteIoff
-                        Layout.preferredWidth: texteIoff.value_width
-                        Layout.preferredHeight: texteIoff.implicitHeight
-                        Layout.alignment: Qt.AlignRight
-                        Layout.rightMargin: 10
-                        clip: true
-                        color: "whitesmoke"
-                        border.color: "black"
-                        Text{
-                            id: slider_outline_texeIoff
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            font.family: "Helvetica"
-                            font.pointSize: 16
-                        }
-                    }
+                    Layout.fillWidth: true
+                    text_input:  qsTr("SET eIoff")
+                    text_value: "0"
                 }
             }
         }
