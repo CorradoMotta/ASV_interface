@@ -21,6 +21,7 @@ MenuBar {
     readonly property string setLineLatLon_tn :  data_model.data_source.swamp_status.ngc_status.setLineLatLon.topic_name
     readonly property string setYawGSPar_tn :  data_model.data_source.swamp_status.ngc_status.setYawGSPar.topic_name
     readonly property string setHeadingPiPar_tn :  data_model.data_source.swamp_status.ngc_status.setHeadingPiPar.topic_name
+    readonly property string setLFPar_tn :  data_model.data_source.swamp_status.ngc_status.setLFPar.topic_name
     readonly property real xRef : data_model.data_source.swamp_status.ngc_status.asvRefxRef.value
     readonly property real yRef : data_model.data_source.swamp_status.ngc_status.asvRefyRef.value
     readonly property var publish_topic: data_model.data_source.publishMessage
@@ -62,19 +63,6 @@ MenuBar {
 
     }
 
-    // disabled for the moment
-    //    Menu {
-    //        id: mapTypeMenu
-    //        title: qsTr("MapType")
-    //        // to add elements to my menu from a list i use the repeater element
-    //        Repeater {
-    //            model: navigation_map.mapTypes
-    //            MenuItem {
-    //                text: navigation_map.mapName === "mapboxgl" ? model.description: model.name
-    //                onTriggered: navigation_map.setActiveMap(model.index)
-    //            }
-    //        }
-    //    }
     Menu{
         id: gcWorkingMode
         title: qsTr("GcWorkingMode")
@@ -173,7 +161,7 @@ MenuBar {
                     id: textlinespinta
                     Layout.alignment: Qt.AlignTop
                     Layout.fillWidth: true
-                    title_text:  qsTr("SET X ")
+                    title_text:  qsTr("SET X")
                     titleSize: 10
                     value_width: 100
                 }
@@ -248,162 +236,182 @@ MenuBar {
         }
     }
 
-
-    Menu {
-        title: qsTr("&SetPar")
-        Rectangle{
-            enabled: data_model.data_source.is_connected
-            opacity: data_model.data_source.is_connected ? 1 : 0.4
-            width: 200
-            height: position_column_3.implicitHeight + 60
-            color: "white"
-            border.color: "black"
-            ColumnLayout{
-                id: position_column_3
-                anchors.fill: parent
-                anchors.leftMargin: 6
-                anchors.rightMargin: 6
-                spacing: 6
-                BasicMenuButton{
-                    id: control2
-                    Layout.alignment: Qt.AlignTop
-                    Layout.topMargin: 6
-                    onClicked: publish_topic(setYawGSPar_tn, sigma.text_value + " " +
-                                             omega.text_value + " " +
-                                             textmaxNoise.text_value + " " +
-                                             textsatTorque.text_value)
-                    row_title: "SET YAW GS PAR"
-                }
-                BasicTextInputInvertedWithRef{
-                    id: sigma
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillWidth: true
-                    text_input: qsTr("SIGMA")
-                    text_value: "0.5"
-                }
-                BasicTextInputInvertedWithRef{
-                    id: omega
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillWidth: true
-                    text_input: qsTr("OMEGA")
-                    text_value: "0.05"
-                }
-                BasicTextInputInvertedWithRef{
-                    id: textmaxNoise
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillWidth: true
-                    text_input: qsTr("MAX NOISE")
-                    text_value: "5"
-                }
-                BasicTextInputInvertedWithRef{
-                    id: textsatTorque
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillWidth: true
-                    text_input: qsTr("SAT TORQUE")
-                    text_value: "10"
-                }
-                BasicMenuButton{
-                    id: control_line2
-                    Layout.alignment: Qt.AlignTop
-                    Layout.topMargin: 6
-                    onClicked: publish_topic(setHeadingPiPar_tn, setG.text_value + " " +
-                                             setKi.text_value + " " +
-                                             setYSat.text_value + " " +
-                                             texteisat.text_value + " " +
-                                             texteIon.text_value + " " +
-                                             texteIoff.text_value)
-                    row_title: "SET HEADING PI PAR"
-                }
-                BasicTextInputInvertedWithRef{
-                    id: setG
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillWidth: true
-                    text_input: qsTr("SET G")
-                    text_value: "0"
-                }
-                BasicTextInputInvertedWithRef{
-                    id: setKi
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillWidth: true
-                    text_input: qsTr("SET kI")
-                    text_value: "0"
-                }
-                BasicTextInputInvertedWithRef{
-                    id: setYSat
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillWidth: true
-                    text_input: qsTr("SET ySat")
-                    text_value: "0"
-                }
-                BasicTextInputInvertedWithRef{
-                    id: texteisat
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillWidth: true
-                    text_input: qsTr("SET eISat")
-                    text_value: "0"
-                }
-                BasicTextInputInvertedWithRef{
-                    id: texteIon
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillWidth: true
-                    text_input: qsTr("SET eIon")
-                    text_value: "0"
-                }
-                BasicTextInputInvertedWithRef{
-                    id: texteIoff
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillWidth: true
-                    text_input:  qsTr("SET eIoff")
-                    text_value: "0"
+    Menu{
+        title: qsTr("&Set Parameters")
+        Menu {
+            title: qsTr("&YAW")
+            Rectangle{
+                enabled: data_model.data_source.is_connected
+                opacity: data_model.data_source.is_connected ? 1 : 0.4
+                width: 200
+                height: position_column_3.implicitHeight + 60
+                color: "white"
+                border.color: "black"
+                ColumnLayout{
+                    id: position_column_3
+                    anchors.fill: parent
+                    anchors.leftMargin: 6
+                    anchors.rightMargin: 6
+                    spacing: 6
+                    BasicMenuButton{
+                        id: control2
+                        Layout.alignment: Qt.AlignTop
+                        Layout.topMargin: 15
+                        onClicked: publish_topic(setYawGSPar_tn, sigma.text_value + " " +
+                                                 omega.text_value + " " +
+                                                 textmaxNoise.text_value + " " +
+                                                 textsatTorque.text_value)
+                        row_title: "SET YAW GS PAR"
+                    }
+                    BasicTextInputInvertedWithRef{
+                        id: sigma
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        text_input: qsTr("SIGMA")
+                        text_value: "0.5"
+                    }
+                    BasicTextInputInvertedWithRef{
+                        id: omega
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        text_input: qsTr("OMEGA")
+                        text_value: "0.05"
+                    }
+                    BasicTextInputInvertedWithRef{
+                        id: textmaxNoise
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        text_input: qsTr("MAX NOISE")
+                        text_value: "5"
+                    }
+                    BasicTextInputInvertedWithRef{
+                        id: textsatTorque
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        text_input: qsTr("SAT TORQUE")
+                        text_value: "10"
+                    }
                 }
             }
         }
-    }
+        Menu {
+            title: qsTr("&HEADING")
+            Rectangle{
+                enabled: data_model.data_source.is_connected
+                opacity: data_model.data_source.is_connected ? 1 : 0.4
+                width: 200
+                height: position_column_7.implicitHeight + 80
+                color: "white"
+                border.color: "black"
+                ColumnLayout{
+                    id: position_column_7
+                    anchors.fill: parent
+                    anchors.leftMargin: 6
+                    anchors.rightMargin: 6
+                    spacing: 6
+                    BasicMenuButton{
+                        id: control_line2
+                        Layout.alignment: Qt.AlignTop
+                        Layout.topMargin: 15
+                        onClicked: publish_topic(setHeadingPiPar_tn, setG.text_value + " " +
+                                                 setKi.text_value + " " +
+                                                 setYSat.text_value + " " +
+                                                 texteisat.text_value + " " +
+                                                 texteIon.text_value + " " +
+                                                 texteIoff.text_value)
+                        row_title: "SET HEADING PI PAR"
+                    }
+                    BasicTextInputInvertedWithRef{
+                        id: setG
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        text_input: qsTr("SET G")
+                        text_value: "0"
+                    }
+                    BasicTextInputInvertedWithRef{
+                        id: setKi
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        text_input: qsTr("SET kI")
+                        text_value: "0"
+                    }
+                    BasicTextInputInvertedWithRef{
+                        id: setYSat
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        text_input: qsTr("SET ySat")
+                        text_value: "0"
+                    }
+                    BasicTextInputInvertedWithRef{
+                        id: texteisat
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        text_input: qsTr("SET eISat")
+                        text_value: "0"
+                    }
+                    BasicTextInputInvertedWithRef{
+                        id: texteIon
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        text_input: qsTr("SET eIon")
+                        text_value: "0"
+                    }
+                    BasicTextInputInvertedWithRef{
+                        id: texteIoff
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        text_input:  qsTr("SET eIoff")
+                        text_value: "0"
+                    }
+                }
+            }
+        }
 
-    Menu {
-        title: qsTr("&SetLFPar")
-        Rectangle{
-            enabled: data_model.data_source.is_connected
-            opacity: data_model.data_source.is_connected ? 1 : 0.4
-            width: 200
-            height: position_column_4.implicitHeight + 30
-            color: "white"
-            border.color: "black"
-            ColumnLayout{
-                id: position_column_4
-                anchors.fill: parent
-                anchors.leftMargin: 6
-                anchors.rightMargin: 6
-                BasicMenuButton{
-                    id: control3
-                    Layout.alignment: Qt.AlignTop
-                    Layout.topMargin: 6
-                    // TODO fix 23 with proper value
-                    onClicked: publish_topic(23, maxAngle.text_value + " " +
-                                             gamma.text_value + " " +
-                                             r.text_value)
-                    row_title: "SET LF PAR"
-                }
-                BasicTextInputInvertedWithRef{
-                    id: maxAngle
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillWidth: true
-                    text_input:  qsTr("MAX ANGLE")
-                    text_value: "60"
-                }
-                BasicTextInputInvertedWithRef{
-                    id: gamma
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillWidth: true
-                    text_input:  qsTr("KGAMMA")
-                    text_value: "0.3"
-                }
-                BasicTextInputInvertedWithRef{
-                    id: set_r
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillWidth: true
-                    text_input:  qsTr("K R")
-                    text_value: "0.1"
+        Menu {
+            title: qsTr("&LINE FOLLOWING")
+            Rectangle{
+                enabled: data_model.data_source.is_connected
+                opacity: data_model.data_source.is_connected ? 1 : 0.4
+                width: 200
+                height: position_column_4.implicitHeight + 30
+                color: "white"
+                border.color: "black"
+                ColumnLayout{
+                    id: position_column_4
+                    anchors.fill: parent
+                    anchors.leftMargin: 6
+                    anchors.rightMargin: 6
+                    BasicMenuButton{
+                        id: control3
+                        Layout.alignment: Qt.AlignTop
+                        Layout.topMargin: 15
+                        onClicked: publish_topic(setLFPar_tn,
+                                                 maxAngle.text_value + " " +
+                                                 gamma.text_value + " " +
+                                                 set_r.text_value)
+                        row_title: "SET LF PAR"
+                    }
+                    BasicTextInputInvertedWithRef{
+                        id: maxAngle
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        text_input:  qsTr("MAX ANGLE")
+                        text_value: "60"
+                    }
+                    BasicTextInputInvertedWithRef{
+                        id: gamma
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        text_input:  qsTr("KGAMMA")
+                        text_value: "0.3"
+                    }
+                    BasicTextInputInvertedWithRef{
+                        id: set_r
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        text_input:  qsTr("K R")
+                        text_value: "0.1"
+                    }
                 }
             }
         }

@@ -9,7 +9,6 @@ Item {
     property alias value_width : text_input_id.width
     property alias titleSize: title_text_input.font.pointSize
     property alias text_value: text_value_id.text
-    //property alias titleWidth: title_text_input.width
 
     implicitHeight: rl.implicitHeight
     implicitWidth: rl.implicitWidth
