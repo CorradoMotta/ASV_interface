@@ -127,31 +127,11 @@ MenuBar {
                 id: position_column
                 anchors.fill: parent
                 anchors.leftMargin: 6
-                Button {
-                    id: control
+                BasicMenuButton{
                     Layout.alignment: Qt.AlignTop
                     Layout.topMargin: 6
                     onClicked: _marker_model.insertSingleMarker(QtPositioning.coordinate(text1.new_text_value, texty.new_text_value))
-                    //setPoint(text1.new_text_value, texty.new_text_value)
-                    //root.add_point(text1.new_text_value, texty.new_text_value)
-                    //publish_topic(setXY_tn, text1.new_text_value + " " + texty.new_text_value + " " + minion_view.xValue )
-                    contentItem: Text {
-                        id: testo
-                        text: "SET POINT"
-                        font.family: "Helvetica"
-                        font.pointSize: 10
-                        anchors.horizontalCenter: background_b.horizontalCenter
-                        //verticalAlignment: background_b.AlignVCenter
-                    }
-                    background: Rectangle{
-                        id: background_b
-                        height: testo.implicitHeight + 10
-                        width: testo.implicitWidth + 10
-                        color: control.down? "peachpuff" : "papayawhip"
-                        border.width: 1
-                        border.color: "black"
-                        radius: 3
-                    }
+                    row_title: "SET POINT"
                 }
                 RowLayout{
                     Layout.alignment: Qt.AlignTop
@@ -164,24 +144,6 @@ MenuBar {
                         titleSize: 10
                         value_width: 100
                     }
-                    //                    Rectangle{
-                    //                        id: slider_text_output
-                    //                        Layout.preferredWidth: text1.value_width
-                    //                        Layout.preferredHeight: text1.implicitHeight
-                    //                        Layout.alignment: Qt.AlignRight
-                    //                        Layout.rightMargin: 10
-                    //                        clip: true
-                    //                        color: "whitesmoke"
-                    //                        border.color: "black"
-                    //                        Text{
-                    //                            id: slider_out_value_id
-                    //                            anchors.fill: parent
-                    //                            anchors.margins: 4
-                    //                            text: xRef
-                    //                            font.family: "Helvetica"
-                    //                            font.pointSize: 16
-                    //                        }
-                    //                    }
                 }
                 RowLayout{
                     Layout.alignment: Qt.AlignTop
@@ -194,24 +156,6 @@ MenuBar {
                         titleSize: 10
                         value_width: 100
                     }
-                    //                    Rectangle{
-                    //                        id: slider_text_output_y
-                    //                        Layout.preferredWidth: texty.value_width
-                    //                        Layout.preferredHeight: texty.implicitHeight
-                    //                        Layout.alignment: Qt.AlignRight
-                    //                        Layout.rightMargin: 10
-                    //                        clip: true
-                    //                        color: "whitesmoke"
-                    //                        border.color: "black"
-                    //                        Text{
-                    //                            id: slider_out_value_id_y
-                    //                            anchors.fill: parent
-                    //                            anchors.margins: 4
-                    //                            text: yRef
-                    //                            font.family: "Helvetica"
-                    //                            font.pointSize: 16
-                    //                        }
-                    //                    }
                 }
             }
         }
@@ -259,27 +203,12 @@ MenuBar {
                     }
                 }
                 // set line
-                Button {
+                BasicMenuButton{
                     id: control_line
                     Layout.alignment: Qt.AlignTop
                     Layout.topMargin: 6
                     onClicked: publish_topic(setXYLine_tn, textxline.new_text_value + " " + textliney.new_text_value + " " + textlinegamma.new_text_value + " " + textlinespinta.new_text_value )
-                    contentItem: Text {
-                        id: testo_line
-                        text: "SET LINE X Y"
-                        font.family: "Helvetica"
-                        font.pointSize: 10
-                        anchors.horizontalCenter: background_line.horizontalCenter
-                    }
-                    background: Rectangle{
-                        id: background_line
-                        height: testo_line.implicitHeight + 10
-                        width: testo_line.implicitWidth + 10
-                        color: control_line.down? "peachpuff" : "papayawhip"
-                        border.width: 1
-                        border.color: "black"
-                        radius: 3
-                    }
+                    row_title: "SET LINE X Y"
                 }
                 RowLayout{
                     Layout.alignment: Qt.AlignTop
@@ -288,196 +217,43 @@ MenuBar {
                         title_text:  qsTr("SET LINE X  ")
                         titleSize: 10
                         value_width: 100
-                        //new_text_value: main_view.pi_value
                     }
-                    //                    Rectangle{
-                    //                        id: slider_xline_output
-                    //                        Layout.preferredWidth: textxline.value_width
-                    //                        Layout.preferredHeight: textxline.implicitHeight
-                    //                        Layout.alignment: Qt.AlignRight
-                    //                        Layout.rightMargin: 10
-                    //                        clip: true
-                    //                        color: "whitesmoke"
-                    //                        border.color: "black"
-                    //                        Text{
-                    //                            id: slider_xline_value_id
-                    //                            anchors.fill: parent
-                    //                            anchors.margins: 4
-                    //                            font.family: "Helvetica"
-                    //                            font.pointSize: 16
-                    //                        }
-                    //                    }
                 }
                 RowLayout{
                     Layout.alignment: Qt.AlignTop
-
-                    // Layout.fillWidth: true
                     BasicTextInputInverted {
-                        //anchors.centerIn: parent
                         id: textliney
                         title_text:  qsTr("SET LINE Y  ")
                         titleSize: 10
                         value_width: 100
                     }
-                    //                    Rectangle{
-                    //                        id: slider_textline_output_y
-                    //                        Layout.preferredWidth: textliney.value_width
-                    //                        Layout.preferredHeight: textliney.implicitHeight
-                    //                        Layout.alignment: Qt.AlignRight
-                    //                        Layout.rightMargin: 10
-                    //                        clip: true
-                    //                        color: "whitesmoke"
-                    //                        border.color: "black"
-                    //                        Text{
-                    //                            id: slider_outline_value_id_y
-                    //                            anchors.fill: parent
-                    //                            anchors.margins: 4
-                    //                            font.family: "Helvetica"
-                    //                            font.pointSize: 16
-                    //                        }
-                    //                    }
                 }
-                //                RowLayout{
-                //                    Layout.alignment: Qt.AlignTop
-
-                //                    // Layout.fillWidth: true
-                //                    BasicTextInputInverted {
-                //                        //anchors.centerIn: parent
-                //                        id: textlinegamma
-                //                        title_text:  qsTr("SET GAMMA")
-                //                        titleSize: 10
-                //                        value_width: 100
-                //                    }
-                //                    Rectangle{
-                //                        id: slider_textline_output_gamma
-                //                        Layout.preferredWidth: textlinegamma.value_width
-                //                        Layout.preferredHeight: textlinegamma.implicitHeight
-                //                        Layout.alignment: Qt.AlignRight
-                //                        Layout.rightMargin: 10
-                //                        clip: true
-                //                        color: "whitesmoke"
-                //                        border.color: "black"
-                //                        Text{
-                //                            id: slider_outline_value_id_gamma
-                //                            anchors.fill: parent
-                //                            anchors.margins: 4
-                //                            font.family: "Helvetica"
-                //                            font.pointSize: 16
-                //                        }
-                //                    }
-                //                }
-
                 // set line
-                Button {
+                BasicMenuButton{
                     id: control_line_2
                     Layout.alignment: Qt.AlignTop
                     Layout.topMargin: 6
                     onClicked: publish_topic(setLineLatLon_tn, textlinelat.new_text_value + " " + textlinelon.new_text_value + " " + textlinegamma.new_text_value + " " + textlinespinta.new_text_value )
-                    contentItem: Text {
-                        id: testo_line_2
-                        text: "SET LINE LAT LON"
-                        font.family: "Helvetica"
-                        font.pointSize: 10
-                        anchors.horizontalCenter: background_line_2.horizontalCenter
-                        //verticalAlignment: background_b.AlignVCenter
-                    }
-                    background: Rectangle{
-                        id: background_line_2
-                        height: testo_line_2.implicitHeight + 10
-                        width: testo_line_2.implicitWidth + 10
-                        color: control_line_2.down? "peachpuff" : "papayawhip"
-                        border.width: 1
-                        border.color: "black"
-                        radius: 3
-                    }
+                    row_title: "SET LINE LAT LON"
                 }
-                RowLayout{
+                BasicTextInputInverted {
+                    id: textlinelat
+
                     Layout.alignment: Qt.AlignTop
-
-                    // Layout.fillWidth: true
-                    BasicTextInputInverted {
-                        //anchors.centerIn: parent
-                        id: textlinelat
-                        title_text:  qsTr("SET LAT  ")
-                        titleSize: 10
-                        value_width: 120
-                    }
-                    //                    Rectangle{
-                    //                        id: slider_xline_output_2
-                    //                        Layout.preferredWidth: textlinegamma_2.value_width
-                    //                        Layout.preferredHeight: textxline_2.implicitHeight
-                    //                        Layout.alignment: Qt.AlignRight
-                    //                        Layout.rightMargin: 10
-                    //                        clip: true
-                    //                        color: "whitesmoke"
-                    //                        border.color: "black"
-                    //                        Text{
-                    //                            id: slider_xline_value_id_2
-                    //                            anchors.fill: parent
-                    //                            anchors.margins: 4
-                    //                            font.family: "Helvetica"
-                    //                            font.pointSize: 16
-                    //                        }
-                    //                    }
+                    title_text:  qsTr("SET LAT  ")
+                    titleSize: 10
+                    value_width: 120
                 }
-                RowLayout{
+
+                BasicTextInputInverted {
+                    id: textlinelon
+
                     Layout.alignment: Qt.AlignTop
-
-                    // Layout.fillWidth: true
-                    BasicTextInputInverted {
-                        //anchors.centerIn: parent
-                        id: textlinelon
-                        title_text:  qsTr("SET LON  ")
-                        titleSize: 10
-                        value_width: 120
-                    }
-                    //                    Rectangle{
-                    //                        id: slider_textline_output_y_2
-                    //                        Layout.preferredWidth: textlinegamma_2.value_width
-                    //                        Layout.preferredHeight: textliney_2.implicitHeight
-                    //                        Layout.alignment: Qt.AlignRight
-                    //                        Layout.rightMargin: 10
-                    //                        clip: true
-                    //                        color: "whitesmoke"
-                    //                        border.color: "black"
-                    //                        Text{
-                    //                            id: slider_outline_value_id_y_2
-                    //                            anchors.fill: parent
-                    //                            anchors.margins: 4
-                    //                            font.family: "Helvetica"
-                    //                            font.pointSize: 16
-                    //                        }
-                    //                    }
+                    title_text:  qsTr("SET LON  ")
+                    titleSize: 10
+                    value_width: 120
                 }
-                //                RowLayout{
-                //                    Layout.alignment: Qt.AlignTop
 
-                // Layout.fillWidth: true
-                //                    BasicTextInputInverted {
-                //                        //anchors.centerIn: parent
-                //                        id: textlinegamma_2
-                //                        title_text:  qsTr("SET GAMMA")
-                //                        titleSize: 10
-                //                        value_width: 100
-                //                    }
-                //                    Rectangle{
-                //                        id: slider_textline_output_gamma_2
-                //                        Layout.preferredWidth: textlinegamma_2.value_width
-                //                        Layout.preferredHeight: textlinegamma_2.implicitHeight
-                //                        Layout.alignment: Qt.AlignRight
-                //                        Layout.rightMargin: 10
-                //                        clip: true
-                //                        color: "whitesmoke"
-                //                        border.color: "black"
-                //                        Text{
-                //                            id: slider_outline_value_id_gamma_2
-                //                            anchors.fill: parent
-                //                            anchors.margins: 4
-                //                            font.family: "Helvetica"
-                //                            font.pointSize: 16
-                //                        }
-                //                    }
-                //                }
             }
         }
     }
@@ -492,67 +268,26 @@ MenuBar {
             height: position_column_3.implicitHeight + 200
             color: "white"
             border.color: "black"
-            //border.width:
             ColumnLayout{
                 id: position_column_3
                 anchors.fill: parent
                 anchors.leftMargin: 6
-                Button {
+                BasicMenuButton{
                     id: control2
                     Layout.alignment: Qt.AlignTop
                     Layout.topMargin: 6
-                    onClicked: publish_topic(setYawGSPar_tn, sigma.new_text_value + " " +
+                    onClicked: publish_topic(setYawGSPar_tn, sigma.text_value + " " +
                                              omega.new_text_value + " " +
                                              textmaxNoise.new_text_value + " " +
                                              textsatTorque.new_text_value)
-
-                    contentItem: Text {
-                        id: testo2
-                        text: "SET YAW GS PAR"
-                        font.family: "Helvetica"
-                        font.pointSize: 10
-                        anchors.horizontalCenter: background_b2.horizontalCenter
-                        //verticalAlignment: background_b.AlignVCenter
-                    }
-                    background: Rectangle{
-                        id: background_b2
-                        height: testo2.implicitHeight + 10
-                        width: testo2.implicitWidth + 10
-                        color: control2.down? "peachpuff" : "papayawhip"
-                        border.width: 1
-                        border.color: "black"
-                        radius: 3
-                    }
+                    row_title: "SET YAW GS PAR"
                 }
-                RowLayout{
+                BasicTextInputInvertedWithRef{
+                    id: sigma
                     Layout.alignment: Qt.AlignTop
-
                     Layout.fillWidth: true
-                    BasicTextInputInverted {
-                        //anchors.centerIn: parent
-                        id: sigma
-                        title_text:  qsTr("SIGMA        ")
-                        titleSize: 10
-                        new_text_value: "0.5"
-                        value_width: 50
-                    }
-                    Rectangle{
-                        id: slider_text_output2
-                        Layout.preferredWidth: sigma.value_width
-                        Layout.preferredHeight: sigma.implicitHeight
-                        Layout.alignment: Qt.AlignRight
-                        Layout.rightMargin: 10
-                        clip: true
-                        color: "whitesmoke"
-                        border.color: "black"
-                        Text{
-                            id: slider_out_value_id2
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            font.family: "Helvetica"
-                            font.pointSize: 16
-                        }
-                    }
+                    text_input: qsTr("SIGMA        ")
+                    text_value: "0.5"
                 }
                 // TODO remove space in title and set a fix length
                 RowLayout{
