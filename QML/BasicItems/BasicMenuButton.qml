@@ -3,12 +3,10 @@ import QtQuick.Controls 2.15
 
 Button {
     id: control_line
-
     property alias row_title : row_text.text
 
     contentItem: Text {
         id: row_text
-        //text: "SET LINE X Y"
         font.family: "Helvetica"
         font.pointSize: 10
         anchors.horizontalCenter: background_line.horizontalCenter

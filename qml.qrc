@@ -107,7 +107,6 @@
         <file>Images/compass.png</file>
         <file>Images/marker_ref.png</file>
         <file>QML/BasicItems/BasicMenuButton.qml</file>
-        <file>QML/BasicItems/BasicMenuInputRow.qml</file>
         <file>QML/BasicItems/BasicTextInputInvertedWithRef.qml</file>
     </qresource>
 </RCC>
