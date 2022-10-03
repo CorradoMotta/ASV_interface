@@ -124,7 +124,7 @@ MenuBar {
                     Layout.fillWidth: true
                     title_text:  qsTr("SET LAT")
                     titleSize: 10
-                    value_width: 100
+                    value_width: 120
                 }
 
                 BasicTextInputInverted {
@@ -133,7 +133,7 @@ MenuBar {
                     Layout.fillWidth: true
                     title_text:  qsTr("SET LON")
                     titleSize: 10
-                    value_width: 100
+                    value_width: 120
                 }
 
             }
@@ -221,7 +221,7 @@ MenuBar {
                     Layout.fillWidth: true
                     title_text:  qsTr("SET LAT")
                     titleSize: 10
-                    value_width: 100
+                    value_width: 120
                 }
 
                 BasicTextInputInverted {
@@ -230,7 +230,7 @@ MenuBar {
                     Layout.fillWidth: true
                     title_text:  qsTr("SET LON")
                     titleSize: 10
-                    value_width: 100
+                    value_width: 120
                 }
             }
         }

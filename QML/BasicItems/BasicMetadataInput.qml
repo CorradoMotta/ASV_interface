@@ -22,6 +22,7 @@ Item {
     implicitHeight: rl.implicitHeight
     implicitWidth: rl.implicitWidth
 
+
     RowLayout{
         id: rl
         anchors.fill: parent
@@ -60,12 +61,18 @@ Item {
 
         Label {
             id: label
-            Layout.minimumWidth: 140
+            //Layout.minimumWidth: 200
+        }
+        Item{
+            id: space
+            Layout.fillWidth: true
+            Layout.fillHeight: true
         }
 
         TextField {
             id: label_text
-            Layout.fillWidth: true
+            Layout.preferredWidth: 500
+            width: 500
             onEditingFinished: root.currentValue = label_text.text
         }
     }

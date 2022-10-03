@@ -64,6 +64,7 @@ Rectangle{
     readonly property real asvReflonLRef: data_model.data_source.swamp_status.ngc_status.asvReflonLref.value
     readonly property real asvReflatL2ref : data_model.data_source.swamp_status.ngc_status.asvReflatL2ref.value
     readonly property real asvReflonL2ref : data_model.data_source.swamp_status.ngc_status.asvReflonL2ref.value
+    // TODO use them or remove them
     readonly property var coorL : QtPositioning.coordinate(asvReflatLRef, asvReflonLRef)
     readonly property var coorL2 : QtPositioning.coordinate(asvReflatL2ref, asvReflonL2ref)
 
@@ -347,53 +348,34 @@ Rectangle{
             id: draw_panel
         }
         // TODO move it into element
-        Rectangle{
-            id: set_robot_home
+        RowLayout{
+            id: clBottomLeft
             anchors.left: parent.left
             anchors.bottom: parent.bottom
             anchors.leftMargin: 20
-            anchors.bottomMargin: 68
-
-            Image {
-                id: set_robot_home_image
-                enabled: data_model.data_source.is_connected
-                opacity: data_model.data_source.is_connected? 1: 0.3
-                visible: true
-                sourceSize.width: 50
-                sourceSize.height: 50
-                //opacity: boxRectangle.isActive?  1 : 0.65
-                source: "../../Images/home-button.png"
-                scale: mouseArea_rect.containsMouse ? 1.0 : 0.8
-
-                MouseArea {
-                    id: mouseArea_rect
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: publish_topic(set_robot_home_tn, 1)
-                }
-            }
-        }
-
-        // TODO move it into element
-        ColumnLayout{
-            id: cl
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.rightMargin : 20
-            anchors.topMargin: 20
-            spacing: 20
-            Rectangle{
-                id: set_north_arrow
-                implicitWidth: set_north_image.implicitWidth
-                implicitHeight: set_north_image.implicitHeight
-                color: "transparent"
-
+            anchors.bottomMargin: 20
+            spacing: 4
+            Item{
+                id: set_robot_home
+                implicitWidth: set_robot_home_image.implicitWidth
+                implicitHeight: set_robot_home_image.implicitHeight
                 Image {
-                    id: set_north_image
+                    id: set_robot_home_image
+                    enabled: data_model.data_source.is_connected
+                    opacity: data_model.data_source.is_connected? 1: 0.3
                     visible: true
-                    opacity: 0.8
-                    source: "../../Images/compass.png"
-                    //scale: mb_style_ma.containsMouse ? 1.0 : 0.8
+                    sourceSize.width: 60
+                    sourceSize.height: 60
+                    //opacity: boxRectangle.isActive?  1 : 0.65
+                    source: "../../Images/home-button.png"
+                    scale: mouseArea_rect.containsMouse ? 1.0 : 0.8
+
+                    MouseArea {
+                        id: mouseArea_rect
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: publish_topic(set_robot_home_tn, 1)
+                    }
                 }
             }
             Rectangle{
@@ -411,7 +393,7 @@ Rectangle{
                     visible: true
                     sourceSize.width: 60
                     sourceSize.height: 60
-                    opacity: 0.8
+                    opacity: 0.9
                     source: "../../Images/map_style.png"
                     scale: mb_style_ma.containsMouse ? 1.0 : 0.8
 
@@ -422,6 +404,31 @@ Rectangle{
                         hoverEnabled: true
                         onClicked: navigation_map.activeMap===0? setActiveMap(4) : setActiveMap(0)
                     }
+                }
+            }
+        }
+
+        // TODO move it into element
+        RowLayout{
+            id: cl
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.rightMargin : 20
+            anchors.topMargin: 20
+            spacing: 20
+
+            Rectangle{
+                id: set_north_arrow
+                implicitWidth: set_north_image.implicitWidth
+                implicitHeight: set_north_image.implicitHeight
+                color: "transparent"
+
+                Image {
+                    id: set_north_image
+                    visible: true
+                    opacity: 0.8
+                    source: "../../Images/compass.png"
+                    //scale: mb_style_ma.containsMouse ? 1.0 : 0.8
                 }
             }
         }
