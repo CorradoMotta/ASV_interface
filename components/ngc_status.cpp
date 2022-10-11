@@ -443,3 +443,8 @@ DoubleVariable *NGC_status::asvReflonL2ref()
 {
     return &m_asvReflonL2ref;
 }
+
+IntVariable *NGC_status::setLFPar()
+{
+    return &m_setLFPar;
+}

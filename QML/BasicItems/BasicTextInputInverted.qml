@@ -9,7 +9,6 @@ Item {
     property alias value_width : text_input_id.width
     property alias titleSize: title_text_input.font.pointSize
     property alias text_value: text_value_id.text
-    //property alias titleWidth: title_text_input.width
 
     implicitHeight: rl.implicitHeight
     implicitWidth: rl.implicitWidth
@@ -23,16 +22,20 @@ Item {
             id: title_text_input
             font.family: "Helvetica"
             font.pointSize: 14
-
+        }
+        Item {
+            id: space
+            Layout.fillWidth: true
+            Layout.fillHeight: true
         }
         FocusScope {
             id: text_input_id
-            width: 200; height: text_value_id.implicitHeight + 10
+            width: 200;
+            height: text_value_id.implicitHeight + 10
             Rectangle {
                 anchors.fill: parent
                 color: "white"
                 border.color: "black"
-
             }
 
             TextInput {

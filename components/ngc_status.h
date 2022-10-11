@@ -87,6 +87,7 @@ class NGC_status : public QObject
     Q_PROPERTY(IntVariable* stopFileCmd READ stopFileCmd NOTIFY stopFileCmdChanged)
     Q_PROPERTY(IntVariable* startFileCmd READ startFileCmd NOTIFY startFileCmdChanged)
     Q_PROPERTY(IntVariable* resumeFileCmd READ resumeFileCmd NOTIFY resumeFileCmdChanged)
+    Q_PROPERTY(IntVariable* setLFPar READ setLFPar NOTIFY setLFParChanged)
     Q_PROPERTY(DoubleVariable* setLatLon READ setLatLon NOTIFY setLatLonChanged)
     Q_PROPERTY(DoubleVariable* setXY READ setXY NOTIFY setXYChanged)
     Q_PROPERTY(DoubleVariable* setLineLatLon READ setLineLatLon NOTIFY setLineLatLonChanged)
@@ -169,6 +170,7 @@ public:
     DoubleVariable* setXYLine();
     DoubleVariable* setYawGSPar();
     DoubleVariable* setHeadingPiPar();
+    IntVariable *setLFPar();
 
     DoubleVariable* asvRefXhat();
     DoubleVariable* asvRefYhat();
@@ -184,6 +186,7 @@ public:
 
     DoubleVariable* asvReflatL2ref();
     DoubleVariable* asvReflonL2ref();
+
 
 signals:
 
@@ -270,6 +273,7 @@ signals:
 
     void asvReflatL2refChanged();
     void asvReflonL2refChanged();
+    void setLFParChanged();
 
 private:
 
@@ -352,6 +356,7 @@ private:
     IntVariable m_resumeFileCmd;
     DoubleVariable m_asvReflatL2ref;
     DoubleVariable m_asvReflonL2ref;
+    IntVariable m_setLFPar;
 };
 
 #endif // NGC_STATUS_H

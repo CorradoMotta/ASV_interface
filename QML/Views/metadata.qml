@@ -59,7 +59,7 @@ Rectangle {
                 model: _metadata
                 BasicMetadataInput{
                     Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignRight
+                    //Layout.alignment: Qt.AlignRight
                     title_color: isMandatory ? "darkorange" : ""
                     title_text: name
                     value_text: value
