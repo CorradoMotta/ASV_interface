@@ -109,5 +109,6 @@
         <file>QML/BasicItems/BasicMenuButton.qml</file>
         <file>QML/BasicItems/BasicTextInputInvertedWithRef.qml</file>
         <file>QML/BasicItems/BasicTabButtonBackground.qml</file>
+        <file>QML/Panels/ControlPanelSC.qml</file>
     </qresource>
 </RCC>

@@ -12,34 +12,30 @@ import QtQuick.Layouts 1.15
 
 Item {
     id: slider_root
-    implicitHeight: control.implicitHeight + slider_text_id.implicitHeight
+    implicitHeight: control.implicitHeight //+ slider_text_id.implicitHeight
     implicitWidth: slider_row_layout.implicitWidth
-    property alias slider_text: slider_text_id.text
+    //property alias slider_text: slider_text_id.text
     property alias slider_from: control.from
     property alias slider_to: control.to
-    property alias font :  slider_text_id.font.pointSize
-    property bool isBold: false
+    //property alias font :  slider_text_id.font.pointSize
+    //property bool isBold: false
     //property alias mask_input: slider_value_id.inputMask
     property int max_value: -10
     property int min_value: 0
     property int value: 0
 
-    Text {
-        id: slider_text_id
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.margins: slider_row_layout.spacing
-        font.family: "Helvetica"
-        font.bold: isBold
-        font.pointSize: 18
-    }
+//    Text {
+//        id: slider_text_id
+//        anchors.left: parent.left
+//        anchors.top: parent.top
+//        anchors.margins: slider_row_layout.spacing
+//        font.family: "Helvetica"
+//        font.bold: isBold
+//        font.pointSize: 18
+//    }
     RowLayout {
         id: slider_row_layout
-        anchors{
-            top: slider_text_id.bottom
-            bottom: parent.bottom ; left: parent.left ; right: parent.right
-            bottomMargin: 10
-        }
+        anchors.fill: parent
         spacing: 3
 
         Text {

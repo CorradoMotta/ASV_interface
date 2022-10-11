@@ -75,9 +75,10 @@ Rectangle {
                 spacing: 0
                 BasicTextInputInverted{
                     id: testo
+                    //Layout.topMargin: 10
                     title_text: "POINT NAME"
                     new_text_value: ""
-                    value_width: 300
+                    value_width: 240
                 }
 
                 RowLayout{
@@ -94,9 +95,11 @@ Rectangle {
                         MouseArea{
                             id: add_ma
                             anchors.fill: parent
-                            onClicked: navigation_map.add_coor(testo.text_value)
+                            onClicked: {
+                                navigation_map.add_coor(testo.text_value)
+                                testo.text_value = ""
+                            }
                         }
-
                     }
                     Image {
                         id: download_icon

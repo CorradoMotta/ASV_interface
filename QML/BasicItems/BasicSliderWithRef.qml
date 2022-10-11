@@ -26,20 +26,12 @@ Item {
     property alias clicked : control_button.down
     property bool button_enabled : true
     property alias slider_width: rect.implicitWidth
+    property alias button_width : control_button.button_width
 
     RowLayout {
         id: slider_row
         anchors.fill: parent
         spacing: 3
-
-//        Text {
-//            id: slider_text_id
-//            Layout.alignment: Qt.AlignLeft
-//            font.family: "Helvetica"
-//            font.pointSize: 14
-//        }
-        //fix width
-
 
         BasicButton{
             id: control_button
@@ -47,35 +39,8 @@ Item {
             Layout.rightMargin: 10
             Layout.topMargin: 4
             button_width: 100
-            button_enabled : button_enabled
+            button_enabled : slider_root.button_enabled
         }
-
-//        Button {
-//            id: control_button
-//            Layout.alignment: Qt.AlignLeft
-//            Layout.rightMargin: 10
-//            Layout.topMargin: 4
-//            button_enabled : button_enabled
-//            width: 300
-//            //onClicked: console.log(testo.implicitWidth)//publish_topic(setLogTn, 1)
-//            contentItem: Text {
-//                id: testo
-//                font.family: "Helvetica"
-//                font.pointSize: 14
-//                anchors.horizontalCenter: background_b.horizontalCenter
-//                //verticalAlignment: background_b.AlignVCenter
-//            }
-//            background: Rectangle{
-//                id: background_b
-//                height: testo.implicitHeight + 10
-//                width: 84 // TODO should bne automatic
-//                color: button_enabled? control_button.down? "peachpuff" : "papayawhip" : "papayawhip"
-//                border.width: 1
-//                border.color: "black"
-//                enabled: button_enabled
-//                radius: 6
-//            }
-//        }
 
         Slider {
             id: control

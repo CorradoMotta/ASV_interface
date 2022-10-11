@@ -157,13 +157,21 @@ Item {
             id: main_view_page
             property int margin: 10
             Layout.alignment: Qt.AlignTop
+            Layout.fillHeight: true
             Layout.preferredWidth: 460
             Layout.preferredHeight: 800
             Layout.topMargin: 10
+            Layout.rightMargin: 10
+            Layout.bottomMargin: 10
+            //            background: Rectangle{
+            //                color: "aliceblue"
+            //            }
+
             header: TabBar {
                 id: bar
                 height: 36
                 spacing: 4
+
 
                 TabButton {
                     id: ngc_1_tab
@@ -171,7 +179,7 @@ Item {
                         id: btb
                         implicitHeight: bar.height
                         implicitWidth: ngc_1_tab.implicitWidth
-                        text_content: qsTr("NGC 1")
+                        text_content: qsTr("SET UP")
                         color: bar.currentIndex === 0 ? "aliceblue" : "lightskyblue"
                         text_color: bar.currentIndex === 0 ? "black" : "white"
                     }
@@ -181,7 +189,7 @@ Item {
                     background: BasicTabButtonBackground {
                         implicitHeight: bar.height
                         implicitWidth: ngc_2_tab.implicitWidth
-                        text_content: qsTr("NGC 2")
+                        text_content: qsTr("NGC")
                         color: bar.currentIndex === 1 ? "aliceblue" : "lightskyblue"
                         text_color: bar.currentIndex === 1 ? "black" : "white"
                     }
@@ -191,10 +199,22 @@ Item {
                     background: BasicTabButtonBackground {
                         implicitHeight: bar.height
                         implicitWidth: ngc_3_tab.implicitWidth
-                        text_content: qsTr("NGC 3")
+                        text_content: qsTr("OTHER")
                         color: bar.currentIndex === 2 ? "aliceblue" : "lightskyblue"
                         text_color: bar.currentIndex === 2 ? "black" : "white"
                     }
+                }
+            }
+            footer: Button {
+                id: connect_button
+
+                onClicked: data_model.data_source.setConnection()
+                contentItem: Text {
+                    text: hciIsConnected ? "disconnect" : "connect"
+                    font.family: "Helvetica"
+                    font.pointSize: 18
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
                 }
             }
 
@@ -206,10 +226,6 @@ Item {
                 Rectangle {
                     id: control_panel
                     implicitHeight: main_cl.implicitHeight
-                    //                    Layout.alignment: Qt.AlignTop
-                    //                    Layout.preferredWidth: 460
-                    //                    Layout.preferredHeight: 800
-                    //                    Layout.topMargin: 10
 
                     ColumnLayout {
                         id: main_cl
@@ -219,7 +235,7 @@ Item {
                             id: engine_panel
                             //color: "aliceblue"
                             Layout.fillWidth: true
-                            Layout.rightMargin: 10
+                            //Layout.rightMargin: 10
                             Layout.alignment: Qt.AlignTop
                             // TODO i cannot access enum?
                             enabled: hciIsConnected
@@ -230,7 +246,7 @@ Item {
                             id: homing_panel
                             //color: "aliceblue"
                             Layout.fillWidth: true
-                            Layout.rightMargin: 10
+                            //Layout.rightMargin: 10
                             Layout.alignment: Qt.AlignTop
                             enabled: hciIsConnected
                             opacity: hciIsConnected? 1 : 0.3
@@ -239,7 +255,7 @@ Item {
                         Rectangle{
                             Layout.fillWidth: true
                             Layout.topMargin: 4
-                            Layout.rightMargin: 10
+                            //Layout.rightMargin: 10
                             Layout.alignment: Qt.AlignTop
                             Layout.preferredHeight: ngc_row.implicitHeight + 10
                             color: "transparent"
@@ -264,7 +280,6 @@ Item {
                                 }
                                 BasicSwitch{
                                     switch_text: "NGC_ENABLE"
-                                    // TODO
                                     onSwitch_is_activeChanged: switch_is_active? publish_topic(ngcEnableTn, 1)
                                                                                : publish_topic(ngcEnableTn, 0)
                                 }
@@ -282,22 +297,8 @@ Item {
                                 }
                             }
                         }
-                        ThrustMappingPanel{
-                            id: rpm_alpha
-                            Layout.fillWidth: true
-                            Layout.rightMargin: 10
-                            Layout.alignment: Qt.AlignTop
-                            slider_width: 200
-                            title: "RPM_ALPHA"
-                            slider1_text: "N"; slider1_from: 0; slider1_to: root.maxRPMSpeed;  slider1_ref: root.nRef;   //slider1_mask: "#000";
-                            slider2_text: "D"; slider2_from: -900; slider2_to: 900;  slider2_ref: root.dnRef    //slider2_mask: "#000";
-                            slider3_text: "Α"; slider3_from: -180; slider3_to: 180;  slider3_ref: root.alphaRef //slider3_mask: "#000";
-                            clip: true
-                            panel_color: "white"
-                            enabled: hciIsConnected
-                            opacity: hciIsConnected? 1 : 0.3
-                            onValueChanged: root.publish_topic(root.rpmAlphaTn, value) //console.log(value)
-                        }
+
+
                         //                ThrustMappingPanel{
                         //                    id: force_torque
                         //                    Layout.fillWidth: true
@@ -317,10 +318,10 @@ Item {
                         NGCPanelSC{
                             id: ngc_auto
                             Layout.fillWidth: true
-                            Layout.rightMargin: 10
+                            //Layout.rightMargin: 10
                             Layout.alignment: Qt.AlignTop
                             clip: true
-                            panel_color: "white"
+                            panel_color: "aliceblue"
                             slider_width: 200
                             title: "CONTROL"
                             enabled: hciIsConnected
@@ -328,63 +329,28 @@ Item {
                             slider1_text: "X"; slider1_from: -50.0; slider1_to: 50.0;  slider1_ref: xRef  //slider1_mask: "#00";
                             slider2_text: "G"; slider2_from: -180; slider2_to: 360;    slider2_ref: gammaRef  //slider1_mask: "#00";
                         }
-
-                        //                                BathymetryPanel {
-                        //                                    id: bathymetry_panel
-                        //                                    Layout.fillWidth: true
-                        //                                    Layout.rightMargin: 10
-                        //                                    Layout.alignment: Qt.AlignTop
-                        //                                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
-                        //                                    //enabled: data_model.data_source.is_connected
-                        //                                    opacity: 0.3
-                        //                                    enabled: false
-                        //                                }
-                        //                ManeuversPanel{
-                        //                    id: man_panel
-                        //                    title: "MANEUVERS"
-                        //                    Layout.fillWidth: true
-                        //                    panel_color: "white"
-                        //                    Layout.rightMargin: 10
-                        //                    Layout.alignment: Qt.AlignTop
-                        //                    enabled: data_model.data_source.is_connected
-                        //                    opacity: data_model.data_source.is_connected? 1 : 0.3
-                        //                }
-                        //                CoordinatePanel{
-                        //                    id: coordinate_panel
-                        //                    title: "COORDINATES"
-                        //                    Layout.fillWidth: true
-                        //                    panel_color: "white"
-                        //                    Layout.rightMargin: 10
-                        //                    Layout.alignment: Qt.AlignTop
-                        //                    enabled: data_model.data_source.is_connected
-                        //                    opacity: data_model.data_source.is_connected? 1 : 0.3
-                        //                }
-
-                        BathymetryPanel {
-                            id: bathymetry_panel
+                        ManeuversPanel{
+                            id: man_panel
+                            title: "MANEUVERS"
                             Layout.fillWidth: true
-                            Layout.rightMargin: 10
+                            panel_color: "aliceblue"
+                            //Layout.rightMargin: 10
                             Layout.alignment: Qt.AlignTop
-                            opacity: hciIsConnected ? 1 : 0.3
-                            enabled: hciIsConnected
-                            //                    opacity: 0.3
-                            //                    enabled: false
+                            enabled: data_model.data_source.is_connected
+                            opacity: data_model.data_source.is_connected? 1 : 0.3
                         }
-                        Button {
-                            id: connect_button
-                            Layout.alignment: Qt.AlignTop
+                        CoordinatePanel{
+                            id: coordinate_panel
+                            title: "COORDINATES"
                             Layout.fillWidth: true
-                            Layout.rightMargin: 10
-                            onClicked: data_model.data_source.setConnection()
-                            contentItem: Text {
-                                text: hciIsConnected ? "disconnect" : "connect"
-                                font.family: "Helvetica"
-                                font.pointSize: 18
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
-                            }
+                            panel_color: "aliceblue"
+                            Layout.alignment: Qt.AlignTop
+                            enabled: data_model.data_source.is_connected
+                            opacity: data_model.data_source.is_connected? 1 : 0.3
                         }
                         Rectangle {
+                            //color: "aliceblue"
+
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                         }
@@ -392,207 +358,82 @@ Item {
                 }
 
                 Rectangle {
-                    id: minion_fl
+                    id: ngc_2_panel
+                    implicitHeight: ngc_2_cl.implicitHeight
+
+                    ColumnLayout {
+                        id: ngc_2_cl
+                        anchors.fill: parent
+                        spacing: 10
+                        ThrustMappingPanel{
+                            id: rpm_alpha
+                            Layout.fillWidth: true
+                            //Layout.rightMargin: 10
+                            Layout.alignment: Qt.AlignTop
+                            slider_width: 200
+                            title: "RPM_ALPHA"
+                            slider1_text: "N"; slider1_from: 0; slider1_to: root.maxRPMSpeed;  slider1_ref: root.nRef;   //slider1_mask: "#000";
+                            slider2_text: "D"; slider2_from: -900; slider2_to: 900;  slider2_ref: root.dnRef    //slider2_mask: "#000";
+                            slider3_text: "Α"; slider3_from: -180; slider3_to: 180;  slider3_ref: root.alphaRef //slider3_mask: "#000";
+                            clip: true
+                            panel_color: "white"
+                            enabled: hciIsConnected
+                            opacity: hciIsConnected? 1 : 0.3
+                            onValueChanged: root.publish_topic(root.rpmAlphaTn, value) //console.log(value)
+                        }
+                        ThrustMappingPanel{
+                            id: force_torque
+                            Layout.fillWidth: true
+                            //Layout.rightMargin: 10
+                            Layout.alignment: Qt.AlignTop
+                            slider_width: 200
+                            title: "FORCE_TORQUE"
+                            slider1_text: "X"; slider1_from: -50; slider1_to: 50;  slider1_ref: root.xRef  ; slider1_act: root.asvRefXhat //slider1_mask: "#00";
+                            slider2_text: "Y"; slider2_from: -50; slider2_to: 50;  slider2_ref: root.yRef  ; slider2_act: root.asvRefYhat //slider2_mask: "#00";
+                            slider3_text: "N"; slider3_from: -50; slider3_to: 50;  slider3_ref: root.nNRef ; slider3_act: root.asvRefNhat //slider3_mask: "#00";
+                            clip: true
+                            panel_color: "white"
+                            enabled: data_model.data_source.is_connected
+                            opacity: data_model.data_source.is_connected? 1 : 0.3
+                            onValueChanged: root.publish_topic(root.forceTorqueTn, value)
+                        }
+                        ControlPanelSC{
+                            id: control_panel_2
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignTop
+                        }
+                        Rectangle {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                        }
+                    }
 
                 }
                 Rectangle {
-                    id: minion_fr
+                    id: ngc_3_panel
+                    implicitHeight: ngc_2_cl.implicitHeight
 
+                    ColumnLayout {
+                        id: ngc_3_cl
+                        anchors.fill: parent
+                        spacing: 10
+                        BathymetryPanel {
+                            id: bathymetry_panel
+                            title: "BATHYMETRY"
+                            panel_color: "aliceblue"
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignTop
+                            opacity: hciIsConnected ? 1 : 0.3
+                            enabled: hciIsConnected
+                        }
+                        Rectangle {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                        }
+                    }
                 }
             }
         }
-
-
-
-
-        //        Rectangle {
-        //            id: control_panel
-        //            implicitHeight: main_cl.implicitHeight
-        //            Layout.alignment: Qt.AlignTop
-        //            Layout.preferredWidth: 460
-        //            Layout.preferredHeight: 800
-        //            Layout.topMargin: 10
-
-        //            ColumnLayout {
-        //                id: main_cl
-        //                anchors.fill: parent
-        //                spacing: 10
-        //                EnginePanel {
-        //                    id: engine_panel
-        //                    //color: "aliceblue"
-        //                    Layout.fillWidth: true
-        //                    Layout.rightMargin: 10
-        //                    Layout.alignment: Qt.AlignTop
-        //                    // TODO i cannot access enum?
-        //                    enabled: hciIsConnected
-        //                    opacity: hciIsConnected? 1 : 0.3
-        //                    //enabled: true
-        //                }
-        //                HomingPanel{
-        //                    id: homing_panel
-        //                    //color: "aliceblue"
-        //                    Layout.fillWidth: true
-        //                    Layout.rightMargin: 10
-        //                    Layout.alignment: Qt.AlignTop
-        //                    enabled: hciIsConnected
-        //                    opacity: hciIsConnected? 1 : 0.3
-        //                }
-        //                //TODO NGC STUFF. Create a panel
-        //                Rectangle{
-        //                    Layout.fillWidth: true
-        //                    Layout.topMargin: 4
-        //                    Layout.rightMargin: 10
-        //                    Layout.alignment: Qt.AlignTop
-        //                    Layout.preferredHeight: ngc_row.implicitHeight + 10
-        //                    color: "transparent"
-        //                    radius: 5.0
-        //                    border {
-        //                        color: "black"
-        //                        width: 2
-        //                    }
-        //                    enabled: hciIsConnected
-        //                    opacity: hciIsConnected? 1 : 0.3
-        //                    RowLayout{
-        //                        id: ngc_row
-        //                        //Layout.fillWidth: true
-        //                        anchors.fill: parent
-        //                        StatusDot{
-        //                            Layout.alignment: Qt.AlignLeft
-        //                            Layout.leftMargin: 10
-        //                            width: 30
-        //                            height: 30
-        //                            info_text : "enableRef"
-        //                            dot_state: ngcEnableRef
-        //                        }
-        //                        BasicSwitch{
-        //                            switch_text: "NGC_ENABLE"
-        //                            // TODO
-        //                            onSwitch_is_activeChanged: switch_is_active? publish_topic(ngcEnableTn, 1)
-        //                                                                       : publish_topic(ngcEnableTn, 0)
-        //                        }
-        //                        Rectangle{
-        //                            Layout.fillWidth: true
-        //                        }
-        //                        BasicButton {
-        //                            id: control
-        //                            Layout.alignment: Qt.AlignRight
-        //                            Layout.rightMargin: 10
-        //                            Layout.topMargin: 4
-        //                            onClicked: publish_topic(setLogTn, 1)
-        //                            text_on_button: "NEW LOG"
-        //                            button_width: 100
-        //                        }
-        //                    }
-        //                }
-        //                ThrustMappingPanel{
-        //                    id: rpm_alpha
-        //                    Layout.fillWidth: true
-        //                    Layout.rightMargin: 10
-        //                    Layout.alignment: Qt.AlignTop
-        //                    slider_width: 200
-        //                    title: "RPM_ALPHA"
-        //                    slider1_text: "N"; slider1_from: 0; slider1_to: root.maxRPMSpeed;  slider1_ref: root.nRef;   //slider1_mask: "#000";
-        //                    slider2_text: "D"; slider2_from: -900; slider2_to: 900;  slider2_ref: root.dnRef    //slider2_mask: "#000";
-        //                    slider3_text: "Α"; slider3_from: -180; slider3_to: 180;  slider3_ref: root.alphaRef //slider3_mask: "#000";
-        //                    clip: true
-        //                    panel_color: "white"
-        //                    enabled: hciIsConnected
-        //                    opacity: hciIsConnected? 1 : 0.3
-        //                    onValueChanged: root.publish_topic(root.rpmAlphaTn, value) //console.log(value)
-        //                }
-        //                //                ThrustMappingPanel{
-        //                //                    id: force_torque
-        //                //                    Layout.fillWidth: true
-        //                //                    Layout.rightMargin: 10
-        //                //                    Layout.alignment: Qt.AlignTop
-        //                //                    slider_width: 200
-        //                //                    title: "FORCE_TORQUE"
-        //                //                    slider1_text: "X"; slider1_from: -50; slider1_to: 50;  slider1_ref: root.xRef  ; slider1_act: root.asvRefXhat //slider1_mask: "#00";
-        //                //                    slider2_text: "Y"; slider2_from: -50; slider2_to: 50;  slider2_ref: root.yRef  ; slider2_act: root.asvRefYhat //slider2_mask: "#00";
-        //                //                    slider3_text: "N"; slider3_from: -50; slider3_to: 50;  slider3_ref: root.nNRef ; slider3_act: root.asvRefNhat //slider3_mask: "#00";
-        //                //                    clip: true
-        //                //                    panel_color: "white"
-        //                //                    enabled: data_model.data_source.is_connected
-        //                //                    opacity: data_model.data_source.is_connected? 1 : 0.3
-        //                //                    onValueChanged: root.publish_topic(root.forceTorqueTn, value)
-        //                //                }
-        //                NGCPanelSC{
-        //                    id: ngc_auto
-        //                    Layout.fillWidth: true
-        //                    Layout.rightMargin: 10
-        //                    Layout.alignment: Qt.AlignTop
-        //                    clip: true
-        //                    panel_color: "white"
-        //                    slider_width: 200
-        //                    title: "CONTROL"
-        //                    enabled: hciIsConnected
-        //                    opacity: hciIsConnected? 1 : 0.3
-        //                    slider1_text: "X"; slider1_from: -50.0; slider1_to: 50.0;  slider1_ref: xRef  //slider1_mask: "#00";
-        //                    slider2_text: "G"; slider2_from: -180; slider2_to: 360;    slider2_ref: gammaRef  //slider1_mask: "#00";
-        //                }
-
-        //                //                                BathymetryPanel {
-        //                //                                    id: bathymetry_panel
-        //                //                                    Layout.fillWidth: true
-        //                //                                    Layout.rightMargin: 10
-        //                //                                    Layout.alignment: Qt.AlignTop
-        //                //                                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
-        //                //                                    //enabled: data_model.data_source.is_connected
-        //                //                                    opacity: 0.3
-        //                //                                    enabled: false
-        //                //                                }
-        //                //                ManeuversPanel{
-        //                //                    id: man_panel
-        //                //                    title: "MANEUVERS"
-        //                //                    Layout.fillWidth: true
-        //                //                    panel_color: "white"
-        //                //                    Layout.rightMargin: 10
-        //                //                    Layout.alignment: Qt.AlignTop
-        //                //                    enabled: data_model.data_source.is_connected
-        //                //                    opacity: data_model.data_source.is_connected? 1 : 0.3
-        //                //                }
-        //                //                CoordinatePanel{
-        //                //                    id: coordinate_panel
-        //                //                    title: "COORDINATES"
-        //                //                    Layout.fillWidth: true
-        //                //                    panel_color: "white"
-        //                //                    Layout.rightMargin: 10
-        //                //                    Layout.alignment: Qt.AlignTop
-        //                //                    enabled: data_model.data_source.is_connected
-        //                //                    opacity: data_model.data_source.is_connected? 1 : 0.3
-        //                //                }
-
-        //                BathymetryPanel {
-        //                    id: bathymetry_panel
-        //                    Layout.fillWidth: true
-        //                    Layout.rightMargin: 10
-        //                    Layout.alignment: Qt.AlignTop
-        //                    opacity: hciIsConnected ? 1 : 0.3
-        //                    enabled: hciIsConnected
-        ////                    opacity: 0.3
-        ////                    enabled: false
-        //                }
-        //                Button {
-        //                    id: connect_button
-        //                    Layout.alignment: Qt.AlignTop
-        //                    Layout.fillWidth: true
-        //                    Layout.rightMargin: 10
-        //                    onClicked: data_model.data_source.setConnection()
-        //                    contentItem: Text {
-        //                        text: hciIsConnected ? "disconnect" : "connect"
-        //                        font.family: "Helvetica"
-        //                        font.pointSize: 18
-        //                        horizontalAlignment: Text.AlignHCenter
-        //                        verticalAlignment: Text.AlignVCenter
-        //                    }
-        //                }
-        //                Rectangle {
-        //                    Layout.fillWidth: true
-        //                    Layout.fillHeight: true
-        //                }
-        //            }
-        //        }
-        //
     }
     function messagePrompt(prompt_text){
         app_root.messagePrompt(prompt_text)

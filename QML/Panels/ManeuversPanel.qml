@@ -57,8 +57,8 @@ Rectangle {
         Rectangle{
             id: rect
             Layout.fillWidth: true
-            height: icon_row.implicitHeight + 50
-            width: icon_row.implicitWidth + 50
+            height: icon_row.implicitHeight + 20
+            width: icon_row.implicitWidth + 20
             Layout.alignment: Qt.AlignTop
             radius: 5.0
             color: "aliceblue"
@@ -68,82 +68,84 @@ Rectangle {
             }
             RowLayout{
                 id: icon_row
-                anchors.centerIn: parent
-                anchors.leftMargin: 10
-                spacing: 20
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.top
+                anchors.topMargin: 4
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 4
+                spacing: 15
                 Layout.alignment: Qt.AlignHCenter
 
-                Image {
-                    id: play_icon
-                    visible: true
-                    source: "../../Images/play-button_resized.png"
-                    opacity: isPLaying? 0.2: isStopped ? 1 : 1
-                    enabled: isPLaying? false : isStopped? true : true
-                    property bool play : false
-                    MouseArea{
-                        id: add_ma
-                        anchors.fill: parent
-                        onClicked: {
-                            publish_topic(start_file_cmd_tn, 1)
-                            isPLaying = true
+                ColumnLayout{
+                    Image {
+                        id: play_icon
+                        visible: true
+                        source: "../../Images/play-button_resized.png"
+                        opacity: isPLaying? 0.2: isStopped ? 1 : 1
+                        enabled: isPLaying? false : isStopped? true : true
+                        property bool play : false
+                        MouseArea{
+                            id: add_ma
+                            anchors.fill: parent
+                            onClicked: {
+                                publish_topic(start_file_cmd_tn, 1)
+                                isPLaying = true
+                            }
                         }
                     }
                     Text {
                         id: start_text
-                        anchors.top: play_icon.bottom
-                        anchors.horizontalCenter: play_icon.horizontalCenter
-                        anchors.topMargin: 4
                         font.bold: true
+                        Layout.leftMargin: 4
                         text: qsTr("START")
                     }
                 }
-
-                Image {
-                    id: pause_icon
-                    visible: true
-                    source: "../../Images/pause_resized.png"
-                    opacity: isPLaying ? 1 : 0.2
-                    enabled: isPLaying? true : false
-                    MouseArea{
-                        id: download_ma
-                        anchors.fill: parent
-                        onClicked: {
-                            publish_topic(stop_file_cmd_tn, 1)
-                            isPLaying = false
-                            isStopped = true
+                ColumnLayout{
+                    Image {
+                        id: pause_icon
+                        visible: true
+                        source: "../../Images/pause_resized.png"
+                        opacity: isPLaying ? 1 : 0.2
+                        enabled: isPLaying? true : false
+                        MouseArea{
+                            id: download_ma
+                            anchors.fill: parent
+                            onClicked: {
+                                publish_topic(stop_file_cmd_tn, 1)
+                                isPLaying = false
+                                isStopped = true
+                            }
                         }
+
                     }
                     Text {
                         id: pause_text
-                        anchors.top: pause_icon.bottom
-                        anchors.horizontalCenter: pause_icon.horizontalCenter
-                        anchors.topMargin: 4
                         font.bold: true
+                        Layout.leftMargin: 4
                         text: qsTr("PAUSE")
                     }
                 }
-
-                Image {
-                    id: resume_icon
-                    visible: true
-                    opacity: isPLaying? 0.2 : isStopped? 1 : 0.2
-                    enabled: isPLaying? false : isStopped? true : false
-                    source: "../../Images/resume.png"
-                    MouseArea{
-                        id: reset_ma
-                        anchors.fill: parent
-                        onClicked: {
-                            publish_topic(resume_file_cmd_tn, 1)
-                            isPLaying = true
-                            isStopped = false
+                ColumnLayout{
+                    Image {
+                        id: resume_icon
+                        visible: true
+                        opacity: isPLaying? 0.2 : isStopped? 1 : 0.2
+                        enabled: isPLaying? false : isStopped? true : false
+                        source: "../../Images/resume.png"
+                        MouseArea{
+                            id: reset_ma
+                            anchors.fill: parent
+                            onClicked: {
+                                publish_topic(resume_file_cmd_tn, 1)
+                                isPLaying = true
+                                isStopped = false
+                            }
                         }
                     }
                     Text {
                         id: resume_text
-                        anchors.top: resume_icon.bottom
-                        anchors.horizontalCenter: resume_icon.horizontalCenter
-                        anchors.topMargin: 4
                         font.bold: true
+                        Layout.leftMargin: 3
                         text: qsTr("RESUME")
                     }
                 }

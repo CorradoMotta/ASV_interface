@@ -23,7 +23,7 @@ Button {
         id: button_background
         height: button_text.implicitHeight + 10
         implicitWidth: button_width
-        color: button_enabled? control.down? "peachpuff" : "papayawhip" : "papayawhip"
+        color: control.button_enabled? control.down? "peachpuff" : "papayawhip" : "papayawhip"
         border.width: 1
         border.color: "black"
         radius: 6

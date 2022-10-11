@@ -20,7 +20,6 @@ Rectangle {
     // properties
     Layout.preferredHeight: engine_icons.implicitHeight + 30
     radius: 5.0
-
     border {
         color: "black"
         width: 2

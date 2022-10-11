@@ -183,6 +183,8 @@ BasicMinionPanelContainer{
                 id: force_torque
                 Layout.fillWidth: true
                 Layout.rightMargin: 10
+                enabled: false
+                opacity: 0.3
                 Layout.alignment: Qt.AlignTop
                 title: "FORCE_TORQUE"
                 slider1_text: "X"; slider1_from: -100.0; slider1_to: 100.0;  slider1_ref: ngc_root.xRef ; slider1_act: ngc_root.asvRefXhat //slider1_mask: "#00";
@@ -194,6 +196,8 @@ BasicMinionPanelContainer{
 
             ControlPanel{
                 id: control_panel
+                enabled: false
+                opacity: 0.3
                 Layout.fillWidth: true
                 Layout.rightMargin: 10
                 Layout.alignment: Qt.AlignTop
