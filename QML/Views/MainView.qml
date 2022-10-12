@@ -263,7 +263,7 @@ Item {
                             enabled: hciIsConnected
                             opacity: hciIsConnected? 1 : 0.3
                             slider1_text: "X"; slider1_from: -50.0; slider1_to: 50.0;  slider1_ref: xRef  //slider1_mask: "#00";
-                            slider2_text: "G"; slider2_from: -180; slider2_to: 360;    slider2_ref: gammaRef  //slider1_mask: "#00";
+                            slider2_text: "G"; slider2_from: -180; slider2_to: 180;    slider2_ref: gammaRef  //slider1_mask: "#00";
                         }
                         ManeuversPanel{
                             id: man_panel
