@@ -297,24 +297,6 @@ Item {
                                 }
                             }
                         }
-
-
-                        //                ThrustMappingPanel{
-                        //                    id: force_torque
-                        //                    Layout.fillWidth: true
-                        //                    Layout.rightMargin: 10
-                        //                    Layout.alignment: Qt.AlignTop
-                        //                    slider_width: 200
-                        //                    title: "FORCE_TORQUE"
-                        //                    slider1_text: "X"; slider1_from: -50; slider1_to: 50;  slider1_ref: root.xRef  ; slider1_act: root.asvRefXhat //slider1_mask: "#00";
-                        //                    slider2_text: "Y"; slider2_from: -50; slider2_to: 50;  slider2_ref: root.yRef  ; slider2_act: root.asvRefYhat //slider2_mask: "#00";
-                        //                    slider3_text: "N"; slider3_from: -50; slider3_to: 50;  slider3_ref: root.nNRef ; slider3_act: root.asvRefNhat //slider3_mask: "#00";
-                        //                    clip: true
-                        //                    panel_color: "white"
-                        //                    enabled: data_model.data_source.is_connected
-                        //                    opacity: data_model.data_source.is_connected? 1 : 0.3
-                        //                    onValueChanged: root.publish_topic(root.forceTorqueTn, value)
-                        //                }
                         NGCPanelSC{
                             id: ngc_auto
                             Layout.fillWidth: true
@@ -400,6 +382,8 @@ Item {
                         ControlPanelSC{
                             id: control_panel_2
                             Layout.fillWidth: true
+                            enabled: hciIsConnected
+                            opacity: hciIsConnected? 1 : 0.3
                             Layout.alignment: Qt.AlignTop
                         }
                         Rectangle {

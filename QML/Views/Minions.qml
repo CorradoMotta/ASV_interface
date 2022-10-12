@@ -17,14 +17,14 @@ import "../Charts"
 Item {
 
     //todo put max here
-    property alias minimum_width : ngc.minimumXDim
-    property alias minimum_height: ngc.minimumYDim
-    // bathymetry (disabled)
-    property alias bathymetryPoint : btChr.newPoint
-    property alias bathymetryReset: btChr.reset
-    property alias maxDepth: btChr.yMAX
+    property int minimum_width : Math.max(ngc.minimumXDim,minion_fl.minimumXDim)
+    property int minimum_height:  Math.max(ngc.minimumYDim,minion_fl.minimumYDim)
+    // bathymetry (disabled) TODO FIX
+    //property alias bathymetryPoint : btChr.newPoint
+    //property alias bathymetryReset: btChr.reset
+    //property alias maxDepth: btChr.yMAX
 
-    property alias xValue: ngc.xValue
+    //property alias xValue: ngc.xValue
 
     readonly property int tabLen: 3
 
@@ -49,7 +49,7 @@ Item {
             id: bar
             TabButton {
                 id: ngc_tab
-                text: qsTr("NGC")
+                text: qsTr("Dashboard")
             }
             TabButton {
                 text: qsTr("Minion FL")
@@ -64,9 +64,9 @@ Item {
                 text: qsTr("Minion RR")
             }
             // bathymetry (disabled)
-            TabButton {
-                text: qsTr("Dashboard")
-            }
+//            TabButton {
+//                text: qsTr("Dashboard")
+//            }
         }
 
         StackLayout {
@@ -98,12 +98,9 @@ Item {
                 prefix: data_model.data_source.swamp_status.minion_rr
             }
             // bathymetry (disabled)
-            Rectangle {
-                id: general
-                BathymetryChart{
-                    id: btChr
-                }
-            }
+//            Rectangle {
+//                id: general
+//            }
         }
     }
 }

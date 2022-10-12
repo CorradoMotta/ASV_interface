@@ -11,8 +11,8 @@ Rectangle {
     property real yMAX : initialyMax // TODO should be a cost value
     property real xMAX : initialxMax
 
-    anchors.fill: parent
-    anchors.margins: 100
+    //anchors.fill: parent
+    //anchors.margins: 100
 
     onNewPointChanged: {
         if(newPoint.x > xMAX) xMAX = newPoint.x + 100
