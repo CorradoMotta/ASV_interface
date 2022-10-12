@@ -103,11 +103,6 @@ void SingleMarkerModel::removeSingleMarker(int index)
     endRemoveRows();
 }
 
-void SingleMarkerModel::updateCoordinates(QGeoCoordinate coordinate, int index)
-{
-    //TODO
-}
-
 void SingleMarkerModel::reset()
 {
     beginRemoveRows(QModelIndex(), 0 , m_marker.size()-1);

@@ -11,8 +11,6 @@ MenuBar {
     id: custom_menu_bar
 
     signal setPoint(real lat, real lon)
-    property alias latValue : textlinelat.new_text_value
-    property alias lonValue : textlinelon.new_text_value
     readonly property string gc_working_mode_tn: data_model.data_source.swamp_status.ngc_status.gcWorkingMode.topic_name
     readonly property string thrust_mapping_manual_mode: data_model.data_source.swamp_status.ngc_status.thrustMappingManualMode.topic_name
     readonly property string thrust_mapping_auto_mode: data_model.data_source.swamp_status.ngc_status.thrustMappingAutoMode.topic_name

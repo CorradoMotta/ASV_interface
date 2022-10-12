@@ -12,8 +12,8 @@ import "../Panels"
 
 Item {
     id: minion_view
-    property int minimumXDim : minion_panel_cln.implicitWidth
-    property int minimumYDim: minion_panel_cln.implicitHeight
+    property int minimumXDim : minion_panel_cln.implicitWidth + 40
+    property int minimumYDim: minion_panel_cln.implicitHeight + 10
 
     // to connect right panel with minion panels
     required property int engineState  //engine_panel.engine_state_fl_prova

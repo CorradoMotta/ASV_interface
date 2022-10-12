@@ -3,7 +3,12 @@
  * This element contains the Minions view. It is created as a page that
  * gets opened via the BasicStackButton. The page is structured with a tab
  * bar controlled by a StackLayout. Each item of the StackLayout is
- * described by the SingleMinion View.
+ * described by the SingleMinion View. An extra tab called dashboard
+ * contains the vehicle telemetry.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
  *
  *************************************************************************/
 
@@ -14,41 +19,27 @@ import QtQml 2.15
 import "../Panels"
 import "../Views"
 import "../Charts"
+
 Item {
 
-    //todo put max here
-    property int minimum_width : Math.max(ngc.minimumXDim,minion_fl.minimumXDim)
-    property int minimum_height:  Math.max(ngc.minimumYDim,minion_fl.minimumYDim)
-    // bathymetry (disabled) TODO FIX
-    //property alias bathymetryPoint : btChr.newPoint
-    //property alias bathymetryReset: btChr.reset
-    //property alias maxDepth: btChr.yMAX
-
-    //property alias xValue: ngc.xValue
-
+    // custom properties
     readonly property int tabLen: 3
+    property int minimum_width : Math.max(dashboard.minimumXDim, minion_fl.minimumXDim)
+    property int minimum_height: Math.max(dashboard.minimumYDim, minion_fl.minimumYDim)
 
-
-    // button used to switch between minion's tab
-    Connections {
-        target: QJoysticks
-        enabled: data_model.data_source.is_connected
-        function onButtonChanged(js, button, pressed) {
-            if (button === 2 && pressed === true){
-                bar.currentIndex = bar.currentIndex > tabLen? 0 : bar.currentIndex+1
-            }
-        }
-    }
+    // alias TODO: make signals instead
+    property alias bathymetryPoint : dashboard.newPoint
+    property alias bathymetryReset: dashboard.reset
+    property alias maxDepth: dashboard.yMAX
 
     Page{
         id: minion_page
+        anchors.fill: parent
         property int margin: 10
 
-        anchors.fill: parent
         header: TabBar {
             id: bar
             TabButton {
-                id: ngc_tab
                 text: qsTr("Dashboard")
             }
             TabButton {
@@ -63,10 +54,6 @@ Item {
             TabButton {
                 text: qsTr("Minion RR")
             }
-            // bathymetry (disabled)
-//            TabButton {
-//                text: qsTr("Dashboard")
-//            }
         }
 
         StackLayout {
@@ -74,8 +61,9 @@ Item {
             anchors.fill: parent
             anchors.margins: minion_page.margin
             currentIndex: bar.currentIndex
-            Ngc {
-                id: ngc
+
+            Dashboard {
+                id: dashboard
             }
             SingleMinion {
                 id: minion_fl
@@ -97,10 +85,18 @@ Item {
                 engineState: engine_panel.engine_state_rr
                 prefix: data_model.data_source.swamp_status.minion_rr
             }
-            // bathymetry (disabled)
-//            Rectangle {
-//                id: general
-//            }
+        }
+    }
+
+    Connections {
+        // to switch between tabs
+        target: QJoysticks
+        enabled: data_model.data_source.is_connected
+
+        function onButtonChanged(js, button, pressed) {
+            if (button === 2 && pressed === true){
+                bar.currentIndex = bar.currentIndex > tabLen? 0 : bar.currentIndex+1
+            }
         }
     }
 }

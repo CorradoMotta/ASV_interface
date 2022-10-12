@@ -27,8 +27,6 @@ Rectangle{
     property int activeMap : 0
     property real latValue : lat.value
     property real lonValue: lon.value
-    property real lastLatValue : 0
-    property real lastLonValue : 0
     property bool is_centered: true
     property var initialCoordinates: QtPositioning.coordinate(lat.value, lon.value)
     property real rando : 0
@@ -150,8 +148,6 @@ Rectangle{
                 var crd = swamp_map.toCoordinate(Qt.point(mouseX, mouseY))
                 if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker){
                     mivMarker.model.insertSingleMarker(crd,0,0)
-                    lastLatValue = roundCoor(crd.latitude,8)
-                    lastLonValue = roundCoor(crd.longitude,8)
                 }
                 else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Rectangle)
                     console.log("Not implemented yet!")

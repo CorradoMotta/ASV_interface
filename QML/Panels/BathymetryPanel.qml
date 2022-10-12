@@ -20,11 +20,6 @@ Rectangle {
     // properties
     Layout.preferredHeight: cl.implicitHeight //+ icon_row.implicitHeight + 22 //TODO not having numbers here.
     color: "transparent"
-    //radius: 5.0
-    //    border {
-    //        color: "black"
-    //        width: 2
-    //    }
 
     // custom properties
     property bool isPLaying: false

@@ -99,9 +99,10 @@ public:
 
 private:
     QList<Depth_point*> m_bathymetry;
+    QString m_folderName;
     const double m_hueMax = 0.652;
     const double m_hueMin = 0.513;
-    QString m_folderName;
+
 
 };
 

@@ -67,7 +67,7 @@
         <file>Images/download_resized.png</file>
         <file>Images/play-button_resized.png</file>
         <file>Images/stop_resized.png</file>
-        <file>QML/Views/Ngc.qml</file>
+        <file>QML/Views/Dashboard.qml</file>
         <file>QML/BasicItems/BasicRadioButton.qml</file>
         <file>QML/Panels/ThrustMappingPanel.qml</file>
         <file>QML/Panels/ControlPanel.qml</file>
@@ -110,5 +110,6 @@
         <file>QML/BasicItems/BasicTextInputInvertedWithRef.qml</file>
         <file>QML/BasicItems/BasicTabButtonBackground.qml</file>
         <file>QML/Panels/ControlPanelSC.qml</file>
+        <file>QML/Panels/NgcEnabledPanel.qml</file>
     </qresource>
 </RCC>

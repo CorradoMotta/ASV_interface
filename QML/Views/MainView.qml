@@ -3,6 +3,10 @@
  * Main qml view. This is the main view and contains the navigation map
  * and a quick access panel.
  *
+ * Author: Corrado Motta
+ * Date: 10/2022
+ * Mail: corradomotta92@gmail.com
+ *
  *************************************************************************/
 
 import QtQuick 2.15
@@ -15,18 +19,20 @@ import "../Maps"
 import "../Panels"
 import "../Views"
 
-
 Item {
     id: root
 
+    // custom properties
     property bool isMainView: true
-    property int myHeight: Math.max(minion_view.minimum_height + 150, main_layout.implicitHeight + 40)
+    property int myHeight: Math.max(minion_view.minimum_height, main_layout.implicitHeight) + 60
     property int myWidth: minion_view.minimum_width + main_layout.implicitWidth + 20
-
-    // TODO THIS IS DUPLICATED!
-    property alias xValue : ngc_auto.xValue // this should be a signal
-    property alias gammaValue : ngc_auto.gammaValue
     property var prefix: data_model.data_source.swamp_status.ngc_status
+
+    // alias TODO make signals
+    property alias xValue : ngc_auto.xValue
+    property alias gammaValue : ngc_auto.gammaValue
+
+    // Cpp model
     readonly property real nRef : prefix.asvRefnRef.value
     readonly property real dnRef : prefix.asvRefdnRef.value
     readonly property real alphaRef : prefix.asvRefalphaRef.value
@@ -42,12 +48,6 @@ Item {
     readonly property var publish_topic: data_model.data_source.publishMessage
     readonly property int maxRPMSpeed: data_model.data_source.swamp_status.conf.maxRPMSpeed
     readonly property bool hciIsConnected: data_model.data_source.is_connected
-    property alias last_lat_value: navigation_map.lastLatValue
-    property alias last_lon_value: navigation_map.lastLonValue
-
-    readonly property string ngcEnableTn: data_model.data_source.swamp_status.ngc_status.ngcEnable.act.topic_name
-    readonly property int ngcEnableRef : data_model.data_source.swamp_status.ngc_status.ngcEnable.ref.value
-    readonly property string setLogTn: data_model.data_source.swamp_status.ngc_status.setLog.topic_name
 
     // for controller
     property real x_curr_value : 0
@@ -59,7 +59,6 @@ Item {
     property real rho_thr: 0.2
     property real alfa_cos : 0
     property bool startUp: true
-
     property int currentJoystick: 0
     property bool connected: false
     property double timestamp: 0
@@ -163,9 +162,6 @@ Item {
             Layout.topMargin: 10
             Layout.rightMargin: 10
             Layout.bottomMargin: 10
-            //            background: Rectangle{
-            //                color: "aliceblue"
-            //            }
 
             header: TabBar {
                 id: bar
@@ -235,72 +231,30 @@ Item {
                             id: engine_panel
                             //color: "aliceblue"
                             Layout.fillWidth: true
-                            //Layout.rightMargin: 10
                             Layout.alignment: Qt.AlignTop
-                            // TODO i cannot access enum?
                             enabled: hciIsConnected
                             opacity: hciIsConnected? 1 : 0.3
-                            //enabled: true
                         }
                         HomingPanel{
                             id: homing_panel
                             //color: "aliceblue"
                             Layout.fillWidth: true
-                            //Layout.rightMargin: 10
                             Layout.alignment: Qt.AlignTop
                             enabled: hciIsConnected
                             opacity: hciIsConnected? 1 : 0.3
                         }
-                        //TODO NGC STUFF. Create a panel
-                        Rectangle{
+                        NgcEnabledPanel{
                             Layout.fillWidth: true
                             Layout.topMargin: 4
-                            //Layout.rightMargin: 10
                             Layout.alignment: Qt.AlignTop
-                            Layout.preferredHeight: ngc_row.implicitHeight + 10
                             color: "transparent"
-                            radius: 5.0
-                            border {
-                                color: "black"
-                                width: 2
-                            }
                             enabled: hciIsConnected
                             opacity: hciIsConnected? 1 : 0.3
-                            RowLayout{
-                                id: ngc_row
-                                //Layout.fillWidth: true
-                                anchors.fill: parent
-                                StatusDot{
-                                    Layout.alignment: Qt.AlignLeft
-                                    Layout.leftMargin: 10
-                                    width: 30
-                                    height: 30
-                                    info_text : "enableRef"
-                                    dot_state: ngcEnableRef
-                                }
-                                BasicSwitch{
-                                    switch_text: "NGC_ENABLE"
-                                    onSwitch_is_activeChanged: switch_is_active? publish_topic(ngcEnableTn, 1)
-                                                                               : publish_topic(ngcEnableTn, 0)
-                                }
-                                Rectangle{
-                                    Layout.fillWidth: true
-                                }
-                                BasicButton {
-                                    id: control
-                                    Layout.alignment: Qt.AlignRight
-                                    Layout.rightMargin: 10
-                                    Layout.topMargin: 4
-                                    onClicked: publish_topic(setLogTn, 1)
-                                    text_on_button: "NEW LOG"
-                                    button_width: 100
-                                }
-                            }
                         }
+
                         NGCPanelSC{
                             id: ngc_auto
                             Layout.fillWidth: true
-                            //Layout.rightMargin: 10
                             Layout.alignment: Qt.AlignTop
                             clip: true
                             panel_color: "aliceblue"
@@ -316,7 +270,6 @@ Item {
                             title: "MANEUVERS"
                             Layout.fillWidth: true
                             panel_color: "aliceblue"
-                            //Layout.rightMargin: 10
                             Layout.alignment: Qt.AlignTop
                             enabled: data_model.data_source.is_connected
                             opacity: data_model.data_source.is_connected? 1 : 0.3
@@ -331,8 +284,6 @@ Item {
                             opacity: data_model.data_source.is_connected? 1 : 0.3
                         }
                         Rectangle {
-                            //color: "aliceblue"
-
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                         }
@@ -350,7 +301,6 @@ Item {
                         ThrustMappingPanel{
                             id: rpm_alpha
                             Layout.fillWidth: true
-                            //Layout.rightMargin: 10
                             Layout.alignment: Qt.AlignTop
                             slider_width: 200
                             title: "RPM_ALPHA"
@@ -366,7 +316,6 @@ Item {
                         ThrustMappingPanel{
                             id: force_torque
                             Layout.fillWidth: true
-                            //Layout.rightMargin: 10
                             Layout.alignment: Qt.AlignTop
                             slider_width: 200
                             title: "FORCE_TORQUE"
@@ -424,6 +373,5 @@ Item {
     }
     function add_point(lat, lon){
         navigation_map.add_point(lat, lon)
-        //mivMarker.model.insertSingleMarker(QtPositioning.coordinate(lat, lon))
     }
 }
