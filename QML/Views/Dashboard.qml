@@ -83,13 +83,16 @@ BasicMinionPanelContainer{
     RowLayout{
         id: ngc_telemetry
         anchors{
-            right: parent.right
             top: btChr.bottom
+            right: parent.right
             left: parent.left
-            verticalCenter: parent.verticalCenter
-            topMargin: 20
+            bottom: parent.bottom
+            topMargin: 10
+            rightMargin: 50
             leftMargin: 50
         }
+
+
         ColumnLayout{
             id: asv_modes
             Layout.alignment: Qt.AlignLeft
