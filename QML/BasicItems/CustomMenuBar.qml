@@ -23,6 +23,9 @@ MenuBar {
     readonly property real xRef : data_model.data_source.swamp_status.ngc_status.asvRefxRef.value
     readonly property real yRef : data_model.data_source.swamp_status.ngc_status.asvRefyRef.value
     readonly property var publish_topic: data_model.data_source.publishMessage
+    readonly property int working_modeRef : data_model.data_source.swamp_status.ngc_status.refWorking_mode.value
+    readonly property int manual_modeRef : data_model.data_source.swamp_status.ngc_status.refManual_mode.value
+    readonly property int autoModeRef    : data_model.data_source.swamp_status.ngc_status.refAutoMode.value
 
     // button used to go back to RAW value
     Connections {
@@ -64,34 +67,34 @@ MenuBar {
     Menu{
         id: gcWorkingMode
         title: qsTr("GcWorkingMode")
-        Action {id: raw_action; checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("RAW"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_RAW): ""}
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("THRUST"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_THRUST): ""}
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("MANUAL"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_MANUAL): ""}
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("MANUAL_SPEED"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_MANUAL_SPEED): ""}
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("GOTO_AUTO"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_GOTO_AUTO): ""}
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("GOTO_AUTO_SPEED"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_GOTO_AUTO_SPEED): ""}
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("X_Y_PSI"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_X_Y_PSI): ""}
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("LF"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_LF): ""}
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("LF_SPEED"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_LF_SPEED): ""}
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("YAW_TEST"); ActionGroup.group: working_modes; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.gc_working_mode_tn,HciNgiInterface.GC_YAW_TEST): ""}
+        BasicMenuAction {id: raw_action;  checked: true; enum_ref: working_modeRef ; enum_value: HciNgiInterface.GC_RAW; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("RAW"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.working_modeRef ; enum_value: HciNgiInterface.GC_THRUST ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("THRUST"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.working_modeRef ; enum_value: HciNgiInterface.GC_MANUAL_SPEED ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("MANUAL_SPEED"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.working_modeRef ; enum_value: HciNgiInterface.GC_MANUAL ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("MANUAL"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.working_modeRef ; enum_value: HciNgiInterface.GC_GOTO_AUTO ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("GOTO_AUTO"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.working_modeRef ; enum_value: HciNgiInterface.GC_GOTO_AUTO_SPEED ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("GOTO_AUTO_SPEED"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.working_modeRef ; enum_value: HciNgiInterface.GC_X_Y_PSI ; topic_id: custom_menu_bar.gc_working_mode_tn;  text: qsTr("X_Y_PSI"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.working_modeRef ; enum_value: HciNgiInterface.GC_LF ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("LF"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.working_modeRef ; enum_value: HciNgiInterface.GC_LF_SPEED ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("LF_SPEED"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.working_modeRef ; enum_value: HciNgiInterface.GC_YAW_TEST ; topic_id: custom_menu_bar.gc_working_mode_tn;text: qsTr("YAW_TEST"); ActionGroup.group: working_modes}
     }
     Menu{
         id: thrustMappingManualMode
         title: qsTr("TM_ManualMode")
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("FRWD_ALL"); ActionGroup.group: tm_manual_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_manual_mode,HciNgiInterface.TMMM_FRWD_ALL): ""}
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("FRWD_BOW"); ActionGroup.group: tm_manual_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_manual_mode,HciNgiInterface.TMMM_FRWD_BOW): ""}
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("FRWD_STERN"); ActionGroup.group: tm_manual_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_manual_mode,HciNgiInterface.TMMM_FRWD_STERN): ""}
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("BCKWD_ALL"); ActionGroup.group: tm_manual_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_manual_mode,HciNgiInterface.TMMM_BCKWD_ALL): ""}
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("BCKWD_BOW"); ActionGroup.group: tm_manual_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_manual_mode,HciNgiInterface.TMMM_BCKWD_BOW): ""}
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("BCKWD_STERN"); ActionGroup.group: tm_manual_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_manual_mode,HciNgiInterface.TMMM_BCKWD_STERN): ""}
+        BasicMenuAction {enum_ref: custom_menu_bar.manual_modeRef;  checked: true;  topic_id: custom_menu_bar.thrust_mapping_manual_mode; enum_value: HciNgiInterface.TMMM_FRWD_ALL;   text: qsTr("FRWD_ALL"); ActionGroup.group: tm_manual_mode}
+        BasicMenuAction {enum_ref: custom_menu_bar.manual_modeRef; topic_id: custom_menu_bar.thrust_mapping_manual_mode; enum_value: HciNgiInterface.TMMM_FRWD_BOW;   text: qsTr("FRWD_BOW"); ActionGroup.group: tm_manual_mode}
+        BasicMenuAction {enum_ref: custom_menu_bar.manual_modeRef; topic_id: custom_menu_bar.thrust_mapping_manual_mode; enum_value: HciNgiInterface.TMMM_FRWD_STERN; text: qsTr("FRWD_STERN"); ActionGroup.group: tm_manual_mode}
+        BasicMenuAction {enum_ref: custom_menu_bar.manual_modeRef; topic_id: custom_menu_bar.thrust_mapping_manual_mode; enum_value: HciNgiInterface.TMMM_BCKWD_ALL;  text: qsTr("BCKWD_ALL"); ActionGroup.group: tm_manual_mode}
+        BasicMenuAction {enum_ref: custom_menu_bar.manual_modeRef; topic_id: custom_menu_bar.thrust_mapping_manual_mode; enum_value: HciNgiInterface.TMMM_BCKWD_BOW;  text: qsTr("BCKWD_BOW"); ActionGroup.group: tm_manual_mode}
+        BasicMenuAction {enum_ref: custom_menu_bar.manual_modeRef; topic_id: custom_menu_bar.thrust_mapping_manual_mode; enum_value: HciNgiInterface.TMMM_BCKWD_STERN;text: qsTr("BCKWD_STERN"); ActionGroup.group: tm_manual_mode}
     }
     Menu{
         id: thrustMappingAutoMode
         title: qsTr("TN_AutoMode")
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("HOV_MODE"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_HOV_MODE): ""}
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("FRWD_THRUST_ALL"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_FRWD_THRUST_ALL): ""}
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("FRWD_AZIMUTH_ALL"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_FRWD_AZIMUTH_ALL): ""}
-        Action {checkable: true; enabled: data_model.data_source.is_connected; text: qsTr("FRWD_AZIMUTH_STERN"); ActionGroup.group: tm_auto_mode; onCheckedChanged: checked? custom_menu_bar.publish_topic(custom_menu_bar.thrust_mapping_auto_mode,HciNgiInterface.TMAM_FRWD_AZIMUTH_STERN): ""}
+        BasicMenuAction {enum_ref: custom_menu_bar.autoModeRef; checked: true;  topic_id: custom_menu_bar.thrust_mapping_auto_mode; enum_value: HciNgiInterface.TMAM_HOV_MODE;          text: qsTr("HOV_MODE"); ActionGroup.group: tm_auto_mode          }
+        BasicMenuAction {enum_ref: custom_menu_bar.autoModeRef; topic_id: custom_menu_bar.thrust_mapping_auto_mode; enum_value: HciNgiInterface.TMAM_FRWD_THRUST_ALL;   text: qsTr("FRWD_THRUST_ALL"); ActionGroup.group: tm_auto_mode   }
+        BasicMenuAction {enum_ref: custom_menu_bar.autoModeRef; topic_id: custom_menu_bar.thrust_mapping_auto_mode; enum_value: HciNgiInterface.TMAM_FRWD_AZIMUTH_ALL;  text: qsTr("FRWD_AZIMUTH_ALL"); ActionGroup.group: tm_auto_mode  }
+        BasicMenuAction {enum_ref: custom_menu_bar.autoModeRef; topic_id: custom_menu_bar.thrust_mapping_auto_mode; enum_value: HciNgiInterface.TMAM_FRWD_AZIMUTH_STERN;text: qsTr("FRWD_AZIMUTH_STERN"); ActionGroup.group: tm_auto_mode}
     }
 
     Menu {

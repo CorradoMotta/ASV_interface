@@ -19,7 +19,6 @@ Rectangle {
 
     // properties
     Layout.preferredHeight: cl.implicitHeight
-    radius: 5.0
     color: "transparent"
 
     // custom properties
@@ -69,14 +68,12 @@ Rectangle {
             RowLayout{
                 id: icon_row
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: parent.top
-                anchors.topMargin: 4
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 4
+                anchors.verticalCenter: parent.verticalCenter
+                //anchors.leftMargin: 50
                 spacing: 15
-                Layout.alignment: Qt.AlignHCenter
 
                 ColumnLayout{
+                    Layout.alignment: Qt.AlignHCenter
                     Image {
                         id: play_icon
                         visible: true
@@ -101,6 +98,7 @@ Rectangle {
                     }
                 }
                 ColumnLayout{
+                    Layout.alignment: Qt.AlignHCenter
                     Image {
                         id: pause_icon
                         visible: true
@@ -126,6 +124,7 @@ Rectangle {
                     }
                 }
                 ColumnLayout{
+                    Layout.alignment: Qt.AlignHCenter
                     Image {
                         id: resume_icon
                         visible: true

@@ -106,10 +106,14 @@
         <file>Images/send_line_box_on.png</file>
         <file>Images/compass.png</file>
         <file>Images/marker_ref.png</file>
+        <file>Images/selection.png</file>
         <file>QML/BasicItems/BasicMenuButton.qml</file>
         <file>QML/BasicItems/BasicTextInputInvertedWithRef.qml</file>
         <file>QML/BasicItems/BasicTabButtonBackground.qml</file>
         <file>QML/Panels/ControlPanelSC.qml</file>
         <file>QML/Panels/NgcEnabledPanel.qml</file>
+        <file>Images/selected.png</file>
+        <file>QML/BasicItems/BasicMenuAction.qml</file>
+        <file>Images/selection_empty.png</file>
     </qresource>
 </RCC>

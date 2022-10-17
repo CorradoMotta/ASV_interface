@@ -231,7 +231,7 @@ Item {
                             id: engine_panel
                             //color: "aliceblue"
                             Layout.fillWidth: true
-                            Layout.alignment: Qt.AlignTop
+                            //Layout.alignment: Qt.AlignTop
                             enabled: hciIsConnected
                             opacity: hciIsConnected? 1 : 0.3
                         }
@@ -239,14 +239,14 @@ Item {
                             id: homing_panel
                             //color: "aliceblue"
                             Layout.fillWidth: true
-                            Layout.alignment: Qt.AlignTop
+                            //Layout.alignment: Qt.AlignTop
                             enabled: hciIsConnected
                             opacity: hciIsConnected? 1 : 0.3
                         }
                         NgcEnabledPanel{
                             Layout.fillWidth: true
                             Layout.topMargin: 4
-                            Layout.alignment: Qt.AlignTop
+                            //Layout.alignment: Qt.AlignTop
                             color: "transparent"
                             enabled: hciIsConnected
                             opacity: hciIsConnected? 1 : 0.3
@@ -255,7 +255,7 @@ Item {
                         NGCPanelSC{
                             id: ngc_auto
                             Layout.fillWidth: true
-                            Layout.alignment: Qt.AlignTop
+                            //Layout.alignment: Qt.AlignTop
                             clip: true
                             panel_color: "aliceblue"
                             slider_width: 200
@@ -265,28 +265,25 @@ Item {
                             slider1_text: "X"; slider1_from: -50.0; slider1_to: 50.0;  slider1_ref: xRef  //slider1_mask: "#00";
                             slider2_text: "G"; slider2_from: -180; slider2_to: 180;    slider2_ref: gammaRef  //slider1_mask: "#00";
                         }
-                        ManeuversPanel{
-                            id: man_panel
-                            title: "MANEUVERS"
+                        ThrustMappingPanel{
+                            id: rpm_alpha
                             Layout.fillWidth: true
+                            //Layout.alignment: Qt.AlignTop
+                            slider_width: 200
+                            title: "RPM_ALPHA"
+                            slider1_text: "N"; slider1_from: 0; slider1_to: root.maxRPMSpeed;  slider1_ref: root.nRef;   //slider1_mask: "#000";
+                            slider2_text: "D"; slider2_from: -900; slider2_to: 900;  slider2_ref: root.dnRef    //slider2_mask: "#000";
+                            slider3_text: "Α"; slider3_from: -180; slider3_to: 180;  slider3_ref: root.alphaRef //slider3_mask: "#000";
+                            clip: true
                             panel_color: "aliceblue"
-                            Layout.alignment: Qt.AlignTop
-                            enabled: data_model.data_source.is_connected
-                            opacity: data_model.data_source.is_connected? 1 : 0.3
+                            enabled: hciIsConnected
+                            opacity: hciIsConnected? 1 : 0.3
+                            onValueChanged: root.publish_topic(root.rpmAlphaTn, value) //console.log(value)
                         }
-                        CoordinatePanel{
-                            id: coordinate_panel
-                            title: "COORDINATES"
-                            Layout.fillWidth: true
-                            panel_color: "aliceblue"
-                            Layout.alignment: Qt.AlignTop
-                            enabled: data_model.data_source.is_connected
-                            opacity: data_model.data_source.is_connected? 1 : 0.3
-                        }
-                        Rectangle {
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                        }
+//                        Rectangle {
+//                            Layout.fillWidth: true
+//                            Layout.fillHeight: true
+//                        }
                     }
                 }
 
@@ -298,21 +295,6 @@ Item {
                         id: ngc_2_cl
                         anchors.fill: parent
                         spacing: 10
-                        ThrustMappingPanel{
-                            id: rpm_alpha
-                            Layout.fillWidth: true
-                            Layout.alignment: Qt.AlignTop
-                            slider_width: 200
-                            title: "RPM_ALPHA"
-                            slider1_text: "N"; slider1_from: 0; slider1_to: root.maxRPMSpeed;  slider1_ref: root.nRef;   //slider1_mask: "#000";
-                            slider2_text: "D"; slider2_from: -900; slider2_to: 900;  slider2_ref: root.dnRef    //slider2_mask: "#000";
-                            slider3_text: "Α"; slider3_from: -180; slider3_to: 180;  slider3_ref: root.alphaRef //slider3_mask: "#000";
-                            clip: true
-                            panel_color: "white"
-                            enabled: hciIsConnected
-                            opacity: hciIsConnected? 1 : 0.3
-                            onValueChanged: root.publish_topic(root.rpmAlphaTn, value) //console.log(value)
-                        }
                         ThrustMappingPanel{
                             id: force_torque
                             Layout.fillWidth: true
@@ -350,14 +332,32 @@ Item {
                         id: ngc_3_cl
                         anchors.fill: parent
                         spacing: 10
+                        ManeuversPanel{
+                            id: man_panel
+                            title: "MANEUVERS"
+                            Layout.fillWidth: true
+                            panel_color: "white"
+                            Layout.alignment: Qt.AlignTop
+                            enabled: data_model.data_source.is_connected
+                            opacity: data_model.data_source.is_connected? 1 : 0.3
+                        }
                         BathymetryPanel {
                             id: bathymetry_panel
                             title: "BATHYMETRY"
-                            panel_color: "aliceblue"
+                            panel_color: "white"
                             Layout.fillWidth: true
                             Layout.alignment: Qt.AlignTop
                             opacity: hciIsConnected ? 1 : 0.3
                             enabled: hciIsConnected
+                        }
+                        CoordinatePanel{
+                            id: coordinate_panel
+                            title: "COORDINATES"
+                            Layout.fillWidth: true
+                            panel_color: "aliceblue"
+                            Layout.alignment: Qt.AlignTop
+                            enabled: data_model.data_source.is_connected
+                            opacity: data_model.data_source.is_connected? 1 : 0.3
                         }
                         Rectangle {
                             Layout.fillWidth: true

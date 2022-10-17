@@ -66,11 +66,12 @@ Rectangle {
             ColumnLayout {
                 id: data_column
                 anchors.fill: parent
-                anchors.leftMargin: 10
+                //anchors.leftMargin: 10
                 spacing: 0
 
                 BasicRangeSlider{
                     id: slider_depth
+                    Layout.leftMargin: 10
                     //slider_text: "BATHYMETRY"
                     //font: 14
                     //isBold: true

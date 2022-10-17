@@ -71,11 +71,11 @@ Rectangle {
             ColumnLayout {
                 id: data_column
                 anchors.fill: parent
-                anchors.leftMargin: 10
+                //anchors.leftMargin: 10
                 spacing: 0
                 BasicTextInputInverted{
                     id: testo
-                    //Layout.topMargin: 10
+                    Layout.leftMargin: 10
                     title_text: "POINT NAME"
                     new_text_value: ""
                     value_width: 240
