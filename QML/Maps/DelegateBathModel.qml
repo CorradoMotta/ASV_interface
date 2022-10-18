@@ -40,7 +40,8 @@ MapQuickItem {
                 id: info_label_text
                 anchors.horizontalCenter: info_label.horizontalCenter
                 anchors.verticalCenter: info_label.verticalCenter
-                font.pointSize: 10
+                font.family: "Helvetica"
+                font.pixelSize: 14
                 text: depth
             }
         }

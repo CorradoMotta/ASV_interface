@@ -18,7 +18,7 @@ Rectangle {
             id: basic_input
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignLeft
-            titleSize: 10
+            titleSize: 13
             value_width: 42
         }
         Rectangle{
@@ -35,7 +35,7 @@ Rectangle {
                 anchors.fill: parent
                 anchors.margins: 4
                 font.family: "Helvetica"
-                font.pointSize: 16
+                font.pixelSize: 17
             }
         }
     }

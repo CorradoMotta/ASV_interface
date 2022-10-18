@@ -65,7 +65,7 @@ Rectangle{
                 Layout.alignment: Qt.AlignLeft
                 Layout.leftMargin: 4
                 font.family: "Helvetica"
-                font.pointSize: 14
+                font.pixelSize: 18
                 font.bold: true
             }
         }

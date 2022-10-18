@@ -27,13 +27,13 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: 4
                 font.family: "Helvetica"
-                font.pointSize: 14
+                font.pixelSize: 18
             }
         }
         Text {
             id: title_text_output
             font.family: "Helvetica"
-            font.pointSize: 14
+            font.pixelSize: 18
         }
     }
 }

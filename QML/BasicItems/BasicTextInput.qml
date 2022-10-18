@@ -7,7 +7,7 @@ Item {
     property alias mask: text_value_id.inputMask
     property string new_text_value: ""
     property alias value_width : text_input_id.width
-    property alias titleSize: title_text_input.font.pointSize
+    property alias titleSize: title_text_input.font.pixelSize
 
     implicitHeight: rl.implicitHeight
     implicitWidth: rl.implicitWidth
@@ -31,7 +31,7 @@ Item {
                 anchors.fill: parent
                 anchors.margins: 4
                 font.family: "Helvetica"
-                font.pointSize: 14
+                font.pixelSize: 18
                 focus: true
                 onEditingFinished: text.trim() === ''?  0 : new_text_value =  text
             }
@@ -40,7 +40,7 @@ Item {
         Text {
             id: title_text_input
             font.family: "Helvetica"
-            font.pointSize: 14
+            font.pixelSize: 18
         }
     }
 }

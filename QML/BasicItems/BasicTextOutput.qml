@@ -5,7 +5,7 @@ Item {
     property alias title_text: title_text_output.text
     property alias value_text: info_label_text.text
     property alias value_width : info_label.width
-    property alias titleSize: info_label_text.font.pointSize
+    property alias titleSize: info_label_text.font.pixelSize
 
     implicitHeight: rl.implicitHeight
     implicitWidth: rl.implicitWidth
@@ -17,7 +17,7 @@ Item {
         Text {
             id: title_text_output
             font.family: "Helvetica"
-            font.pointSize: 14
+            font.pixelSize: 18
         }
         Rectangle{
             id: info_label
@@ -34,7 +34,7 @@ Item {
                 anchors.leftMargin: 4
                 anchors.verticalCenter: info_label.verticalCenter
                 font.family: "Helvetica"
-                font.pointSize: 14
+                font.pixelSize: 18
             }
         }
     }

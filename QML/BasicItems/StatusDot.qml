@@ -47,7 +47,8 @@ Rectangle{
             id: info_label_text
             anchors.horizontalCenter: info_label.horizontalCenter
             anchors.verticalCenter: info_label.verticalCenter
-            font.pointSize: 10
+            font.family: "helvetica"
+            font.pixelSize: 14
         }
     }
 

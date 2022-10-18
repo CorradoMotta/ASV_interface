@@ -39,7 +39,7 @@ Item {
             id: slider_text_id
             Layout.alignment: Qt.AlignLeft
             font.family: "Helvetica"
-            font.pointSize: 14
+            font.pixelSize: 18
         }
 //        Button {
 //            id: control_button
@@ -111,7 +111,7 @@ Item {
         }
         FocusScope {
             id: text_input_id
-            property int maxWidth: 48
+            property int maxWidth: 50
             Layout.preferredWidth: maxWidth
             Layout.preferredHeight: slider_value_id.implicitHeight + 6
             Layout.alignment: Qt.AlignRight
@@ -126,7 +126,7 @@ Item {
                     anchors.fill: parent
                     anchors.margins: 4
                     font.family: "Helvetica"
-                    font.pointSize: 16
+                    font.pixelSize: 20
                     focus: true
                     text: control.onMoved ? Math.round(control.valueAt(control.position) * 100) / 100 : 0
                     onEditingFinished: {
@@ -178,7 +178,7 @@ Item {
                 anchors.fill: parent
                 anchors.margins: 4
                 font.family: "Helvetica"
-                font.pointSize: 16
+                font.pixelSize: 20
             }
         }
         Rectangle{
@@ -197,7 +197,7 @@ Item {
                 anchors.fill: parent
                 anchors.margins: 4
                 font.family: "Helvetica"
-                font.pointSize: 16
+                font.pixelSize: 20
             }
         }
 

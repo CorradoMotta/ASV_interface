@@ -32,6 +32,8 @@ Rectangle {
             id: tabTitle
             color: "#ffffff"
             text: qsTr("Global Metadata")
+            font.family: "Helvetica"
+            font.pixelSize: 16
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
         }
@@ -99,7 +101,7 @@ Rectangle {
 
         Button {
             id: cancelButton
-            text: qsTr("Cancel")
+            text: qsTr("Quit")
             onClicked: mainLoader.source = "../Views/MainView.qml"
         }
     }

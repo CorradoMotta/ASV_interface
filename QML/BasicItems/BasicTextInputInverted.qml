@@ -7,7 +7,7 @@ Item {
     property string new_text_value: "0"
     property alias make_bold : title_text_input.font.bold
     property alias value_width : text_input_id.width
-    property alias titleSize: title_text_input.font.pointSize
+    property alias titleSize: title_text_input.font.pixelSize
     property alias text_value: text_value_id.text
 
     implicitHeight: rl.implicitHeight
@@ -21,7 +21,7 @@ Item {
         Text {
             id: title_text_input
             font.family: "Helvetica"
-            font.pointSize: 14
+            font.pixelSize: 14
         }
         Item {
             id: space
@@ -43,7 +43,7 @@ Item {
                 anchors.fill: parent
                 anchors.margins: 4
                 font.family: "Helvetica"
-                font.pointSize: 14
+                font.pixelSize: 17
                 focus: true
                 text: new_text_value
                 onEditingFinished: new_text_value = text

@@ -8,7 +8,7 @@ Button {
     contentItem: Text {
         id: row_text
         font.family: "Helvetica"
-        font.pointSize: 10
+        font.pixelSize: 13
         anchors.horizontalCenter: background_line.horizontalCenter
     }
 

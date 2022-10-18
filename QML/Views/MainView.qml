@@ -3,30 +3,36 @@
  * Main qml view. This is the main view and contains the navigation map
  * and a quick access panel.
  *
+ * Author: Corrado Motta
+ * Date: 10/2022
+ * Mail: corradomotta92@gmail.com
+ *
  *************************************************************************/
 
 import QtQuick 2.15
 import QtPositioning 5.15
 import QtLocation 5.15
-import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
 import "../BasicItems"
 import "../Maps"
 import "../Panels"
 import "../Views"
 
-
 Item {
     id: root
 
+    // custom properties
     property bool isMainView: true
-    property int myHeight: Math.max(minion_view.minimum_height + 150, main_layout.implicitHeight + 40)
+    property int myHeight: Math.max(minion_view.minimum_height, main_layout.implicitHeight) + 60
     property int myWidth: minion_view.minimum_width + main_layout.implicitWidth + 20
-
-    // TODO THIS IS DUPLICATED!
-    property alias xValue : ngc_auto.xValue // this should be a signal
-    property alias gammaValue : ngc_auto.gammaValue
     property var prefix: data_model.data_source.swamp_status.ngc_status
+
+    // alias TODO make signals
+    property alias xValue : ngc_auto.xValue
+    property alias gammaValue : ngc_auto.gammaValue
+
+    // Cpp model
     readonly property real nRef : prefix.asvRefnRef.value
     readonly property real dnRef : prefix.asvRefdnRef.value
     readonly property real alphaRef : prefix.asvRefalphaRef.value
@@ -42,12 +48,7 @@ Item {
     readonly property var publish_topic: data_model.data_source.publishMessage
     readonly property int maxRPMSpeed: data_model.data_source.swamp_status.conf.maxRPMSpeed
     readonly property bool hciIsConnected: data_model.data_source.is_connected
-    property alias last_lat_value: navigation_map.lastLatValue
-    property alias last_lon_value: navigation_map.lastLonValue
-
-    readonly property string ngcEnableTn: data_model.data_source.swamp_status.ngc_status.ngcEnable.act.topic_name
-    readonly property int ngcEnableRef : data_model.data_source.swamp_status.ngc_status.ngcEnable.ref.value
-    readonly property string setLogTn: data_model.data_source.swamp_status.ngc_status.setLog.topic_name
+    readonly property int tabLen: 1
 
     // for controller
     property real x_curr_value : 0
@@ -59,7 +60,6 @@ Item {
     property real rho_thr: 0.2
     property real alfa_cos : 0
     property bool startUp: true
-
     property int currentJoystick: 0
     property bool connected: false
     property double timestamp: 0
@@ -125,6 +125,18 @@ Item {
         }
     }
 
+    Connections {
+        // to switch between tabs
+        target: QJoysticks
+        enabled: data_model.data_source.is_connected
+
+        function onButtonChanged(js, button, pressed) {
+            if (button === 3 && pressed === true){
+                bar.currentIndex = bar.currentIndex > tabLen? 0 : bar.currentIndex+1
+            }
+        }
+    }
+
     Minions{
         id: minion_view
     }
@@ -132,7 +144,6 @@ Item {
     RowLayout {
         id: main_layout
         anchors.fill: parent
-        //anchors.topMargin: 40 //todo is the bar width
         spacing: 10
 
         StackView {
@@ -153,190 +164,219 @@ Item {
             Layout.preferredWidth: 30
         }
 
-        Rectangle {
-            id: control_panel
-            implicitHeight: main_cl.implicitHeight
+
+        Page{
+            id: main_view_page
+            property int margin: 10
             Layout.alignment: Qt.AlignTop
+            Layout.fillHeight: true
             Layout.preferredWidth: 460
             Layout.preferredHeight: 800
             Layout.topMargin: 10
+            Layout.rightMargin: 10
+            Layout.bottomMargin: 10
 
-            ColumnLayout {
-                id: main_cl
+            header: TabBar {
+                id: bar
+                height: 36
+                spacing: 4
+
+
+                TabButton {
+                    id: ngc_1_tab
+                    background: BasicTabButtonBackground {
+                        id: btb
+                        implicitHeight: bar.height
+                        implicitWidth: ngc_1_tab.implicitWidth
+                        text_content: qsTr("SET UP")
+                        color: bar.currentIndex === 0 ? "aliceblue" : "lightskyblue"
+                        text_color: bar.currentIndex === 0 ? "black" : "white"
+                    }
+                }
+                TabButton {
+                    id: ngc_2_tab
+                    background: BasicTabButtonBackground {
+                        implicitHeight: bar.height
+                        implicitWidth: ngc_2_tab.implicitWidth
+                        text_content: qsTr("NGC")
+                        color: bar.currentIndex === 1 ? "aliceblue" : "lightskyblue"
+                        text_color: bar.currentIndex === 1 ? "black" : "white"
+                    }
+                }
+                TabButton {
+                    id: ngc_3_tab
+                    background: BasicTabButtonBackground {
+                        implicitHeight: bar.height
+                        implicitWidth: ngc_3_tab.implicitWidth
+                        text_content: qsTr("OTHER")
+                        color: bar.currentIndex === 2 ? "aliceblue" : "lightskyblue"
+                        text_color: bar.currentIndex === 2 ? "black" : "white"
+                    }
+                }
+            }
+            footer: Button {
+                id: connect_button
+
+                onClicked: data_model.data_source.setConnection()
+                contentItem: Text {
+                    text: hciIsConnected ? "disconnect" : "connect"
+                    font.family: "Helvetica"
+                    font.pixelSize: 22
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+            }
+
+            StackLayout {
+                id: view
                 anchors.fill: parent
-                spacing: 10
-                EnginePanel {
-                    id: engine_panel
-                    //color: "aliceblue"
-                    Layout.fillWidth: true
-                    Layout.rightMargin: 10
-                    Layout.alignment: Qt.AlignTop
-                    // TODO i cannot access enum?
-                    enabled: hciIsConnected
-                    opacity: hciIsConnected? 1 : 0.3
-                    //enabled: true
-                }
-                HomingPanel{
-                    id: homing_panel
-                    //color: "aliceblue"
-                    Layout.fillWidth: true
-                    Layout.rightMargin: 10
-                    Layout.alignment: Qt.AlignTop
-                    enabled: hciIsConnected
-                    opacity: hciIsConnected? 1 : 0.3
-                }
-                //TODO NGC STUFF. Create a panel
-                Rectangle{
-                    Layout.fillWidth: true
-                    Layout.topMargin: 4
-                    Layout.rightMargin: 10
-                    Layout.alignment: Qt.AlignTop
-                    Layout.preferredHeight: ngc_row.implicitHeight + 10
-                    color: "transparent"
-                    radius: 5.0
-                    border {
-                        color: "black"
-                        width: 2
-                    }
-                    enabled: hciIsConnected
-                    opacity: hciIsConnected? 1 : 0.3
-                    RowLayout{
-                        id: ngc_row
-                        //Layout.fillWidth: true
+                anchors.margins: main_view_page.margin
+                currentIndex: bar.currentIndex
+                Rectangle {
+                    id: control_panel
+                    implicitHeight: main_cl.implicitHeight
+
+                    ColumnLayout {
+                        id: main_cl
                         anchors.fill: parent
-                        StatusDot{
-                            Layout.alignment: Qt.AlignLeft
-                            Layout.leftMargin: 10
-                            width: 30
-                            height: 30
-                            info_text : "enableRef"
-                            dot_state: ngcEnableRef
-                        }
-                        BasicSwitch{
-                            switch_text: "NGC_ENABLE"
-                            // TODO
-                            onSwitch_is_activeChanged: switch_is_active? publish_topic(ngcEnableTn, 1)
-                                                                       : publish_topic(ngcEnableTn, 0)
-                        }
-                        Rectangle{
+                        spacing: 10
+                        EnginePanel {
+                            id: engine_panel
+                            //color: "aliceblue"
                             Layout.fillWidth: true
+                            //Layout.alignment: Qt.AlignTop
+                            enabled: hciIsConnected
+                            opacity: hciIsConnected? 1 : 0.3
                         }
-                        BasicButton {
-                            id: control
-                            Layout.alignment: Qt.AlignRight
-                            Layout.rightMargin: 10
+                        HomingPanel{
+                            id: homing_panel
+                            //color: "aliceblue"
+                            Layout.fillWidth: true
+                            //Layout.alignment: Qt.AlignTop
+                            enabled: hciIsConnected
+                            opacity: hciIsConnected? 1 : 0.3
+                        }
+                        NgcEnabledPanel{
+                            Layout.fillWidth: true
                             Layout.topMargin: 4
-                            onClicked: publish_topic(setLogTn, 1)
-                            text_on_button: "NEW LOG"
-                            button_width: 100
+                            //Layout.alignment: Qt.AlignTop
+                            color: "transparent"
+                            enabled: hciIsConnected
+                            opacity: hciIsConnected? 1 : 0.3
+                        }
+
+                        NGCPanelSC{
+                            id: ngc_auto
+                            Layout.fillWidth: true
+                            //Layout.alignment: Qt.AlignTop
+                            clip: true
+                            panel_color: "aliceblue"
+                            slider_width: 200
+                            title: "CONTROL"
+                            enabled: hciIsConnected
+                            opacity: hciIsConnected? 1 : 0.3
+                            slider1_text: "X"; slider1_from: -50.0; slider1_to: 50.0;  slider1_ref: xRef  //slider1_mask: "#00";
+                            slider2_text: "G"; slider2_from: -180; slider2_to: 180;    slider2_ref: gammaRef  //slider1_mask: "#00";
+                        }
+                        ThrustMappingPanel{
+                            id: rpm_alpha
+                            Layout.fillWidth: true
+                            //Layout.alignment: Qt.AlignTop
+                            slider_width: 200
+                            title: "RPM_ALPHA"
+                            slider1_text: "N"; slider1_from: 0; slider1_to: root.maxRPMSpeed;  slider1_ref: root.nRef;   //slider1_mask: "#000";
+                            slider2_text: "D"; slider2_from: -900; slider2_to: 900;  slider2_ref: root.dnRef    //slider2_mask: "#000";
+                            slider3_text: "Α"; slider3_from: -180; slider3_to: 180;  slider3_ref: root.alphaRef //slider3_mask: "#000";
+                            clip: true
+                            panel_color: "aliceblue"
+                            enabled: hciIsConnected
+                            opacity: hciIsConnected? 1 : 0.3
+                            onValueChanged: root.publish_topic(root.rpmAlphaTn, value) //console.log(value)
+                        }
+                        //                        Rectangle {
+                        //                            Layout.fillWidth: true
+                        //                            Layout.fillHeight: true
+                        //                        }
+                    }
+                }
+
+                Rectangle {
+                    id: ngc_2_panel
+                    implicitHeight: ngc_2_cl.implicitHeight
+
+                    ColumnLayout {
+                        id: ngc_2_cl
+                        anchors.fill: parent
+                        spacing: 10
+                        ThrustMappingPanel{
+                            id: force_torque
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignTop
+                            slider_width: 200
+                            title: "FORCE_TORQUE"
+                            slider1_text: "X"; slider1_from: -50; slider1_to: 50;  slider1_ref: root.xRef  ; slider1_act: root.asvRefXhat //slider1_mask: "#00";
+                            slider2_text: "Y"; slider2_from: -50; slider2_to: 50;  slider2_ref: root.yRef  ; slider2_act: root.asvRefYhat //slider2_mask: "#00";
+                            slider3_text: "N"; slider3_from: -50; slider3_to: 50;  slider3_ref: root.nNRef ; slider3_act: root.asvRefNhat //slider3_mask: "#00";
+                            clip: true
+                            panel_color: "white"
+                            enabled: data_model.data_source.is_connected
+                            opacity: data_model.data_source.is_connected? 1 : 0.3
+                            onValueChanged: root.publish_topic(root.forceTorqueTn, value)
+                        }
+                        ControlPanelSC{
+                            id: control_panel_2
+                            Layout.fillWidth: true
+                            enabled: hciIsConnected
+                            opacity: hciIsConnected? 1 : 0.3
+                            Layout.alignment: Qt.AlignTop
+                        }
+                        Rectangle {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
                         }
                     }
-                }
-                ThrustMappingPanel{
-                    id: rpm_alpha
-                    Layout.fillWidth: true
-                    Layout.rightMargin: 10
-                    Layout.alignment: Qt.AlignTop
-                    slider_width: 200
-                    title: "RPM_ALPHA"
-                    slider1_text: "N"; slider1_from: 0; slider1_to: root.maxRPMSpeed;  slider1_ref: root.nRef;   //slider1_mask: "#000";
-                    slider2_text: "D"; slider2_from: -900; slider2_to: 900;  slider2_ref: root.dnRef    //slider2_mask: "#000";
-                    slider3_text: "Α"; slider3_from: -180; slider3_to: 180;  slider3_ref: root.alphaRef //slider3_mask: "#000";
-                    clip: true
-                    panel_color: "white"
-                    enabled: hciIsConnected
-                    opacity: hciIsConnected? 1 : 0.3
-                    onValueChanged: root.publish_topic(root.rpmAlphaTn, value) //console.log(value)
-                }
-                //                ThrustMappingPanel{
-                //                    id: force_torque
-                //                    Layout.fillWidth: true
-                //                    Layout.rightMargin: 10
-                //                    Layout.alignment: Qt.AlignTop
-                //                    slider_width: 200
-                //                    title: "FORCE_TORQUE"
-                //                    slider1_text: "X"; slider1_from: -50; slider1_to: 50;  slider1_ref: root.xRef  ; slider1_act: root.asvRefXhat //slider1_mask: "#00";
-                //                    slider2_text: "Y"; slider2_from: -50; slider2_to: 50;  slider2_ref: root.yRef  ; slider2_act: root.asvRefYhat //slider2_mask: "#00";
-                //                    slider3_text: "N"; slider3_from: -50; slider3_to: 50;  slider3_ref: root.nNRef ; slider3_act: root.asvRefNhat //slider3_mask: "#00";
-                //                    clip: true
-                //                    panel_color: "white"
-                //                    enabled: data_model.data_source.is_connected
-                //                    opacity: data_model.data_source.is_connected? 1 : 0.3
-                //                    onValueChanged: root.publish_topic(root.forceTorqueTn, value)
-                //                }
-                NGCPanelSC{
-                    id: ngc_auto
-                    Layout.fillWidth: true
-                    Layout.rightMargin: 10
-                    Layout.alignment: Qt.AlignTop
-                    clip: true
-                    panel_color: "white"
-                    slider_width: 200
-                    title: "CONTROL"
-                    enabled: hciIsConnected
-                    opacity: hciIsConnected? 1 : 0.3
-                    slider1_text: "X"; slider1_from: -50.0; slider1_to: 50.0;  slider1_ref: xRef  //slider1_mask: "#00";
-                    slider2_text: "G"; slider2_from: -180; slider2_to: 360;    slider2_ref: gammaRef  //slider1_mask: "#00";
-                }
 
-                //                                BathymetryPanel {
-                //                                    id: bathymetry_panel
-                //                                    Layout.fillWidth: true
-                //                                    Layout.rightMargin: 10
-                //                                    Layout.alignment: Qt.AlignTop
-                //                                    //opacity: data_model.data_source.is_connected ? 1 : 0.3
-                //                                    //enabled: data_model.data_source.is_connected
-                //                                    opacity: 0.3
-                //                                    enabled: false
-                //                                }
-                //                ManeuversPanel{
-                //                    id: man_panel
-                //                    title: "MANEUVERS"
-                //                    Layout.fillWidth: true
-                //                    panel_color: "white"
-                //                    Layout.rightMargin: 10
-                //                    Layout.alignment: Qt.AlignTop
-                //                    enabled: data_model.data_source.is_connected
-                //                    opacity: data_model.data_source.is_connected? 1 : 0.3
-                //                }
-                //                CoordinatePanel{
-                //                    id: coordinate_panel
-                //                    title: "COORDINATES"
-                //                    Layout.fillWidth: true
-                //                    panel_color: "white"
-                //                    Layout.rightMargin: 10
-                //                    Layout.alignment: Qt.AlignTop
-                //                    enabled: data_model.data_source.is_connected
-                //                    opacity: data_model.data_source.is_connected? 1 : 0.3
-                //                }
-
-                BathymetryPanel {
-                    id: bathymetry_panel
-                    Layout.fillWidth: true
-                    Layout.rightMargin: 10
-                    Layout.alignment: Qt.AlignTop
-                    opacity: hciIsConnected ? 1 : 0.3
-                    enabled: hciIsConnected
-//                    opacity: 0.3
-//                    enabled: false
-                }
-                Button {
-                    id: connect_button
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillWidth: true
-                    Layout.rightMargin: 10
-                    onClicked: data_model.data_source.setConnection()
-                    contentItem: Text {
-                        text: hciIsConnected ? "disconnect" : "connect"
-                        font.family: "Helvetica"
-                        font.pointSize: 18
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
                 }
                 Rectangle {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
+                    id: ngc_3_panel
+                    implicitHeight: ngc_2_cl.implicitHeight
+
+                    ColumnLayout {
+                        id: ngc_3_cl
+                        anchors.fill: parent
+                        spacing: 10
+                        ManeuversPanel{
+                            id: man_panel
+                            title: "MANEUVERS"
+                            Layout.fillWidth: true
+                            panel_color: "white"
+                            Layout.alignment: Qt.AlignTop
+                            enabled: data_model.data_source.is_connected
+                            opacity: data_model.data_source.is_connected? 1 : 0.3
+                        }
+                        BathymetryPanel {
+                            id: bathymetry_panel
+                            title: "BATHYMETRY"
+                            panel_color: "white"
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignTop
+                            opacity: hciIsConnected ? 1 : 0.3
+                            enabled: hciIsConnected
+                        }
+                        CoordinatePanel{
+                            id: coordinate_panel
+                            title: "COORDINATES"
+                            Layout.fillWidth: true
+                            panel_color: "aliceblue"
+                            Layout.alignment: Qt.AlignTop
+                            enabled: data_model.data_source.is_connected
+                            opacity: data_model.data_source.is_connected? 1 : 0.3
+                        }
+                        Rectangle {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                        }
+                    }
                 }
             }
         }
@@ -346,6 +386,5 @@ Item {
     }
     function add_point(lat, lon){
         navigation_map.add_point(lat, lon)
-        //mivMarker.model.insertSingleMarker(QtPositioning.coordinate(lat, lon))
     }
 }

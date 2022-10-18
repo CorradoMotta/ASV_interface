@@ -4,7 +4,10 @@
  * allows to store coordinates (as part of the SingleMarker class), to
  * upload an existing dataset into the map (in the GPX format),
  * to remove or modify any stored coordinate and to send them to the
- * vehicle (TODO: not active yet).
+ * vehicle.
+ *
+ * Note: this class has been modified to allow only one marker to be
+ * inserted at a time.
  *
  * Author: Corrado Motta
  * Date: 06/2022
@@ -94,14 +97,6 @@ public:
      * @param The index of the marker to remove.
      */
     Q_INVOKABLE void removeSingleMarker(int index);
-
-    /**
-     * Allows to update the coordinates manually to a single marker.
-     *
-     * @param The geographical coordinates of the point.
-     * @param The index of the marker that you want to update.
-     */
-    Q_INVOKABLE void updateCoordinates(QGeoCoordinate coordinate, int index);
 
     /**
      * Empties the list.

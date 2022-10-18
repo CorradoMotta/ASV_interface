@@ -2,7 +2,7 @@
 Repository to store progress on the ASV interface development
 
 ## Info on IDE and dependencies
-Qt Creator 5.15.2 should be installed with full package and MingW as compiler. You can use the online installer available in https://www.qt.io/download in the open source section. After log in with your credentials, go to custom installation. Expand Qt menu, select Qt 5.12.2, the minimum set of modules that should be selected are:
+Qt Creator 5.15.2 should be installed with full package and MingW as compiler. You can use the online installer available in https://www.qt.io/download in the open source section. After log in with your credentials, go to custom installation. Expand Qt menu, select Qt 5.15.2, the minimum set of modules that should be selected are:
 
 1. MinGW 64bit.
 2. Sources (if you want the source code)
@@ -17,7 +17,7 @@ To be able to use the maps, however, OpenSSL needs to be installed as well on th
 
 1. Run the MaintenanceTool and install the OpenSSL package in "Developer and Designer tools >  OpenSSL 1.1.x"
 2. Check which version of OpenSSL was used for the Qt build with qDebug using the C ++ code below
-3. If the second line is false and the third is an empty string, goes to OpenSSL website and download the most similar release and use the installer: https://slproweb.com/products/Win32OpenSSL.html 
+3. If the second line is false and the third is an empty string, go to OpenSSL website and download the most similar release and use the installer: https://slproweb.com/products/Win32OpenSSL.html 
 4. Reboot Qt Creator to make changes effective
 
 __C++ code to check the OpenSSL version:__
@@ -89,13 +89,14 @@ The HCI interface is developed using QML for the "front end" and C++ for the "ba
 
 ### Configuration file
 
-In the "conf" folder several files for configuration are available. The only one used at the moment is `conf.ini`. There all configuration parameters are listed and described. When you change any of these parameters, you need to restart the application in order to make them effective. The .ini file has 5 sections:
+In the "conf" folder several files for configuration are available. The only one used at the moment is `conf.ini`. There all configuration parameters are listed and described. When you change any of these parameters, you need to restart the application in order to make them effective. The .ini file has 6 sections:
 
-* udp_addresses: here you set all IP addresses and ports. Note that the first parameter, `Set_local` should be set to false when working with the vehicle. A `true` value is set to connect to the local network, for testing purposes only.
-* minion_configuration: here you can set the initial offset for the initial angle of each minion' azimuth motor.
-* mapbox_settings: These are used for offline maps. Check the section below for details.
-* RPM_Settings: here you can set the RPM values both for the slider dimensions and for the maximum possible value of the game controller.
-* coordinate_seetings: here you can specify a path and a filename for the points of interest. See section below for details.
+* __udp_addresses__: here you set all IP addresses and ports. Note that the first parameter, `Set_local` should be set to false when working with the vehicle. A `true` value is set to connect to the local network, for testing purposes only.
+* __minion_configuration__: here you can set the initial offset for the initial angle of each minion' azimuth motor.
+* __mapbox_settings__: These are used for offline maps. Check the section below for details.
+* __RPM_Settings__: here you can set the RPM values both for the slider dimensions and for the maximum possible value of the game controller.
+* __coordinate_seetings__: here you can specify a path and a filename for the points of interest. See section below for details.
+* __metadata_settings__: here you specify the path to the metadata database and where to store the generated metadata
 
 ### Network Binding
 
@@ -218,13 +219,14 @@ private:
 It is possible to add markers and lines to the map or to upload them from file.
 
 To enable drawing markers or lines click on the correspondent icon in the bottom right of the navigation map as shown in the below picture. 
-When clicked, other boxes will appear with a white color. Then it is possible to add markers (or lines) by clicking on the map. You can **remove** a single marker with a right click on the marker or **drag** it in another position on the map. You can **remove all** markers (or line points) by clicking the remove icon in the correspondent button on the bottom right. Finally you can **send** the coordinates to the vehicle by clicking on the send icon (not available yet).
+When clicked, other boxes will appear with a white color. Then it is possible to add markers (or lines) by clicking on the map. You can **remove** a single marker with a right click on the marker or **drag** it in another position on the map. You can **remove all** markers (or line points) by clicking the remove icon in the correspondent button on the bottom right. Finally you can **send** the coordinates to the vehicle by clicking on the send icon. You can also set a line to follow for the vehicle by clicking on the send button with the little line on the bottom left.
 
-![image](https://user-images.githubusercontent.com/12608893/172140412-d71aac75-2e89-4392-87cd-08282b382c8f.png)
+![image](https://user-images.githubusercontent.com/12608893/195368568-9aa324f5-8155-4d28-a8d7-a96b867ed1dd.png)
+
 
 It is also possible to **upload** points or transepts from a file. The only supported format is **gpx** which is the [standard XML format](https://www.topografix.com/gpx.asp) for exchanging GPS data between applications. It is available as an export option from QGIS. Click on the upload icon on the bottom right. You will be able to select the file from the file system and the points will be imported.
 
-**Note:** This is the very first version and it allows to have only **one** set of markers or one transepts at a time. So multiple separate dataset cannot be imported or drawn at the same time.
+**Note:** At the moment the insertion of markers is limited to one marker at a time. Therefore adding a new marker will replace the previous one. Such limitation is not added to lines.
 
 ### Adding points of interest
  

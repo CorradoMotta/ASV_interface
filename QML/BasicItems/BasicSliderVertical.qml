@@ -30,7 +30,7 @@ Item {
             id: slider_text_id
 
             font.family: "Helvetica"
-            font.pointSize: 14
+            font.pixelSize: 18
         }
         //    Rectangle{
         //        anchors{
@@ -123,7 +123,7 @@ Item {
                         anchors.fill: parent
                         anchors.margins: 4
                         font.family: "Helvetica"
-                        font.pointSize: 14
+                        font.pixelSize: 18
                         focus: true
                         text: control.onMoved ? control.valueAt(control.position) : 0
                         onEditingFinished: {
@@ -202,7 +202,7 @@ Item {
                     anchors.fill: parent
                     anchors.margins: 4
                     font.family: "Helvetica"
-                    font.pointSize: 14
+                    font.pixelSize: 18
                 }
             }
         }

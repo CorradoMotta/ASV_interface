@@ -62,7 +62,7 @@ Item {
         Text {
             id: switch_text_id
             font.family: "Helvetica"
-            font.pointSize: 14
+            font.pixelSize: 18
         }
     }
 }

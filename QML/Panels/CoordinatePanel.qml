@@ -49,7 +49,7 @@ Rectangle {
                 Layout.alignment: Qt.AlignLeft
                 Layout.leftMargin: 4
                 font.family: "Helvetica"
-                font.pointSize: 14
+                font.pixelSize: 18
                 font.bold: true
             }
             Rectangle{
@@ -71,13 +71,15 @@ Rectangle {
             ColumnLayout {
                 id: data_column
                 anchors.fill: parent
-                anchors.leftMargin: 10
+                //anchors.leftMargin: 10
                 spacing: 0
                 BasicTextInputInverted{
                     id: testo
+                    Layout.leftMargin: 10
                     title_text: "POINT NAME"
+                    titleSize: 18
                     new_text_value: ""
-                    value_width: 300
+                    value_width: 240
                 }
 
                 RowLayout{
@@ -94,9 +96,11 @@ Rectangle {
                         MouseArea{
                             id: add_ma
                             anchors.fill: parent
-                            onClicked: navigation_map.add_coor(testo.text_value)
+                            onClicked: {
+                                navigation_map.add_coor(testo.text_value)
+                                testo.text_value = ""
+                            }
                         }
-
                     }
                     Image {
                         id: download_icon

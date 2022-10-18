@@ -23,23 +23,16 @@ Item {
     property alias mask_input: slider_value_id.inputMask
     property alias ref_value: slider_out_value_id.text
     property double value: 0.0
+    property alias step_size: control.stepSize
     property alias clicked : control_button.down
     property bool button_enabled : true
     property alias slider_width: rect.implicitWidth
+    property alias button_width : control_button.button_width
 
     RowLayout {
         id: slider_row
         anchors.fill: parent
         spacing: 3
-
-//        Text {
-//            id: slider_text_id
-//            Layout.alignment: Qt.AlignLeft
-//            font.family: "Helvetica"
-//            font.pointSize: 14
-//        }
-        //fix width
-
 
         BasicButton{
             id: control_button
@@ -47,35 +40,8 @@ Item {
             Layout.rightMargin: 10
             Layout.topMargin: 4
             button_width: 100
-            button_enabled : button_enabled
+            button_enabled : slider_root.button_enabled
         }
-
-//        Button {
-//            id: control_button
-//            Layout.alignment: Qt.AlignLeft
-//            Layout.rightMargin: 10
-//            Layout.topMargin: 4
-//            button_enabled : button_enabled
-//            width: 300
-//            //onClicked: console.log(testo.implicitWidth)//publish_topic(setLogTn, 1)
-//            contentItem: Text {
-//                id: testo
-//                font.family: "Helvetica"
-//                font.pointSize: 14
-//                anchors.horizontalCenter: background_b.horizontalCenter
-//                //verticalAlignment: background_b.AlignVCenter
-//            }
-//            background: Rectangle{
-//                id: background_b
-//                height: testo.implicitHeight + 10
-//                width: 84 // TODO should bne automatic
-//                color: button_enabled? control_button.down? "peachpuff" : "papayawhip" : "papayawhip"
-//                border.width: 1
-//                border.color: "black"
-//                enabled: button_enabled
-//                radius: 6
-//            }
-//        }
 
         Slider {
             id: control
@@ -123,7 +89,7 @@ Item {
         }
         FocusScope {
             id: text_input_id
-            property int maxWidth: 48
+            property int maxWidth: 50
             Layout.preferredWidth: maxWidth
             implicitWidth: text_input_id.maxWidth
             Layout.preferredHeight: slider_value_id.implicitHeight + 6
@@ -140,7 +106,7 @@ Item {
                     anchors.fill: parent
                     anchors.margins: 4
                     font.family: "Helvetica"
-                    font.pointSize: 16
+                    font.pixelSize: 20
                     focus: true
                     text: control.onMoved ? Math.round(control.valueAt(control.position) * 100) / 100  : 0
                     onEditingFinished: {
@@ -194,7 +160,7 @@ Item {
                 anchors.fill: parent
                 anchors.margins: 4
                 font.family: "Helvetica"
-                font.pointSize: 16
+                font.pixelSize: 20
             }
         }
 
