@@ -26,6 +26,7 @@ MenuBar {
     readonly property int working_modeRef : data_model.data_source.swamp_status.ngc_status.refWorking_mode.value
     readonly property int manual_modeRef : data_model.data_source.swamp_status.ngc_status.refManual_mode.value
     readonly property int autoModeRef    : data_model.data_source.swamp_status.ngc_status.refAutoMode.value
+    readonly property int exeWorkModeRef : data_model.data_source.swamp_status.ngc_status.refExecutionWorking_mode.value
 
     // button used to go back to RAW value
     Connections {
@@ -68,15 +69,15 @@ MenuBar {
         id: gcWorkingMode
         title: qsTr("GcWorkingMode")
         BasicMenuAction {id: raw_action;  checked: true; enum_ref: working_modeRef ; enum_value: HciNgiInterface.GC_RAW; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("RAW"); ActionGroup.group: working_modes}
-        BasicMenuAction {enum_ref: custom_menu_bar.working_modeRef ; enum_value: HciNgiInterface.GC_THRUST ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("THRUST"); ActionGroup.group: working_modes}
-        BasicMenuAction {enum_ref: custom_menu_bar.working_modeRef ; enum_value: HciNgiInterface.GC_MANUAL_SPEED ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("MANUAL_SPEED"); ActionGroup.group: working_modes}
-        BasicMenuAction {enum_ref: custom_menu_bar.working_modeRef ; enum_value: HciNgiInterface.GC_MANUAL ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("MANUAL"); ActionGroup.group: working_modes}
-        BasicMenuAction {enum_ref: custom_menu_bar.working_modeRef ; enum_value: HciNgiInterface.GC_GOTO_AUTO ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("GOTO_AUTO"); ActionGroup.group: working_modes}
-        BasicMenuAction {enum_ref: custom_menu_bar.working_modeRef ; enum_value: HciNgiInterface.GC_GOTO_AUTO_SPEED ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("GOTO_AUTO_SPEED"); ActionGroup.group: working_modes}
-        BasicMenuAction {enum_ref: custom_menu_bar.working_modeRef ; enum_value: HciNgiInterface.GC_X_Y_PSI ; topic_id: custom_menu_bar.gc_working_mode_tn;  text: qsTr("X_Y_PSI"); ActionGroup.group: working_modes}
-        BasicMenuAction {enum_ref: custom_menu_bar.working_modeRef ; enum_value: HciNgiInterface.GC_LF ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("LF"); ActionGroup.group: working_modes}
-        BasicMenuAction {enum_ref: custom_menu_bar.working_modeRef ; enum_value: HciNgiInterface.GC_LF_SPEED ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("LF_SPEED"); ActionGroup.group: working_modes}
-        BasicMenuAction {enum_ref: custom_menu_bar.working_modeRef ; enum_value: HciNgiInterface.GC_YAW_TEST ; topic_id: custom_menu_bar.gc_working_mode_tn;text: qsTr("YAW_TEST"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_THRUST ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("THRUST"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_MANUAL_SPEED ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("MANUAL_SPEED"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_MANUAL ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("MANUAL"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_GOTO_AUTO ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("GOTO_AUTO"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_GOTO_AUTO_SPEED ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("GOTO_AUTO_SPEED"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_X_Y_PSI ; topic_id: custom_menu_bar.gc_working_mode_tn;  text: qsTr("X_Y_PSI"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_LF ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("LF"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_LF_SPEED ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("LF_SPEED"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_YAW_TEST ; topic_id: custom_menu_bar.gc_working_mode_tn;text: qsTr("YAW_TEST"); ActionGroup.group: working_modes}
     }
     Menu{
         id: thrustMappingManualMode
@@ -124,7 +125,7 @@ MenuBar {
                     Layout.alignment: Qt.AlignTop
                     Layout.fillWidth: true
                     title_text:  qsTr("SET LAT")
-                    titleSize: 10
+                    titleSize: 13
                     value_width: 120
                 }
 
@@ -133,7 +134,7 @@ MenuBar {
                     Layout.alignment: Qt.AlignTop
                     Layout.fillWidth: true
                     title_text:  qsTr("SET LON")
-                    titleSize: 10
+                    titleSize: 13
                     value_width: 120
                 }
 
@@ -163,7 +164,7 @@ MenuBar {
                     Layout.alignment: Qt.AlignTop
                     Layout.fillWidth: true
                     title_text:  qsTr("SET X")
-                    titleSize: 10
+                    titleSize: 13
                     value_width: 100
                 }
                 BasicTextInputInverted {
@@ -171,7 +172,7 @@ MenuBar {
                     Layout.alignment: Qt.AlignTop
                     Layout.fillWidth: true
                     title_text:  qsTr("SET GAMMA")
-                    titleSize: 10
+                    titleSize: 13
                     value_width: 100
                 }
 
@@ -192,7 +193,7 @@ MenuBar {
                     Layout.alignment: Qt.AlignTop
                     Layout.fillWidth: true
                     title_text:  qsTr("SET LINE X")
-                    titleSize: 10
+                    titleSize: 13
                     value_width: 100
                 }
 
@@ -201,7 +202,7 @@ MenuBar {
                     Layout.alignment: Qt.AlignTop
                     Layout.fillWidth: true
                     title_text:  qsTr("SET LINE Y")
-                    titleSize: 10
+                    titleSize: 13
                     value_width: 100
                 }
 
@@ -221,7 +222,7 @@ MenuBar {
                     Layout.alignment: Qt.AlignTop
                     Layout.fillWidth: true
                     title_text:  qsTr("SET LAT")
-                    titleSize: 10
+                    titleSize: 13
                     value_width: 120
                 }
 
@@ -230,7 +231,7 @@ MenuBar {
                     Layout.alignment: Qt.AlignTop
                     Layout.fillWidth: true
                     title_text:  qsTr("SET LON")
-                    titleSize: 10
+                    titleSize: 13
                     value_width: 120
                 }
             }

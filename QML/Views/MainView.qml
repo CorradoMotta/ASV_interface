@@ -48,6 +48,7 @@ Item {
     readonly property var publish_topic: data_model.data_source.publishMessage
     readonly property int maxRPMSpeed: data_model.data_source.swamp_status.conf.maxRPMSpeed
     readonly property bool hciIsConnected: data_model.data_source.is_connected
+    readonly property int tabLen: 1
 
     // for controller
     property real x_curr_value : 0
@@ -120,6 +121,18 @@ Item {
                 }else{
                     stack_button.pop_view()
                 }
+            }
+        }
+    }
+
+    Connections {
+        // to switch between tabs
+        target: QJoysticks
+        enabled: data_model.data_source.is_connected
+
+        function onButtonChanged(js, button, pressed) {
+            if (button === 3 && pressed === true){
+                bar.currentIndex = bar.currentIndex > tabLen? 0 : bar.currentIndex+1
             }
         }
     }
@@ -280,10 +293,10 @@ Item {
                             opacity: hciIsConnected? 1 : 0.3
                             onValueChanged: root.publish_topic(root.rpmAlphaTn, value) //console.log(value)
                         }
-//                        Rectangle {
-//                            Layout.fillWidth: true
-//                            Layout.fillHeight: true
-//                        }
+                        //                        Rectangle {
+                        //                            Layout.fillWidth: true
+                        //                            Layout.fillHeight: true
+                        //                        }
                     }
                 }
 

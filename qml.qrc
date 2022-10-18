@@ -115,5 +115,6 @@
         <file>Images/selected.png</file>
         <file>QML/BasicItems/BasicMenuAction.qml</file>
         <file>Images/selection_empty.png</file>
+        <file>Images/selection_2.png</file>
     </qresource>
 </RCC>

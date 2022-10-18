@@ -10,6 +10,6 @@ Action {
     checkable: true
 
     enabled: data_model.data_source.is_connected
-    icon.source: enum_ref === enum_value? "../../Images/selection.png": "../../Images/selection_empty.png";
+    icon.source: enum_ref === enum_value? "../../Images/selection_2.png": ""; //../../Images/selection_empty.png
     onCheckedChanged: checked? data_model.data_source.is_connected? publish_topic(topic_id, enum_value): "" : ""
 }
