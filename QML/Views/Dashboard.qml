@@ -108,7 +108,7 @@ BasicMinionPanelContainer{
                         Layout.topMargin: ngc_root.blockSize
                         text: "KINEMATIC STATE"
                         font.family: "Helvetica"
-                        font.pointSize: 14
+                        font.pixelSize: 18
                         font.bold: true
                     }
                     BasicTextOutputInverted{
@@ -148,7 +148,7 @@ BasicMinionPanelContainer{
                         Layout.topMargin: ngc_root.blockSize
                         text: "MODES"
                         font.family: "Helvetica"
-                        font.pointSize: 14
+                        font.pixelSize: 18
                         font.bold: true
 
                     }
@@ -230,7 +230,7 @@ BasicMinionPanelContainer{
                         Layout.leftMargin: 4
                         text: "GPS"
                         font.family: "Helvetica"
-                        font.pointSize: 14
+                        font.pixelSize: 18
                         font.bold: true
                     }
                     BasicTextOutputInverted{
@@ -252,7 +252,7 @@ BasicMinionPanelContainer{
                         Layout.topMargin: ngc_root.blockSize
                         text: "IMU"
                         font.family: "Helvetica"
-                        font.pointSize: 14
+                        font.pixelSize: 18
                         font.bold: true
                     }
                     BasicTextOutputInverted{

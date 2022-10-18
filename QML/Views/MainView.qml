@@ -221,7 +221,7 @@ Item {
                 contentItem: Text {
                     text: hciIsConnected ? "disconnect" : "connect"
                     font.family: "Helvetica"
-                    font.pointSize: 18
+                    font.pixelSize: 22
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }

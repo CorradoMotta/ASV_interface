@@ -85,7 +85,7 @@ ApplicationWindow {
             anchors.horizontalCenter: message_prompt.horizontalCenter
             anchors.verticalCenter: message_prompt.verticalCenter
             font.family: "Helvetica"
-            font.pointSize: 14
+            font.pixelSize: 18
         }
     }
 

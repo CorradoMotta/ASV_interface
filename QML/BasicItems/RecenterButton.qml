@@ -24,7 +24,7 @@ Item{
             anchors.verticalCenter: parent.verticalCenter
             font.family: "arial"
             font.bold: true
-            font.pointSize: 14
+            font.pixelSize: 18
             color: "dodgerblue"
             text: "Recenter"
         }

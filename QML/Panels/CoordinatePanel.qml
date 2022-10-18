@@ -49,7 +49,7 @@ Rectangle {
                 Layout.alignment: Qt.AlignLeft
                 Layout.leftMargin: 4
                 font.family: "Helvetica"
-                font.pointSize: 14
+                font.pixelSize: 18
                 font.bold: true
             }
             Rectangle{
@@ -77,6 +77,7 @@ Rectangle {
                     id: testo
                     Layout.leftMargin: 10
                     title_text: "POINT NAME"
+                    titleSize: 18
                     new_text_value: ""
                     value_width: 240
                 }

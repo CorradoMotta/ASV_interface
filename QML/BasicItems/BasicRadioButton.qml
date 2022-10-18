@@ -3,7 +3,8 @@ import QtQuick.Controls 2.12
 
 RadioButton {
     id: control
-    font.pointSize: 12
+    font.family: "Helvetica"
+    font.pixelSize: 16
     indicator: Rectangle {
         implicitWidth: 26
         implicitHeight: 26

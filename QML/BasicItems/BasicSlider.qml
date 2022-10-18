@@ -31,7 +31,7 @@ Item {
             id: slider_text_id
             Layout.alignment: Qt.AlignLeft
             font.family: "Helvetica"
-            font.pointSize: 14
+            font.pixelSize: 18
         }
         Slider {
             id: control
@@ -93,7 +93,7 @@ Item {
                     anchors.fill: parent
                     anchors.margins: 4
                     font.family: "Helvetica"
-                    font.pointSize: 16
+                    font.pixelSize: 20
                     focus: true
                     text: control.onMoved ? control.valueAt(control.position) : 0
                     onEditingFinished: {

@@ -147,6 +147,7 @@ Rectangle{
                     slider_to: 180
                     slider_width : 200
                     button_width: 70
+                    step_size:1
                     slider_text: "YAW"
                     ref_value: yawRef
                     onValueChanged: control_panel.publish_topic(control_panel.yawTn, value + " " + x.value + " " + y.value)
@@ -159,6 +160,7 @@ Rectangle{
                     slider_to: 180
                     slider_width : 200
                     button_width: 70
+                    step_size:1
                     slider_text: "HEAD"
                     ref_value: headingRef
                     onValueChanged: control_panel.publish_topic(control_panel.headingTn, value + " " + x.value + " " + y.value)

@@ -45,9 +45,10 @@ Item {
 
                 Text{
                     id: info_label_text
+                    font.family: "Helvetica"
                     anchors.horizontalCenter: info_label.horizontalCenter
                     anchors.verticalCenter: info_label.verticalCenter
-                    font.pointSize: 10
+                    font.pixelSize: 15
                 }
             }
             MouseArea{
@@ -61,6 +62,8 @@ Item {
 
         Label {
             id: label
+            font.family: "Helvetica"
+            font.pixelSize: 16
             //Layout.minimumWidth: 200
         }
         Item{
@@ -72,6 +75,8 @@ Item {
         TextField {
             id: label_text
             Layout.preferredWidth: 500
+            font.family: "Helvetica"
+            font.pixelSize: 16
             width: 500
             onEditingFinished: root.currentValue = label_text.text
         }

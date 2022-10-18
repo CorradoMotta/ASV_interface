@@ -14,7 +14,7 @@ Rectangle{
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
         font.family: "Helvetica"
-        font.pointSize: 11
+        font.pixelSize: 15
         color: "blue"
         horizontalAlignment : align_right? Text.AlignRight : Text.AlignLeft
     }
@@ -24,7 +24,7 @@ Rectangle{
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 3
         font.family: "Helvetica"
-        font.pointSize: 11
+        font.pixelSize: 15
         color: "red"
         horizontalAlignment : align_right? Text.AlignRight : Text.AlignLeft
     }

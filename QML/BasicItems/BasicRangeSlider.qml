@@ -45,7 +45,7 @@ Item {
             //Layout.leftMargin: 10
             Layout.alignment: Qt.AlignLeft
             font.family: "Helvetica"
-            font.pointSize: 18
+            font.pixelSize: 22
             text: control.first.onMoved ? control.valueAt(control.first.position) : "0"
         }
         RangeSlider {
@@ -109,7 +109,7 @@ Item {
             Layout.rightMargin: 10
             Layout.alignment: Qt.AlignRight
             font.family: "Helvetica"
-            font.pointSize: 18
+            font.pixelSize: 22
             text: control.second.onMoved ? control.valueAt(control.second.position) : "0"
         }
     }

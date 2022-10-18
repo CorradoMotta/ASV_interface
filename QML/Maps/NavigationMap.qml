@@ -242,7 +242,8 @@ Rectangle{
                 id: info_label_text
                 anchors.horizontalCenter: info_label.horizontalCenter
                 anchors.verticalCenter: info_label.verticalCenter
-                font.pointSize: 10
+                font.family: "helvetica"
+                font.pixelSize: 14
             }
         }
         // --------------------------------------------------------
@@ -293,7 +294,8 @@ Rectangle{
                         id: info_label_coor_text
                         anchors.horizontalCenter: info_label_coor_ref.horizontalCenter
                         anchors.verticalCenter: info_label_coor_ref.verticalCenter
-                        font.pointSize: 10
+                        font.family: "helvetica"
+                        font.pixelSize: 14
                         text: navigation_map.asvReflatRef + "-" + navigation_map.asvReflonRef
                     }
                 }

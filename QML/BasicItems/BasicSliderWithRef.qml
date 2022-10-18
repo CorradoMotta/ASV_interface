@@ -23,6 +23,7 @@ Item {
     property alias mask_input: slider_value_id.inputMask
     property alias ref_value: slider_out_value_id.text
     property double value: 0.0
+    property alias step_size: control.stepSize
     property alias clicked : control_button.down
     property bool button_enabled : true
     property alias slider_width: rect.implicitWidth
@@ -88,7 +89,7 @@ Item {
         }
         FocusScope {
             id: text_input_id
-            property int maxWidth: 48
+            property int maxWidth: 50
             Layout.preferredWidth: maxWidth
             implicitWidth: text_input_id.maxWidth
             Layout.preferredHeight: slider_value_id.implicitHeight + 6
@@ -105,7 +106,7 @@ Item {
                     anchors.fill: parent
                     anchors.margins: 4
                     font.family: "Helvetica"
-                    font.pointSize: 16
+                    font.pixelSize: 20
                     focus: true
                     text: control.onMoved ? Math.round(control.valueAt(control.position) * 100) / 100  : 0
                     onEditingFinished: {
@@ -159,7 +160,7 @@ Item {
                 anchors.fill: parent
                 anchors.margins: 4
                 font.family: "Helvetica"
-                font.pointSize: 16
+                font.pixelSize: 20
             }
         }
 

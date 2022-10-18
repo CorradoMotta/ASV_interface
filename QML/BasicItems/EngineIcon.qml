@@ -69,7 +69,7 @@ Item  {
             id: engine_text
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             font.family: "Helvetica"
-            font.pointSize: 18
+            font.pixelSize: 22
         }
     }
     MouseArea {
