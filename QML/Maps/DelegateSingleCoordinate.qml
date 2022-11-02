@@ -1,7 +1,9 @@
 /*************************************************************************
  *
  * Delegate for the single coordinate model-view implemented in the
- * navigation map.
+ * navigation map. This element is used when the operator wants to set a
+ * marker on the specific location where the vehicle stands.
+ * The color of the marker is purple.
  *
  * Author: Corrado Motta
  * Date: 04/2022

@@ -1,7 +1,13 @@
 /*************************************************************************
  *
- * Same as BasicSlider. The only difference is that the text is placed
- * above.
+ * Slider that contains one handle in order to set a value. It also has
+ * a title which is positioned on top of the slider, a reset button
+ * to move the slider to 0, two arrows to increase and decrease the slider
+ * value, and an editable textInput box to show and modify the slider value.
+ *
+ * Author: Corrado Motta
+ * Date: 06/2022
+ * Mail: corradomotta92@gmail.com
  *
  *************************************************************************/
 
@@ -13,7 +19,7 @@ Item {
     id: slider_root
     implicitHeight: column_stack.implicitHeight + 10
     implicitWidth: column_stack.implicitWidth
-    //
+
     property alias slider_text: slider_text_id.text
     property alias slider_from: control.from
     property alias slider_to: control.to
@@ -32,27 +38,8 @@ Item {
             font.family: "Helvetica"
             font.pixelSize: 18
         }
-        //    Rectangle{
-        //        anchors{
-        //            top: slider_text_id.bottom
-        //            topMargin: 5
-        //            bottom: parent.bottom ; left: parent.left ; right: parent.right
-        //            bottomMargin: 10
-        //        }
-        //        border.color: "black"
-        //        border.width: 1
-        //        radius: 5
-        //        color: "transparent"
-        //        implicitHeight: control.implicitHeight
-        //        implicitWidth: slider_row_layout.implicitWidth
-
         RowLayout {
             id: slider_row_layout
-            //                anchors{
-            //                    top: control_row.bottom
-            //                    bottom: parent.bottom ; left: parent.left ; right: parent.right
-            //                    bottomMargin: 10
-            //                }
             spacing: 3
 
             Slider {
@@ -101,11 +88,6 @@ Item {
         }
         RowLayout{
             id: control_row
-            //            anchors{
-            //                top: slider_text_id.bottom
-            //                bottom: parent.bottom ; left: parent.left ; right: parent.right
-            //                bottomMargin: 10
-            //            }
             FocusScope {
                 id: text_input_id
                 property int maxWidth: 48
@@ -146,7 +128,6 @@ Item {
                     }
                 }
             }
-
             Image {
                 Layout.alignment: Qt.AlignLeft
                 source: "../../Images/ArrowDown.png"
@@ -160,8 +141,6 @@ Item {
                     }
                 }
             }
-
-
             Rectangle {
                 id: reset_button
                 Layout.alignment: Qt.AlignLeft

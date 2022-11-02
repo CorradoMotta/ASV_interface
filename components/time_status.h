@@ -1,3 +1,13 @@
+/*************************************************************************
+ *
+ * Class that contains time and timestamps data.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 #ifndef TIME_STATUS_H
 #define TIME_STATUS_H
 

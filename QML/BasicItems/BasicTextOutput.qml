@@ -1,3 +1,15 @@
+/*************************************************************************
+ *
+ * Text output element with a box where the text is displayed and a title
+ * on the left side. The title and the value can be set using the property
+ * alias.
+ *
+ * Author: Corrado Motta
+ * Date: 05/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtQuick.Layouts 1.15
 
@@ -29,7 +41,6 @@ Item {
             Text{
                 id: info_label_text
                 horizontalAlignment : Text.AlignLeft
-                //anchors.horizontalCenter: info_label.horizontalCenter
                 anchors.left: parent.left
                 anchors.leftMargin: 4
                 anchors.verticalCenter: info_label.verticalCenter

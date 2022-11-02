@@ -1,3 +1,13 @@
+/*************************************************************************
+ *
+ * Class for SWAMP engines.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 #ifndef SWAMP_MOTOR_STATUS_H
 #define SWAMP_MOTOR_STATUS_H
 

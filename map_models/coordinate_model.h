@@ -1,3 +1,16 @@
+/*************************************************************************
+ *
+ * Abstract List model for points set on the map where the vehicle stands.
+ * This modelc allows to store coordinates of interests with their names,
+ * to remove or modify any stored coordinate and to download them to a
+ * textual file, using the "saveToDisk" function.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 #ifndef COORDINATE_MODEL_H
 #define COORDINATE_MODEL_H
 

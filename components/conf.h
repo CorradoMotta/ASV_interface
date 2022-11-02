@@ -1,3 +1,14 @@
+/*************************************************************************
+ *
+ * Class that contains the configuration parameters that needs to be
+ * displayed or read in the QML side.
+ *
+ * Author: Corrado Motta
+ * Date: 07/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 #ifndef CONF_H
 #define CONF_H
 

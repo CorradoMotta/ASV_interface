@@ -1,3 +1,13 @@
+/*************************************************************************
+ *
+ * Class that contains engines data.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 #ifndef MOTOR_STATUS_H
 #define MOTOR_STATUS_H
 

@@ -1,3 +1,16 @@
+/*************************************************************************
+ *
+ * Engine icon can be enabled and powered. The states are saved in the
+ * EngineStates enum. The functions setSource and setEngineState can be
+ * used to set the icon and the correspondent state from the panels where
+ * this element is used.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtQuick.Layouts 1.15
 
@@ -22,27 +35,6 @@ Item  {
     }
 
     property int engineState: EngineIcon.EngineStates.Engine_off
-
-    function setSource(state) {
-        if (state === EngineIcon.EngineStates.Engine_off)
-            return "../../Images/Engine_off.png"
-        else if (state === EngineIcon.EngineStates.Engine_inter || state === EngineIcon.EngineStates.Engine_backToInter)
-            return "../../Images/Engine_inter.png"
-        else if (state === EngineIcon.EngineStates.Engine_on)
-            return "../../Images/Engine_on.png"
-    }
-
-    function setEngineState(previousState, buttonClicked) {
-        if (previousState === EngineIcon.EngineStates.Engine_off && buttonClicked === EngineIcon.ButtonClicked.Left)
-            return EngineIcon.EngineStates.Engine_inter
-        else if((previousState === EngineIcon.EngineStates.Engine_inter || previousState === EngineIcon.EngineStates.Engine_backToInter ) && buttonClicked === EngineIcon.ButtonClicked.Left)
-            return EngineIcon.EngineStates.Engine_off
-        else if ((previousState === EngineIcon.EngineStates.Engine_inter || previousState === EngineIcon.EngineStates.Engine_backToInter ) && buttonClicked === EngineIcon.ButtonClicked.Right)
-            return EngineIcon.EngineStates.Engine_on
-        else if (previousState === EngineIcon.EngineStates.Engine_on && buttonClicked === EngineIcon.ButtonClicked.Right)
-            return EngineIcon.EngineStates.Engine_backToInter
-        else return previousState
-    }
 
     ColumnLayout {
         id: coln
@@ -82,7 +74,26 @@ Item  {
             else if(mouse.button === Qt.LeftButton)
                  engineState = setEngineState(engineState, EngineIcon.ButtonClicked.Left)
         }
+    }
 
+    function setSource(state) {
+        if (state === EngineIcon.EngineStates.Engine_off)
+            return "../../Images/Engine_off.png"
+        else if (state === EngineIcon.EngineStates.Engine_inter || state === EngineIcon.EngineStates.Engine_backToInter)
+            return "../../Images/Engine_inter.png"
+        else if (state === EngineIcon.EngineStates.Engine_on)
+            return "../../Images/Engine_on.png"
+    }
 
+    function setEngineState(previousState, buttonClicked) {
+        if (previousState === EngineIcon.EngineStates.Engine_off && buttonClicked === EngineIcon.ButtonClicked.Left)
+            return EngineIcon.EngineStates.Engine_inter
+        else if((previousState === EngineIcon.EngineStates.Engine_inter || previousState === EngineIcon.EngineStates.Engine_backToInter ) && buttonClicked === EngineIcon.ButtonClicked.Left)
+            return EngineIcon.EngineStates.Engine_off
+        else if ((previousState === EngineIcon.EngineStates.Engine_inter || previousState === EngineIcon.EngineStates.Engine_backToInter ) && buttonClicked === EngineIcon.ButtonClicked.Right)
+            return EngineIcon.EngineStates.Engine_on
+        else if (previousState === EngineIcon.EngineStates.Engine_on && buttonClicked === EngineIcon.ButtonClicked.Right)
+            return EngineIcon.EngineStates.Engine_backToInter
+        else return previousState
     }
 }

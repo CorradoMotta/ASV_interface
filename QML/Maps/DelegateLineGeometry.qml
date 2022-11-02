@@ -1,6 +1,9 @@
 /*************************************************************************
  *
  * Delegate for the line model-view implemented in the navigation map.
+ * This element is a small dot that is added on each vertex of the
+ * polyline. When dragged, the dot position is updated as well as the rest
+ * of the line.
  *
  * Author: Corrado Motta
  * Date: 04/2022
@@ -30,8 +33,8 @@ MapQuickItem {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         drag.target: mqi_line_circle
         drag.onActiveChanged:{
+            // to call only when released
             if(drag.active === false){
-                // in this way it is only called when the mouse is released
                 model.coordinate = mqi_line_circle.coordinate
             }
         }

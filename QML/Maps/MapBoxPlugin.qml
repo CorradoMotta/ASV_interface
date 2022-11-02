@@ -1,3 +1,14 @@
+/*************************************************************************
+ *
+ * Plugin element to use MapBox tiles.
+ * The cache directory can be set on the configuration file.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtPositioning 5.15
 import QtLocation 5.15

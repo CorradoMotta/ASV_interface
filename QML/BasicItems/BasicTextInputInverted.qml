@@ -1,5 +1,17 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+/*************************************************************************
+ *
+ * Text input element with a box where the text can be added and edited
+ * and a title on the right side. Every time the editing is finished
+ * the "new_text_value" property is updated with the new text value.
+ *
+ * Author: Corrado Motta
+ * Date: 05/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick.Layouts 1.15
 
 Item {
@@ -49,6 +61,5 @@ Item {
                 onEditingFinished: new_text_value = text
             }
         }
-
     }
 }

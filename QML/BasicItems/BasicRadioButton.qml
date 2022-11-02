@@ -1,3 +1,13 @@
+/*************************************************************************
+ *
+ * Implementation of a radio button, currently not used.
+ *
+ * Author: Corrado Motta
+ * Date: 06/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
@@ -5,6 +15,7 @@ RadioButton {
     id: control
     font.family: "Helvetica"
     font.pixelSize: 16
+
     indicator: Rectangle {
         implicitWidth: 26
         implicitHeight: 26

@@ -1,10 +1,9 @@
 /*************************************************************************
  *
- * Panel elements to interact with the dynamic bathymetry model.
- * It allows to stop and play, remove all depth points or save them to disk.
- * It interacts directly with the model which is made in C++.
- * NOTE: some values are commented or deactivated as this feature is not
- * used at the moment.
+ * Panel elements to interact with the coordinate model.
+ * It allows to set a new purple marker on the vehicle position, set a
+ * name for it, add it to the model and download all of them to file.
+ * It is also possible to remove the single marker or all markers.
  *
  * Author: Corrado Motta
  * Date: 04/2022

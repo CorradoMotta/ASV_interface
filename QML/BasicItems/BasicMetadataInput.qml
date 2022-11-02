@@ -4,6 +4,10 @@
  * that gives information on hovering, a label and a text field where the
  * user can digit the attribute for each value.
  *
+ * Author: Corrado Motta
+ * Date: 11/2022
+ * Mail: corradomotta92@gmail.com
+ *
  *************************************************************************/
 
 import QtQuick 2.0

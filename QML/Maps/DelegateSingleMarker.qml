@@ -1,7 +1,9 @@
 /*************************************************************************
  *
  * Delegate for the single marker model-view implemented in the
- * navigation map.
+ * navigation map. Such marker is displayed when the operator wants to add
+ * a point on the map by clicking on it. It is possible to hover on the
+ * marker to see the actual coordinates.
  *
  * Author: Corrado Motta
  * Date: 04/2022
@@ -64,7 +66,6 @@ MapQuickItem {
         drag.target: mqi_marker
         drag.onActiveChanged:{
             if(drag.active === false){
-                // in this way it is only called when the mouse is released
                 model.coordinate = mqi_marker.coordinate
             }
         }

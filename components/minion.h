@@ -1,3 +1,13 @@
+/*************************************************************************
+ *
+ * Class containing minion commands and minion status.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 #ifndef MINION_H
 #define MINION_H
 

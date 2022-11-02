@@ -1,3 +1,13 @@
+/*************************************************************************
+ *
+ * Simple button with text and color change when pressed.
+ *
+ * Author: Corrado Motta
+ * Date: 06/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtQuick.Layouts 1.11
 import QtQuick.Controls 2.15
@@ -5,12 +15,12 @@ import QtQuick.Controls 2.15
 Button {
     id: control
 
+    width: button_width
+    implicitWidth: button_width
+
     property alias text_on_button: button_text.text
     property bool button_enabled : true
     property alias button_width: button_background.width
-
-    width: button_width
-    implicitWidth: button_width
 
     contentItem: Text {
         id: button_text

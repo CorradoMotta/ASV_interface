@@ -4,6 +4,10 @@
  * elements from the cpp model which in turn is generated from JSON
  * database.
  *
+ * Author: Corrado Motta
+ * Date: 10/2022
+ * Mail: corradomotta92@gmail.com
+ *
  *************************************************************************/
 
 import QtQuick 2.0

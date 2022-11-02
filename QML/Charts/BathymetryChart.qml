@@ -1,18 +1,27 @@
+/*************************************************************************
+ *
+ * Chart to display the bathymetry in an adaptive way.
+ *
+ * Author: Corrado Motta
+ * Date: 05/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtCharts 2.3
 
 Rectangle {
+
     readonly property real initialyMax : -10.0
     readonly property real initialxMax : 500.0
+
     property point newPoint : Qt.point(0,0)
     property bool reset: false
     property real yMIN : 0
     property real xMIN : 0
-    property real yMAX : initialyMax // TODO should be a cost value
+    property real yMAX : initialyMax
     property real xMAX : initialxMax
-
-    //anchors.fill: parent
-    //anchors.margins: 100
 
     onNewPointChanged: {
         if(newPoint.x > xMAX) xMAX = newPoint.x + 100

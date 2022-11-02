@@ -2,6 +2,10 @@
  *
  * Main application window.
  *
+ * Author: Corrado Motta
+ * Date: 03/2022
+ * Mail: corradomotta92@gmail.com
+ *
  *************************************************************************/
 
 import QtQuick 2.15
@@ -56,12 +60,6 @@ ApplicationWindow {
 
         }
     }
-
-//    Connections {
-//        target: mainLoader.item
-//        function onLast_lat_valueChanged() {  menu_bar_id.latValue = mainLoader.item.last_lat_value }
-//        function onLast_lon_valueChanged() {  menu_bar_id.lonValue = mainLoader.item.last_lon_value }
-//    }
 
     Rectangle{
         id: message_prompt

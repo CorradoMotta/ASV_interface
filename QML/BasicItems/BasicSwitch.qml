@@ -5,6 +5,10 @@
  * is switched. The custom property alias switch_is_active carries the
  * signal used to notify a change in the slider.
  *
+ * Author: Corrado Motta
+ * Date: 06/2022
+ * Mail: corradomotta92@gmail.com
+ *
  *************************************************************************/
 
 import QtQuick 2.0
@@ -50,7 +54,6 @@ Item {
                     border.color: control.checked ? (control.down ? "#17a81a" : "#21be2b") : "#999999"
                 }
             }
-
             contentItem: Text {
                 text: control.text
                 font: control.font

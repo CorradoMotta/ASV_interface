@@ -1,8 +1,20 @@
+/*************************************************************************
+ *
+ * Similar to BasicButton but customized for being used in the context of
+ * Menu content.
+ *
+ * Author: Corrado Motta
+ * Date: 10/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 
 Button {
     id: control_line
+
     property alias row_title : row_text.text
 
     contentItem: Text {

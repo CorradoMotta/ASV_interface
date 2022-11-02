@@ -4,15 +4,18 @@
  * tab view. It uses the boolean open_minion to control the stacking.
  *  process via pop() and push() methods.
  *
+ * Author: Corrado Motta
+ * Date: 06/2022
+ * Mail: corradomotta92@gmail.com
+ *
  *************************************************************************/
 
 import QtQuick 2.0
 
 Rectangle {
-    property bool open_minion: true
     color: "aliceblue"
-    //"#100000FF"
-    //width: 20
+    property bool open_minion: true
+
     Image {
         id: image_button
         anchors.centerIn: parent
@@ -25,19 +28,18 @@ Rectangle {
             onClicked: {
                 if(open_minion){
                     push_view()
-                    //data_model.data_source.is_connected
                 }else{
                     pop_view()
                 }
             }
         }
     }
+
     function push_view(){
         if(data_model.data_source.is_connected){
             stack.push(minion_view)
             open_minion = false
         }else messagePrompt("Connection is not established. Please connect first.")
-
     }
 
     function pop_view(){

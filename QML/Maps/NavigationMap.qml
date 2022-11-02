@@ -1,8 +1,9 @@
 /*************************************************************************
  *
  * Main map element. It contains the map and everything that is included
- * within the map. It also contains three model-view-delegate patterns.
- * One for markers, one for lines and one for the bathymetry model.
+ * within the map. It also contains four model-view-delegate patterns.
+ * One for markers, one for lines, one for coordinates of interest
+ * and one for the bathymetry model.
  *
  * Author: Corrado Motta
  * Date: 04/2022

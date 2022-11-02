@@ -1,3 +1,13 @@
+/*************************************************************************
+ *
+ * Class that contains all minion status variables.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 #ifndef MINION_STATUS_H
 #define MINION_STATUS_H
 

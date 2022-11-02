@@ -4,7 +4,12 @@
  * a title which is positioned on the left of the slider, a reset button
  * to move the slider to 0  and an editable textInput box to show and modify
  * the slider value. This version also has a textOutput box to show the ref
- * value that comes back from the vehicle.
+ * value that comes back from the vehicle, in the telemetry.
+ *
+ * Author: Corrado Motta
+ * Date: 06/2022
+ * Mail: corradomotta92@gmail.com
+ *
  *
  *************************************************************************/
 
@@ -58,7 +63,6 @@ Item {
                 id: rect
                 x: control.leftPadding
                 y: control.topPadding + control.availableHeight / 2 - height / 2
-                //implicitWidth: 260
                 implicitHeight: 4
                 width: control.availableWidth
                 height: implicitHeight
@@ -74,7 +78,6 @@ Item {
                     radius: 2
                 }
             }
-
             handle: Rectangle {
                 x: control.leftPadding + control.visualPosition * (control.availableWidth - width)
                 y: control.topPadding + control.availableHeight / 2 - height / 2
@@ -116,13 +119,11 @@ Item {
                 }
             }
         }
-
         Rectangle {
             id: reset_button
             Layout.alignment: Qt.AlignRight
             Layout.preferredHeight: control.implicitHandleHeight
             Layout.preferredWidth: control.implicitHandleHeight
-            //Layout.rightMargin: 10
             implicitWidth: reset.width
             radius: 15
             color: "#f08080"
@@ -135,7 +136,6 @@ Item {
                 color: "#2f4f4f"
             }
             MouseArea {
-                // TODO send 0 signal
                 anchors.fill: parent
                 onClicked: {
                     control.value = 0
@@ -163,6 +163,5 @@ Item {
                 font.pixelSize: 20
             }
         }
-
     }
 }

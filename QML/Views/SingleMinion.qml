@@ -4,6 +4,10 @@
  * used as a content of a tab bar where all minions can be viewed.
  * At the beginning all elements coming from the cpp model are defined.
  *
+ * Author: Corrado Motta
+ * Date: 05/2022
+ * Mail: corradomotta92@gmail.com
+ *
  *************************************************************************/
 
 import QtQuick 2.0

@@ -1,3 +1,18 @@
+/*************************************************************************
+ *
+ * Text input element with a box where the text can be added and edited
+ * and a title on the left side. Another box, on the right, is used to
+ * display the reference value which is sent back from the vehicle. This
+ * helps to understand if the new value was correctly received by
+ * the vehicle. Every time the editing is finished
+ * the "new_text_value" property is updated with the new text value.
+ *
+ * Author: Corrado Motta
+ * Date: 05/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15

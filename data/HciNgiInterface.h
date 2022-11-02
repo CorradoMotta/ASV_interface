@@ -1,3 +1,13 @@
+/*************************************************************************
+ *
+ * Class that contains all enumerations. Also available on the QML side.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 #ifndef HCINGIINTERFACE_H
 #define HCINGIINTERFACE_H
 

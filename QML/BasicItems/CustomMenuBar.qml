@@ -1,3 +1,14 @@
+/*************************************************************************
+ *
+ * Menu bar customized with the possibility to set vehicle modes and all
+ * different algorithm parameters.
+ *
+ * Author: Corrado Motta
+ * Date: 06/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 import QtPositioning 5.15
@@ -62,7 +73,6 @@ MenuBar {
             text: qsTr("&Quit")
             onTriggered: Qt.quit()
         }
-
     }
 
     Menu{

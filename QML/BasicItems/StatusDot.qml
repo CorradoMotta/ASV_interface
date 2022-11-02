@@ -4,6 +4,10 @@
  * such as on, off or fault. It can also show information text when passing
  * over with the cursor. info_text should be set for that purpose.
  *
+ * Author: Corrado Motta
+ * Date: 06/2022
+ * Mail: corradomotta92@gmail.com
+ *
  *************************************************************************/
 
 import QtQuick 2.0
@@ -11,7 +15,6 @@ import QtQuick 2.0
 Rectangle{
     id: dot
 
-    // TODO fix the fault (0 - 1 per fault)
     enum DotStates {
         Dot_off,
         Dot_on,
@@ -25,7 +28,6 @@ Rectangle{
     width: 40
     height: 40
     radius: 30
-    //border.color: "silver"
     color: dot_state === StatusDot.DotStates.Dot_off?
                off_color : dot_state === StatusDot.DotStates.Dot_on?
                    "green": "red"
@@ -35,7 +37,6 @@ Rectangle{
         z: 200
         anchors.bottom: dot.label_on_side? dot.bottom : dot.top
         anchors.bottomMargin: dot.label_on_side? (info_label_text.height/3) : - (info_label_text.height/3)
-        //anchors.horizontalCenter: dot.horizontalCenter
         anchors.right: dot.label_on_side? parent.horizontalCenter : parent.right
         width: info_label_text.implicitWidth + 6
         height: info_label_text.implicitHeight + 6

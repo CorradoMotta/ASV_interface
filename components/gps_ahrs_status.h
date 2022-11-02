@@ -1,6 +1,10 @@
 /*************************************************************************
  *
- * GPS AHRS STATUS module class.
+ * Class that contains all GPS variables.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
  *
  *************************************************************************/
 
@@ -29,7 +33,7 @@ class GPS_AHRS_status : public QObject
 public:
 
     explicit GPS_AHRS_status(QObject *parent = nullptr);
-    // todo check if const can be added at the end (it is added automatically)
+
     DoubleVariable *longitude();
     DoubleVariable *latitude();
     DoubleVariable *xGps();

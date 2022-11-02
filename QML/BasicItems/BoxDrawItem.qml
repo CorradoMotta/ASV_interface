@@ -1,6 +1,8 @@
 /*************************************************************************
  *
  * Row sets of buttons with icon used by the BoxDrawPanel.
+ * It contains several boxes, with icons inside, that can be clicked.
+ * Any box corresponds to a possible action on the map.
  *
  * Author: Corrado Motta
  * Date: 06/2022
@@ -15,6 +17,7 @@ import QtQuick.Dialogs 1.0
 
 Item {
     id: boxRectangle
+
     property bool isActive: false
     property bool isImplemented: false
     property alias pre_width: image_box_rectangle.implicitWidth
@@ -31,7 +34,6 @@ Item {
             visible: true
             sourceSize.width: 70
             sourceSize.height: 70
-            //opacity: boxRectangle.isActive?  1 : 0.65
             scale: mouseArea_rect.containsMouse ? 1.0 : 0.8
 
             MouseArea {

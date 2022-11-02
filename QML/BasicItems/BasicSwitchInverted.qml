@@ -1,8 +1,14 @@
 /*************************************************************************
  *
- * Same as basic switch but text is displayed on the left side
- * of the switch. The custom property alias switch_is_active carries the
- * signal used to notify a change in the slider.
+ * This element is a basic switch that contains a text followed by a
+ * switch control button. Such button is white when off and gets green when
+ * is switched. The custom property alias switch_is_active carries the
+ * signal used to notify a change in the slider. The text is displayed
+ * on the left side of the switch.
+ *
+ * Author: Corrado Motta
+ * Date: 05/2022
+ * Mail: corradomotta92@gmail.com
  *
  *************************************************************************/
 

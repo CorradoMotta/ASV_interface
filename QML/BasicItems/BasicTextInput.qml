@@ -1,3 +1,15 @@
+/*************************************************************************
+ *
+ * Text input element with a box where the text can be added and edited
+ * and a title on the left side. Every time the editing is finished
+ * the "new_text_value" property is updated with the new text value.
+ *
+ * Author: Corrado Motta
+ * Date: 05/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
@@ -23,9 +35,7 @@ Item {
                 anchors.fill: parent
                 color: "white"
                 border.color: "black"
-
             }
-
             TextInput {
                 id: text_value_id
                 anchors.fill: parent
@@ -36,7 +46,6 @@ Item {
                 onEditingFinished: text.trim() === ''?  0 : new_text_value =  text
             }
         }
-
         Text {
             id: title_text_input
             font.family: "Helvetica"

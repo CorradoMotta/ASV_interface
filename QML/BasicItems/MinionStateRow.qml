@@ -1,3 +1,14 @@
+/*************************************************************************
+ *
+ * This element contains two fault dots and one status dot.
+ * It helps to see the status of a minion and its engines.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtQuick.Layouts 1.11
 

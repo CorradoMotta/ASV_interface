@@ -1,3 +1,15 @@
+/*************************************************************************
+ *
+ * This element is a recenter button. It gets displayed when the vehicle
+ * is not on the map anymore. And can be clicked to move the map view on
+ * the vehicle again.
+ *
+ * Author: Corrado Motta
+ * Date: 08/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtPositioning 5.5
 import QtLocation 5.6

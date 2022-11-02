@@ -1,6 +1,9 @@
 /*************************************************************************
  *
  * Delegate for the bathymetry model-view implemented in the navigation map.
+ * This element is composed by a dot with a color dynamically updated
+ * according to the depth. When hovering on it, the actual depth is
+ * shown on a label on top of the dot.
  *
  * Author: Corrado Motta
  * Date: 04/2022
@@ -49,7 +52,6 @@ MapQuickItem {
             anchors.fill: parent
             hoverEnabled : true
             onEntered: {
-                //info_label.visible = true
                 navigation_map.updateLabel(depth, true,mqi.x, mqi.y - imgCircle.height)
             }
             onExited: {

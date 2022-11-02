@@ -1,3 +1,13 @@
+/*************************************************************************
+ *
+ * Icon that can be used for rebooting the system or a component.
+ *
+ * Author: Corrado Motta
+ * Date: 03/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtQuick.Layouts 1.15
 

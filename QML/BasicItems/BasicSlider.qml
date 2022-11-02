@@ -5,6 +5,10 @@
  * to move the slider to 0, two arrows to increase and decrease the slider
  * value, and an editable textInput box to show and modify the slider value.
  *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
  *************************************************************************/
 
 import QtQuick 2.15
@@ -79,9 +83,11 @@ Item {
         FocusScope {
             id: text_input_id
             property int maxWidth: 48
+
             Layout.preferredWidth: maxWidth
             Layout.preferredHeight: slider_value_id.implicitHeight + 6
             Layout.alignment: Qt.AlignLeft
+
             Rectangle{
                 id: slider_text_input
                 anchors.fill: parent
@@ -131,7 +137,6 @@ Item {
             }
         }
 
-
         Rectangle {
             id: reset_button
             Layout.alignment: Qt.AlignRight
@@ -149,7 +154,6 @@ Item {
                 color: "#2f4f4f"
             }
             MouseArea {
-                // TODO send 0 signal
                 anchors.fill: parent
                 onClicked: {
                     control.value = 0
@@ -157,6 +161,5 @@ Item {
                 }
             }
         }
-
     }
 }

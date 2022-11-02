@@ -1,3 +1,15 @@
+/*************************************************************************
+ *
+ * Text output element with a box where the text is displayed and a title
+ * on the right side. The title and the value can be set using the property
+ * alias.
+ *
+ * Author: Corrado Motta
+ * Date: 05/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 import QtQuick 2.0
 import QtQuick.Layouts 1.15
 
@@ -6,6 +18,7 @@ Item {
     property alias value_text: info_label_text.text
     property alias value_width : info_label.width
     property alias titleSize: info_label_text.font.pointSize
+
     implicitHeight: rl.implicitHeight
     implicitWidth: rl.implicitWidth
 

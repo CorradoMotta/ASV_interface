@@ -1,3 +1,13 @@
+/*************************************************************************
+ *
+ * Class that contains all minion commands.
+ *
+ * Author: Corrado Motta
+ * Date: 04/2022
+ * Mail: corradomotta92@gmail.com
+ *
+ *************************************************************************/
+
 #ifndef MINION_COMMAND_H
 #define MINION_COMMAND_H
 

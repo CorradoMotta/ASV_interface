@@ -3,8 +3,13 @@
  * Slider that contains one handle in order to set a value. It also has
  * a title which is positioned on the left of the slider, a reset button
  * to move the slider to 0  and an editable textInput box to show and modify
- * the slider value. This version also has a textOutput box to show the ref
- * value that comes back from the vehicle.
+ * the slider value. This version also has one textOutput box to
+ * show the ref value that comes back from the vehicle and one for the
+ * actual value adopted by the vehicle.
+ *
+ * Author: Corrado Motta
+ * Date: 06/2022
+ * Mail: corradomotta92@gmail.com
  *
  *************************************************************************/
 
@@ -14,6 +19,7 @@ import QtQuick.Layouts 1.15
 
 Item {
     id: slider_root
+
     implicitHeight: slider_row.implicitHeight
     implicitWidth: slider_row.implicitWidth
 
@@ -26,8 +32,6 @@ Item {
     property alias step_size: control.stepSize
     property double value: 0.0
     property alias controlValue : control.value
-//    property alias clicked : control_button.down
-//    property bool button_enabled : true
     property alias slider_width: rect.implicitWidth
 
     RowLayout {
@@ -41,31 +45,6 @@ Item {
             font.family: "Helvetica"
             font.pixelSize: 18
         }
-//        Button {
-//            id: control_button
-//            Layout.alignment: Qt.AlignLeft
-//            Layout.rightMargin: 10
-//            Layout.topMargin: 4
-//            width: 300
-//            onClicked: console.log(testo.implicitWidth)//publish_topic(setLogTn, 1)
-//            contentItem: Text {
-//                id: testo
-//                font.family: "Helvetica"
-//                font.pointSize: 14
-//                anchors.horizontalCenter: background_b.horizontalCenter
-//                //verticalAlignment: background_b.AlignVCenter
-//            }
-//            background: Rectangle{
-//                id: background_b
-//                height: testo.implicitHeight + 10
-//                width: 30 // TODO should bne automatic
-//                color: button_enabled? control_button.down? "peachpuff" : "papayawhip" : "papayawhip"
-//                border.width: 1
-//                border.color: "black"
-//                enabled: button_enabled
-//                radius: 6
-//            }
-//        }
         Slider {
             id: control
             property bool __pressed: false
@@ -80,7 +59,6 @@ Item {
                 id: rect
                 x: control.leftPadding
                 y: control.topPadding + control.availableHeight / 2 - height / 2
-                //implicitWidth: 260
                 implicitHeight: 4
                 width: control.availableWidth
                 height: implicitHeight
@@ -136,13 +114,11 @@ Item {
                 }
             }
         }
-
         Rectangle {
             id: reset_button
             Layout.alignment: Qt.AlignRight
             Layout.preferredHeight: control.implicitHandleHeight
             Layout.preferredWidth: control.implicitHandleHeight
-            //Layout.rightMargin: 10
             radius: 15
             color: "#f08080"
             Rectangle {
@@ -154,7 +130,6 @@ Item {
                 color: "#2f4f4f"
             }
             MouseArea {
-                // TODO send 0 signal
                 anchors.fill: parent
                 onClicked: {
                     control.value = 0
@@ -200,6 +175,5 @@ Item {
                 font.pixelSize: 20
             }
         }
-
     }
 }
