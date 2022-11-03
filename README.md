@@ -1,11 +1,21 @@
 # ASV_interface
-Repository to store progress on the ASV interface development
+Repository to store progress on the ASV interface development.
 
-## Info on IDE and dependencies
-Qt Creator 5.15.2 should be installed with full package and MingW as compiler. You can use the online installer available in https://www.qt.io/download in the open source section. After log in with your credentials, go to custom installation. Expand Qt menu, select Qt 5.15.2, the minimum set of modules that should be selected are:
+Table of contents:
+
+1. [ Info on IDE and installation.](#ide)
+2. [ Info on implementation and technical notes. ](#implementation)
+3. [ Info on usage. ](#usage)
+
+<a name="ide"></a>
+## Info on IDE and installation
+
+**NOTE**: The following instructions are valid for Windows. However, the installation process should be similar on Linux and Mac systems as well.
+
+Qt Creator 5.15.2 should be installed with full package and MingW as compiler. You can use the online installer available in https://www.qt.io/download in the open source section. After log in with your credentials, go to custom installation. Expand Qt menu, select Qt 5.15.2, the minimum set of modules that should be selected in the list are:
 
 1. MinGW 64bit.
-2. Sources (if you want the source code)
+2. Sources (This is not mandatory but useful if you want to access the source code)
 3. Qt Network Authorization for the use of plugins such as map
 4. Qt Charts
 6. Qt Debug information files
@@ -13,12 +23,17 @@ Qt Creator 5.15.2 should be installed with full package and MingW as compiler. Y
 
 ### OpenSSL
 
-To be able to use the maps, however, OpenSSL needs to be installed as well on the local machine with the following steps:
+To be able to use the maps OpenSSL needs to be installed as well on the local machine and not only in Qt. You can go to the [OpenSSL](https://slproweb.com/products/Win32OpenSSL.html) website and download it using the installer. The file name should be something similar to
+`Win64 OpenSSL v1.1.1s`.
 
-1. Run the MaintenanceTool and install the OpenSSL package in "Developer and Designer tools >  OpenSSL 1.1.x"
-2. Check which version of OpenSSL was used for the Qt build with qDebug using the C ++ code below
-3. If the second line is false and the third is an empty string, go to OpenSSL website and download the most similar release and use the installer: https://slproweb.com/products/Win32OpenSSL.html 
-4. Reboot Qt Creator to make changes effective
+If you do not know if OpenSSL is already installed or which version to install, you can use the C ++ code below by following the steps below:
+1. Create a new Qt project (type: Application - Qt > Qt Quick Application). Leave default options until `Kit Selection`, there you can chose the MinGW compiler.
+2. Expand Sources folder and open `main.cpp`
+3. Replace the code there with the one below
+4. Run it in debug mode
+5. Check what is getting printed in the console
+
+If the second line is false and the third is an empty string, go to OpenSSL website and download the most similar release.
 
 __C++ code to check the OpenSSL version:__
 
@@ -48,16 +63,16 @@ Another way to control the vehicle in RAW mode is by using a game controller. At
 time of writing the supported controller is the Thrustmaster USB Joystick for PC. 
 The module to control the joystick is build-in but you need to manually install the dll. To do so, follow these steps:
 
-1. Download SWDL2 mingw x64 library from: https://www.libsdl.org/download-2.0.php
+1. Download the appropriate dll from the SDL release [webiste](https://github.com/libsdl-org/SDL/releases/tag/release-2.24.2), in my case `SDL2-2.24.2-win32-x64.zip
+`.
 2. Add it to the directory ASV_interface\3rd_parties\QJoysticks\lib\SDL\bin\windows\mingw
 3. Restart the app.
 
-This controller has 3 available axis and 4 buttons. Two of the four buttons are used to switch between the
-views and the tabs and a third button is used to turn on RAW mode immediately. The two axes are mapped to the RPM control slider of the NGC 
+This controller has 3 available axis and 4 buttons. Three of the four buttons are used to switch between the
+views and the tabs and a fourth button is used to turn on RAW mode immediately. The two axes are mapped to the RPM control slider of the NGC 
 and allow the user to control both the speed and the direction.
-They also allow driving backward in any direction. To enable
-the controller simply plug the joystick into the PC. If the interface correctly recognizes the
-controller, a small icon will appear on the top left of the navigation map,
+They also allow driving backward in any direction. To enable the controller simply plug the joystick into the PC. If the interface correctly recognizes the
+controller, a small icon will appear on the top left of the navigation map.
 
 ### QtMqtt
 
@@ -81,22 +96,12 @@ The following steps are required for windows in order to install qtmqtt which is
 
 __Source:__ https://forum.qt.io/topic/91877/where-do-i-find-qt-for-automation/7
 
-## Info on implementation
+<a name="implementation"></a>
+## Info on implementation and technical notes
 
 __Note:__ For more info regarding the technical details refer to: https://intranet.cnr.it/servizi/people/prodotto/scheda/i/469797
 
 The HCI interface is developed using QML for the "front end" and C++ for the "back end". Communication between C++ and QML is implemented in the standard QT way, using `setContextProperty` method and `Q_OBJECT`. For interaction with the navigation map, the model-view-delegate architecture is used (https://doc.qt.io/qt-5/model-view-programming.html), where the model part is coded in C++. Such classes are contained in the folder map_models.
-
-### Configuration file
-
-In the "conf" folder several files for configuration are available. The only one used at the moment is `conf.ini`. There all configuration parameters are listed and described. When you change any of these parameters, you need to restart the application in order to make them effective. The .ini file has 6 sections:
-
-* __udp_addresses__: here you set all IP addresses and ports. Note that the first parameter, `Set_local` should be set to false when working with the vehicle. A `true` value is set to connect to the local network, for testing purposes only.
-* __minion_configuration__: here you can set the initial offset for the initial angle of each minion' azimuth motor.
-* __mapbox_settings__: These are used for offline maps. Check the section below for details.
-* __RPM_Settings__: here you can set the RPM values both for the slider dimensions and for the maximum possible value of the game controller.
-* __coordinate_seetings__: here you can specify a path and a filename for the points of interest. See section below for details.
-* __metadata_settings__: here you specify the path to the metadata database and where to store the generated metadata
 
 ### Network Binding
 
@@ -213,6 +218,20 @@ private:
 };
 ``` 
  As it is possible to see, the method `set_data_source` is generated by the above Q_PROPERTY. Therefore, theoretically (not tested), it should be possible to switch between communication protocol also directly from the QML view.
+ 
+ <a name="usage"></a>
+ ## Info on usage
+ 
+ ### Configuration file
+
+In the "conf" folder several files for configuration are available. The only one used at the moment is `conf.ini`. There all configuration parameters are listed and described. When you change any of these parameters, you need to restart the application in order to make them effective. The .ini file has 6 sections:
+
+* __udp_addresses__: here you set all IP addresses and ports. Note that the first parameter, `Set_local` should be set to false when working with the vehicle. A `true` value is set to connect to the local network, for testing purposes only.
+* __minion_configuration__: here you can set the initial offset for the initial angle of each minion' azimuth motor.
+* __mapbox_settings__: These are used for offline maps. Check the section below for details.
+* __RPM_Settings__: here you can set the RPM values both for the slider dimensions and for the maximum possible value of the game controller.
+* __coordinate_seetings__: here you can specify a path and a filename for the points of interest. See section below for details.
+* __metadata_settings__: here you specify the path to the metadata database and where to store the generated metadata
  
  ### Adding markers and transepts
 
