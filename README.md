@@ -233,6 +233,18 @@ In the "conf" folder several files for configuration are available. The only one
 * __coordinate_seetings__: here you can specify a path and a filename for the points of interest. See section below for details.
 * __metadata_settings__: here you specify the path to the metadata database and where to store the generated metadata
  
+ ### Initial set up
+ 
+As soon as the vehicle is booted, it is possible to proceed with the inital set up. Namely enabling and powering the pump and the azimuth engines as well as set the azimuth "home" angles. Such operations can be done from the top right panels in the main windows as shown in the image. Note that NGC_ENABLE **shall** be switched off during such operations, because we need to send information directly to the minions/engines, without the NGC acting as a filter.
+
+To turn on the engines click on the propeller icons, first with the left click (to enable, it turns yellow) and then the right click (to power, it turns green). Note that the color will change immediately on the click but that does not necessarily mean that the command was correctly received by the vehicle. The leds on the top left helps to understand the status of the engines. Hover with the mouse on top of them to see what they represent. In case a command was not received, simply repeat the procedure until all the status leds are correctly activated.
+
+Just below it, in the next panel, you can set the angle of the azimuth engines. Follow the top-down order. "Go home" will send the azimuth to the original 0. "Set angle" will set all angles to the value given in the configuration file. Finally, "set home" will set the new home to be that one. You can follow the azimuth moves in the Swamp image next to it by looking at the colored value.
+
+Now, you can enable the NGC and start moving the vehicle.
+ 
+ ![image](https://user-images.githubusercontent.com/12608893/199756452-797640c0-5f38-478a-9b4a-f64729b6a10d.png)
+
  ### Adding markers and transepts
 
 It is possible to add markers and lines to the map or to upload them from file.
