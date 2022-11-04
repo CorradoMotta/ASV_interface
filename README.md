@@ -20,8 +20,9 @@ _Table of contents_
     * [ Configuration file](#configuration) 
     * [ Initial set up](#setup)
     * [ Marker and transepts](#markers) 
-    * [ Points of interest](#points) 
-    * [ offline maps](#maps) 
+    * [ Points of interest](#points)
+    * [ Bathymetry](#bathymetry)
+    * [ Offline maps](#maps) 
 
 <a name="ide"></a>
 ## Info on IDE and installation
@@ -118,27 +119,31 @@ controller, a small icon will appear on the top left of the navigation map.
 
 The following steps are required for windows[^2] in order to build QtMqtt from source as the package is not included in the open source release:
 
-* Installing Perl 5.8 https://www.activestate.com/products/perl/
-* Installing cmake https://cmake.org/download/
-* Installing git bash https://gitforwindows.org/
-*  Open Git bash and go to the folder where you want to download the source code (e.g. on your user or in C folder)
+* Installing [Perl 5.8](https://www.activestate.com/products/perl/).
+* Installing [cmake](https://cmake.org/download/).
+* Installing [git bash](https://gitforwindows.org/), if not done already.
+*  Open Git bash and go to the folder where you want to download the source code (e.g., on your user root folder or in C folder). Then, run:
 
-`$ git clone https://code.qt.io/qt/qtmqtt.git` (check on release page if the link is still valid: https://code.qt.io/cgit/qt/qtmqtt.git/)
+   `$ git clone https://code.qt.io/qt/qtmqtt.git`[^3].
 
-`$ git checkout 5.15.2` (or the version of Qt Creator you have installed)
-* Open terminal and digit: `$ C:\Qt\5.15.2\mingw<yourVersion>\bin\qtenv2.bat` (will prompt "Setting up environment for Qt Usage..")
-* Cd into the dir where you run git clone: `$ C:\Qt\5.15.2\mingw<yourVersion>\bin\qmake.exe -r` (If it prompt an error related to the example folder, just run it again. Alternatively cut and paste the example folder somewhere else.)
-* Then run: `$ C:\Qt\Tools\mingw<yourVersion>\bin\mingw32-make.exe install`
+   `$ git checkout 5.15.2` (or the version of Qt Creator you have installed).
+
+* Open a cmd terminal and digit: `$ C:\Qt\5.15.2\mingw<yourVersion>\bin\qtenv2.bat` (will prompt "Setting up environment for Qt Usage..").
+* Move into the dir where you run git clone, using `cd` command. Then, run:
+
+   `$ C:\Qt\5.15.2\mingw<yourVersion>\bin\qmake.exe -r`[^4]
+   
+   `$ C:\Qt\Tools\mingw<yourVersion>\bin\mingw32-make.exe install`.
 
 __Source:__ https://forum.qt.io/topic/91877/where-do-i-find-qt-for-automation/7
 [^2]: Mqtt installation is tested only with mingw compilers.
+[^3]: Check on [release page](https://code.qt.io/cgit/qt/qtmqtt.git/) if the link is still valid.
+[^4]: If it prompt an error related to the example folder, just run it again. Alternatively cut and paste the example folder somewhere else.
 
 <a name="implementation"></a>
 ## Info on implementation and technical notes
 
-__Note:__ For more info regarding the technical details refer to: https://intranet.cnr.it/servizi/people/prodotto/scheda/i/469797
-
-The HCI interface is developed using QML for the "front end" and C++ for the "back end". Communication between C++ and QML is implemented in the standard QT way, using `setContextProperty` method and `Q_OBJECT`. For interaction with the navigation map, the model-view-delegate architecture is used (https://doc.qt.io/qt-5/model-view-programming.html), where the model part is coded in C++. Such classes are contained in the folder map_models.
+The HCI interface is developed using QML for the "front end" and C++ for the "back end". Communication between C++ and QML is implemented in the standard QT way, using `setContextProperty` method and `Q_OBJECT`. For interaction with the navigation map, the [model-view-delegate](https://doc.qt.io/qt-5/model-view-programming.html) architecture is used, where the model part is coded in C++. Such classes are contained in the folder map_models.
 
 <a name="network"></a>
 ### Network Binding
@@ -263,7 +268,7 @@ private:
 <a name="configuration"></a>
  ### Configuration file
 
-In the "conf" folder several files for configuration are available. The only one used at the moment is `conf.ini`. There all configuration parameters are listed and described. When you change any of these parameters, you need to restart the application in order to make them effective. The .ini file has 6 sections:
+In the "conf" folder several files for configuration are available. The only one used at the moment is `conf.ini`. There, all configuration parameters are listed and described. When you change any of these parameters, you need to restart the application in order to make them effective. The .ini file has 6 sections:
 
 * __udp_addresses__: here you set all IP addresses and ports. Note that the first parameter, `Set_local` should be set to false when working with the vehicle. A `true` value is set to connect to the local network, for testing purposes only.
 * __minion_configuration__: here you can set the initial offset for the initial angle of each minion' azimuth motor.
@@ -275,38 +280,42 @@ In the "conf" folder several files for configuration are available. The only one
 <a name="setup"></a>
  ### Initial set up
  
-As soon as the vehicle is booted, it is possible to proceed with the inital set up. Namely enabling and powering the pump and the azimuth engines as well as set the azimuth "home" angles. Such operations can be done from the top right panels in the main windows as shown in the image. Note that NGC_ENABLE **shall** be switched off during such operations, because we need to send information directly to the minions/engines, without the NGC acting as a filter.
+As soon as the vehicle is booted, it is possible to proceed with the inital set up. Namely, enabling and powering the pump and the azimuth thrusters as well as set the azimuth "home" angles. Such operations can be done from the top right panels in the main windows as shown in the image. Note that NGC_ENABLE **shall** be switched off during such operations, because we need to send information directly to the minions/engines, without the NGC acting as a filter.
 
-To turn on the engines click on the propeller icons, first with the left click (to enable, it turns yellow) and then the right click (to power, it turns green). Note that the color will change immediately on the click but that does not necessarily mean that the command was correctly received by the vehicle. The leds on the top left helps to understand the status of the engines. Hover with the mouse on top of them to see what they represent. In case a command was not received, simply repeat the procedure until all the status leds are correctly activated.
+To turn on the thrusters click on the propeller icons, first with the left click (to __enable__, it turns yellow) and then the right click (to __power__, it turns green). Note that the color will change immediately on the click but that does not necessarily mean that the command was correctly received by the vehicle. The leds on the top of the navigation map helps to understand the status of the engines. Hover with the mouse on top of them to see what they represent. In case a command was not received, simply repeat the procedure until all the status leds are correctly activated.
 
-Just below it, in the next panel, you can set the angle of the azimuth engines. Follow the top-down order. "Go home" will send the azimuth to the original 0. "Set angle" will set all angles to the value given in the configuration file. Finally, "set home" will set the new home to be that one. You can follow the azimuth moves in the Swamp image next to it by looking at the colored value.
+Just below it, in the next panel, you can set the __angle__ of the azimuth thrusters. Follow the top-down order. _Go home_ will send the azimuth to the original 0. _Set angle_ will set all angles to the value given in the configuration file. Finally, _set home_ will set the new home to be that one. You can follow the azimuth moves in the Swamp image next to it by looking at the colored value.
 
-Now, you can enable the NGC and start moving the vehicle.
+Now, you can enable the NGC with the switch button and start moving the vehicle in the modality `RPM_ALPHA`. The `NEW_LOG` button cna be used to trigger the creation of a new log file.
  
  ![image](https://user-images.githubusercontent.com/12608893/199756452-797640c0-5f38-478a-9b4a-f64729b6a10d.png)
 
 <a name="markers"></a>
  ### Adding markers and transepts
 
-It is possible to add markers and lines to the map or to upload them from file.
+It is possible to add markers and lines to the map or to upload them from file[^5].
 
 To enable drawing markers or lines click on the correspondent icon in the bottom right of the navigation map as shown in the below picture. 
-When clicked, other boxes will appear with a white color. Then it is possible to add markers (or lines) by clicking on the map. You can **remove** a single marker with a right click on the marker or **drag** it in another position on the map. You can **remove all** markers (or line points) by clicking the remove icon in the correspondent button on the bottom right. Finally you can **send** the coordinates to the vehicle by clicking on the send icon. You can also set a line to follow for the vehicle by clicking on the send button with the little line on the bottom left.
+When clicked, other boxes will appear with a white color. Then it is possible to add markers (or lines) by clicking on the map. You can **remove** a single marker with a right click on the marker or **drag** it in another position on the map. You can **remove all** markers (or line points) by clicking the remove icon in the correspondent button on the bottom right. Finally you can **send** the coordinates to the vehicle by clicking on the send icon. 
 
 ![image](https://user-images.githubusercontent.com/12608893/195368568-9aa324f5-8155-4d28-a8d7-a96b867ed1dd.png)
 
-
 It is also possible to **upload** points or transepts from a file. The only supported format is **gpx** which is the [standard XML format](https://www.topografix.com/gpx.asp) for exchanging GPS data between applications. It is available as an export option from QGIS. Click on the upload icon on the bottom right. You will be able to select the file from the file system and the points will be imported.
 
-**Note:** At the moment the insertion of markers is limited to one marker at a time. Therefore adding a new marker will replace the previous one. Such limitation is not added to lines.
+[^5]: At the moment the insertion of markers is limited to one marker at a time. Therefore adding a new marker will replace the previous one. Such limitation is not added to lines.
+
+**LINE FOLLOWING AND LINE OF SIGHT**
+
+After a marker is added on the map, you can either send the vehicle to that point so that the vehicle always keeps its bow in the direction of the point (Line of Sight, _LoS_) or you can make the vehicle to stay on a line that pass through that point (Line Following, _LF_). In order to do that, you can control the force (therefore, the speed of the vehicle) with `X` in the panel control and, in case of _LF_, the orientation of the line in degrees by setting `G`.
+
+![image](https://user-images.githubusercontent.com/12608893/199966282-2576e6d7-7fa3-4efd-b352-bf199b638d11.png)
+
+Once you have done it, you can click on the normal **send** icon (or the send icon with the little line on the bottom left for _LF_) go to the GWorkingMode in the menu bar and choose `GO_TO_AUTO` or `LF`, depending on what you want to do. After that, the marker should turn in green color. That shows the vehicle correctly received the information and will start moving.
 
 <a name="points"></a>
 ### Adding points of interest
  
-Points of interest that come from e.g. sampling spots, can be saved on the map and
-exported to a file. The filename and path can be set in the conf.ini file. If already existing,
-the interface will simply append the new data. Otherwise, it will create the file. The data
-stored in the file are the following:
+Points of interest that come from e.g. sampling spots, can be saved on the map and exported to a file. The filename and path can be set in the conf.ini file. If already existing, the interface will simply append the new data. Otherwise, it will create the file. The data stored in the file are the following:
 
 1. Timestamp, received by the vehicle.
 2. Name, given by the user or UNNAMED as default.
@@ -315,11 +324,16 @@ stored in the file are the following:
 
 ![samplingPoints](https://user-images.githubusercontent.com/12608893/184177663-d2349523-337f-4739-913d-2407877af43f.PNG)
 
-The figure shows the points in purple. In the bottom right, a new point is being added with
-the name svalbard_first_sampling. By clicking the plus button the marker will be added to
-the map, at the vehicle’s current position. By clicking on the download button, all points
-will be saved to a file. The red button can be used to remove all points. Points interaction
-on the map works in the exact same way as the marker and lines explained previously.
+The figure shows the points in purple. In the bottom right, a new point is being added with the name _svalbard_first_sampling_. By clicking the plus button the marker will be added to the map, at the vehicle’s current position. By clicking on the download button, all points will be saved to a file. The red button can be used to remove all points. Points interaction on the map works in the exact same way as the marker and lines explained previously.
+
+<a name="bathymetry"></a>
+### Bathymetry
+
+An extra view is added in order to visualize depth data both as a chart, which is dynamically filled with the incoming depth data, and on the top of the navigation
+map, with colored depth points to generate real-time bathymetries. The figure shows its usage during a field trip. On the right panel, under the `OTHER` tab a dedicated element is available to adapt the depth range, which in turn changes the color of the points, and to save the depth data, the position, and the timestamp to a log file.
+
+![batimetria](https://user-images.githubusercontent.com/12608893/199969129-0db752f0-23f2-498e-bde8-7de0e55cd678.png)
+
 
 <a name="maps"></a>
 ### Offline maps
@@ -333,7 +347,7 @@ moment, the maximum amount of tiles that can be downloaded offline is set to 600
 MB as cache size. Mapbox term of service should be consulted to check if the size can be
 incremented. As a workaround, it is possible to create multiple databases (all of them shall
 have the name mapboxgl.db to work) and store them in different directories. Then, in the
-conf.ini file, you can set the path to the database you are interested in for that specific area.
+conf.ini file, you can set the path to the database you are interested in for that specific area. Note that if you are connected to internet, mapbox will start to save the new tiles and replace the one in your database. So always keep a safe copy of your offline databases!
 
 The following steps are required to download offline maps:
 
