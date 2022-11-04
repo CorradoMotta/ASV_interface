@@ -5,11 +5,12 @@
 |Author		| Corrado Motta |
 |Mail		| corradomotta92@gmail.com |
 |Date		| 08/2022 |
-|Credits    | This interface is developed for the CNR-INM istitute in Genoa. Check the [technical report](https://intranet.cnr.it/servizi/people/prodotto/scheda/i/469797) for more information |
+|Credits    | This interface is developed for the CNR-INM istitute in Genoa. Check the [technical report](https://intranet.cnr.it/servizi/people/prodotto/scheda/i/469797) for more information. |
 
 _Table of contents_
 
 1. [ Info on IDE and installation](#ide)
+    * [ Repository](#github)
     * [ OpenSSL](#openssl)
     * [ Controller](#controller)
     * [ QtMqtt](#qtmqtt)
@@ -27,14 +28,31 @@ _Table of contents_
 
 **NOTE**: The following instructions are valid for Windows. However, the installation process should be similar on Linux and Mac systems as well.
 
-Qt Creator 5.15.2 should be installed with full package and MingW as compiler. You can use the online installer available in https://www.qt.io/download in the open source section. After log in with your credentials, go to custom installation. Expand Qt menu, select Qt 5.15.2, the minimum set of modules that should be selected in the list are:
+Qt Creator 5.15.2 should be installed with full package and MingW as compiler. You can use the online installer, by visiting the Qt [website](https://www.qt.io/download), which is available in the open source section. After log in with your credentials, go to custom installation. Expand Qt menu, select Qt 5.15.2. There, the minimum set of modules that should be checked in the tree list are:
 
 1. MinGW 64bit.
-2. Sources (This is not mandatory but useful if you want to access the source code)
+2. Sources[^1]
 3. Qt Network Authorization for the use of plugins such as map
 4. Qt Charts
 6. Qt Debug information files
 7. In developer and Designer tools > OpenSSL (the whole package)
+
+[^1]: The sources package is not mandatory, but very useful if you want to access the source code.
+
+<a name="github"></a>
+### GitHub and the repository
+
+The easiest way to install this interface on your local computer is by using `git` commands.
+Git bash for windows is available at their [website](https://gitforwindows.org/) and can be used to interact with the remote repository, here on GitHub.
+Once installed, open the Git bash terminal, navigate to the location where you want to install the interface and simply run:
+
+`$ git clone <link_to_repo>`
+
+The updated "link_to_repo" can be found on the "Code" green box on the top right of the main GitHub page of this repository. Click on the down arrow, select the method for cloning (HTTPS is enough in this case) and copy the link. After the command is executed, the entire code is cloned in your local machine. By using `$ git status` you can check if your version is up to date or not. Check the git page for more information and commands.
+
+The development of this interface is managed by using the __GitHub issues__. Go to the `Issues` section to see all open issues. You can also visualize all closed issues, where there are information on each of the added feature as well as all the related commits. For each issue, a new branch is opened, which will be merged to master when the issue is completed. The branch is always named with prefix "Feature" or "Bugfix" followed by a slash and then the issue name. For example, <__Feature/integrate controller__>. To see all merged branches, go to `Pull request - Closed` section.
+
+Note that also the commit message follows a template containing a title, a list of changes and the issue number to be correctly linked to the issue.
 
 <a name="openssl"></a>
 ### OpenSSL
@@ -42,14 +60,14 @@ Qt Creator 5.15.2 should be installed with full package and MingW as compiler. Y
 To be able to use the maps OpenSSL needs to be installed as well on the local machine and not only in Qt. You can go to the [OpenSSL](https://slproweb.com/products/Win32OpenSSL.html) website and download it using the installer. The file name should be something similar to
 `Win64 OpenSSL v1.1.1s`.
 
-If you do not know if OpenSSL is already installed or which version to install, you can use the C ++ code below by following the steps below:
-1. Create a new Qt project (type: Application - Qt > Qt Quick Application). Leave default options until `Kit Selection`, there you can chose the MinGW compiler.
-2. Expand Sources folder and open `main.cpp`
-3. Replace the code there with the one below
-4. Run it in debug mode
-5. Check what is getting printed in the console
+If you do not know whether OpenSSL is already installed or which version should be installed, you can use the C ++ code below, using the following steps:
+1. Create a new Qt project (type: Application (Qt) > Qt Quick Application). Leave default options until `Kit Selection`, there you can chose the MinGW compiler.
+2. Expand Sources folder and open `main.cpp`.
+3. Replace the code there with the one below.
+4. Run it in debug mode.
+5. Check what is getting printed in the console.
 
-If the second line is false and the third is an empty string, go to OpenSSL website and download the most similar release.
+If the second line is false and the third is an empty string, go to OpenSSL website and download the most similar release to the first printed line in the console.
 
 __C++ code to check the OpenSSL version:__
 
@@ -75,13 +93,14 @@ int main(int argc, char *argv[])
 ``` 
 <a name="controller"></a>
 ### Controller
+
 Another way to control the vehicle in RAW mode is by using a game controller. At the
 time of writing the supported controller is the Thrustmaster USB Joystick for PC. 
-The module to control the joystick is build-in but you need to manually install the dll. To do so, follow these steps:
+The module to control the joystick is build-in, taken from a [GitHub project](https://github.com/alex-spataru/QJoysticks), but you need to manually add the dll library. To do so, follow the following steps:
 
-1. Download the appropriate dll from the SDL release [webiste](https://github.com/libsdl-org/SDL/releases/tag/release-2.24.2), in my case `SDL2-2.24.2-win32-x64.zip
+1. Download the appropriate dll from the SDL release [website](https://github.com/libsdl-org/SDL/releases/tag/release-2.24.2), in my case `SDL2-2.24.2-win32-x64.zip
 `.
-2. Add it to the directory ASV_interface\3rd_parties\QJoysticks\lib\SDL\bin\windows\mingw
+2. Add it to the directory with path `ASV_interface\3rd_parties\QJoysticks\lib\SDL\bin\windows\mingw`.
 3. Restart the app.
 
 This controller has 3 available axis and 4 buttons. Three of the four buttons are used to switch between the
@@ -90,14 +109,14 @@ and allow the user to control both the speed and the direction.
 They also allow driving backward in any direction. To enable the controller simply plug the joystick into the PC. If the interface correctly recognizes the
 controller, a small icon will appear on the top left of the navigation map.
 
+![Controller - Copy](https://user-images.githubusercontent.com/12608893/199959009-918d9b53-6f39-4809-8a5d-406d63f5aef1.PNG)
+
 <a name="qtmqtt"></a>
 ### QtMqtt
 
-**NOTE**: this is currently not needed as MQTT is disabled.
+**NOTE**: The following installation steps are NOT needed if the interface is used with UDP binding only. Also, the mqtt binding is currently disabled to avoid installing further components.
 
-**NOTE**: this is tested only with mingw compilers!
-
-The following steps are required for windows in order to install qtmqtt which is not included in the download packages:
+The following steps are required for windows[^2] in order to build QtMqtt from source as the package is not included in the open source release:
 
 * Installing Perl 5.8 https://www.activestate.com/products/perl/
 * Installing cmake https://cmake.org/download/
@@ -112,6 +131,7 @@ The following steps are required for windows in order to install qtmqtt which is
 * Then run: `$ C:\Qt\Tools\mingw<yourVersion>\bin\mingw32-make.exe install`
 
 __Source:__ https://forum.qt.io/topic/91877/where-do-i-find-qt-for-automation/7
+[^2]: Mqtt installation is tested only with mingw compilers.
 
 <a name="implementation"></a>
 ## Info on implementation and technical notes
