@@ -1,11 +1,26 @@
-# ASV_interface
-Repository to store progress on the ASV interface development.
+# User Interface for the Remote Control of Unmanned Marine Vehicles
 
-Table of contents:
+|Description	| Repository to store progress about the development of a user interface to remotely view and operate marine vehicles. |
+| :-------------| :----------------------------------------------------------- |
+|Author		| Corrado Motta |
+|Mail		| corradomotta92@gmail.com |
+|Date		| 08/2022 |
+|Credits    | This interface is developed for the CNR-INM istitute in Genoa. Check the [technical report](https://intranet.cnr.it/servizi/people/prodotto/scheda/i/469797) for more information |
 
-1. [ Info on IDE and installation.](#ide)
-2. [ Info on implementation and technical notes. ](#implementation)
-3. [ Info on usage. ](#usage)
+_Table of contents_
+
+1. [ Info on IDE and installation](#ide)
+    * [ OpenSSL](#openssl)
+    * [ Controller](#controller)
+    * [ QtMqtt](#qtmqtt)
+2. [ Info on implementation and technical notes](#implementation)
+    * [ Network Binding](#network)    
+3. [ Info on usage](#usage)
+    * [ Configuration file](#configuration) 
+    * [ Initial set up](#setup)
+    * [ Marker and transepts](#markers) 
+    * [ Points of interest](#points) 
+    * [ offline maps](#maps) 
 
 <a name="ide"></a>
 ## Info on IDE and installation
@@ -21,6 +36,7 @@ Qt Creator 5.15.2 should be installed with full package and MingW as compiler. Y
 6. Qt Debug information files
 7. In developer and Designer tools > OpenSSL (the whole package)
 
+<a name="openssl"></a>
 ### OpenSSL
 
 To be able to use the maps OpenSSL needs to be installed as well on the local machine and not only in Qt. You can go to the [OpenSSL](https://slproweb.com/products/Win32OpenSSL.html) website and download it using the installer. The file name should be something similar to
@@ -57,7 +73,7 @@ int main(int argc, char *argv[])
     return app.exec();
 }
 ``` 
-
+<a name="controller"></a>
 ### Controller
 Another way to control the vehicle in RAW mode is by using a game controller. At the
 time of writing the supported controller is the Thrustmaster USB Joystick for PC. 
@@ -74,6 +90,7 @@ and allow the user to control both the speed and the direction.
 They also allow driving backward in any direction. To enable the controller simply plug the joystick into the PC. If the interface correctly recognizes the
 controller, a small icon will appear on the top left of the navigation map.
 
+<a name="qtmqtt"></a>
 ### QtMqtt
 
 **NOTE**: this is currently not needed as MQTT is disabled.
@@ -103,6 +120,7 @@ __Note:__ For more info regarding the technical details refer to: https://intran
 
 The HCI interface is developed using QML for the "front end" and C++ for the "back end". Communication between C++ and QML is implemented in the standard QT way, using `setContextProperty` method and `Q_OBJECT`. For interaction with the navigation map, the model-view-delegate architecture is used (https://doc.qt.io/qt-5/model-view-programming.html), where the model part is coded in C++. Such classes are contained in the folder map_models.
 
+<a name="network"></a>
 ### Network Binding
 
 The front-end of the application is fully detached from the underlying communication protocol. In the backend, the class `swampmodel` contains a pointer to a `dataSource` object. `dataSource` is a virtual class which offers a basic set of methods that can be implemented by different communication protocol:
@@ -222,6 +240,7 @@ private:
  <a name="usage"></a>
  ## Info on usage
  
+<a name="configuration"></a>
  ### Configuration file
 
 In the "conf" folder several files for configuration are available. The only one used at the moment is `conf.ini`. There all configuration parameters are listed and described. When you change any of these parameters, you need to restart the application in order to make them effective. The .ini file has 6 sections:
@@ -233,6 +252,7 @@ In the "conf" folder several files for configuration are available. The only one
 * __coordinate_seetings__: here you can specify a path and a filename for the points of interest. See section below for details.
 * __metadata_settings__: here you specify the path to the metadata database and where to store the generated metadata
  
+<a name="setup"></a>
  ### Initial set up
  
 As soon as the vehicle is booted, it is possible to proceed with the inital set up. Namely enabling and powering the pump and the azimuth engines as well as set the azimuth "home" angles. Such operations can be done from the top right panels in the main windows as shown in the image. Note that NGC_ENABLE **shall** be switched off during such operations, because we need to send information directly to the minions/engines, without the NGC acting as a filter.
@@ -245,6 +265,7 @@ Now, you can enable the NGC and start moving the vehicle.
  
  ![image](https://user-images.githubusercontent.com/12608893/199756452-797640c0-5f38-478a-9b4a-f64729b6a10d.png)
 
+<a name="markers"></a>
  ### Adding markers and transepts
 
 It is possible to add markers and lines to the map or to upload them from file.
@@ -259,6 +280,7 @@ It is also possible to **upload** points or transepts from a file. The only supp
 
 **Note:** At the moment the insertion of markers is limited to one marker at a time. Therefore adding a new marker will replace the previous one. Such limitation is not added to lines.
 
+<a name="points"></a>
 ### Adding points of interest
  
 Points of interest that come from e.g. sampling spots, can be saved on the map and
@@ -279,6 +301,7 @@ the map, at the vehicle’s current position. By clicking on the download button
 will be saved to a file. The red button can be used to remove all points. Points interaction
 on the map works in the exact same way as the marker and lines explained previously.
 
+<a name="maps"></a>
 ### Offline maps
 
 Mapbox was selected as the map provider. Mapbox allows accessing vector and satellite
