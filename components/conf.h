@@ -17,6 +17,7 @@
 #include <data/intvariable.h>
 #include <data/stringvariable.h>
 #include <data/HciNgiInterface.h>
+#include <QGeoCoordinate>
 
 class Conf : public QObject
 {
@@ -29,6 +30,7 @@ class Conf : public QObject
     Q_PROPERTY(QString coordinatePath READ coordinatePath WRITE setCoordinatePath NOTIFY coordinatePathChanged)
     Q_PROPERTY(QString jsonPath READ jsonPath WRITE setJsonPath NOTIFY jsonPathChanged)
     Q_PROPERTY(QString metadataIniPath READ metadataIniPath WRITE setMetadataIniPath NOTIFY metadataIniPathChanged)
+    Q_PROPERTY(QGeoCoordinate origin READ origin WRITE setOrigin NOTIFY originChanged)
 
 public:
     explicit Conf(QObject *parent = nullptr);
@@ -53,6 +55,9 @@ public:
     const QString &metadataIniPath() const;
     void setMetadataIniPath(const QString &newMetadataIniPath);
 
+    const QGeoCoordinate &origin() const;
+    void setOrigin(const QGeoCoordinate &newOrigin);
+
 signals:
 
     void maxRPMSpeedChanged();
@@ -63,6 +68,8 @@ signals:
     void jsonPathChanged();
     void metadataIniPathChanged();
 
+    void originChanged();
+
 private:
     int m_maxRPMSpeed;
     int m_maxControllerSpeed;
@@ -71,6 +78,7 @@ private:
     QString m_coordinatePath;
     QString m_jsonPath;
     QString m_metadataIniPath;
+    QGeoCoordinate m_origin;
 };
 
 #endif // CONF_H

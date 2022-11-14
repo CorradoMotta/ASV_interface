@@ -355,6 +355,9 @@ bool DataSourceUdp::set_cfg(QString filename)
         m_swamp_status.conf()->setCoordinatePath(settings.value("coor_file").toString());
         coor_file.close();
     }
+    if(checkConfKey("origin_latitude",settings)){
+        m_swamp_status.conf()->setOrigin(QGeoCoordinate(settings.value("origin_latitude").toFloat(),settings.value("origin_longitude").toFloat()));
+    }
     settings.endGroup();
 
     settings.beginGroup("metadata_settings");

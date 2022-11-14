@@ -26,6 +26,7 @@
 #include <QXmlStreamReader>
 #include <QUrl>
 #include <QPoint>
+#include <data/coordinatevariable.h>
 
 // Class that contains information of a single point/marker
 class SingleMarker : public QObject
@@ -34,33 +35,34 @@ class SingleMarker : public QObject
 
     Q_PROPERTY(QGeoCoordinate coordinate READ coordinate WRITE setCoordinate NOTIFY coordinateChanged)
     Q_PROPERTY(int group READ group WRITE setGroup NOTIFY groupChanged)
-    Q_PROPERTY(QPoint xyCoor READ xyCoor WRITE setXyCoor NOTIFY xyCoorChanged)
+    Q_PROPERTY(xyVariable xyCorr READ xyCorr WRITE setXyCorr NOTIFY xyCorrChanged)
 
 public:
-    explicit SingleMarker(QObject *parent = nullptr);
-    SingleMarker(const QGeoCoordinate &coor, const int group, const QPoint xyCoor,  QObject *parent = nullptr);
+    //explicit SingleMarker(QObject *parent = nullptr);
+    SingleMarker(const QGeoCoordinate &coor, const int group, const xyVariable xyCoor, QObject *parent = nullptr);
 
     const QGeoCoordinate &coordinate() const;
     void setCoordinate(const QGeoCoordinate &newCoordinate);
 
     int group() const;
     void setGroup(int newGroup);
-
-    QPoint xyCoor() const;
-    void setXyCoor(QPoint newXyCoor);
+    const xyVariable &xyCorr() const;
+    void setXyCorr(const xyVariable &newXyCorr);
 
 signals:
 
     void coordinateChanged();
     void groupChanged();
-    void xyCoorChanged();
+    void xyCorrChanged();
 
 private:
 
     QGeoCoordinate m_coordinate;
     int m_group;
-    QPoint m_xyCoor;
+    xyVariable m_xyCorr;
 };
+
+
 
 // Abstract Interface Model
 class SingleMarkerModel : public QAbstractListModel
@@ -75,7 +77,20 @@ public:
         GroupRole
     };
 
+    struct XYCorr{
+        double x;
+        double y;
+    };
+
+    struct Origin{
+        QGeoCoordinate geoCorr;
+        XYCorr xyCorr;
+        double utmzone;
+        char utmzone_char;
+    };
+
     explicit SingleMarkerModel(QObject *parent = nullptr);
+    explicit SingleMarkerModel(const QGeoCoordinate &origin, QObject *parent = nullptr);
     virtual int rowCount(const QModelIndex& parent) const override;
     virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
@@ -132,6 +147,7 @@ public slots:
 
 private: //members
     QList<SingleMarker*> m_marker;
+    Origin m_origin;
 };
 
 #endif // SINGLEMARKERMODEL_H
