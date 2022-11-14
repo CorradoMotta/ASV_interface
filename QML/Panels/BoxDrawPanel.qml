@@ -33,6 +33,7 @@ Item {
         None,
         Rectangle,
         Marker,
+        MultipleMarker,
         Line
     }
 
@@ -49,6 +50,14 @@ Item {
             onIsActiveChanged: isActive? draw_item_is_active = BoxDrawPanel.ActiveBox.Rectangle : draw_item_is_active = BoxDrawPanel.ActiveBox.None
         }
         BoxDrawItem{
+            id: rectangle_multiple_marker_item
+            Layout.preferredHeight: pre_heigth
+            Layout.preferredWidth: pre_width
+            source: isActive? "../../Images/marker_box_multiple_on.png" : "../../Images/marker_box_multiple.png"
+            isImplemented: true
+            onIsActiveChanged: isActive? draw_item_is_active = BoxDrawPanel.ActiveBox.MultipleMarker : draw_item_is_active = BoxDrawPanel.ActiveBox.None
+        }
+        BoxDrawItemMarker{
             id: rectangle_marker_item
             Layout.preferredHeight: pre_heigth
             Layout.preferredWidth: pre_width

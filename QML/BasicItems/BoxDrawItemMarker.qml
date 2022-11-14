@@ -88,18 +88,21 @@ Item {
             }
         }
         Image {
-            id: image_box_import
+            id: image_box_send_line
             visible: boxRectangle.isActive? true: false
             sourceSize.width: 70
             sourceSize.height: 70
-            source: "../../Images/upload_box_on.png"
-            scale: mouseArea_rect_import.containsMouse ? 1.0 : 0.8
+            source: "../../Images/send_line_box_on.png"
+            scale: mouseArea_rect_send_line.containsMouse ? 1.0 : 0.8
 
             MouseArea {
-                id: mouseArea_rect_import
+                id: mouseArea_rect_send_line
                 anchors.fill: parent
                 hoverEnabled: true
-                onClicked: fileDialog.open()
+                onClicked: {
+                    var message = navigation_map.send_line()
+                    root.messagePrompt(message)
+                }
             }
         }
     }

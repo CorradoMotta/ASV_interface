@@ -33,7 +33,7 @@ Rectangle{
     property real rando : 0
     property int bath_counter: 0
 
-    // bathymetry (disabled)
+    // bathymetry
     property double initialValue : 7.13
     property int max_bathymetry_depth : bathymetry_panel.max_depth
     property int min_bathymetry_depth : bathymetry_panel.min_depth
@@ -147,9 +147,10 @@ Rectangle{
             anchors.fill: parent
             onClicked: {
                 var crd = swamp_map.toCoordinate(Qt.point(mouseX, mouseY))
-                if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker){
+                if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
                     mivMarker.model.insertSingleMarker(crd,0,0)
-                }
+                else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.MultipleMarker)
+                    mivMarkerMultiple.model.insertSingleMarker(crd)
                 else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Rectangle)
                     console.log("Not implemented yet!")
                 else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
@@ -200,6 +201,19 @@ Rectangle{
                 coordinate: QtPositioning.coordinate(model.coordinate.latitude,
                                                      model.coordinate.longitude)
                 is_enable: draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker? true : false
+            }
+        }
+
+        // model for multiple markers
+        MapItemView {
+            id: mivMarkerMultiple
+            model: _multiple_marker_model // defined in c++
+            delegate: DelegateSingleMarker {
+                id: my_marker_multiple_delegate
+                z : 2
+                coordinate: QtPositioning.coordinate(model.coordinate.latitude,
+                                                     model.coordinate.longitude)
+                is_enable: draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.MultipleMarker? true : false
             }
         }
 
@@ -482,6 +496,8 @@ Rectangle{
     function resetMarker(){
         if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
             mivMarker.model.reset()
+        else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.MultipleMarker)
+            mivMarkerMultiple.model.reset()
         else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line) {
             mivLine.model.reset()
             var n = mapPoly.pathLength()
@@ -493,6 +509,8 @@ Rectangle{
     function uploadFile(fileName){
         if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
             return mivMarker.model.readDataFromFile(fileName)
+        else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.MultipleMarker)
+            return mivMarkerMultiple.model.readDataFromFile(fileName)
         else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
             var msg = mivLine.model.readDataFromFile(fileName)
             for (var i = 0; i < mivLine.model.rowCount(); i++)
@@ -501,16 +519,36 @@ Rectangle{
         }
     }
     function send_point(){
+        var lat
+        var lon
         if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
         {
             if( mivMarker.model.rowCount()!==0 && data_model.data_source.is_connected){
                 // sending first marker only
-                var lat = mivMarker.model.getCoordinate(0).latitude
-                var lon = mivMarker.model.getCoordinate(0).longitude
+                lat = mivMarker.model.getCoordinate(0).latitude
+                lon = mivMarker.model.getCoordinate(0).longitude
                 // todo better way to concatenate (also a function)
                 publish_topic(set_lat_lon_tn, lat + " " + lon + " " + root.xValue)
                 return "Sending point (" + lat +" "+ lon +") X = " + root.xValue
             }
+
+            else if(!data_model.data_source.is_connected)
+                return "Connection is not established!"
+            else
+                return "No points available!"
+        }
+        else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.MultipleMarker)
+        {
+            if( mivMarkerMultiple.model.rowCount()!==0 && data_model.data_source.is_connected){
+                // Check what should be sent!
+                lat = mivMarkerMultiple.model.getCoordinate(0).latitude
+                lon = mivMarkerMultiple.model.getCoordinate(0).longitude
+                return "Not implemented yet"
+                // todo better way to concatenate (also a function)
+                //publish_topic(set_lat_lon_tn, lat + " " + lon + " " + root.xValue)
+                //return "Sending point (" + lat +" "+ lon +") X = " + root.xValue
+            }
+
             else if(!data_model.data_source.is_connected)
                 return "Connection is not established!"
             else

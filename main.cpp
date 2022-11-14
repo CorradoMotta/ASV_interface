@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
 
     SingleMarkerModel marker_model;
     SingleMarkerModel line_model;
+    SingleMarkerModel multiple_marker_model;
     BathymetryModel bath_model("Bathymetry");
     Coordinate_model coors_model;
     SwampModel data_model;
@@ -86,6 +87,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty(QStringLiteral("_marker_model"), &marker_model);
     engine.rootContext()->setContextProperty(QStringLiteral("_bathymetry_model"), &bath_model);
     engine.rootContext()->setContextProperty(QStringLiteral("_line_model"), &line_model);
+    engine.rootContext()->setContextProperty(QStringLiteral("_multiple_marker_model"), &multiple_marker_model);
     engine.rootContext()->setContextProperty(QStringLiteral("data_model"), &data_model);
     engine.rootContext()->setContextProperty(QStringLiteral("_coor_model"), &coors_model);
     engine.rootContext()->setContextProperty("QJoysticks", instance);

@@ -19,6 +19,8 @@ QVariant SingleMarkerModel::data(const QModelIndex &index, int role) const
 
     if ( role == CoordinateRole)
         return QVariant::fromValue(marker->coordinate());
+    if(role == XYRole)
+        return marker->xyCoor();
     if(role == GroupRole)
         return marker->group();
     else
@@ -31,6 +33,7 @@ QHash<int, QByteArray> SingleMarkerModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles[CoordinateRole] = "coordinate";
     roles[GroupRole] = "group";
+    roles[XYRole] ="xy";
 
     return roles;
 
@@ -84,7 +87,8 @@ void SingleMarkerModel::addMarker(SingleMarker *singleMarker)
 
 void SingleMarkerModel::insertSingleMarker(QGeoCoordinate coordinate, int group, int index)
 {
-    SingleMarker *singleMarker = new SingleMarker(coordinate, group);
+    QPoint p( 0, 0);
+    SingleMarker *singleMarker = new SingleMarker(coordinate, group,p);
     if (index!=-99 && index < m_marker.size()) {
 
         //addMarker(singleMarker,index);//QAbstractListModel::setData(index, coordinate, CoordinateRole);
@@ -152,10 +156,11 @@ SingleMarker::SingleMarker(QObject *parent)
 
 }
 
-SingleMarker::SingleMarker(const QGeoCoordinate &coor, const int group, QObject *parent):
+SingleMarker::SingleMarker(const QGeoCoordinate &coor, const int group, const QPoint xyCorr, QObject *parent):
     QObject{parent},
     m_coordinate(coor),
-    m_group(group)
+    m_group(group),
+    m_xyCoor(xyCorr)
 {
 
 }
@@ -184,4 +189,17 @@ void SingleMarker::setGroup(int newGroup)
         return;
     m_group = newGroup;
     emit groupChanged();
+}
+
+QPoint SingleMarker::xyCoor() const
+{
+    return m_xyCoor;
+}
+
+void SingleMarker::setXyCoor(QPoint newXyCoor)
+{
+    if (m_xyCoor == newXyCoor)
+        return;
+    m_xyCoor = newXyCoor;
+    emit xyCoorChanged();
 }

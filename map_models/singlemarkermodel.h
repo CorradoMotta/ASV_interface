@@ -25,6 +25,7 @@
 #include <QFileInfo>
 #include <QXmlStreamReader>
 #include <QUrl>
+#include <QPoint>
 
 // Class that contains information of a single point/marker
 class SingleMarker : public QObject
@@ -33,10 +34,11 @@ class SingleMarker : public QObject
 
     Q_PROPERTY(QGeoCoordinate coordinate READ coordinate WRITE setCoordinate NOTIFY coordinateChanged)
     Q_PROPERTY(int group READ group WRITE setGroup NOTIFY groupChanged)
+    Q_PROPERTY(QPoint xyCoor READ xyCoor WRITE setXyCoor NOTIFY xyCoorChanged)
 
 public:
     explicit SingleMarker(QObject *parent = nullptr);
-    SingleMarker(const QGeoCoordinate &coor, const int group,  QObject *parent = nullptr);
+    SingleMarker(const QGeoCoordinate &coor, const int group, const QPoint xyCoor,  QObject *parent = nullptr);
 
     const QGeoCoordinate &coordinate() const;
     void setCoordinate(const QGeoCoordinate &newCoordinate);
@@ -44,15 +46,20 @@ public:
     int group() const;
     void setGroup(int newGroup);
 
+    QPoint xyCoor() const;
+    void setXyCoor(QPoint newXyCoor);
+
 signals:
 
     void coordinateChanged();
     void groupChanged();
+    void xyCoorChanged();
 
 private:
 
     QGeoCoordinate m_coordinate;
     int m_group;
+    QPoint m_xyCoor;
 };
 
 // Abstract Interface Model
@@ -64,6 +71,7 @@ public:
 
     enum markerRoles {
         CoordinateRole = Qt::UserRole +1,
+        XYRole,
         GroupRole
     };
 

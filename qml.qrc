@@ -116,5 +116,8 @@
         <file>QML/BasicItems/BasicMenuAction.qml</file>
         <file>Images/selection_empty.png</file>
         <file>Images/selection_2.png</file>
+        <file>Images/marker_box_multiple.png</file>
+        <file>Images/marker_box_multiple_on.png</file>
+        <file>QML/BasicItems/BoxDrawItemMarker.qml</file>
     </qresource>
 </RCC>
