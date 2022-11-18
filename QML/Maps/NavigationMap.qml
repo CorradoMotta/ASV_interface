@@ -543,7 +543,7 @@ Rectangle{
                 // Check what should be sent!
                 lat = mivMarkerMultiple.model.getCoordinate(0).latitude
                 lon = mivMarkerMultiple.model.getCoordinate(0).longitude
-                return "Not implemented yet"
+                return mivMarkerMultiple.model.generatePath()
                 // todo better way to concatenate (also a function)
                 //publish_topic(set_lat_lon_tn, lat + " " + lon + " " + root.xValue)
                 //return "Sending point (" + lat +" "+ lon +") X = " + root.xValue

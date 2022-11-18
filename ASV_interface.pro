@@ -20,7 +20,9 @@ SOURCES += \
         data/ngc_variable.cpp \
         data/stringvariable.cpp \
         data/variable.cpp \
+        generic/matrix.cpp \
         generic/robotmath.cpp \
+        generic/vector.cpp \
         main.cpp \
         map_models/bathymetrymodel.cpp \
         map_models/coordinate_model.cpp \
@@ -55,6 +57,7 @@ HEADERS += \
     components/swamp_motor_status.h \
     components/time_status.h \
     data/HciNgiInterface.h \
+    data/Path_status.h \
     data/coordinatevariable.h \
     data/custom_types.h \
     data/define.h \
@@ -63,7 +66,11 @@ HEADERS += \
     data/ngc_variable.h \
     data/stringvariable.h \
     data/variable.h \
+    generic/Variable_c.h \
+    generic/commands_def.h \
+    generic/matrix.h \
     generic/robotmath.h \
+    generic/vector.h \
     map_models/bathymetrymodel.h \
     map_models/coordinate_model.h \
     map_models/depth_point.h \

@@ -1,4 +1,7 @@
 #include "robotmath.h"
+#include "qdebug.h"
+
+#define PATH_N_MAX (1000)
 
 double modpi(double x)
 {
@@ -96,14 +99,14 @@ void compute_xy_from_lat_lon(double Lat,double Lon,double &x,double &y,double &u
     double A = (lon-lon0)*cos(lat);
 
     double M = a*(  ( 1.0 - pow(e,2.0)/4.0 - 3.0*pow(e,4.0)/64.0 - 5.0*pow(e,6.0)/256.0 ) * lat
-               -( 3.0*pow(e,2.0)/8.0 + 3.0*pow(e,4.0)/32.0 + 45.0*pow(e,6.0)/1024.0 ) * sin(2.0*lat)
-               +( 15.0*pow(e,4.0)/256.0 + 45.0*pow(e,6.0)/1024.0 ) * sin(4.0*lat)
-               -(35.0*pow(e,6.0)/3072.0 ) * sin(6.0*lat) );
+                    -( 3.0*pow(e,2.0)/8.0 + 3.0*pow(e,4.0)/32.0 + 45.0*pow(e,6.0)/1024.0 ) * sin(2.0*lat)
+                    +( 15.0*pow(e,4.0)/256.0 + 45.0*pow(e,6.0)/1024.0 ) * sin(4.0*lat)
+                    -(35.0*pow(e,6.0)/3072.0 ) * sin(6.0*lat) );
 
     y = FE + k0*N*( A + (1-T+C) * pow(A,3.0)/6.0 + (5.0-18.0*T+pow(T,2.0) + 72.0*C-58.0*eps) * pow(A,5.0)/120.0 );
 
     x = FN + k0*M + k0*N*tan(lat)*( pow(A,2.0)/2.0 + (5.0 - T + 9.0*C + 4.0*pow(C,2.0)) * pow(A,4.0)/24.0
-        + (61.0 - 58.0*T + pow(T,2.0) + 600.0*C - 330.0*eps) * pow(A,6.0)/720.0 );
+                                    + (61.0 - 58.0*T + pow(T,2.0) + 600.0*C - 330.0*eps) * pow(A,6.0)/720.0 );
 
     utmzone = floor(Lon0/6.0)+31.0;
 
@@ -173,8 +176,8 @@ int IMIN(int a,int b)
 
 double SQR(double a)
 {
-     double sqrarg;
-     return ((sqrarg=(a)) == 0.0 ? 0.0 : sqrarg*sqrarg);
+    double sqrarg;
+    return ((sqrarg=(a)) == 0.0 ? 0.0 : sqrarg*sqrarg);
 }
 
 
@@ -201,3 +204,114 @@ void zRot(double ang,double xi,double yi,double zi,double &xo,double &yo,double 
 
 
 
+
+void compute_spline(Path_status &path)
+{
+
+    double m_Kv = 0.3;
+    double m_vMax = 1.3;
+    double m_vMin = 0.05;
+    double m_Dt = 1.0;
+
+    int index = 0;
+    long m_n = 0;
+
+    Matrix xP(6, 2);
+
+    for (int i = 0; i < 6; ++i)
+    {
+        for (int j = 0; j < 2; ++j)
+        {
+            xP(i, j) = path.path_cmd_struct.par[index];
+            index++;
+        }
+    }
+
+
+    int m_period = path.path_cmd_struct.periodic;
+
+
+    PathVariable pv;
+    path.path_standby.points.clear();
+
+    if (m_period != 0) path.path_standby.periodic.value = 1;
+    else path.path_standby.periodic.value = 0;
+
+    //
+    // build spline matrix
+    //
+    Matrix G(6, 6);
+    Matrix M(6, 6);
+
+    G.zeros();
+    G(0, 5) = 1.;
+    for (int i = 1; i < 6; ++i)
+    {
+        G(i, 5) = 1.;
+        double d = 0.2 * i;
+        for (int j = 4; j >= 0; --j)
+        {
+            G(i, j) = d * G(i, j + 1);
+        }
+    }
+    G(1, 5) = 1.; G(1, 4) = G(1, 5) * 0.2;
+
+    M = G.inv();
+
+
+
+    //
+    // compute path
+    //
+    bool endFlag = false;
+    double lambda = 0.;
+    double l1, l2, l3, l4, l5;
+
+
+    double xPrime, yPrime, xSecond, ySecond;
+    double Dz, v;
+    double Dlambda;
+
+    Matrix T(1, 6);
+    Matrix Tprime(1, 6);
+    Matrix Tsecond(1, 6);
+    Matrix XY(1, 2);
+    Matrix zPrime(1, 2);
+    Matrix zSecond(1, 2);
+
+
+    while (!endFlag)
+    {
+        l1 = lambda; l2 = l1 * lambda, l3 = l2 * lambda; l4 = l3 * lambda; l5 = l4 * lambda;
+        T(0, 0) = l5; T(0, 1) = l4; T(0, 2) = l3; T(0, 3) = l2; T(0, 4) = l1; T(0, 5) = 1.;
+        XY = T * M * xP;
+        pv.x.value = XY(0, 0);
+        pv.y.value = XY(0, 1);
+        Tprime(0, 0) = 5. * l4; Tprime(0, 1) = 4. * l3; Tprime(0, 2) = 3. * l2; Tprime(0, 3) = 2. * l1; Tprime(0, 4) = 1.; Tprime(0, 5) = 0.;
+        zPrime = Tprime * M * xP;
+        xPrime = zPrime(0, 0); yPrime = zPrime(0, 1);
+        Tsecond(0, 0) = 20. * l3; Tsecond(0, 1) = 12. * l2; Tsecond(0, 2) = 6. * l1; Tsecond(0, 3) = 2.; Tsecond(0, 4) = 0.; Tsecond(0, 5) = 0.;
+        zSecond = Tsecond * M * xP;
+        xSecond = zSecond(0, 0); ySecond = zSecond(0, 1);
+        Dz = sqrt(xPrime * xPrime + yPrime * yPrime);
+        //c(k,0)=fabs(yPrime*xSecond-xPrime*ySecond)/(Dz*Dz*Dz);
+        pv.c.value = (yPrime * xSecond - xPrime * ySecond) / (Dz * Dz * Dz);
+        v = sqrt(m_Kv / fabs(pv.c.value));
+        if (v > m_vMax) v = m_vMax;
+        if (v < m_vMin) v = m_vMin;
+        Dlambda = v * m_Dt / Dz;
+        lambda = lambda + Dlambda;
+        pv.t.value = atan2(yPrime, xPrime);
+        if (m_n > 0) pv.s.value = path.path_standby.points[m_n - 1].s.value + (v * m_Dt);
+        else pv.s.value = 0.0;
+
+        endFlag = (lambda >= 1.) && (m_n < PATH_N_MAX);
+
+        m_n++;
+        path.path_standby.points.push_back(pv);
+    }
+
+    path.path_standby.toString();
+    qDebug() << "attenzione";
+    qDebug() << path.path_standby.points.size();
+}

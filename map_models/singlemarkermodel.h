@@ -27,6 +27,7 @@
 #include <QUrl>
 #include <QPoint>
 #include <data/coordinatevariable.h>
+#include <data/Path_status.h>
 
 // Class that contains information of a single point/marker
 class SingleMarker : public QObject
@@ -143,11 +144,19 @@ public:
      */
     Q_INVOKABLE QGeoCoordinate getCoordinate (int index);
 
+    /**
+     * Generate path. At the moment it only generated the SPLINE.
+     *
+     * @return A string with a message to be displayed on the interface.
+     */
+    Q_INVOKABLE QString generatePath();
+
 public slots:
 
 private: //members
     QList<SingleMarker*> m_marker;
     Origin m_origin;
+    Path_status path;
 };
 
 #endif // SINGLEMARKERMODEL_H

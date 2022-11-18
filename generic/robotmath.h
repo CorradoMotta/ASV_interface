@@ -2,6 +2,8 @@
 #define ROBOTMATH_H
 
 #include <math.h>
+#include "generic/matrix.h"
+#include "data/Path_status.h"
 
 double modpi(double a);
 double mod180(double a);
@@ -22,7 +24,8 @@ void xRot(double ang,double xi,double yi,double zi,double &xo,double &yo,double 
 void yRot(double ang,double xi,double yi,double zi,double &xo,double &yo,double &zo);
 void zRot(double ang,double xi,double yi,double zi,double &xo,double &yo,double &zo);
 
-
+// adding here path planner for the moment
+void compute_spline(Path_status &path);
 
 #define SIGN(a,b) ((b) >= 0.0 ? fabs(a) : -fabs(a))
 #define sign(a) ((a) >= 0.0 ? 1.0 : -1.0)
