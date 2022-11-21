@@ -28,6 +28,7 @@
 #include <QPoint>
 #include <data/coordinatevariable.h>
 #include <data/Path_status.h>
+#include "QGeoPath"
 
 // Class that contains information of a single point/marker
 class SingleMarker : public QObject
@@ -76,6 +77,11 @@ public:
         CoordinateRole = Qt::UserRole +1,
         XYRole,
         GroupRole
+    };
+
+    enum modelType {
+        Default = 100,
+        Line
     };
 
     struct XYCorr{
@@ -139,22 +145,24 @@ public:
     /**
      * Returns the coordinate at a specific index.
      *
-     * @param Full path + filename of the file to be imported.
-     * @return A string with a message to be displayed on the interface.
+     * @param Index of the coordinate.
+     * @param Which model to look into. Leave it empty for default model.
+     * @return The coordinate in QGeoCoordinate format.
      */
-    Q_INVOKABLE QGeoCoordinate getCoordinate (int index);
+    Q_INVOKABLE QGeoCoordinate getCoordinate (int index, int model = Default);
 
     /**
      * Generate path. At the moment it only generated the SPLINE.
      *
-     * @return A string with a message to be displayed on the interface.
+     * @return The geopath.
      */
-    Q_INVOKABLE QString generatePath();
+    Q_INVOKABLE QGeoPath generatePath();
 
 public slots:
 
 private: //members
     QList<SingleMarker*> m_marker;
+    QGeoPath m_line;
     Origin m_origin;
     Path_status path;
 };

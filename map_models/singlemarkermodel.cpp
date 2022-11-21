@@ -1,6 +1,7 @@
 #include "singlemarkermodel.h"
 #include "generic/Variable_c.h"
 #include "generic/robotmath.h"
+
 #include <QDebug>
 
 SingleMarkerModel::SingleMarkerModel(QObject *parent) :
@@ -173,17 +174,19 @@ QString SingleMarkerModel::readDataFromFile(QString filename)
     return "All values imported!";
 }
 
-QGeoCoordinate SingleMarkerModel::getCoordinate(int index)
+QGeoCoordinate SingleMarkerModel::getCoordinate(int index, int model)
 {
     return m_marker[index]->coordinate();
 }
 
-QString SingleMarkerModel::generatePath()
+QGeoPath SingleMarkerModel::generatePath()
 {
+    // to do add check six coordinates
+    m_line.clearPath();
     QString completeString = "4 3 ";
     QList<SingleMarker*>::iterator single_marker;
     for (single_marker = m_marker.begin(); single_marker != m_marker.end(); ++single_marker){
-       completeString = completeString + QString::number((*single_marker)->xyCorr().getX()) + " " + QString::number((*single_marker)->xyCorr().getY()) + " ";
+        completeString = completeString + QString::number((*single_marker)->xyCorr().getX()) + " " + QString::number((*single_marker)->xyCorr().getY()) + " ";
 
     }
     completeString = completeString + "1 0 1";
@@ -195,18 +198,19 @@ QString SingleMarkerModel::generatePath()
     path.command.updated = 0;
     path.parse_command();
     if (path.path_cmd_struct.cmd_type == PATH_PLANNER_COMPUTE_SPLINE) compute_spline(path);
-    qDebug() << completeString;
+    //qDebug() << completeString;
 
     for (auto i: path.path_standby.points){
         //QGeoCoordinate coor = QGeoCoordinate()
         double newLat;
         double newLon;
-         compute_lat_lon_from_xy( i.x.value + m_origin.xyCorr.x, i.y.value +  m_origin.xyCorr.y, m_origin.utmzone, m_origin.utmzone_char,newLat,newLon);
-        insertSingleMarker(QGeoCoordinate(newLat,newLon));
-        qDebug() << m_origin.utmzone << m_origin.utmzone_char;
-        qDebug() << newLat << newLon;
+        compute_lat_lon_from_xy( i.x.value + m_origin.xyCorr.x, i.y.value +  m_origin.xyCorr.y, m_origin.utmzone, m_origin.utmzone_char,newLat,newLon);
+        m_line.addCoordinate(QGeoCoordinate(newLat,newLon));
+        //insertSingleMarker(QGeoCoordinate(newLat,newLon));
+        //qDebug() << m_origin.utmzone << m_origin.utmzone_char;
+        //qDebug() << newLat << newLon;
     }
-    return "generating path";
+    return m_line;
 }
 
 //SingleMarker::SingleMarker(QObject *parent)
@@ -257,8 +261,8 @@ const xyVariable &SingleMarker::xyCorr() const
 
 void SingleMarker::setXyCorr(const xyVariable &newXyCorr)
 {
-   // if (m_xyCorr == newXyCorr)
-   //     return;
+    // if (m_xyCorr == newXyCorr)
+    //     return;
     m_xyCorr = newXyCorr;
     emit xyCorrChanged();
 }

@@ -208,7 +208,7 @@ Rectangle{
         MapItemView {
             id: mivMarkerMultiple
             model: _multiple_marker_model // defined in c++
-            delegate: DelegateSingleMarker {
+            delegate: DelegateMultipleMarker {
                 id: my_marker_multiple_delegate
                 z : 2
                 coordinate: QtPositioning.coordinate(model.coordinate.latitude,
@@ -332,6 +332,13 @@ Rectangle{
                 drag.target: mapPoly
             }
         }
+        // model for lines
+        MapPolyline {
+            id: map_poly_multiple_marker
+            line.width: 2.5
+            line.color: 'red'
+        }
+
         // model for line following
         MapPolyline {
             id: mapPolyLF
@@ -494,14 +501,21 @@ Rectangle{
     }
 
     function resetMarker(){
+        var n = 0
+        var i = 0
         if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
             mivMarker.model.reset()
-        else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.MultipleMarker)
+        else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.MultipleMarker){
             mivMarkerMultiple.model.reset()
+            n = map_poly_multiple_marker.pathLength()
+            for (i = 0; i < n; i++)  {
+                map_poly_multiple_marker.removeCoordinate(0)
+            }
+        }
         else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line) {
             mivLine.model.reset()
-            var n = mapPoly.pathLength()
-            for (var i = 0; i < n; i++)  {
+            n = mapPoly.pathLength()
+            for (i = 0; i < n; i++)  {
                 mapPoly.removeCoordinate(0)
             }
         }
@@ -541,9 +555,12 @@ Rectangle{
         {
             if( mivMarkerMultiple.model.rowCount()!==0 && data_model.data_source.is_connected){
                 // Check what should be sent!
-                lat = mivMarkerMultiple.model.getCoordinate(0).latitude
-                lon = mivMarkerMultiple.model.getCoordinate(0).longitude
-                return mivMarkerMultiple.model.generatePath()
+                //lat = mivMarkerMultiple.model.getCoordinate(0).latitude
+                //lon = mivMarkerMultiple.model.getCoordinate(0).longitude
+
+                //updateLine()
+
+                return "Not implemented yet"
                 // todo better way to concatenate (also a function)
                 //publish_topic(set_lat_lon_tn, lat + " " + lon + " " + root.xValue)
                 //return "Sending point (" + lat +" "+ lon +") X = " + root.xValue
@@ -592,5 +609,12 @@ Rectangle{
     }
     function add_coor(name ="no_name"){
         coorView.model.insertSingleMarker(QtPositioning.coordinate(navigation_map.lat.value, navigation_map.lon.value), name, navigation_map.ngc_timestamp)
+    }
+    function updateLine(){
+        // generate path with new control points
+        if(mivMarkerMultiple.model.rowCount()!==6)
+            root.messagePrompt("Exactly six points are needed to generate the path")
+        else
+            map_poly_multiple_marker.setPath(mivMarkerMultiple.model.generatePath())
     }
 }

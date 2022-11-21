@@ -92,6 +92,8 @@ DISTFILES += \
     Images/arrow_open.png \
     Images/circle.png \
     Images/download.png \
+    Images/generate_path.png \
+    Images/generate_path_on.png \
     Images/line_box.png \
     Images/marker.png \
     Images/marker_box.png \

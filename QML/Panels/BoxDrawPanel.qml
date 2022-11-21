@@ -49,7 +49,7 @@ Item {
             isImplemented: false
             onIsActiveChanged: isActive? draw_item_is_active = BoxDrawPanel.ActiveBox.Rectangle : draw_item_is_active = BoxDrawPanel.ActiveBox.None
         }
-        BoxDrawItem{
+        BoxDrawMultipleMarker{
             id: rectangle_multiple_marker_item
             Layout.preferredHeight: pre_heigth
             Layout.preferredWidth: pre_width

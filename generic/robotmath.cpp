@@ -312,6 +312,4 @@ void compute_spline(Path_status &path)
     }
 
     path.path_standby.toString();
-    qDebug() << "attenzione";
-    qDebug() << path.path_standby.points.size();
 }
