@@ -441,6 +441,8 @@ bool DataSourceUdp::set_cfg(QString filename)
     m_swamp_status.ngc_status()->setYawGSPar()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_YAW_GS_PAR));
     m_swamp_status.ngc_status()->setHeadingPiPar()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_HEADING_PI_PAR));
     m_swamp_status.ngc_status()->setLFPar()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_LF_PAR));
+    m_swamp_status.ngc_status()->setPFLatLon()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_PF));
+    m_swamp_status.ngc_status()->setPFLatLonPar()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_PF_PAR));
 
     file.close();
     return true;

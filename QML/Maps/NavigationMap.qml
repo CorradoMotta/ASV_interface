@@ -56,6 +56,7 @@ Rectangle{
     property real asvReflatRef: data_model.data_source.swamp_status.ngc_status.asvReflatRef.value
     property real asvReflonRef: data_model.data_source.swamp_status.ngc_status.asvReflonRef.value
     readonly property string set_lat_lon_tn: data_model.data_source.swamp_status.ngc_status.setLatLon.topic_name //TODO FIX
+    readonly property string set_path_following_tn: data_model.data_source.swamp_status.ngc_status.setPFLatLon.topic_name //TODO FIX
     readonly property string set_line_lat_lon: data_model.data_source.swamp_status.ngc_status.setLineLatLon.topic_name //TODO FIX
     readonly property string set_robot_home_tn: data_model.data_source.swamp_status.ngc_status.setRobotHome.topic_name //TODO FIX
     readonly property var publish_topic: data_model.data_source.publishMessage //todo repetition
@@ -553,23 +554,22 @@ Rectangle{
         }
         else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.MultipleMarker)
         {
-            if( mivMarkerMultiple.model.rowCount()!==0 && data_model.data_source.is_connected){
-                // Check what should be sent!
-                //lat = mivMarkerMultiple.model.getCoordinate(0).latitude
-                //lon = mivMarkerMultiple.model.getCoordinate(0).longitude
+            if( mivMarkerMultiple.model.rowCount()===6 && data_model.data_source.is_connected){
+                var periodicity
+                if(menu_bar_id.isPeriodic) periodicity = 1
+                else periodicity = 0
+                var coor_list = periodicity + " " + root.xValue  //HciNgiInterface.PATH_PLANNER_COMPUTE_SPLINE +
+                for (var i = 0; i < 6; i++)
+                    coor_list = coor_list + " " + mivMarkerMultiple.model.getCoordinate(i).latitude + " " + mivMarkerMultiple.model.getCoordinate(i).longitude
 
-                //updateLine()
-
-                return "Not implemented yet"
-                // todo better way to concatenate (also a function)
-                //publish_topic(set_lat_lon_tn, lat + " " + lon + " " + root.xValue)
-                //return "Sending point (" + lat +" "+ lon +") X = " + root.xValue
+                publish_topic(set_path_following_tn, coor_list)
+                return "Sending list of six points. X = " + root.xValue
             }
 
             else if(!data_model.data_source.is_connected)
                 return "Connection is not established!"
             else
-                return "No points available!"
+                return "Exactly six points are needed!"
         }
         else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
             if(mivLine.model.rowCount()!==0){

@@ -136,8 +136,21 @@ void SingleMarkerModel::removeSingleMarker(int index)
     endRemoveRows();
 }
 
+// coordinate otto
+// "45.4371 12.355 45.437 12.3553 45.4368 12.3555 45.437 12.3556 45.437 12.3553 45.437 12.355 "
+
 void SingleMarkerModel::reset()
 {
+    QString completeString = "";
+    QString completeStringlatLon = "";
+    QList<SingleMarker*>::iterator single_marker;
+    for (single_marker = m_marker.begin(); single_marker != m_marker.end(); ++single_marker){
+        completeString = completeString + QString::number((*single_marker)->xyCorr().getX()) + " " + QString::number((*single_marker)->xyCorr().getY()) + " ";
+        completeStringlatLon = completeStringlatLon + QString::number((*single_marker)->coordinate().latitude()) + " " + QString::number((*single_marker)->coordinate().longitude()) + " ";
+
+    }
+    qDebug() <<completeString;
+    qDebug() <<completeStringlatLon;
     beginRemoveRows(QModelIndex(), 0 , m_marker.size()-1);
     m_marker.clear();
     endRemoveRows();

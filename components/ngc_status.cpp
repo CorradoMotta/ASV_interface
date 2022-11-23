@@ -448,3 +448,13 @@ IntVariable *NGC_status::setLFPar()
 {
     return &m_setLFPar;
 }
+
+DoubleVariable *NGC_status::setPFLatLon()
+{
+    return &m_setPFLatLon;
+}
+
+DoubleVariable *NGC_status::setPFLatLonPar()
+{
+    return &m_setPFLatLonPar;
+}

@@ -22,6 +22,7 @@ MenuBar {
     id: custom_menu_bar
 
     signal setPoint(real lat, real lon)
+    property alias isPeriodic : periodic.checked
     readonly property string gc_working_mode_tn: data_model.data_source.swamp_status.ngc_status.gcWorkingMode.topic_name
     readonly property string thrust_mapping_manual_mode: data_model.data_source.swamp_status.ngc_status.thrustMappingManualMode.topic_name
     readonly property string thrust_mapping_auto_mode: data_model.data_source.swamp_status.ngc_status.thrustMappingAutoMode.topic_name
@@ -78,16 +79,17 @@ MenuBar {
     Menu{
         id: gcWorkingMode
         title: qsTr("GcWorkingMode")
-        BasicMenuAction {id: raw_action;  checked: true; enum_ref: working_modeRef ; enum_value: HciNgiInterface.GC_RAW; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("RAW"); ActionGroup.group: working_modes}
-        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_THRUST ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("THRUST"); ActionGroup.group: working_modes}
-        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_MANUAL_SPEED ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("MANUAL_SPEED"); ActionGroup.group: working_modes}
-        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_MANUAL ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("MANUAL"); ActionGroup.group: working_modes}
-        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_GOTO_AUTO ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("GOTO_AUTO"); ActionGroup.group: working_modes}
-        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_GOTO_AUTO_SPEED ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("GOTO_AUTO_SPEED"); ActionGroup.group: working_modes}
-        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_X_Y_PSI ; topic_id: custom_menu_bar.gc_working_mode_tn;  text: qsTr("X_Y_PSI"); ActionGroup.group: working_modes}
-        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_LF ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("LF"); ActionGroup.group: working_modes}
-        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_LF_SPEED ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("LF_SPEED"); ActionGroup.group: working_modes}
-        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_YAW_TEST ; topic_id: custom_menu_bar.gc_working_mode_tn;text: qsTr("YAW_TEST"); ActionGroup.group: working_modes}
+        BasicMenuAction {id: raw_action;  checked: true; enum_ref: working_modeRef ; enum_value: HciNgiInterface.GC_RAW; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("Raw"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_THRUST ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("Thrust"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_MANUAL_SPEED ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("Manual Speed"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_MANUAL ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("Manual"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_GOTO_AUTO ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("Go to Auto"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_GOTO_AUTO_SPEED ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("Go to Auto Speed"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_X_Y_PSI ; topic_id: custom_menu_bar.gc_working_mode_tn;  text: qsTr("X Y PSI"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_LF ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("Line Following"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_LF_SPEED ; topic_id: custom_menu_bar.gc_working_mode_tn; text: qsTr("Line Following Speed"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_YAW_TEST ; topic_id: custom_menu_bar.gc_working_mode_tn;text: qsTr("Yaw Test"); ActionGroup.group: working_modes}
+        BasicMenuAction {enum_ref: custom_menu_bar.exeWorkModeRef; enum_value: HciNgiInterface.GC_PF ; topic_id: custom_menu_bar.gc_working_mode_tn;text: qsTr("Path Following"); ActionGroup.group: working_modes}
     }
     Menu{
         id: thrustMappingManualMode
@@ -423,6 +425,56 @@ MenuBar {
                         Layout.fillWidth: true
                         text_input:  qsTr("K R")
                         text_value: "0.1"
+                    }
+                }
+            }
+        }
+        Menu {
+            title: qsTr("&PATH FOLLOWING")
+            Rectangle{
+                enabled: data_model.data_source.is_connected
+                opacity: data_model.data_source.is_connected ? 1 : 0.4
+                width: 200
+                height: position_column_5.implicitHeight + 30
+                color: "white"
+                border.color: "black"
+                ColumnLayout{
+                    id: position_column_5
+                    anchors.fill: parent
+                    anchors.leftMargin: 6
+                    anchors.rightMargin: 6
+                    CheckBox {
+                        id: periodic
+                        checked: true
+                        text: qsTr("PERIODICITY")
+                    }
+                    BasicMenuButton{
+                        id: control4
+                        Layout.alignment: Qt.AlignTop
+                        Layout.topMargin: 15
+                        //onClicked: ""
+                        row_title: "SET PF PAR"
+                    }
+                    BasicTextInputInvertedWithRef{
+                        id: maxAngle2
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        text_input:  qsTr("TO DO")
+                        text_value: "0"
+                    }
+                    BasicTextInputInvertedWithRef{
+                        id: gamma3
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        text_input:  qsTr("TO DO")
+                        text_value: "0"
+                    }
+                    BasicTextInputInvertedWithRef{
+                        id: set_r_2
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        text_input:  qsTr("TO DO")
+                        text_value: "0"
                     }
                 }
             }

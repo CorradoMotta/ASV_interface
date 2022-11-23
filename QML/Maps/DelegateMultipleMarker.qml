@@ -47,7 +47,7 @@ MapQuickItem {
                 font.family: "helvetica"
                 font.pixelSize: 14
                 font.bold: true
-                text: navigation_map.roundCoor(coordinate.latitude,8) + " " + navigation_map.roundCoor(coordinate.longitude,8)
+                text: index + ": " + navigation_map.roundCoor(coordinate.latitude,8) + " " + navigation_map.roundCoor(coordinate.longitude,8)
             }
         }
     }
@@ -67,7 +67,8 @@ MapQuickItem {
         drag.onActiveChanged:{
             if(drag.active === false){
                 model.coordinate = mqi_marker.coordinate
-                navigation_map.updateLine()
+                if(_multiple_marker_model.rowCount() === 6)
+                    navigation_map.updateLine()
             }
         }
         onClicked: if (mouse.button === Qt.RightButton)

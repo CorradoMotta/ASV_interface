@@ -101,6 +101,8 @@ class NGC_status : public QObject
     Q_PROPERTY(DoubleVariable* setLatLon READ setLatLon NOTIFY setLatLonChanged)
     Q_PROPERTY(DoubleVariable* setXY READ setXY NOTIFY setXYChanged)
     Q_PROPERTY(DoubleVariable* setLineLatLon READ setLineLatLon NOTIFY setLineLatLonChanged)
+    Q_PROPERTY(DoubleVariable* setPFLatLon READ setPFLatLon NOTIFY setPFLatLonChanged)
+    Q_PROPERTY(DoubleVariable* setPFLatLonPar READ setPFLatLonPar NOTIFY setPFLatLonParChanged)
     Q_PROPERTY(DoubleVariable* setXYLine READ setXYLine NOTIFY setXYLineChanged)
     Q_PROPERTY(DoubleVariable* setYawGSPar READ setYawGSPar NOTIFY setYawGSParChanged)
     Q_PROPERTY(DoubleVariable* setHeadingPiPar READ setHeadingPiPar NOTIFY setHeadingPiParChanged)
@@ -198,6 +200,9 @@ public:
     DoubleVariable* asvReflonL2ref();
 
 
+    DoubleVariable* setPFLatLon();
+    DoubleVariable *setPFLatLonPar();
+
 signals:
 
     void psiChanged();
@@ -284,6 +289,9 @@ signals:
     void asvReflatL2refChanged();
     void asvReflonL2refChanged();
     void setLFParChanged();
+    void setPFLatLonChanged();
+
+    void setPFLatLonParChanged();
 
 private:
 
@@ -367,6 +375,8 @@ private:
     DoubleVariable m_asvReflatL2ref;
     DoubleVariable m_asvReflonL2ref;
     IntVariable m_setLFPar;
+    DoubleVariable m_setPFLatLon;
+    DoubleVariable m_setPFLatLonPar;
 };
 
 #endif // NGC_STATUS_H

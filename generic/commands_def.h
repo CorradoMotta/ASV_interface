@@ -103,5 +103,4 @@ enum Path_cmd
     PATH_PLANNER_COMPUTE_GRID = 4,
 };
 
-
 #endif /* COMMANDS_DEF_H_ */
