@@ -3,6 +3,7 @@
  * This element contains a simple dot that can be used to signal a Status
  * such as on, off or fault. It can also show information text when passing
  * over with the cursor. info_text should be set for that purpose.
+ * Fault correspond to a value of 2.
  *
  * Author: Corrado Motta
  * Date: 06/2022

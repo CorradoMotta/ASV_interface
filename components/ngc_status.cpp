@@ -458,3 +458,13 @@ DoubleVariable *NGC_status::setPFLatLonPar()
 {
     return &m_setPFLatLonPar;
 }
+
+DoubleVariable *NGC_status::setPFPar()
+{
+    return &m_setPFPar;
+}
+
+Pump_jet_status *NGC_status::pumpJetMonitor()
+{
+    return &m_pumpJetMonitor;
+}

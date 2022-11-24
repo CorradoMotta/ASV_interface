@@ -15,6 +15,7 @@
 #include <data/doublevariable.h>
 #include <data/ngc_variable.h>
 #include <data/intvariable.h>
+#include <data/pump_jet_status.h>
 
 class NGC_status : public QObject
 {
@@ -108,6 +109,8 @@ class NGC_status : public QObject
     Q_PROPERTY(DoubleVariable* setHeadingPiPar READ setHeadingPiPar NOTIFY setHeadingPiParChanged)
     Q_PROPERTY(DoubleVariable* latHomeRef READ latHomeRef NOTIFY latHomeRefChanged)
     Q_PROPERTY(DoubleVariable* lonHomeRef READ lonHomeRef NOTIFY lonHomeRefChanged)
+    Q_PROPERTY(DoubleVariable* setPFPar READ setPFPar NOTIFY setPFParChanged)
+    Q_PROPERTY(Pump_jet_status* pumpJetMonitor READ pumpJetMonitor NOTIFY pumpJetMonitorChanged)
 
 
 public:
@@ -195,13 +198,12 @@ public:
     IntVariable* stopFileCmd();
     IntVariable* startFileCmd();
     IntVariable* resumeFileCmd();
-
     DoubleVariable* asvReflatL2ref();
     DoubleVariable* asvReflonL2ref();
-
-
     DoubleVariable* setPFLatLon();
     DoubleVariable *setPFLatLonPar();
+    DoubleVariable *setPFPar();
+    Pump_jet_status *pumpJetMonitor();
 
 signals:
 
@@ -293,6 +295,10 @@ signals:
 
     void setPFLatLonParChanged();
 
+    void setPFParChanged();
+
+    void pumpJetMonitorChanged();
+
 private:
 
     DoubleVariable m_psi;
@@ -377,6 +383,8 @@ private:
     IntVariable m_setLFPar;
     DoubleVariable m_setPFLatLon;
     DoubleVariable m_setPFLatLonPar;
+    DoubleVariable m_setPFPar;
+    Pump_jet_status m_pumpJetMonitor;
 };
 
 #endif // NGC_STATUS_H

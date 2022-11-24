@@ -97,24 +97,28 @@ Rectangle{
                 id: minion_fl
                 dotSize: status_bar.dotSize
                 prefix: data_model.data_source.swamp_status.minion_fl
+                pump_jet_status: data_model.data_source.swamp_status.ngc_status.pumpJetMonitor.fl_pj_status.value
                 info_prefix: "FL"
             }
             MinionStateRow{
                 id: minion_fr
                 dotSize: status_bar.dotSize
                 prefix: data_model.data_source.swamp_status.minion_fr
+                pump_jet_status: data_model.data_source.swamp_status.ngc_status.pumpJetMonitor.fr_pj_status.value
                 info_prefix: "FR"
             }
             MinionStateRow{
                 id: minion_rl
                 dotSize: status_bar.dotSize
                 prefix: data_model.data_source.swamp_status.minion_rl
+                pump_jet_status: data_model.data_source.swamp_status.ngc_status.pumpJetMonitor.rl_pj_status.value
                 info_prefix: "RL"
             }
             MinionStateRow{
                 id: minion_rr
                 dotSize: status_bar.dotSize
                 prefix: data_model.data_source.swamp_status.minion_rr
+                pump_jet_status: data_model.data_source.swamp_status.ngc_status.pumpJetMonitor.rr_pj_status.value
                 info_prefix: "RR"
             }
         }

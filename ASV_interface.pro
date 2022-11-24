@@ -18,6 +18,7 @@ SOURCES += \
         data/doublevariable.cpp \
         data/intvariable.cpp \
         data/ngc_variable.cpp \
+        data/pump_jet_status.cpp \
         data/stringvariable.cpp \
         data/variable.cpp \
         generic/matrix.cpp \
@@ -64,6 +65,7 @@ HEADERS += \
     data/doublevariable.h \
     data/intvariable.h \
     data/ngc_variable.h \
+    data/pump_jet_status.h \
     data/stringvariable.h \
     data/variable.h \
     generic/Variable_c.h \

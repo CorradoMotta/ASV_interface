@@ -39,6 +39,7 @@ MenuBar {
     readonly property int manual_modeRef : data_model.data_source.swamp_status.ngc_status.refManual_mode.value
     readonly property int autoModeRef    : data_model.data_source.swamp_status.ngc_status.refAutoMode.value
     readonly property int exeWorkModeRef : data_model.data_source.swamp_status.ngc_status.refExecutionWorking_mode.value
+    readonly property string setPFPar_tn : data_model.data_source.swamp_status.ngc_status.setPFPar.topic_name
 
     // button used to go back to RAW value
     Connections {
@@ -452,28 +453,40 @@ MenuBar {
                         id: control4
                         Layout.alignment: Qt.AlignTop
                         Layout.topMargin: 15
-                        //onClicked: ""
+                        onClicked: publish_topic(setPFPar_tn,
+                                                 k_s.text_value + " " +
+                                                 k_gamma.text_value + " "+
+                                                 max_angle.text_value + " "+
+                                                 k_r.text_value)
                         row_title: "SET PF PAR"
                     }
-                    BasicTextInputInvertedWithRef{
-                        id: maxAngle2
+                    BasicTextInputInvertedWithRef
+                    {
+                        id: k_s
                         Layout.alignment: Qt.AlignTop
                         Layout.fillWidth: true
-                        text_input:  qsTr("TO DO")
+                        text_input:  qsTr("K_S")
                         text_value: "0"
                     }
                     BasicTextInputInvertedWithRef{
-                        id: gamma3
+                        id: k_gamma
                         Layout.alignment: Qt.AlignTop
                         Layout.fillWidth: true
-                        text_input:  qsTr("TO DO")
+                        text_input:  qsTr("K_GAMMA")
                         text_value: "0"
                     }
                     BasicTextInputInvertedWithRef{
-                        id: set_r_2
+                        id: max_angle
                         Layout.alignment: Qt.AlignTop
                         Layout.fillWidth: true
-                        text_input:  qsTr("TO DO")
+                        text_input:  qsTr("MAX ANGLE")
+                        text_value: "0"
+                    }
+                    BasicTextInputInvertedWithRef{
+                        id: k_r
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        text_input:  qsTr("K_R")
                         text_value: "0"
                     }
                 }

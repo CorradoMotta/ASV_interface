@@ -72,8 +72,9 @@ public:
         START_FILE_CMD, // used to start the execution of a preloaded file of commands
         RESUME_FILE_CMD, // used to recover the execution of a preloaded file of commands
         SET_LF_PAR, // LF par just added
-        SET_PF, // tipo, persistent, 12 double
-        SET_PF_PAR, // 4 valori
+        SET_PF, // persistent, 12 double _LAT_LON
+        SET_PF_X_Y,
+        SET_PF_PAR, // 4 valori ks kgamma maxAngle kr (all double).
         CMD_NUMBER
     };
 
