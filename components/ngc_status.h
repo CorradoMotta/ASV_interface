@@ -20,26 +20,18 @@
 class NGC_status : public QObject
 {
     Q_OBJECT
+
+    // variabili in lettura
     Q_PROPERTY(DoubleVariable* psi READ psi NOTIFY psiChanged)
     Q_PROPERTY(NGC_variable* fu READ fu NOTIFY fuChanged)
     Q_PROPERTY(NGC_variable* fv READ fv NOTIFY fvChanged)
     Q_PROPERTY(NGC_variable* fw READ fw NOTIFY fwChanged)
     Q_PROPERTY(NGC_variable* tr READ tr NOTIFY trChanged)
     Q_PROPERTY(DoubleVariable* altitude READ altitude NOTIFY altitudeChanged)
-    Q_PROPERTY(IntVariable* gcWorkingMode READ gcWorkingMode NOTIFY gcWorkingModeChanged)
-    Q_PROPERTY(IntVariable* thrustMappingManualMode READ thrustMappingManualMode NOTIFY thrustMappingManualModeChanged)
-    Q_PROPERTY(IntVariable* thrustMappingAutoMode READ thrustMappingAutoMode NOTIFY thrustMappingAutoModeChanged)
-
     Q_PROPERTY(NGC_variable* surge READ surge NOTIFY surgeChanged)
     Q_PROPERTY(NGC_variable* sway READ sway NOTIFY swayChanged)
     Q_PROPERTY(NGC_variable* yaw READ yaw NOTIFY yawChanged)
     Q_PROPERTY(NGC_variable* heading READ heading NOTIFY headingChanged)
-    Q_PROPERTY(IntVariable* setLog READ setLog NOTIFY setLogChanged)
-
-    // TODO remake them in an appropriate way!
-    Q_PROPERTY(IntVariable* rpmAlpha READ rpmAlpha NOTIFY rpmAlphaChanged)
-    Q_PROPERTY(IntVariable* forceTorque READ forceTorque NOTIFY forceTorqueChanged)
-    Q_PROPERTY(NGC_variable* ngcEnable READ ngcEnable NOTIFY ngcEnableChanged)
     Q_PROPERTY(DoubleVariable* asvHatX READ asvHatX NOTIFY asvHatXChanged)
     Q_PROPERTY(DoubleVariable* asvHatY READ asvHatY NOTIFY asvHatYChanged)
     Q_PROPERTY(DoubleVariable* asvHatlat READ asvHatlat NOTIFY asvHatlatChanged)
@@ -92,9 +84,20 @@ class NGC_status : public QObject
     Q_PROPERTY(IntVariable* refManual_mode READ refManual_mode NOTIFY refManual_modeChanged)
     Q_PROPERTY(IntVariable* refWorking_mode READ refWorking_mode NOTIFY refWorking_modeChanged)
     Q_PROPERTY(DoubleVariable* thetaIMU READ thetaIMU NOTIFY thetaIMUChanged)
+    Q_PROPERTY(DoubleVariable* latHomeRef READ latHomeRef NOTIFY latHomeRefChanged)
+    Q_PROPERTY(DoubleVariable* lonHomeRef READ lonHomeRef NOTIFY lonHomeRefChanged)
+    // to do make them a QLIST
+    Q_PROPERTY(Pump_jet_status* pumpJetMonitor READ pumpJetMonitor NOTIFY pumpJetMonitorChanged)
 
-    // TODO MOVE INTO APPROPRIATE CLASS
+    // Variabili in scrittura, salvo SOLO il nome del topic
+    Q_PROPERTY(IntVariable* rpmAlpha READ rpmAlpha NOTIFY rpmAlphaChanged)
+    Q_PROPERTY(IntVariable* forceTorque READ forceTorque NOTIFY forceTorqueChanged)
+    Q_PROPERTY(NGC_variable* ngcEnable READ ngcEnable NOTIFY ngcEnableChanged)
+    Q_PROPERTY(IntVariable* gcWorkingMode READ gcWorkingMode NOTIFY gcWorkingModeChanged) // topic
+    Q_PROPERTY(IntVariable* thrustMappingManualMode READ thrustMappingManualMode NOTIFY thrustMappingManualModeChanged) // topic
+    Q_PROPERTY(IntVariable* thrustMappingAutoMode READ thrustMappingAutoMode NOTIFY thrustMappingAutoModeChanged) //topic
     Q_PROPERTY(IntVariable* setRobotHome READ setRobotHome NOTIFY setRobotHomeChanged)
+    Q_PROPERTY(IntVariable* setLog READ setLog NOTIFY setLogChanged)
     Q_PROPERTY(IntVariable* stopFileCmd READ stopFileCmd NOTIFY stopFileCmdChanged)
     Q_PROPERTY(IntVariable* startFileCmd READ startFileCmd NOTIFY startFileCmdChanged)
     Q_PROPERTY(IntVariable* resumeFileCmd READ resumeFileCmd NOTIFY resumeFileCmdChanged)
@@ -103,14 +106,12 @@ class NGC_status : public QObject
     Q_PROPERTY(DoubleVariable* setXY READ setXY NOTIFY setXYChanged)
     Q_PROPERTY(DoubleVariable* setLineLatLon READ setLineLatLon NOTIFY setLineLatLonChanged)
     Q_PROPERTY(DoubleVariable* setPFLatLon READ setPFLatLon NOTIFY setPFLatLonChanged)
-    Q_PROPERTY(DoubleVariable* setPFLatLonPar READ setPFLatLonPar NOTIFY setPFLatLonParChanged)
     Q_PROPERTY(DoubleVariable* setXYLine READ setXYLine NOTIFY setXYLineChanged)
     Q_PROPERTY(DoubleVariable* setYawGSPar READ setYawGSPar NOTIFY setYawGSParChanged)
     Q_PROPERTY(DoubleVariable* setHeadingPiPar READ setHeadingPiPar NOTIFY setHeadingPiParChanged)
-    Q_PROPERTY(DoubleVariable* latHomeRef READ latHomeRef NOTIFY latHomeRefChanged)
-    Q_PROPERTY(DoubleVariable* lonHomeRef READ lonHomeRef NOTIFY lonHomeRefChanged)
     Q_PROPERTY(DoubleVariable* setPFPar READ setPFPar NOTIFY setPFParChanged)
-    Q_PROPERTY(Pump_jet_status* pumpJetMonitor READ pumpJetMonitor NOTIFY pumpJetMonitorChanged)
+    Q_PROPERTY(DoubleVariable* setSegment READ setSegment NOTIFY setSegmentChanged)
+    Q_PROPERTY(DoubleVariable* setSegmentToggle READ setSegmentToggle NOTIFY setSegmentToggleChanged)
 
 
 public:
@@ -177,7 +178,6 @@ public:
     IntVariable* refWorking_mode();
     DoubleVariable* thetaIMU();
     IntVariable *setLog();
-
     IntVariable* setRobotHome();
     DoubleVariable* setLatLon();
     DoubleVariable* setXY();
@@ -186,24 +186,21 @@ public:
     DoubleVariable* setYawGSPar();
     DoubleVariable* setHeadingPiPar();
     IntVariable *setLFPar();
-
     DoubleVariable* asvRefXhat();
     DoubleVariable* asvRefYhat();
     DoubleVariable* asvRefNhat();
-
-
     DoubleVariable* latHomeRef();
     DoubleVariable* lonHomeRef();
-
     IntVariable* stopFileCmd();
     IntVariable* startFileCmd();
     IntVariable* resumeFileCmd();
     DoubleVariable* asvReflatL2ref();
     DoubleVariable* asvReflonL2ref();
     DoubleVariable* setPFLatLon();
-    DoubleVariable *setPFLatLonPar();
     DoubleVariable *setPFPar();
     Pump_jet_status *pumpJetMonitor();
+    DoubleVariable *setSegment();
+    DoubleVariable *setSegmentToggle();
 
 signals:
 
@@ -293,11 +290,16 @@ signals:
     void setLFParChanged();
     void setPFLatLonChanged();
 
-    void setPFLatLonParChanged();
+
+
 
     void setPFParChanged();
 
     void pumpJetMonitorChanged();
+
+    void setSegmentChanged();
+
+    void setSegmentToggleChanged();
 
 private:
 
@@ -382,9 +384,10 @@ private:
     DoubleVariable m_asvReflonL2ref;
     IntVariable m_setLFPar;
     DoubleVariable m_setPFLatLon;
-    DoubleVariable m_setPFLatLonPar;
     DoubleVariable m_setPFPar;
     Pump_jet_status m_pumpJetMonitor;
+    DoubleVariable m_setSegment;
+    DoubleVariable m_setSegmentToggle;
 };
 
 #endif // NGC_STATUS_H

@@ -3,6 +3,7 @@
  * This panel allows short access to NGC elements in the main view.
  * It can be customized by adding more sliders to it from the NGC.
  * Right now only two slider are present, one for X and one for gamma.
+ * Also a button is present to invert the line for line following.
  *
  * Author: Corrado Motta
  * Date: 08/2022
@@ -42,6 +43,8 @@ Rectangle{
     property alias panel_color: force_slider.color
     property alias xValue : x.value
     property alias gammaValue : gamma.value
+    readonly property string setSegmentToggle: data_model.data_source.swamp_status.ngc_status.setSegmentToggle.topic_name
+
 
     ColumnLayout {
         id: cl
@@ -61,7 +64,7 @@ Rectangle{
         }
         Rectangle {
             id: force_slider
-            height: (x.implicitHeight * 2) + 40
+            height: force_slider_panel.implicitHeight + 40
             width: force_slider_panel.implicitWidth + 50
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignTop
@@ -76,7 +79,14 @@ Rectangle{
                 anchors.fill: parent
                 anchors.leftMargin: 10
                 spacing: 2
-
+                BasicButton{
+                    // todo move these elements outside
+                    Layout.alignment: Qt.AlignLeft
+                    Layout.topMargin: 4
+                    text_on_button: "INVERT LF"
+                    button_width: 100
+                    onClicked: publish_topic(setSegmentToggle, 1)
+                }
                 BasicSliderWithRefAndAct {
                     id: x
                     Layout.fillWidth: true

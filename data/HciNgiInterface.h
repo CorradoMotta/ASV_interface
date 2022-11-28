@@ -75,6 +75,8 @@ public:
         SET_PF, // persistent, 12 double _LAT_LON
         SET_PF_X_Y,
         SET_PF_PAR, // 4 valori ks kgamma maxAngle kr (all double).
+        SET_SEGMENT, // Lat1, Lon1, Lat2, Lon2, X[N]
+        SET_SEGMENT_TOGGLE,
         CMD_NUMBER
     };
 

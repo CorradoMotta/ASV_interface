@@ -125,7 +125,7 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefyLref()->setValue(doubleContainer); // yLref Set line
     in >> doubleContainer; m_swamp_status.ngc_status()->asvReflatLref()->setValue(doubleContainer); // latLref Set line in coordinates
     in >> doubleContainer; m_swamp_status.ngc_status()->asvReflonLref()->setValue(doubleContainer); // lonLref Set line in coordinates TODO make them act and ref
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefgammaLref()->setValue(doubleContainer); // gammaLref Set gamma for line
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefgammaLref()->setValue(doubleContainer); //qDebug()<<doubleContainer; // gammaLref Set gamma for line
 
     // ASVREF CONTROL
     in >> doubleContainer; m_swamp_status.ngc_status()->surge()->ref()->setValue(doubleContainer); // uRef CONTROL
@@ -173,8 +173,8 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
     in >> intContainer; m_swamp_status.ngc_status()->pumpJetMonitor()->fr_pj_status()->setValue(intContainer);
     in >> intContainer; m_swamp_status.ngc_status()->pumpJetMonitor()->rr_pj_status()->setValue(intContainer);
     in >> intContainer; m_swamp_status.ngc_status()->pumpJetMonitor()->rl_pj_status()->setValue(intContainer);
-    in >> intContainer; // x rabbit
-    in >> intContainer;// y rabbit
+    in >> doubleContainer; //qDebug() << QString::number(doubleContainer, 'f',8); // x rabbit TODO add them to the map
+    in >> doubleContainer; //qDebug() << QString::number(doubleContainer, 'f',8); // y rabbit TODO add them to the map
     in >> intContainer; // gamma rabbit
 
 }
@@ -452,7 +452,8 @@ bool DataSourceUdp::set_cfg(QString filename)
     m_swamp_status.ngc_status()->setPFLatLon()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_PF));
     //m_swamp_status.ngc_status()->setPFLatLonPar()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_PF_PAR));
     m_swamp_status.ngc_status()->setPFPar()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_PF_PAR));
-
+    m_swamp_status.ngc_status()->setSegment()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_SEGMENT)); //setSegmentToggle
+    m_swamp_status.ngc_status()->setSegmentToggle()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_SEGMENT_TOGGLE));
     file.close();
     return true;
 

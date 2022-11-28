@@ -57,6 +57,7 @@ Rectangle{
     property real asvReflonRef: data_model.data_source.swamp_status.ngc_status.asvReflonRef.value
     readonly property string set_lat_lon_tn: data_model.data_source.swamp_status.ngc_status.setLatLon.topic_name //TODO FIX
     readonly property string set_path_following_tn: data_model.data_source.swamp_status.ngc_status.setPFLatLon.topic_name //TODO FIX
+    readonly property string set_segment_tn: data_model.data_source.swamp_status.ngc_status.setSegment.topic_name
     readonly property string set_line_lat_lon: data_model.data_source.swamp_status.ngc_status.setLineLatLon.topic_name //TODO FIX
     readonly property string set_robot_home_tn: data_model.data_source.swamp_status.ngc_status.setRobotHome.topic_name //TODO FIX
     readonly property var publish_topic: data_model.data_source.publishMessage //todo repetition
@@ -540,6 +541,8 @@ Rectangle{
     function send_point(){
         var lat
         var lon
+        var coor_list
+        var i
         if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
         {
             if( mivMarker.model.rowCount()!==0 && data_model.data_source.is_connected){
@@ -562,8 +565,8 @@ Rectangle{
                 var periodicity
                 if(menu_bar_id.isPeriodic) periodicity = 1
                 else periodicity = 0
-                var coor_list = periodicity + " " + root.xValue  //HciNgiInterface.PATH_PLANNER_COMPUTE_SPLINE +
-                for (var i = 0; i < 6; i++)
+                coor_list = periodicity + " " + root.xValue  //HciNgiInterface.PATH_PLANNER_COMPUTE_SPLINE +
+                for (i = 0; i < 6; i++)
                     coor_list = coor_list + " " + mivMarkerMultiple.model.getCoordinate(i).latitude + " " + mivMarkerMultiple.model.getCoordinate(i).longitude
 
                 publish_topic(set_path_following_tn, coor_list)
@@ -576,11 +579,16 @@ Rectangle{
                 return "Exactly six points are needed!"
         }
         else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
-            if(mivLine.model.rowCount()!==0){
-                return "Not implemented yet"
+            if(mivLine.model.rowCount()===2){
+             coor_list = ""
+                for (i = 0; i < 2; i++)
+                    coor_list = coor_list + " " + mivLine.model.getCoordinate(i).latitude + " " + mivLine.model.getCoordinate(i).longitude
+             coor_list = coor_list + " " + root.xValue
+             publish_topic(set_segment_tn, coor_list)
+             return "Sending segment of two points. X = " + root.xValue
             }
             else
-                return "No points available!"
+                return "Exactly two points are needed!"
         }
     }
 
