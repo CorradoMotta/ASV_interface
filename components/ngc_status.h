@@ -88,6 +88,9 @@ class NGC_status : public QObject
     Q_PROPERTY(DoubleVariable* lonHomeRef READ lonHomeRef NOTIFY lonHomeRefChanged)
     // to do make them a QLIST
     Q_PROPERTY(Pump_jet_status* pumpJetMonitor READ pumpJetMonitor NOTIFY pumpJetMonitorChanged)
+    Q_PROPERTY(DoubleVariable* latRabbit READ latRabbit NOTIFY latRabbitChanged)
+    Q_PROPERTY(DoubleVariable* lonRabbit READ lonRabbit NOTIFY lonRabbitChanged)
+    Q_PROPERTY(DoubleVariable* gammaRabbit READ gammaRabbit NOTIFY gammaRabbitChanged)
 
     // Variabili in scrittura, salvo SOLO il nome del topic
     Q_PROPERTY(IntVariable* rpmAlpha READ rpmAlpha NOTIFY rpmAlphaChanged)
@@ -201,6 +204,9 @@ public:
     Pump_jet_status *pumpJetMonitor();
     DoubleVariable *setSegment();
     DoubleVariable *setSegmentToggle();
+    DoubleVariable *latRabbit();
+    DoubleVariable *lonRabbit();
+    DoubleVariable *gammaRabbit();
 
 signals:
 
@@ -277,29 +283,22 @@ signals:
     void asvRefXhatChanged();
     void asvRefYhatChanged();
     void asvRefNhatChanged();
-
     void latHomeRefChanged();
     void lonHomeRefChanged();
-
     void stopFileCmdChanged();
     void startFileCmdChanged();
     void resumeFileCmdChanged();
-
     void asvReflatL2refChanged();
     void asvReflonL2refChanged();
     void setLFParChanged();
     void setPFLatLonChanged();
-
-
-
-
     void setPFParChanged();
-
     void pumpJetMonitorChanged();
-
     void setSegmentChanged();
-
     void setSegmentToggleChanged();
+    void latRabbitChanged();
+    void lonRabbitChanged();
+    void gammaRabbitChanged();
 
 private:
 
@@ -388,6 +387,9 @@ private:
     Pump_jet_status m_pumpJetMonitor;
     DoubleVariable m_setSegment;
     DoubleVariable m_setSegmentToggle;
+    DoubleVariable m_latRabbit;
+    DoubleVariable m_lonRabbit;
+    DoubleVariable m_gammaRabbit;
 };
 
 #endif // NGC_STATUS_H

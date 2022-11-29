@@ -466,28 +466,28 @@ MenuBar {
                         Layout.alignment: Qt.AlignTop
                         Layout.fillWidth: true
                         text_input:  qsTr("K_S")
-                        text_value: "0"
+                        text_value: "1.0"
                     }
                     BasicTextInputInvertedWithRef{
                         id: k_gamma
                         Layout.alignment: Qt.AlignTop
                         Layout.fillWidth: true
                         text_input:  qsTr("K_GAMMA")
-                        text_value: "0"
+                        text_value: "0.3"
                     }
                     BasicTextInputInvertedWithRef{
                         id: max_angle
                         Layout.alignment: Qt.AlignTop
                         Layout.fillWidth: true
                         text_input:  qsTr("MAX ANGLE")
-                        text_value: "0"
+                        text_value: "60"
                     }
                     BasicTextInputInvertedWithRef{
                         id: k_r
                         Layout.alignment: Qt.AlignTop
                         Layout.fillWidth: true
                         text_input:  qsTr("K_R")
-                        text_value: "0"
+                        text_value: "0.1"
                     }
                 }
             }

@@ -122,5 +122,9 @@
         <file>QML/Maps/DelegateMultipleMarker.qml</file>
         <file>QML/BasicItems/BoxDrawMultipleMarker.qml</file>
         <file>Images/generate_path_on.png</file>
+        <file>QML/Maps/MarkerRef.qml</file>
+        <file>Images/ref_visibility.png</file>
+        <file>QML/Maps/MapIcon.qml</file>
+        <file>QML/Maps/MapIconClickable.qml</file>
     </qresource>
 </RCC>

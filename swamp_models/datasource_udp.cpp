@@ -173,9 +173,9 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
     in >> intContainer; m_swamp_status.ngc_status()->pumpJetMonitor()->fr_pj_status()->setValue(intContainer);
     in >> intContainer; m_swamp_status.ngc_status()->pumpJetMonitor()->rr_pj_status()->setValue(intContainer);
     in >> intContainer; m_swamp_status.ngc_status()->pumpJetMonitor()->rl_pj_status()->setValue(intContainer);
-    in >> doubleContainer; //qDebug() << QString::number(doubleContainer, 'f',8); // x rabbit TODO add them to the map
-    in >> doubleContainer; //qDebug() << QString::number(doubleContainer, 'f',8); // y rabbit TODO add them to the map
-    in >> intContainer; // gamma rabbit
+    in >> doubleContainer; m_swamp_status.ngc_status()->latRabbit()->setValue(doubleContainer);  // lat rabbit
+    in >> doubleContainer; m_swamp_status.ngc_status()->lonRabbit()->setValue(doubleContainer);  // lon rabbit
+    in >> doubleContainer; m_swamp_status.ngc_status()->gammaRabbit()->setValue(doubleContainer);// gamma rabbit
 
 }
 
