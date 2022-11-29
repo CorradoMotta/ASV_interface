@@ -56,6 +56,9 @@ NGC_status::NGC_status(QObject *parent)
     m_lonHomeRef.setSubscribe(true);
     m_asvReflatL2ref.setSubscribe(true);
     m_asvReflonL2ref.setSubscribe(true);
+    m_latRabbit.setSubscribe(true);
+    m_lonRabbit.setSubscribe(true);
+    m_gammaRabbit.setSubscribe(true);
 
 }
 
@@ -447,4 +450,44 @@ DoubleVariable *NGC_status::asvReflonL2ref()
 IntVariable *NGC_status::setLFPar()
 {
     return &m_setLFPar;
+}
+
+DoubleVariable *NGC_status::setPFLatLon()
+{
+    return &m_setPFLatLon;
+}
+
+DoubleVariable *NGC_status::setPFPar()
+{
+    return &m_setPFPar;
+}
+
+Pump_jet_status *NGC_status::pumpJetMonitor()
+{
+    return &m_pumpJetMonitor;
+}
+
+DoubleVariable *NGC_status::setSegment()
+{
+    return &m_setSegment;
+}
+
+DoubleVariable *NGC_status::setSegmentToggle()
+{
+    return &m_setSegmentToggle;
+}
+
+DoubleVariable *NGC_status::latRabbit()
+{
+    return &m_latRabbit;
+}
+
+DoubleVariable *NGC_status::lonRabbit()
+{
+    return &m_lonRabbit;
+}
+
+DoubleVariable *NGC_status::gammaRabbit()
+{
+    return &m_gammaRabbit;
 }

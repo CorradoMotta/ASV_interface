@@ -1,9 +1,23 @@
 #include "singlemarkermodel.h"
+#include "generic/Variable_c.h"
+#include "generic/robotmath.h"
+
 #include <QDebug>
 
 SingleMarkerModel::SingleMarkerModel(QObject *parent) :
     QAbstractListModel(parent)
 {}
+
+SingleMarkerModel::SingleMarkerModel(const QGeoCoordinate &origin, QObject *parent):
+    QAbstractListModel(parent)
+{
+    // TODO ADD NULL coordinate to the other constructor
+    //QGeoCoordinate coor = dataSource->swamp_status()->conf()->origin();
+    m_origin.geoCorr = origin;
+    compute_xy_from_lat_lon(m_origin.geoCorr.latitude(),m_origin.geoCorr.longitude(), m_origin.xyCorr.x, m_origin.xyCorr.y,m_origin.utmzone, m_origin.utmzone_char);
+
+    //qDebug() << "X VALUE" << m_origin.xyCorr.x << "Y VALUE" << m_origin.xyCorr.y;
+}
 
 int SingleMarkerModel::rowCount( const QModelIndex& parent) const
 {
@@ -31,6 +45,7 @@ QHash<int, QByteArray> SingleMarkerModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles[CoordinateRole] = "coordinate";
     roles[GroupRole] = "group";
+    roles[XYRole] ="xy";
 
     return roles;
 
@@ -45,7 +60,15 @@ bool SingleMarkerModel::setData(const QModelIndex &index, const QVariant &value,
     switch(role){
     case CoordinateRole:{
         if(marker->coordinate()!= value.value<QGeoCoordinate>()){
-            marker->setCoordinate(value.value<QGeoCoordinate>());
+            QGeoCoordinate geo_coor = value.value<QGeoCoordinate>();
+            // TODO fix it better!
+            double coor_x;
+            double coor_y;
+            double utmzone;
+            char utmzone_char;
+            compute_xy_from_lat_lon(geo_coor.latitude(), geo_coor.longitude(), coor_x, coor_y, utmzone, utmzone_char);
+            marker->setXyCorr(xyVariable(coor_x - m_origin.xyCorr.x, coor_y - m_origin.xyCorr.y));
+            marker->setCoordinate(geo_coor);
             somethingChanged = true;
         }
     }
@@ -84,7 +107,17 @@ void SingleMarkerModel::addMarker(SingleMarker *singleMarker)
 
 void SingleMarkerModel::insertSingleMarker(QGeoCoordinate coordinate, int group, int index)
 {
-    SingleMarker *singleMarker = new SingleMarker(coordinate, group);
+    QPoint p(0,0);
+    xyVariable xy(0.0,0.0);
+    double coor_x;
+    double coor_y;
+    double utmzone;
+    char utmzone_char;
+    compute_xy_from_lat_lon(coordinate.latitude(), coordinate.longitude(), coor_x, coor_y, utmzone, utmzone_char);
+
+    //qDebug() << "DISTANCE X " << xy.getX() - m_origin.xyCorr.x << "DISTANCE Y " << xy.getY() - m_origin.xyCorr.y;
+
+    SingleMarker *singleMarker = new SingleMarker(coordinate, group, xyVariable(coor_x - m_origin.xyCorr.x, coor_y - m_origin.xyCorr.y));
     if (index!=-99 && index < m_marker.size()) {
 
         //addMarker(singleMarker,index);//QAbstractListModel::setData(index, coordinate, CoordinateRole);
@@ -103,8 +136,21 @@ void SingleMarkerModel::removeSingleMarker(int index)
     endRemoveRows();
 }
 
+// coordinate otto
+// "45.4371 12.355 45.437 12.3553 45.4368 12.3555 45.437 12.3556 45.437 12.3553 45.437 12.355 "
+
 void SingleMarkerModel::reset()
 {
+    QString completeString = "";
+    QString completeStringlatLon = "";
+    QList<SingleMarker*>::iterator single_marker;
+    for (single_marker = m_marker.begin(); single_marker != m_marker.end(); ++single_marker){
+        completeString = completeString + QString::number((*single_marker)->xyCorr().getX()) + " " + QString::number((*single_marker)->xyCorr().getY()) + " ";
+        completeStringlatLon = completeStringlatLon + QString::number((*single_marker)->coordinate().latitude()) + " " + QString::number((*single_marker)->coordinate().longitude()) + " ";
+
+    }
+    qDebug() <<completeString;
+    qDebug() <<completeStringlatLon;
     beginRemoveRows(QModelIndex(), 0 , m_marker.size()-1);
     m_marker.clear();
     endRemoveRows();
@@ -141,21 +187,56 @@ QString SingleMarkerModel::readDataFromFile(QString filename)
     return "All values imported!";
 }
 
-QGeoCoordinate SingleMarkerModel::getCoordinate(int index)
+QGeoCoordinate SingleMarkerModel::getCoordinate(int index, int model)
 {
     return m_marker[index]->coordinate();
 }
 
-SingleMarker::SingleMarker(QObject *parent)
-    : QObject{parent}
+QGeoPath SingleMarkerModel::generatePath()
 {
+    // to do add check six coordinates
+    m_line.clearPath();
+    QString completeString = "4 3 ";
+    QList<SingleMarker*>::iterator single_marker;
+    for (single_marker = m_marker.begin(); single_marker != m_marker.end(); ++single_marker){
+        completeString = completeString + QString::number((*single_marker)->xyCorr().getX()) + " " + QString::number((*single_marker)->xyCorr().getY()) + " ";
 
+    }
+    completeString = completeString + "1 0 1";
+
+    // convert to StringVariable
+    //StringVariable_c string_cmd;
+    path.command.value = completeString.toStdString();
+    path.command.valid = 1;
+    path.command.updated = 0;
+    path.parse_command();
+    if (path.path_cmd_struct.cmd_type == PATH_PLANNER_COMPUTE_SPLINE) compute_spline(path);
+    //qDebug() << completeString;
+
+    for (auto i: path.path_standby.points){
+        //QGeoCoordinate coor = QGeoCoordinate()
+        double newLat;
+        double newLon;
+        compute_lat_lon_from_xy( i.x.value + m_origin.xyCorr.x, i.y.value +  m_origin.xyCorr.y, m_origin.utmzone, m_origin.utmzone_char,newLat,newLon);
+        m_line.addCoordinate(QGeoCoordinate(newLat,newLon));
+        //insertSingleMarker(QGeoCoordinate(newLat,newLon));
+        //qDebug() << m_origin.utmzone << m_origin.utmzone_char;
+        //qDebug() << newLat << newLon;
+    }
+    return m_line;
 }
 
-SingleMarker::SingleMarker(const QGeoCoordinate &coor, const int group, QObject *parent):
+//SingleMarker::SingleMarker(QObject *parent)
+//    : QObject{parent}
+//{
+
+//}
+
+SingleMarker::SingleMarker(const QGeoCoordinate &coor, const int group, const xyVariable xyCorr, QObject *parent):
     QObject{parent},
     m_coordinate(coor),
-    m_group(group)
+    m_group(group),
+    m_xyCorr(xyCorr)
 {
 
 }
@@ -184,4 +265,17 @@ void SingleMarker::setGroup(int newGroup)
         return;
     m_group = newGroup;
     emit groupChanged();
+}
+
+const xyVariable &SingleMarker::xyCorr() const
+{
+    return m_xyCorr;
+}
+
+void SingleMarker::setXyCorr(const xyVariable &newXyCorr)
+{
+    // if (m_xyCorr == newXyCorr)
+    //     return;
+    m_xyCorr = newXyCorr;
+    emit xyCorrChanged();
 }

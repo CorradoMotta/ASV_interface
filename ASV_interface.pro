@@ -14,11 +14,16 @@ SOURCES += \
         components/ngc_status.cpp \
         components/swamp_motor_status.cpp \
         components/time_status.cpp \
+        data/coordinatevariable.cpp \
         data/doublevariable.cpp \
         data/intvariable.cpp \
         data/ngc_variable.cpp \
+        data/pump_jet_status.cpp \
         data/stringvariable.cpp \
         data/variable.cpp \
+        generic/matrix.cpp \
+        generic/robotmath.cpp \
+        generic/vector.cpp \
         main.cpp \
         map_models/bathymetrymodel.cpp \
         map_models/coordinate_model.cpp \
@@ -53,13 +58,21 @@ HEADERS += \
     components/swamp_motor_status.h \
     components/time_status.h \
     data/HciNgiInterface.h \
+    data/Path_status.h \
+    data/coordinatevariable.h \
     data/custom_types.h \
     data/define.h \
     data/doublevariable.h \
     data/intvariable.h \
     data/ngc_variable.h \
+    data/pump_jet_status.h \
     data/stringvariable.h \
     data/variable.h \
+    generic/Variable_c.h \
+    generic/commands_def.h \
+    generic/matrix.h \
+    generic/robotmath.h \
+    generic/vector.h \
     map_models/bathymetrymodel.h \
     map_models/coordinate_model.h \
     map_models/depth_point.h \
@@ -81,6 +94,8 @@ DISTFILES += \
     Images/arrow_open.png \
     Images/circle.png \
     Images/download.png \
+    Images/generate_path.png \
+    Images/generate_path_on.png \
     Images/line_box.png \
     Images/marker.png \
     Images/marker_box.png \

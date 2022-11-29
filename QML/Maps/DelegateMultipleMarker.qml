@@ -1,9 +1,9 @@
 /*************************************************************************
  *
- * Delegate for the line model-view implemented in the navigation map.
- * This element is a small dot that is added on each vertex of the
- * polyline. When dragged, the dot position is updated as well as the rest
- * of the line.
+ * Delegate for the single marker model-view implemented in the
+ * navigation map. Such marker is displayed when the operator wants to add
+ * a point on the map by clicking on it. It is possible to hover on the
+ * marker to see the actual coordinates.
  *
  * Author: Corrado Motta
  * Date: 04/2022
@@ -16,15 +16,16 @@ import QtPositioning 5.15
 import QtLocation 5.15
 
 MapQuickItem {
-    id: mqi_line_circle
+    id: mqi_marker
     property bool is_enable : false
-    anchorPoint.x: image_marker.width * 0.5
-    anchorPoint.y: image_marker.height * 0.5
+    anchorPoint.x: image_marker.width / 2
+    anchorPoint.y: image_marker.height
     sourceItem: Image {
         id: image_marker
-        source: "../../Images/circle_dot.png"
-        sourceSize.width: 10
-        sourceSize.height: 10
+        source: "../../Images/marker.png"
+        sourceSize.width: 40
+        sourceSize.height: 40
+
         Rectangle{
             // TODO this should be an element
             id: info_label
@@ -51,7 +52,7 @@ MapQuickItem {
         }
     }
     MouseArea{
-        id: mqi_line_mouse_area
+        id: mqi_marker_mouse_area
         anchors.fill: parent
         enabled: is_enable
         hoverEnabled : true
@@ -62,17 +63,15 @@ MapQuickItem {
             info_label.visible = false
         }
         acceptedButtons: Qt.LeftButton | Qt.RightButton
-        drag.target: mqi_line_circle
+        drag.target: mqi_marker
         drag.onActiveChanged:{
-            // to call only when released
             if(drag.active === false){
-                model.coordinate = mqi_line_circle.coordinate
+                model.coordinate = mqi_marker.coordinate
+                if(_multiple_marker_model.rowCount() === 6)
+                    navigation_map.updateLine()
             }
         }
-        onClicked: if (mouse.button === Qt.RightButton){
-                       mapPoly.removeCoordinate(index)
-                       _line_model.removeSingleMarker(index)
-                   }
-        onPositionChanged: mapPoly.replaceCoordinate(index, mqi_line_circle.coordinate)
+        onClicked: if (mouse.button === Qt.RightButton)
+                       _multiple_marker_model.removeSingleMarker(index)
     }
 }

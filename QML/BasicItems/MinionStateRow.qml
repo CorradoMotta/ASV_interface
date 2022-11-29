@@ -17,6 +17,7 @@ Item {
     property real oldTimeMs: 0
     required property var prefix
     required property string info_prefix
+    required property int pump_jet_status
 
     implicitWidth: status_row.implicitWidth
     implicitHeight: status_row.implicitHeight
@@ -25,6 +26,15 @@ Item {
         id: status_row
         spacing: 15
         anchors.fill: parent
+        FaultDot{
+            id: pump_jet_dot
+            off_color: "lightgray"
+            label_on_side: true
+            info_text: info_prefix + "_" + "Pump_jet"
+            dot_state: pump_jet_status
+            width: dotSize
+            height: dotSize
+        }
         StatusDot{
             id: power_dot
             info_text: info_prefix + "_" + "Engine"

@@ -1,9 +1,10 @@
 #include "bathymetrymodel.h"
 #include <qdebug.h>
 #include <QDir>
+
 BathymetryModel::BathymetryModel(QString folderName, QObject *parent)
-    : m_folderName(folderName),
-      QAbstractListModel{parent}
+    : QAbstractListModel{parent},
+      m_folderName(folderName)
 {
     // create folder for bathymetry
 

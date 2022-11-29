@@ -97,3 +97,16 @@ void Conf::setMetadataIniPath(const QString &newMetadataIniPath)
     m_metadataIniPath = newMetadataIniPath;
     emit metadataIniPathChanged();
 }
+
+const QGeoCoordinate &Conf::origin() const
+{
+    return m_origin;
+}
+
+void Conf::setOrigin(const QGeoCoordinate &newOrigin)
+{
+    if (m_origin == newOrigin)
+        return;
+    m_origin = newOrigin;
+    emit originChanged();
+}

@@ -125,7 +125,7 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
     in >> doubleContainer; m_swamp_status.ngc_status()->asvRefyLref()->setValue(doubleContainer); // yLref Set line
     in >> doubleContainer; m_swamp_status.ngc_status()->asvReflatLref()->setValue(doubleContainer); // latLref Set line in coordinates
     in >> doubleContainer; m_swamp_status.ngc_status()->asvReflonLref()->setValue(doubleContainer); // lonLref Set line in coordinates TODO make them act and ref
-    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefgammaLref()->setValue(doubleContainer); // gammaLref Set gamma for line
+    in >> doubleContainer; m_swamp_status.ngc_status()->asvRefgammaLref()->setValue(doubleContainer); //qDebug()<<doubleContainer; // gammaLref Set gamma for line
 
     // ASVREF CONTROL
     in >> doubleContainer; m_swamp_status.ngc_status()->surge()->ref()->setValue(doubleContainer); // uRef CONTROL
@@ -169,6 +169,14 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
     in >> doubleContainer; m_swamp_status.ngc_status()->altitude()->setValue(doubleContainer); //
     in >> doubleContainer; m_swamp_status.ngc_status()->asvReflatL2ref()->setValue(doubleContainer); // latLref Set line in coordinates
     in >> doubleContainer; m_swamp_status.ngc_status()->asvReflonL2ref()->setValue(doubleContainer); // lonLref Set line in coordinates TODO make them act and ref
+    in >> intContainer; m_swamp_status.ngc_status()->pumpJetMonitor()->fl_pj_status()->setValue(intContainer);
+    in >> intContainer; m_swamp_status.ngc_status()->pumpJetMonitor()->fr_pj_status()->setValue(intContainer);
+    in >> intContainer; m_swamp_status.ngc_status()->pumpJetMonitor()->rr_pj_status()->setValue(intContainer);
+    in >> intContainer; m_swamp_status.ngc_status()->pumpJetMonitor()->rl_pj_status()->setValue(intContainer);
+    in >> doubleContainer; m_swamp_status.ngc_status()->latRabbit()->setValue(doubleContainer);  // lat rabbit
+    in >> doubleContainer; m_swamp_status.ngc_status()->lonRabbit()->setValue(doubleContainer);  // lon rabbit
+    in >> doubleContainer; m_swamp_status.ngc_status()->gammaRabbit()->setValue(doubleContainer);// gamma rabbit
+
 }
 
 void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)
@@ -355,6 +363,9 @@ bool DataSourceUdp::set_cfg(QString filename)
         m_swamp_status.conf()->setCoordinatePath(settings.value("coor_file").toString());
         coor_file.close();
     }
+    if(checkConfKey("origin_latitude",settings)){
+        m_swamp_status.conf()->setOrigin(QGeoCoordinate(settings.value("origin_latitude").toFloat(),settings.value("origin_longitude").toFloat()));
+    }
     settings.endGroup();
 
     settings.beginGroup("metadata_settings");
@@ -438,7 +449,11 @@ bool DataSourceUdp::set_cfg(QString filename)
     m_swamp_status.ngc_status()->setYawGSPar()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_YAW_GS_PAR));
     m_swamp_status.ngc_status()->setHeadingPiPar()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_HEADING_PI_PAR));
     m_swamp_status.ngc_status()->setLFPar()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_LF_PAR));
-
+    m_swamp_status.ngc_status()->setPFLatLon()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_PF));
+    //m_swamp_status.ngc_status()->setPFLatLonPar()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_PF_PAR));
+    m_swamp_status.ngc_status()->setPFPar()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_PF_PAR));
+    m_swamp_status.ngc_status()->setSegment()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_SEGMENT)); //setSegmentToggle
+    m_swamp_status.ngc_status()->setSegmentToggle()->setTopic_name(QString::number(HciNgiInterface::NgcCommand::SET_SEGMENT_TOGGLE));
     file.close();
     return true;
 

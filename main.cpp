@@ -11,6 +11,7 @@
 #include "data/intvariable.h"
 #include "data/stringvariable.h"
 #include "data/HciNgiInterface.h"
+#include "generic/robotmath.h"
 #include "swamp_models/swampstatus.h"
 #include "swamp_models/datasource.h"
 #include "swamp_models/swampmodel.h"
@@ -49,8 +50,7 @@ int main(int argc, char *argv[])
     if(argc == 2) networkBinding = argv[1];
     networkBinding = networkBinding.toLower().trimmed();
 
-    SingleMarkerModel marker_model;
-    SingleMarkerModel line_model;
+
     BathymetryModel bath_model("Bathymetry");
     Coordinate_model coors_model;
     SwampModel data_model;
@@ -80,12 +80,18 @@ int main(int argc, char *argv[])
     const QUrl url(QStringLiteral("qrc:/QML/main.qml"));
     qDebug() << "Mapbox cache file stored in:" << QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation);
 
-    // set context properties, one for each model
 
+    // test
+    SingleMarkerModel marker_model(dataSource->swamp_status()->conf()->origin());
+    SingleMarkerModel line_model;
+    SingleMarkerModel multiple_marker_model(dataSource->swamp_status()->conf()->origin());
+
+    // set context properties, one for each model
     engine.rootContext()->setContextProperty(QStringLiteral("_metadata"), &metadata);
     engine.rootContext()->setContextProperty(QStringLiteral("_marker_model"), &marker_model);
     engine.rootContext()->setContextProperty(QStringLiteral("_bathymetry_model"), &bath_model);
     engine.rootContext()->setContextProperty(QStringLiteral("_line_model"), &line_model);
+    engine.rootContext()->setContextProperty(QStringLiteral("_multiple_marker_model"), &multiple_marker_model);
     engine.rootContext()->setContextProperty(QStringLiteral("data_model"), &data_model);
     engine.rootContext()->setContextProperty(QStringLiteral("_coor_model"), &coors_model);
     engine.rootContext()->setContextProperty("QJoysticks", instance);

@@ -72,6 +72,11 @@ public:
         START_FILE_CMD, // used to start the execution of a preloaded file of commands
         RESUME_FILE_CMD, // used to recover the execution of a preloaded file of commands
         SET_LF_PAR, // LF par just added
+        SET_PF, // persistent, 12 double _LAT_LON
+        SET_PF_X_Y,
+        SET_PF_PAR, // 4 valori ks kgamma maxAngle kr (all double).
+        SET_SEGMENT, // Lat1, Lon1, Lat2, Lon2, X[N]
+        SET_SEGMENT_TOGGLE,
         CMD_NUMBER
     };
 
@@ -95,6 +100,8 @@ public:
         GC_LF, // set (xL,yL,gammaL),X
         GC_LF_SPEED, // set (xL,yL,gammaL),u
         GC_YAW_TEST, // set r
+        GC_GOHOME_AUTO, // set x y as home, X as xbar
+        GC_PF, // set path, X
         GC_NUMBER
     };
 
@@ -116,6 +123,15 @@ public:
         TMAM_NUMBER
     };
 
+    enum Path_cmd
+    {
+        PATH_PLANNER_ACTIVATE = 0,
+        PATH_PLANNER_COMPUTE_LINE = 1,
+        PATH_PLANNER_COMPUTE_CIRCLE = 2,
+        PATH_PLANNER_COMPUTE_SPLINE = 3,
+        PATH_PLANNER_COMPUTE_GRID = 4,
+    };
+
     //    enum ThrustMappingAutoMode {
     //        TMAM_HOV_MODE=0, // ROV-like fixed-azimuth configuration
     //        TMAM_FRWD_THRUST_ALL, // yaw torque given by differential thrust: azimuth[i]=0
@@ -135,5 +151,6 @@ public:
     Q_ENUM(ThrustMappingManualMode)
     Q_ENUM(ThrustMappingAutoMode)
     Q_ENUM(MapboxStyle)
+    Q_ENUM(Path_cmd)
 };
 #endif // HCINGIINTERFACE_H

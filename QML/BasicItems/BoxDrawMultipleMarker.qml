@@ -70,12 +70,27 @@ Item {
             }
         }
         Image {
+            id: image_box_generate
+            visible: boxRectangle.isActive? true: false
+            sourceSize.width: 70
+            sourceSize.height: 70
+            source: "../../Images/generate_path_on.png"
+            scale: mouseArea_rect_generate.containsMouse ? 1.0 : 0.8
+
+            MouseArea {
+                id: mouseArea_rect_generate
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked: navigation_map.updateLine()
+            }
+        }
+        Image {
             id: image_box_send
             visible: boxRectangle.isActive? true: false
             sourceSize.width: 70
             sourceSize.height: 70
             source: "../../Images/send_box_on.png"
-            scale: boxRectangle.isActive? mouseArea_rect_send.containsMouse ? 1.0 : 0.8 : 0.8
+            scale: mouseArea_rect_send.containsMouse ? 1.0 : 0.8
 
             MouseArea {
                 id: mouseArea_rect_send

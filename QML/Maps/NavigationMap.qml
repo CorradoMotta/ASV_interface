@@ -32,8 +32,9 @@ Rectangle{
     property var initialCoordinates: QtPositioning.coordinate(lat.value, lon.value)
     property real rando : 0
     property int bath_counter: 0
+    property bool ref_elements_visibility: true
 
-    // bathymetry (disabled)
+    // bathymetry
     property double initialValue : 7.13
     property int max_bathymetry_depth : bathymetry_panel.max_depth
     property int min_bathymetry_depth : bathymetry_panel.min_depth
@@ -56,6 +57,8 @@ Rectangle{
     property real asvReflatRef: data_model.data_source.swamp_status.ngc_status.asvReflatRef.value
     property real asvReflonRef: data_model.data_source.swamp_status.ngc_status.asvReflonRef.value
     readonly property string set_lat_lon_tn: data_model.data_source.swamp_status.ngc_status.setLatLon.topic_name //TODO FIX
+    readonly property string set_path_following_tn: data_model.data_source.swamp_status.ngc_status.setPFLatLon.topic_name //TODO FIX
+    readonly property string set_segment_tn: data_model.data_source.swamp_status.ngc_status.setSegment.topic_name
     readonly property string set_line_lat_lon: data_model.data_source.swamp_status.ngc_status.setLineLatLon.topic_name //TODO FIX
     readonly property string set_robot_home_tn: data_model.data_source.swamp_status.ngc_status.setRobotHome.topic_name //TODO FIX
     readonly property var publish_topic: data_model.data_source.publishMessage //todo repetition
@@ -63,6 +66,10 @@ Rectangle{
     readonly property real asvReflonLRef: data_model.data_source.swamp_status.ngc_status.asvReflonLref.value
     readonly property real asvReflatL2ref : data_model.data_source.swamp_status.ngc_status.asvReflatL2ref.value
     readonly property real asvReflonL2ref : data_model.data_source.swamp_status.ngc_status.asvReflonL2ref.value
+    readonly property real latRabbit:    data_model.data_source.swamp_status.ngc_status.latRabbit.value
+    readonly property real lonRabbit :   data_model.data_source.swamp_status.ngc_status.lonRabbit.value
+    readonly property real gammaRabbit : data_model.data_source.swamp_status.ngc_status.gammaRabbit.value
+
     // TODO use them or remove them
     readonly property var coorL : QtPositioning.coordinate(asvReflatLRef, asvReflonLRef)
     readonly property var coorL2 : QtPositioning.coordinate(asvReflatL2ref, asvReflonL2ref)
@@ -96,24 +103,28 @@ Rectangle{
                 id: minion_fl
                 dotSize: status_bar.dotSize
                 prefix: data_model.data_source.swamp_status.minion_fl
+                pump_jet_status: data_model.data_source.swamp_status.ngc_status.pumpJetMonitor.fl_pj_status.value
                 info_prefix: "FL"
             }
             MinionStateRow{
                 id: minion_fr
                 dotSize: status_bar.dotSize
                 prefix: data_model.data_source.swamp_status.minion_fr
+                pump_jet_status: data_model.data_source.swamp_status.ngc_status.pumpJetMonitor.fr_pj_status.value
                 info_prefix: "FR"
             }
             MinionStateRow{
                 id: minion_rl
                 dotSize: status_bar.dotSize
                 prefix: data_model.data_source.swamp_status.minion_rl
+                pump_jet_status: data_model.data_source.swamp_status.ngc_status.pumpJetMonitor.rl_pj_status.value
                 info_prefix: "RL"
             }
             MinionStateRow{
                 id: minion_rr
                 dotSize: status_bar.dotSize
                 prefix: data_model.data_source.swamp_status.minion_rr
+                pump_jet_status: data_model.data_source.swamp_status.ngc_status.pumpJetMonitor.rr_pj_status.value
                 info_prefix: "RR"
             }
         }
@@ -147,9 +158,10 @@ Rectangle{
             anchors.fill: parent
             onClicked: {
                 var crd = swamp_map.toCoordinate(Qt.point(mouseX, mouseY))
-                if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker){
+                if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
                     mivMarker.model.insertSingleMarker(crd,0,0)
-                }
+                else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.MultipleMarker)
+                    mivMarkerMultiple.model.insertSingleMarker(crd)
                 else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Rectangle)
                     console.log("Not implemented yet!")
                 else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
@@ -190,18 +202,7 @@ Rectangle{
             }
         }
 
-        // model for single markers
-        MapItemView {
-            id: mivMarker
-            model: _marker_model // defined in c++
-            delegate: DelegateSingleMarker {
-                id: my_marker_delegate
-                z : 2
-                coordinate: QtPositioning.coordinate(model.coordinate.latitude,
-                                                     model.coordinate.longitude)
-                is_enable: draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker? true : false
-            }
-        }
+
 
         // bathymetry (disabled)
         // --------------------------------------------------------
@@ -266,50 +267,70 @@ Rectangle{
             }
         }
 
-        // SHOW MARKER REF TODO move to a separate element
-        MapQuickItem {
-            id: marker_ref
+        // =================================================================================
+        // REF markers and lines
+        // =================================================================================
+
+        // show ref marker for line of sight
+        MarkerRef{
+            id: lf_marker_ref
+
             coordinate: QtPositioning.coordinate(navigation_map.asvReflatRef, navigation_map.asvReflonRef)
-            anchorPoint.x: image_coor_ref.width / 2
-            anchorPoint.y: image_coor_ref.height
+            label_text: "[LoS] " + navigation_map.asvReflatRef + "-" + navigation_map.asvReflonRef
+            visible: ref_elements_visibility
+        }
 
-            sourceItem: Image {
-                id: image_coor_ref
-                source: "../../Images/marker_ref.png"
-                sourceSize.width: 40
-                sourceSize.height: 40
+        // show ref marker for path following
+        MarkerRef{
+            id: pf_marker_ref
+            z: 1
+            coordinate: QtPositioning.coordinate(navigation_map.latRabbit, navigation_map.lonRabbit)
+            label_text: "[PF] GAMMA: " + navigation_map.gammaRabbit
+            visible: ref_elements_visibility
+        }
 
-                Rectangle{
-                    id: info_label_coor_ref
-                    z: 3
-                    anchors.bottom: image_coor_ref.top
-                    anchors.bottomMargin: - (info_label_coor_text.height/3)
-                    anchors.horizontalCenter: image_coor_ref.horizontalCenter
-                    width: info_label_coor_text.implicitWidth + 6
-                    height: info_label_coor_text.implicitHeight + 6
-                    color: "white"
-                    border.color: "black"
-                    visible: false
+        // show ref line for line following
+        MapPolyline {
+            id: mapPolyLF
+            line.width: 3
+            line.color: 'purple'
+            visible: ref_elements_visibility
+            path: [
+                QtPositioning.coordinate(0,0),
+                QtPositioning.coordinate(0,0)]
+        }
 
-                    Text{
-                        id: info_label_coor_text
-                        anchors.horizontalCenter: info_label_coor_ref.horizontalCenter
-                        anchors.verticalCenter: info_label_coor_ref.verticalCenter
-                        font.family: "helvetica"
-                        font.pixelSize: 14
-                        text: navigation_map.asvReflatRef + "-" + navigation_map.asvReflonRef
-                    }
-                }
-                MouseArea{
-                    anchors.fill: parent
-                    hoverEnabled : true
-                    onEntered: info_label_coor_ref.visible = true
-                    onExited: info_label_coor_ref.visible = false
-                }
+        // =================================================================================
+        // models
+        // =================================================================================
+
+        // model for single markers
+        MapItemView {
+            id: mivMarker
+            model: _marker_model // defined in c++
+            delegate: DelegateSingleMarker {
+                id: my_marker_delegate
+                z : 2
+                coordinate: QtPositioning.coordinate(model.coordinate.latitude,
+                                                     model.coordinate.longitude)
+                is_enable: draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker? true : false
             }
         }
 
-        // model for lines
+        // model for multiple markers
+        MapItemView {
+            id: mivMarkerMultiple
+            model: _multiple_marker_model // defined in c++
+            delegate: DelegateMultipleMarker {
+                id: my_marker_multiple_delegate
+                z : 2
+                coordinate: QtPositioning.coordinate(model.coordinate.latitude,
+                                                     model.coordinate.longitude)
+                is_enable: draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.MultipleMarker? true : false
+            }
+        }
+
+        // model for polylines (e.g. segment for LF)
         MapPolyline {
             id: mapPoly
             line.width: 2.5
@@ -318,16 +339,13 @@ Rectangle{
                 drag.target: mapPoly
             }
         }
-        // model for line following
+        // model for multiple markers (SPLINE)
         MapPolyline {
-            id: mapPolyLF
-            line.width: 3
-            line.color: 'purple'
-            path: [
-                QtPositioning.coordinate(0,0),
-                QtPositioning.coordinate(0,0)]
-
+            id: map_poly_multiple_marker
+            line.width: 2.5
+            line.color: 'red'
         }
+
         MapItemView {
             id: mivLine
             model: _line_model
@@ -346,7 +364,11 @@ Rectangle{
         BoxDrawPanel{
             id: draw_panel
         }
-        // TODO move it into element
+
+        // =================================================================================
+        // Icon on map
+        // =================================================================================
+
         RowLayout{
             id: clBottomLeft
             anchors.left: parent.left
@@ -354,105 +376,49 @@ Rectangle{
             anchors.leftMargin: 20
             anchors.bottomMargin: 20
             spacing: 4
-            Item{
-                id: set_robot_home
-                implicitWidth: set_robot_home_image.implicitWidth
-                implicitHeight: set_robot_home_image.implicitHeight
-                Image {
-                    id: set_robot_home_image
-                    enabled: data_model.data_source.is_connected
-                    opacity: data_model.data_source.is_connected? 1: 0.3
-                    visible: true
-                    sourceSize.width: 60
-                    sourceSize.height: 60
-                    //opacity: boxRectangle.isActive?  1 : 0.65
-                    source: "../../Images/home-button.png"
-                    scale: mouseArea_rect.containsMouse ? 1.0 : 0.8
-
-                    MouseArea {
-                        id: mouseArea_rect
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        onClicked: publish_topic(set_robot_home_tn, 1)
-                    }
-                }
+            MapIconClickable{
+                id: set_mapbox_style_image
+                img_source: "../../Images/map_style.png"
+                img_opacity: 0.9
+                ma_enabled: data_model.data_source.swamp_status.conf.mb_style === HciNgiInterface.MB_ALL
+                onClick: navigation_map.activeMap===0? setActiveMap(4) : setActiveMap(0)
             }
-            Rectangle{
-                id: set_mapbox_style
-                implicitWidth: set_mapbox_style_image.implicitWidth
-                implicitHeight: set_mapbox_style_image.implicitHeight
-                color: "transparent"
-                //            anchors.right: parent.right
-                //            anchors.top: set_north_arrow.bottom
-                //            anchors.rightMargin : 80
-                //            anchors.topMargin: 20
-
-                Image {
-                    id: set_mapbox_style_image
-                    visible: true
-                    sourceSize.width: 60
-                    sourceSize.height: 60
-                    opacity: 0.9
-                    source: "../../Images/map_style.png"
-                    scale: mb_style_ma.containsMouse ? 1.0 : 0.8
-
-                    MouseArea {
-                        id: mb_style_ma
-                        anchors.fill: parent
-                        enabled: data_model.data_source.swamp_status.conf.mb_style === HciNgiInterface.MB_ALL
-                        hoverEnabled: true
-                        onClicked: navigation_map.activeMap===0? setActiveMap(4) : setActiveMap(0)
-                    }
-                }
+            MapIconClickable{
+                id: set_robot_home
+                img_source: "../../Images/home-button.png"
+                onClick: publish_topic(set_robot_home_tn, 1)
+            }
+            MapIconClickable{
+                id: set_ref_visibility
+                img_source:  "../../Images/ref_visibility.png"
+                onClick: ref_elements_visibility? ref_elements_visibility = false : ref_elements_visibility = true
             }
         }
 
-        // TODO move it into element
-        RowLayout{
+        Rectangle{
             id: cl
             anchors.right: parent.right
             anchors.top: parent.top
-            anchors.rightMargin : 20
+            anchors.rightMargin : 80
             anchors.topMargin: 20
-            spacing: 20
-
-            Rectangle{
+            MapIcon{
                 id: set_north_arrow
-                implicitWidth: set_north_image.implicitWidth
-                implicitHeight: set_north_image.implicitHeight
-                color: "transparent"
-
-                Image {
-                    id: set_north_image
-                    visible: true
-                    opacity: 0.8
-                    source: "../../Images/compass.png"
-                    //scale: mb_style_ma.containsMouse ? 1.0 : 0.8
-                }
+                img_opacity: 0.8
+                img_source: "../../Images/compass.png"
             }
         }
 
-        // TODO move it into element
         Rectangle{
             id: set_controller_presence
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.leftMargin: 20
             anchors.topMargin: 20
-
-            Image {
+            MapIcon{
                 id: set_controller_presence_image
-                sourceSize.width: 40
-                sourceSize.height: 40
+                img_source: "../../Images/game_control.png"
+                img_size: 40
                 visible: QJoysticks.count > 0? true : false
-                source: "../../Images/game_control.png"
-                //scale: mouseArea_rect.containsMouse ? 1.0 : 0.8
-
-                MouseArea {
-                    id: mouseArea_controller
-                    anchors.fill: parent
-                    hoverEnabled: true
-                }
             }
         }
 
@@ -480,12 +446,21 @@ Rectangle{
     }
 
     function resetMarker(){
+        var n = 0
+        var i = 0
         if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
             mivMarker.model.reset()
+        else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.MultipleMarker){
+            mivMarkerMultiple.model.reset()
+            n = map_poly_multiple_marker.pathLength()
+            for (i = 0; i < n; i++)  {
+                map_poly_multiple_marker.removeCoordinate(0)
+            }
+        }
         else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line) {
             mivLine.model.reset()
-            var n = mapPoly.pathLength()
-            for (var i = 0; i < n; i++)  {
+            n = mapPoly.pathLength()
+            for (i = 0; i < n; i++)  {
                 mapPoly.removeCoordinate(0)
             }
         }
@@ -493,6 +468,8 @@ Rectangle{
     function uploadFile(fileName){
         if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
             return mivMarker.model.readDataFromFile(fileName)
+        else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.MultipleMarker)
+            return mivMarkerMultiple.model.readDataFromFile(fileName)
         else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
             var msg = mivLine.model.readDataFromFile(fileName)
             for (var i = 0; i < mivLine.model.rowCount(); i++)
@@ -501,27 +478,56 @@ Rectangle{
         }
     }
     function send_point(){
+        var lat
+        var lon
+        var coor_list
+        var i
         if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Marker)
         {
             if( mivMarker.model.rowCount()!==0 && data_model.data_source.is_connected){
                 // sending first marker only
-                var lat = mivMarker.model.getCoordinate(0).latitude
-                var lon = mivMarker.model.getCoordinate(0).longitude
+                lat = mivMarker.model.getCoordinate(0).latitude
+                lon = mivMarker.model.getCoordinate(0).longitude
                 // todo better way to concatenate (also a function)
                 publish_topic(set_lat_lon_tn, lat + " " + lon + " " + root.xValue)
                 return "Sending point (" + lat +" "+ lon +") X = " + root.xValue
             }
+
             else if(!data_model.data_source.is_connected)
                 return "Connection is not established!"
             else
                 return "No points available!"
         }
+        else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.MultipleMarker)
+        {
+            if( mivMarkerMultiple.model.rowCount()===6 && data_model.data_source.is_connected){
+                var periodicity
+                if(menu_bar_id.isPeriodic) periodicity = 1
+                else periodicity = 0
+                coor_list = periodicity + " " + root.xValue  //HciNgiInterface.PATH_PLANNER_COMPUTE_SPLINE +
+                for (i = 0; i < 6; i++)
+                    coor_list = coor_list + " " + mivMarkerMultiple.model.getCoordinate(i).latitude + " " + mivMarkerMultiple.model.getCoordinate(i).longitude
+
+                publish_topic(set_path_following_tn, coor_list)
+                return "Sending list of six points. X = " + root.xValue
+            }
+
+            else if(!data_model.data_source.is_connected)
+                return "Connection is not established!"
+            else
+                return "Exactly six points are needed!"
+        }
         else if(draw_panel.draw_item_is_active === BoxDrawPanel.ActiveBox.Line){
-            if(mivLine.model.rowCount()!==0){
-                return "Not implemented yet"
+            if(mivLine.model.rowCount()===2){
+                coor_list = ""
+                for (i = 0; i < 2; i++)
+                    coor_list = coor_list + " " + mivLine.model.getCoordinate(i).latitude + " " + mivLine.model.getCoordinate(i).longitude
+                coor_list = coor_list + " " + root.xValue
+                publish_topic(set_segment_tn, coor_list)
+                return "Sending segment of two points. X = " + root.xValue
             }
             else
-                return "No points available!"
+                return "Exactly two points are needed!"
         }
     }
 
@@ -554,5 +560,12 @@ Rectangle{
     }
     function add_coor(name ="no_name"){
         coorView.model.insertSingleMarker(QtPositioning.coordinate(navigation_map.lat.value, navigation_map.lon.value), name, navigation_map.ngc_timestamp)
+    }
+    function updateLine(){
+        // generate path with new control points
+        if(mivMarkerMultiple.model.rowCount()!==6)
+            root.messagePrompt("Exactly six points are needed to generate the path")
+        else
+            map_poly_multiple_marker.setPath(mivMarkerMultiple.model.generatePath())
     }
 }
