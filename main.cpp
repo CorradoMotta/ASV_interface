@@ -6,10 +6,6 @@
 #include "map_models/singlemarkermodel.h"
 #include "map_models/bathymetrymodel.h"
 #include "map_models/coordinate_model.h"
-#include "data/variable.h"
-#include "data/doublevariable.h"
-#include "data/intvariable.h"
-#include "data/stringvariable.h"
 #include "data/HciNgiInterface.h"
 #include "generic/robotmath.h"
 #include "swamp_models/swampstatus.h"
@@ -65,23 +61,16 @@ int main(int argc, char *argv[])
 
     data_model.set_data_source(dataSource);
     GlobalMetadata metadata(dataSource->swamp_status()->conf()->jsonPath());
-    //qDebug() << "here " << dataSource->swamp_status()->conf()->();
-    // create joystick instance
     QJoysticks *instance = QJoysticks::getInstance();
 
     // set types to be available in qml
-    qmlRegisterUncreatableType<Variable>("com.cnr.property",1,0,"Variable", "Virtual class cannot be instantiated!");
-    qmlRegisterUncreatableType<DoubleVariable>("com.cnr.property",1,0,"DoubleVariable", "Virtual class cannot be instantiated!");
-    qmlRegisterUncreatableType<IntVariable>("com.cnr.property",1,0,"IntVariable", "Virtual class cannot be instantiated!");
-    qmlRegisterUncreatableType<StringVariable>("com.cnr.property",1,0,"StringVariable", "Virtual class cannot be instantiated!");
-    qmlRegisterUncreatableType<SwampStatus>("com.cnr.property",1,0,"SwampStatus", "Virtual class cannot be instantiated!");
     qmlRegisterUncreatableType<HciNgiInterface>("com.cnr.property",1,0,"HciNgiInterface", "Not creatable as it is an enum type.");
 
     const QUrl url(QStringLiteral("qrc:/QML/main.qml"));
     qDebug() << "Mapbox cache file stored in:" << QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation);
 
 
-    // test
+    // models
     SingleMarkerModel marker_model(dataSource->swamp_status()->conf()->origin());
     SingleMarkerModel line_model;
     SingleMarkerModel multiple_marker_model(dataSource->swamp_status()->conf()->origin());

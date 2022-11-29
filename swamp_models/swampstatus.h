@@ -18,13 +18,14 @@
 #include <components/time_status.h>
 #include <components/minion.h>
 #include <components/conf.h>
+#include <components/ngc.h>
 
 class SwampStatus : public QObject
 {
     Q_OBJECT
 
     Q_PROPERTY(GPS_AHRS_status* gps_ahrs_status READ gps_ahrs_status NOTIFY gps_ahrs_statusChanged)
-    Q_PROPERTY(NGC_status* ngc_status READ ngc_status NOTIFY ngc_statusChanged)
+    Q_PROPERTY(NGC* ngc READ ngc NOTIFY ngcChanged)
     Q_PROPERTY(Swamp_motor_status* motor_status READ motor_status NOTIFY motor_statusChanged)
     Q_PROPERTY(Time_status* time_status READ time_status NOTIFY time_statusChanged)
     Q_PROPERTY(Conf* conf READ conf NOTIFY confChanged)
@@ -37,7 +38,6 @@ public:
     explicit SwampStatus(QObject *parent = nullptr);
 
     GPS_AHRS_status *gps_ahrs_status(); //const
-    NGC_status *ngc_status();
     Swamp_motor_status *motor_status();
     Time_status *time_status();
     Minion *minion_fl();
@@ -45,11 +45,11 @@ public:
     Minion *minion_rl();
     Minion *minion_rr();
     Conf *conf();
+    NGC *ngc();
 
 signals:
 
     void gps_ahrs_statusChanged();
-    void ngc_statusChanged();
     void motor_statusChanged();
     void time_statusChanged();
     void minion_fl_Changed();
@@ -57,11 +57,11 @@ signals:
     void minion_rl_Changed();
     void minion_rr_Changed();
     void confChanged();
+    void ngcChanged();
 
 private:
 
     GPS_AHRS_status m_gps_ahrs_status;
-    NGC_status m_ngc_status;
     Swamp_motor_status m_motor_status;
     Time_status m_time_status;
     Minion m_minion_fl;
@@ -69,6 +69,7 @@ private:
     Minion m_minion_rl;
     Minion m_minion_rr;
     Conf m_conf;
+    NGC m_ngc;
 };
 
 #endif // SWAMPSTATUS_H

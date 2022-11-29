@@ -48,29 +48,29 @@ Rectangle{
 
     // Cpp members
     property real ngc_timestamp: data_model.data_source.swamp_status.gps_ahrs_status.timestamp.value
-    property real v_rotation : data_model.data_source.swamp_status.ngc_status.psi.value
+    property real v_rotation : data_model.data_source.swamp_status.ngc.ngc_status.psi.value
     property var lat: data_model.data_source.swamp_status.gps_ahrs_status.latitude
     property var lon: data_model.data_source.swamp_status.gps_ahrs_status.longitude
-    property real altitude: data_model.data_source.swamp_status.ngc_status.altitude.value
-    property real homeLatRef: data_model.data_source.swamp_status.ngc_status.latHomeRef.value
-    property real homeLonRef: data_model.data_source.swamp_status.ngc_status.lonHomeRef.value
-    property real asvReflatRef: data_model.data_source.swamp_status.ngc_status.asvReflatRef.value
-    property real asvReflonRef: data_model.data_source.swamp_status.ngc_status.asvReflonRef.value
+    property real altitude: data_model.data_source.swamp_status.ngc.ngc_status.altitude.value
+    property real homeLatRef: data_model.data_source.swamp_status.ngc.ngc_status.latHomeRef.value
+    property real homeLonRef: data_model.data_source.swamp_status.ngc.ngc_status.lonHomeRef.value
+    property real asvReflatRef: data_model.data_source.swamp_status.ngc.ngc_status.asvReflatRef.value
+    property real asvReflonRef: data_model.data_source.swamp_status.ngc.ngc_status.asvReflonRef.value
     readonly property var publish_topic: data_model.data_source.publishMessage
-    readonly property real asvReflatLRef: data_model.data_source.swamp_status.ngc_status.asvReflatLref.value
-    readonly property real asvReflonLRef: data_model.data_source.swamp_status.ngc_status.asvReflonLref.value
-    readonly property real asvReflatL2ref : data_model.data_source.swamp_status.ngc_status.asvReflatL2ref.value
-    readonly property real asvReflonL2ref : data_model.data_source.swamp_status.ngc_status.asvReflonL2ref.value
-    readonly property real latRabbit:    data_model.data_source.swamp_status.ngc_status.latRabbit.value
-    readonly property real lonRabbit :   data_model.data_source.swamp_status.ngc_status.lonRabbit.value
-    readonly property real gammaRabbit : data_model.data_source.swamp_status.ngc_status.gammaRabbit.value
+    readonly property real asvReflatLRef: data_model.data_source.swamp_status.ngc.ngc_status.asvReflatLref.value
+    readonly property real asvReflonLRef: data_model.data_source.swamp_status.ngc.ngc_status.asvReflonLref.value
+    readonly property real asvReflatL2ref : data_model.data_source.swamp_status.ngc.ngc_status.asvReflatL2ref.value
+    readonly property real asvReflonL2ref : data_model.data_source.swamp_status.ngc.ngc_status.asvReflonL2ref.value
+    readonly property real latRabbit:    data_model.data_source.swamp_status.ngc.ngc_status.latRabbit.value
+    readonly property real lonRabbit :   data_model.data_source.swamp_status.ngc.ngc_status.lonRabbit.value
+    readonly property real gammaRabbit : data_model.data_source.swamp_status.ngc.ngc_status.gammaRabbit.value
 
     // Topic names
-    readonly property string set_lat_lon_tn: data_model.data_source.swamp_status.ngc_status.setLatLon.topic_name
-    readonly property string set_path_following_tn: data_model.data_source.swamp_status.ngc_status.setPFLatLon.topic_name
-    readonly property string set_segment_tn: data_model.data_source.swamp_status.ngc_status.setSegment.topic_name
-    readonly property string set_line_lat_lon: data_model.data_source.swamp_status.ngc_status.setLineLatLon.topic_name
-    readonly property string set_robot_home_tn: data_model.data_source.swamp_status.ngc_status.setRobotHome.topic_name
+    readonly property string set_lat_lon_tn: data_model.data_source.swamp_status.ngc.ngcCmd.setLatLon.topic_name
+    readonly property string set_path_following_tn: data_model.data_source.swamp_status.ngc.ngcCmd.setPFLatLon.topic_name
+    readonly property string set_segment_tn: data_model.data_source.swamp_status.ngc.ngcCmd.setSegment.topic_name
+    readonly property string set_line_lat_lon: data_model.data_source.swamp_status.ngc.ngcCmd.setLineLatLon.topic_name
+    readonly property string set_robot_home_tn: data_model.data_source.swamp_status.ngc.ngcCmd.setRobotHome.topic_name
 
     // signals
     onLatValueChanged: lon.value !==0 ? root.startUp = false: ""
@@ -105,28 +105,28 @@ Rectangle{
                 id: minion_fl
                 dotSize: status_bar.dotSize
                 prefix: data_model.data_source.swamp_status.minion_fl
-                pump_jet_status: data_model.data_source.swamp_status.ngc_status.pumpJetMonitor.fl_pj_status.value
+                pump_jet_status: data_model.data_source.swamp_status.ngc.ngc_status.pumpJetMonitor.fl_pj_status.value
                 info_prefix: "FL"
             }
             MinionStateRow{
                 id: minion_fr
                 dotSize: status_bar.dotSize
                 prefix: data_model.data_source.swamp_status.minion_fr
-                pump_jet_status: data_model.data_source.swamp_status.ngc_status.pumpJetMonitor.fr_pj_status.value
+                pump_jet_status: data_model.data_source.swamp_status.ngc.ngc_status.pumpJetMonitor.fr_pj_status.value
                 info_prefix: "FR"
             }
             MinionStateRow{
                 id: minion_rl
                 dotSize: status_bar.dotSize
                 prefix: data_model.data_source.swamp_status.minion_rl
-                pump_jet_status: data_model.data_source.swamp_status.ngc_status.pumpJetMonitor.rl_pj_status.value
+                pump_jet_status: data_model.data_source.swamp_status.ngc.ngc_status.pumpJetMonitor.rl_pj_status.value
                 info_prefix: "RL"
             }
             MinionStateRow{
                 id: minion_rr
                 dotSize: status_bar.dotSize
                 prefix: data_model.data_source.swamp_status.minion_rr
-                pump_jet_status: data_model.data_source.swamp_status.ngc_status.pumpJetMonitor.rr_pj_status.value
+                pump_jet_status: data_model.data_source.swamp_status.ngc.ngc_status.pumpJetMonitor.rr_pj_status.value
                 info_prefix: "RR"
             }
         }

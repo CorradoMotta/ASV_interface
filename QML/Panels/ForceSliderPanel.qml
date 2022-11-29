@@ -31,7 +31,7 @@ Rectangle {
 //            Layout.fillWidth: true
 //            slider_text: "Fu"
 //            mask_input: "#000"
-//            onValueChanged:  data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc_status.fu.ref.topic_name, value)
+//            onValueChanged:  data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc.ngc_status.fu.ref.topic_name, value)
 //        }
 //        BasicSlider {
 //
@@ -39,7 +39,7 @@ Rectangle {
 //            Layout.fillWidth: true
 //            slider_text: "Fv"
 //            mask_input: "#000"
-//            onValueChanged: data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc_status.fv.ref.topic_name, value)
+//            onValueChanged: data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc.ngc_status.fv.ref.topic_name, value)
 //        }
 //        BasicSlider {
 //
@@ -51,7 +51,7 @@ Rectangle {
 //            mask_input: "#000"
 //            onValueChanged: {
 //                rotation_value = value
-//                data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc_status.tr.ref.topic_name,value)
+//                data_model.data_source.publishMessage(data_model.data_source.swamp_status.ngc.ngc_status.tr.ref.topic_name,value)
 //            }
 //        }
 //    }

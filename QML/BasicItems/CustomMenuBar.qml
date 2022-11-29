@@ -23,23 +23,23 @@ MenuBar {
 
     signal setPoint(real lat, real lon)
     property alias isPeriodic : periodic.checked
-    readonly property string gc_working_mode_tn: data_model.data_source.swamp_status.ngc_status.gcWorkingMode.topic_name
-    readonly property string thrust_mapping_manual_mode: data_model.data_source.swamp_status.ngc_status.thrustMappingManualMode.topic_name
-    readonly property string thrust_mapping_auto_mode: data_model.data_source.swamp_status.ngc_status.thrustMappingAutoMode.topic_name
-    readonly property string setXY_tn : data_model.data_source.swamp_status.ngc_status.setXY.topic_name
-    readonly property string setXYLine_tn :  data_model.data_source.swamp_status.ngc_status.setXYLine.topic_name
-    readonly property string setLineLatLon_tn :  data_model.data_source.swamp_status.ngc_status.setLineLatLon.topic_name
-    readonly property string setYawGSPar_tn :  data_model.data_source.swamp_status.ngc_status.setYawGSPar.topic_name
-    readonly property string setHeadingPiPar_tn :  data_model.data_source.swamp_status.ngc_status.setHeadingPiPar.topic_name
-    readonly property string setLFPar_tn :  data_model.data_source.swamp_status.ngc_status.setLFPar.topic_name
-    readonly property real xRef : data_model.data_source.swamp_status.ngc_status.asvRefxRef.value
-    readonly property real yRef : data_model.data_source.swamp_status.ngc_status.asvRefyRef.value
+    readonly property string gc_working_mode_tn: data_model.data_source.swamp_status.ngc.ngcCmd.gcWorkingMode.topic_name
+    readonly property string thrust_mapping_manual_mode: data_model.data_source.swamp_status.ngc.ngcCmd.thrustMappingManualMode.topic_name
+    readonly property string thrust_mapping_auto_mode: data_model.data_source.swamp_status.ngc.ngcCmd.thrustMappingAutoMode.topic_name
+    readonly property string setXY_tn : data_model.data_source.swamp_status.ngc.ngcCmd.setXY.topic_name
+    readonly property string setXYLine_tn :  data_model.data_source.swamp_status.ngc.ngcCmd.setXYLine.topic_name
+    readonly property string setLineLatLon_tn :  data_model.data_source.swamp_status.ngc.ngcCmd.setLineLatLon.topic_name
+    readonly property string setYawGSPar_tn :  data_model.data_source.swamp_status.ngc.ngcCmd.setYawGSPar.topic_name
+    readonly property string setHeadingPiPar_tn :  data_model.data_source.swamp_status.ngc.ngcCmd.setHeadingPiPar.topic_name
+    readonly property string setLFPar_tn :  data_model.data_source.swamp_status.ngc.ngcCmd.setLFPar.topic_name
+    readonly property real xRef : data_model.data_source.swamp_status.ngc.ngc_status.asvRefxRef.value
+    readonly property real yRef : data_model.data_source.swamp_status.ngc.ngc_status.asvRefyRef.value
     readonly property var publish_topic: data_model.data_source.publishMessage
-    readonly property int working_modeRef : data_model.data_source.swamp_status.ngc_status.refWorking_mode.value
-    readonly property int manual_modeRef : data_model.data_source.swamp_status.ngc_status.refManual_mode.value
-    readonly property int autoModeRef    : data_model.data_source.swamp_status.ngc_status.refAutoMode.value
-    readonly property int exeWorkModeRef : data_model.data_source.swamp_status.ngc_status.refExecutionWorking_mode.value
-    readonly property string setPFPar_tn : data_model.data_source.swamp_status.ngc_status.setPFPar.topic_name
+    readonly property int working_modeRef : data_model.data_source.swamp_status.ngc.ngc_status.refWorking_mode.value
+    readonly property int manual_modeRef : data_model.data_source.swamp_status.ngc.ngc_status.refManual_mode.value
+    readonly property int autoModeRef    : data_model.data_source.swamp_status.ngc.ngc_status.refAutoMode.value
+    readonly property int exeWorkModeRef : data_model.data_source.swamp_status.ngc.ngc_status.refExecutionWorking_mode.value
+    readonly property string setPFPar_tn : data_model.data_source.swamp_status.ngc.ngcCmd.setPFPar.topic_name
 
     // button used to go back to RAW value
     Connections {

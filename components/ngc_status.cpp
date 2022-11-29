@@ -92,55 +92,7 @@ DoubleVariable *NGC_status::altitude()
     return &m_altitude;
 }
 
-IntVariable *NGC_status::gcWorkingMode()
-{
-    return &m_gcWorkingMode;
-}
 
-IntVariable *NGC_status::thrustMappingManualMode()
-{
-    return &m_thrustMappingManualMode;
-}
-
-IntVariable *NGC_status::thrustMappingAutoMode()
-{
-    return &m_thrustMappingAutoMode;
-}
-
-IntVariable *NGC_status::rpmAlpha()
-{
-    return &m_rpmAlpha;
-}
-
-IntVariable *NGC_status::forceTorque()
-{
-    return &m_forceTorque;
-}
-
-NGC_variable *NGC_status::ngcEnable()
-{
-    return &m_ngcEnable;
-}
-
-NGC_variable *NGC_status::surge()
-{
-    return &m_surge;
-}
-
-NGC_variable *NGC_status::sway()
-{
-    return &m_sway;
-}
-
-NGC_variable *NGC_status::yaw()
-{
-    return &m_yaw;
-}
-
-NGC_variable *NGC_status::heading()
-{
-    return &m_heading;
-}
 
 DoubleVariable *NGC_status::asvHatX()
 {
@@ -357,46 +309,6 @@ DoubleVariable *NGC_status::thetaIMU()
 return &m_thetaIMU;
 }
 
-IntVariable *NGC_status::setLog()
-{
-return &m_setLog;
-}
-
-IntVariable *NGC_status::setRobotHome()
-{
-    return &m_setRobotHome;
-}
-
-DoubleVariable *NGC_status::setLatLon()
-{
-    return &m_setLatLon;
-}
-
-DoubleVariable *NGC_status::setXY()
-{
-    return &m_setXY;
-}
-
-DoubleVariable *NGC_status::setLineLatLon()
-{
-    return &m_setLineLatLon;
-}
-
-DoubleVariable *NGC_status::setXYLine()
-{
-    return &m_setXYLine;
-}
-
-DoubleVariable *NGC_status::setYawGSPar()
-{
-    return &m_setYawGSPar;
-}
-
-DoubleVariable *NGC_status::setHeadingPiPar()
-{
-    return &m_setHeadingPiPar;
-}
-
 DoubleVariable *NGC_status::asvRefXhat()
 {
     return &m_asvRefXhat;
@@ -422,21 +334,6 @@ DoubleVariable *NGC_status::lonHomeRef()
     return &m_lonHomeRef;
 }
 
-IntVariable *NGC_status::stopFileCmd()
-{
-    return &m_stopFileCmd;
-}
-
-IntVariable *NGC_status::startFileCmd()
-{
-    return &m_startFileCmd;
-}
-
-IntVariable *NGC_status::resumeFileCmd()
-{
-    return &m_resumeFileCmd;
-}
-
 DoubleVariable *NGC_status::asvReflatL2ref()
 {
     return &m_asvReflatL2ref;
@@ -447,34 +344,9 @@ DoubleVariable *NGC_status::asvReflonL2ref()
     return &m_asvReflonL2ref;
 }
 
-IntVariable *NGC_status::setLFPar()
-{
-    return &m_setLFPar;
-}
-
-DoubleVariable *NGC_status::setPFLatLon()
-{
-    return &m_setPFLatLon;
-}
-
-DoubleVariable *NGC_status::setPFPar()
-{
-    return &m_setPFPar;
-}
-
 Pump_jet_status *NGC_status::pumpJetMonitor()
 {
     return &m_pumpJetMonitor;
-}
-
-DoubleVariable *NGC_status::setSegment()
-{
-    return &m_setSegment;
-}
-
-DoubleVariable *NGC_status::setSegmentToggle()
-{
-    return &m_setSegmentToggle;
 }
 
 DoubleVariable *NGC_status::latRabbit()

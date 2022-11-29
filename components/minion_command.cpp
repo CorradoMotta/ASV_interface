@@ -6,57 +6,57 @@ MinionCommand::MinionCommand(QObject *parent)
 
 }
 
-IntVariable *MinionCommand::nop()
+TopicVariable *MinionCommand::nop()
 {
     return &m_nop;
 }
 
-IntVariable *MinionCommand::shutdown()
+TopicVariable *MinionCommand::shutdown()
 {
     return &m_shutdown;
 }
 
-IntVariable *MinionCommand::reboot()
+TopicVariable *MinionCommand::reboot()
 {
     return &m_reboot;
 }
 
-IntVariable *MinionCommand::changeTlmAddr()
+TopicVariable *MinionCommand::changeTlmAddr()
 {
     return &m_changeTlmAddr;
 }
 
-IntVariable *MinionCommand::ipAddr()
+TopicVariable *MinionCommand::ipAddr()
 {
     return &m_ipAddr;
 }
 
-IntVariable *MinionCommand::udpPort()
+TopicVariable *MinionCommand::udpPort()
 {
     return &m_udpPort;
 }
 
-IntVariable *MinionCommand::enableDebugLog()
+TopicVariable *MinionCommand::enableDebugLog()
 {
     return &m_enableDebugLog;
 }
 
-IntVariable *MinionCommand::setDigital()
+TopicVariable *MinionCommand::setDigital()
 {
     return &m_setDigital;
 }
 
-IntVariable *MinionCommand::setAnalog()
+TopicVariable *MinionCommand::setAnalog()
 {
     return &m_setAnalog;
 }
 
-IntVariable *MinionCommand::thrustMotorPower()
+TopicVariable *MinionCommand::thrustMotorPower()
 {
     return &m_thrustMotorPower;
 }
 
-IntVariable *MinionCommand::thrustMotorEnable()
+TopicVariable *MinionCommand::thrustMotorEnable()
 {
     return &m_thrustMotorEnable;
 }
@@ -66,22 +66,22 @@ NGC_variable *MinionCommand::thrustMotorSetReference()
     return &m_thrustMotorSetReference;
 }
 
-IntVariable *MinionCommand::azimuthMotorPower()
+TopicVariable *MinionCommand::azimuthMotorPower()
 {
     return &m_azimuthMotorPower;
 }
 
-IntVariable *MinionCommand::azimuthSetMaxSpeed()
+TopicVariable *MinionCommand::azimuthSetMaxSpeed()
 {
     return &m_azimuthSetMaxSpeed;
 }
 
-IntVariable *MinionCommand::azimuthSetHome()
+TopicVariable *MinionCommand::azimuthSetHome()
 {
     return &m_azimuthSetHome;
 }
 
-IntVariable *MinionCommand::azimuthGoHome()
+TopicVariable *MinionCommand::azimuthGoHome()
 {
     return &m_azimuthGoHome;
 }
@@ -91,17 +91,17 @@ NGC_variable *MinionCommand::azimuthMotorSetReference()
     return &m_azimuthMotorSetReference;
 }
 
-IntVariable *MinionCommand::azimuthMotorSetRefTick()
+TopicVariable *MinionCommand::azimuthMotorSetRefTick()
 {
     return &m_azimuthMotorSetRefTick;
 }
 
-IntVariable *MinionCommand::azimuthMotorEnable()
+TopicVariable *MinionCommand::azimuthMotorEnable()
 {
     return &m_azimuthMotorEnable;
 }
 
-IntVariable *MinionCommand::log()
+TopicVariable *MinionCommand::log()
 {
     return &m_log;
 }

@@ -30,7 +30,8 @@ BasicMinionPanelContainer{
     property int blockSize: 12
     property int minimumXDim : implicitWidth
     property int minimumYDim: implicitHeight
-    property var prefix: data_model.data_source.swamp_status.ngc_status
+    property var prefix: data_model.data_source.swamp_status.ngc.ngc_status
+    property var prefix_cmd: data_model.data_source.swamp_status.ngc.ngcCmd
 
     // alias
     property alias newPoint : btChr.newPoint

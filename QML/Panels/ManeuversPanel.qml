@@ -30,9 +30,9 @@ Rectangle {
     property alias panel_color: rect.color
 
     // Cpp members
-    readonly property string stop_file_cmd_tn: data_model.data_source.swamp_status.ngc_status.stopFileCmd.topic_name
-    readonly property string start_file_cmd_tn: data_model.data_source.swamp_status.ngc_status.startFileCmd.topic_name
-    readonly property string resume_file_cmd_tn: data_model.data_source.swamp_status.ngc_status.resumeFileCmd.topic_name
+    readonly property string stop_file_cmd_tn: data_model.data_source.swamp_status.ngc.ngcCmd.stopFileCmd.topic_name
+    readonly property string start_file_cmd_tn: data_model.data_source.swamp_status.ngc.ngcCmd.startFileCmd.topic_name
+    readonly property string resume_file_cmd_tn: data_model.data_source.swamp_status.ngc.ngcCmd.resumeFileCmd.topic_name
 
     ColumnLayout {
         id: cl

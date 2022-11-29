@@ -26,7 +26,7 @@ Rectangle {
     }
 
     // custom properties
-    property var prefix: data_model.data_source.swamp_status.ngc_status
+    property var prefix: data_model.data_source.swamp_status.ngc.ngc_status
 
     // alias property
     property alias set_home_is_active : set_home.pressed
