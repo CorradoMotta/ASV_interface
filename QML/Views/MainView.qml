@@ -26,7 +26,8 @@ Item {
     property bool isMainView: true
     property int myHeight: Math.max(minion_view.minimum_height, main_layout.implicitHeight) + 60
     property int myWidth: minion_view.minimum_width + main_layout.implicitWidth + 20
-    property var prefix: data_model.data_source.swamp_status.ngc_status
+    property var prefix: data_model.data_source.swamp_status.ngc.ngc_status
+    property var prefix_tn: data_model.data_source.swamp_status.ngc.ngcCmd
 
     // alias TODO make signals
     property alias xValue : ngc_auto.xValue
@@ -43,8 +44,8 @@ Item {
     readonly property real asvRefXhat : prefix.asvRefXhat.value
     readonly property real asvRefYhat : prefix.asvRefYhat.value
     readonly property real asvRefNhat : prefix.asvRefNhat.value
-    readonly property string rpmAlphaTn: prefix.rpmAlpha.topic_name
-    readonly property string forceTorqueTn: prefix.forceTorque.topic_name
+    readonly property string rpmAlphaTn: prefix_tn.rpmAlpha.topic_name
+    readonly property string forceTorqueTn: prefix_tn.forceTorque.topic_name
     readonly property var publish_topic: data_model.data_source.publishMessage
     readonly property int maxRPMSpeed: data_model.data_source.swamp_status.conf.maxRPMSpeed
     readonly property bool hciIsConnected: data_model.data_source.is_connected

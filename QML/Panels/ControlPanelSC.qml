@@ -28,18 +28,19 @@ Rectangle{
     // custom properties
     property int slider_width : 200
     property string value : ""
-    property var prefix: data_model.data_source.swamp_status.ngc_status
+    property var prefix: data_model.data_source.swamp_status.ngc.ngc_status
+    property var prefix_tn: data_model.data_source.swamp_status.ngc.ngcCmd
 
     // Cpp members
-    readonly property string surgeTn: prefix.surge.act.topic_name
-    readonly property string swayTn: prefix.sway.act.topic_name
-    readonly property string yawTn: prefix.yaw.act.topic_name
-    readonly property string headingTn: prefix.heading.act.topic_name
+    readonly property string surgeTn: prefix_tn.surge.act.topic_name
+    readonly property string swayTn: prefix_tn.sway.act.topic_name
+    readonly property string yawTn: prefix_tn.yaw.act.topic_name
+    readonly property string headingTn: prefix_tn.heading.act.topic_name
     readonly property var publish_topic: data_model.data_source.publishMessage
-    readonly property real surgeRef : prefix.surge.ref.value
-    readonly property real swayRef : prefix.sway.ref.value
-    readonly property real yawRef : prefix.yaw.ref.value
-    readonly property real headingRef : prefix.heading.ref.value
+    readonly property real surgeRef : prefix_tn.surge.ref.value
+    readonly property real swayRef : prefix_tn.sway.ref.value
+    readonly property real yawRef : prefix_tn.yaw.ref.value
+    readonly property real headingRef: prefix_tn.heading.ref.value
     // to do duplicates
     readonly property real xRef : prefix.asvRefXref.value
     readonly property real yRef : prefix.asvRefYref.value

@@ -22,10 +22,10 @@ Rectangle{
     Layout.preferredHeight: ngc_row.implicitHeight + 10
 
     // Cpp model
-    property var prefix: data_model.data_source.swamp_status.ngc_status
-    readonly property string ngcEnableTn: data_model.data_source.swamp_status.ngc_status.ngcEnable.act.topic_name
-    readonly property int ngcEnableRef : data_model.data_source.swamp_status.ngc_status.ngcEnable.ref.value
-    readonly property string setLogTn: data_model.data_source.swamp_status.ngc_status.setLog.topic_name
+    property var prefix: data_model.data_source.swamp_status.ngc.ngc_status
+    readonly property string ngcEnableTn: data_model.data_source.swamp_status.ngc.ngcCmd.ngcEnable.act.topic_name
+    readonly property int ngcEnableRef : data_model.data_source.swamp_status.ngc.ngcCmd.ngcEnable.ref.value
+    readonly property string setLogTn: data_model.data_source.swamp_status.ngc.ngcCmd.setLog.topic_name
 
     RowLayout{
         id: ngc_row

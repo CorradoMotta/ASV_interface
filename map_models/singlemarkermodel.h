@@ -6,8 +6,8 @@
  * to remove or modify any stored coordinate and to send them to the
  * vehicle.
  *
- * Note: this class has been modified to allow only one marker to be
- * inserted at a time.
+ * Note: this class is used both to draw a single marker only, or to allow
+ * multiple markers and the generation of a path
  *
  * Author: Corrado Motta
  * Date: 06/2022
@@ -98,6 +98,7 @@ public:
 
     explicit SingleMarkerModel(QObject *parent = nullptr);
     explicit SingleMarkerModel(const QGeoCoordinate &origin, QObject *parent = nullptr);
+
     virtual int rowCount(const QModelIndex& parent) const override;
     virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const override;
     virtual QHash<int, QByteArray> roleNames() const override;

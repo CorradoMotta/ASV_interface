@@ -43,7 +43,7 @@ Rectangle{
     property alias panel_color: force_slider.color
     property alias xValue : x.value
     property alias gammaValue : gamma.value
-    readonly property string setSegmentToggle: data_model.data_source.swamp_status.ngc_status.setSegmentToggle.topic_name
+    readonly property string setSegmentToggle: data_model.data_source.swamp_status.ngc.ngcCmd.setSegmentToggle.topic_name
 
 
     ColumnLayout {

@@ -24,9 +24,18 @@ MapQuickItem {
         id: image_swamp
         visible: true
         source: "../../Images/swamp_arw.png"
-        //transform: Rotation {origin.x: 50; origin.y: 50; angle: vehicle_rotation}
         sourceSize.width: 50
         sourceSize.height: 50
     }
-
+    MouseArea{
+        id: mqi_marker_mouse_area
+        anchors.fill: parent
+        hoverEnabled : true
+        onEntered: {
+            info_label.visible = true
+        }
+        onExited: {
+            info_label.visible = false
+        }
+    }
 }

@@ -27,27 +27,6 @@ MapQuickItem {
         radius: 10
         color: Qt.hsla(colorHue, 1, 0.5, 1)
 
-        Rectangle{
-            id: info_label
-            z: 3
-            anchors.bottom: imgCircle.top
-            anchors.bottomMargin: - (info_label_text.height/3)
-            anchors.horizontalCenter: imgCircle.horizontalCenter
-            width: info_label_text.implicitWidth + 6
-            height: info_label_text.implicitHeight + 6
-            color: "white"
-            border.color: "black"
-            visible: false
-
-            Text{
-                id: info_label_text
-                anchors.horizontalCenter: info_label.horizontalCenter
-                anchors.verticalCenter: info_label.verticalCenter
-                font.family: "Helvetica"
-                font.pixelSize: 14
-                text: depth
-            }
-        }
         MouseArea{
             anchors.fill: parent
             hoverEnabled : true

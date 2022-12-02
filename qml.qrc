@@ -126,5 +126,6 @@
         <file>Images/ref_visibility.png</file>
         <file>QML/Maps/MapIcon.qml</file>
         <file>QML/Maps/MapIconClickable.qml</file>
+        <file>QML/Views/NuovaView.qml</file>
     </qresource>
 </RCC>

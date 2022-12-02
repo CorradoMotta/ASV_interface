@@ -11,6 +11,8 @@ SOURCES += \
         components/minion_command.cpp \
         components/minion_status.cpp \
         components/motor_status.cpp \
+        components/ngc.cpp \
+        components/ngc_command.cpp \
         components/ngc_status.cpp \
         components/swamp_motor_status.cpp \
         components/time_status.cpp \
@@ -20,6 +22,7 @@ SOURCES += \
         data/ngc_variable.cpp \
         data/pump_jet_status.cpp \
         data/stringvariable.cpp \
+        data/topicvariable.cpp \
         data/variable.cpp \
         generic/matrix.cpp \
         generic/robotmath.cpp \
@@ -54,6 +57,8 @@ HEADERS += \
     components/minion_command.h \
     components/minion_status.h \
     components/motor_status.h \
+    components/ngc.h \
+    components/ngc_command.h \
     components/ngc_status.h \
     components/swamp_motor_status.h \
     components/time_status.h \
@@ -67,6 +72,7 @@ HEADERS += \
     data/ngc_variable.h \
     data/pump_jet_status.h \
     data/stringvariable.h \
+    data/topicvariable.h \
     data/variable.h \
     generic/Variable_c.h \
     generic/commands_def.h \

@@ -16,9 +16,7 @@ import QtLocation 5.6
 import QtGraphicalEffects 1.15
 
 Item{
-    anchors.bottom: parent.bottom
-    anchors.bottomMargin: 20
-    anchors.horizontalCenter: parent.horizontalCenter
+
     implicitHeight: recenter_text.height + 25
     implicitWidth: recenter_text.width + 30
 
