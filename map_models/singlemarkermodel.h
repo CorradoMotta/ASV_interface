@@ -98,6 +98,7 @@ public:
 
     explicit SingleMarkerModel(QObject *parent = nullptr);
     explicit SingleMarkerModel(const QGeoCoordinate &origin, QObject *parent = nullptr);
+
     virtual int rowCount(const QModelIndex& parent) const override;
     virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const override;
     virtual QHash<int, QByteArray> roleNames() const override;

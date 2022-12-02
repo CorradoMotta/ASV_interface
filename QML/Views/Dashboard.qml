@@ -44,6 +44,9 @@ BasicMinionPanelContainer{
     readonly property real gps_time : data_model.data_source.swamp_status.gps_ahrs_status.time.value
     readonly property real gps_latitude : data_model.data_source.swamp_status.gps_ahrs_status.latitude.value
     readonly property real gps_longitude: data_model.data_source.swamp_status.gps_ahrs_status.longitude.value
+    readonly property real gps_speed: data_model.data_source.swamp_status.gps_ahrs_status.speed.value
+    readonly property real gps_track: data_model.data_source.swamp_status.gps_ahrs_status.track.value
+
     // imu
     readonly property real psi :     prefix.psi.value
     readonly property real phiIMU :  prefix.phiIMU.value
@@ -246,6 +249,12 @@ BasicMinionPanelContainer{
                         title_text: "GPS_TIME"
                         value_text: ngc_root.gps_time
                     }
+                    BasicTextOutputInverted{
+                        Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                        value_width: 120
+                        title_text: "GPS_SPEED"
+                        value_text: ngc_root.gps_speed
+                    }
                     Text {
                         id: imu_text_id
                         Layout.alignment: Qt.AlignTop |Qt.AlignLeft
@@ -289,6 +298,12 @@ BasicMinionPanelContainer{
                         value_width: 120
                         title_text: "GPS_LON"
                         value_text: ngc_root.gps_longitude
+                    }
+                    BasicTextOutput{
+                        Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                        value_width: 120
+                        title_text: "GPS_TRACK"
+                        value_text: ngc_root.gps_track
                     }
                     BasicTextOutput{
                         Layout.alignment: Qt.AlignTop | Qt.AlignRight

@@ -177,6 +177,10 @@ void DataSourceUdp::handleNgcPacket(QTextStream &in)
     in >> doubleContainer; m_swamp_status.ngc()->ngc_status()->lonRabbit()->setValue(doubleContainer);  // lon rabbit
     in >> doubleContainer; m_swamp_status.ngc()->ngc_status()->gammaRabbit()->setValue(doubleContainer);// gamma rabbit
 
+    // speed and track
+    in >> doubleContainer; m_swamp_status.gps_ahrs_status()->speed()->setValue(doubleContainer);
+    in >> doubleContainer; m_swamp_status.gps_ahrs_status()->track()->setValue(doubleContainer);
+
 }
 
 void DataSourceUdp::handleMinionPacket(int MinionId, QTextStream &in)

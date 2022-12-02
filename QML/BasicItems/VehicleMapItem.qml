@@ -27,5 +27,15 @@ MapQuickItem {
         sourceSize.width: 50
         sourceSize.height: 50
     }
-
+    MouseArea{
+        id: mqi_marker_mouse_area
+        anchors.fill: parent
+        hoverEnabled : true
+        onEntered: {
+            info_label.visible = true
+        }
+        onExited: {
+            info_label.visible = false
+        }
+    }
 }

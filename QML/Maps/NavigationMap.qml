@@ -185,7 +185,7 @@ Rectangle{
         // show ref marker for line of sight
         MarkerRef{
             id: lf_marker_ref
-
+            z: 1
             coordinate: QtPositioning.coordinate(navigation_map.asvReflatRef, navigation_map.asvReflonRef)
             label_text: "[LoS] " + navigation_map.asvReflatRef + "-" + navigation_map.asvReflonRef
             visible: ref_elements_visibility
@@ -212,7 +212,7 @@ Rectangle{
         }
 
         // ===================================================================================================================
-        // Models and MVC
+        // Models and MVD
         // ===================================================================================================================
 
         // model for single markers

@@ -12,6 +12,8 @@ GPS_AHRS_status::GPS_AHRS_status(QObject *parent)
     m_time.setSubscribe(true);
     m_xGps.setSubscribe(true);
     m_yGps.setSubscribe(true);
+    m_speed.setSubscribe(true);
+    m_track.setSubscribe(true);
 }
 
 DoubleVariable *GPS_AHRS_status::longitude()
@@ -47,4 +49,14 @@ DoubleVariable *GPS_AHRS_status::date()
 DoubleVariable *GPS_AHRS_status::time()
 {
     return &m_time;
+}
+
+DoubleVariable *GPS_AHRS_status::speed()
+{
+    return &m_speed;
+}
+
+DoubleVariable *GPS_AHRS_status::track()
+{
+    return &m_track;
 }
