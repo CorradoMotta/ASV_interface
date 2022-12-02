@@ -172,7 +172,9 @@ QGeoCoordinate SingleMarkerModel::getCoordinate(int index, int model)
 
 QGeoPath SingleMarkerModel::generatePath()
 {
-    // to do add check six coordinates
+    // THIS IS A QUICK WAY TO COMPUTE THE PATH, USING ALREADY EXISTING CODE FROM ROBOWORLD
+    // IT SHOULD BE REMADE TO BE ALIGNED WITH QT CODE.
+
     m_line.clearPath();
     QString completeString = "4 3 ";
     QList<SingleMarker*>::iterator single_marker;

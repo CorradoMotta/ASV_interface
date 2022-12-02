@@ -310,7 +310,7 @@ bool DataSourceUdp::set_cfg(QString filename)
         return false;
     }
 
-    QSettings settings("../ASV_interface/conf/conf.ini", QSettings::IniFormat);
+    QSettings settings(filename, QSettings::IniFormat);
 
     // UDP configuration
     settings.beginGroup("udp_addresses");

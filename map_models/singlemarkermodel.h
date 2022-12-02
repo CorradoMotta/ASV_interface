@@ -6,8 +6,8 @@
  * to remove or modify any stored coordinate and to send them to the
  * vehicle.
  *
- * Note: this class has been modified to allow only one marker to be
- * inserted at a time.
+ * Note: this class is used both to draw a single marker only, or to allow
+ * multiple markers and the generation of a path
  *
  * Author: Corrado Motta
  * Date: 06/2022
