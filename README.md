@@ -115,7 +115,7 @@ controller, a small icon will appear on the top left of the navigation map.
 <a name="qtmqtt"></a>
 ### QtMqtt
 
-**NOTE**: The following installation steps are NOT needed if the interface is used with UDP binding only. Also, the mqtt binding is currently disabled to avoid installing further components.
+**NOTE**: The following installation steps are NOT needed if the interface is used with UDP binding only. Also, the mqtt binding is currently disabled to avoid installing further components. The implementation can be found on branch `feature/integrate_controller`.
 
 The following steps are required for windows[^2] in order to build QtMqtt from source as the package is not included in the open source release:
 
